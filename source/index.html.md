@@ -1,7 +1,7 @@
 ---
-title: REST API documentation
+title: iGrant.io API documentation
 language_tabs:
-  - shell: Shell
+  - shell: Curl
   - http: HTTP
   - javascript: JavaScript
   - javascript--nodejs: Node.JS
@@ -13,19 +13,19 @@ toc_footers: []
 includes: []
 search: true
 highlight_theme: darkula
-headingLevel: 2
+headingLevel: 3
 
 ---
 
-# API Reference
+# Introduction
 
 > Scroll down for code samples, example requests and responses. Select a language for code samples from the tabs above or the mobile navigation menu.
 
-> The base URL is 'https://api.igrant.io/v1'.
+> The API end point is 'https://api.igrant.io/v1'.
 
 > This is version **1.5.2**
 
-This specification is documented in **OpenAPI format**, it describes the REST APIs of iGrant.io. 
+This specification is documented in **OpenAPI format**, it describes the REST APIs of **[iGrant.io](https://igrant.io)**. 
 
 # Authentication
 
@@ -999,7 +999,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## update organizations
+## Update organizations
 
 > Code samples
 
