@@ -475,7 +475,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Get existing organizations roles
+## Get existing roles
 
 > Code samples
 
@@ -1626,7 +1626,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Add admin to organisation
+## Add admins
 
 > Code samples
 
@@ -1855,7 +1855,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Remove admin from organization
+## Remove admins
 
 > Code samples
 
@@ -2848,7 +2848,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Get user consent data 
+## Get user consents 
 
 > Code samples
 
@@ -3047,7 +3047,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Update the user consents
+## Update user consents
 
 > Code samples
 
