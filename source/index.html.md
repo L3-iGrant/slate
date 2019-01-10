@@ -40,7 +40,7 @@ You can manage your API keys in the iGrant.io Dashboard.
 
 Below you can find a collection of endpoints that respond to GET, POST, PUT, PATCH and DELETE requests for your organisation.
 
-## get organizations
+## Get organizations
 
 > Code samples
 
@@ -179,8 +179,6 @@ func main() {
 
 `GET /organizations`
 
-*Get all organizations*
-
 Gets existing organizations whose consent data is managed.
 
 > Example responses
@@ -246,7 +244,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## add an organization
+## Add an organization
 
 > Code samples
 
@@ -477,7 +475,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## get existing organizations roles
+## Get existing organizations roles
 
 > Code samples
 
@@ -640,7 +638,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## view organization
+## View organization
 
 > Code samples
 
@@ -779,8 +777,6 @@ func main() {
 
 `GET /organizations/{organizationId}`
 
-*View organization*
-
 Get organization details.
 
 <h3 id="get__organizations_{organizationid}-parameters">Parameters</h3>
@@ -851,7 +847,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## delete organizations
+## Delete organizations
 
 > Code samples
 
@@ -982,8 +978,6 @@ func main() {
 ```
 
 `DELETE /organizations/{organizationId}`
-
-*Delete an organization*
 
 Deletes a given organization by ID.
 
@@ -1180,7 +1174,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## update logo image
+## Update logo image
 
 > Code samples
 
@@ -1328,8 +1322,6 @@ func main() {
 
 `POST /organizations/{organizationId}/logoimage`
 
-*Update logo image*
-
 Updates the logo image for an organization
 
 > Body parameter
@@ -1408,7 +1400,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## update cover image 
+## Update cover image 
 
 > Code samples
 
@@ -1555,8 +1547,6 @@ func main() {
 ```
 
 `POST /organizations/{organizationId}/coverimage`
-
-*Update cover image*
 
 Updates the cover image for an organization
 
@@ -1785,8 +1775,6 @@ func main() {
 
 `POST /organizations/{organizationId}/admins`
 
-*Add admins to an organization*
-
 Add admins to an organization
 
 > Body parameter
@@ -2006,8 +1994,6 @@ func main() {
 
 `DELETE /organizations/{organizationId}/admins`
 
-*Delete admins*
-
 Delete admins from an organization
 
 <h3 id="delete__organizations_{organizationid}_admins-parameters">Parameters</h3>
@@ -2078,7 +2064,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## get all users
+## Get all users
 
 > Code samples
 
@@ -2217,8 +2203,6 @@ func main() {
 
 `GET /organizations/{organizationId}/users`
 
-*Get all users*
-
 Gets all users associated with an organization
 
 <h3 id="get__organizations_{organizationid}_users-parameters">Parameters</h3>
@@ -2271,7 +2255,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## subsribe user
+## Subsribe a user
 
 > Code samples
 
@@ -2418,8 +2402,6 @@ func main() {
 ```
 
 `POST /organizations/{organizationId}/users`
-
-*Subscribe user*
 
 Subscribe a user to an organization
 
@@ -2621,8 +2603,6 @@ func main() {
 
 `GET /organizations/{organizationId}/users/{userId}`
 
-*Get user details*
-
 Gets user details
 
 <h3 id="get__organizations_{organizationid}_users_{userid}-parameters">Parameters</h3>
@@ -2676,7 +2656,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## delete user from an organisation
+## Delete user
 
 > Code samples
 
@@ -2815,8 +2795,6 @@ func main() {
 
 `DELETE /organizations/{organizationId}/users/{userId}`
 
-*Delete user*
-
 Removes a given user from the organization.
 
 <h3 id="delete__organizations_{organizationid}_users_{userid}-parameters">Parameters</h3>
@@ -2870,7 +2848,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## get user consent data 
+## Get user consent data 
 
 > Code samples
 
@@ -3008,8 +2986,6 @@ func main() {
 ```
 
 `GET /organizations/{organizationId}/users/{userId}/consents`
-
-*Get user consent data*
 
 Gets existing user data sets stored with an organization
 
@@ -3241,8 +3217,6 @@ func main() {
 
 `PATCH /organizations/{organizationId}/users/{userId}/consents`
 
-*Update user consents*
-
 Update the user consents.
 
 > Body parameter
@@ -3302,7 +3276,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## get consent by id 
+## Get consent by id 
 
 > Code samples
 
@@ -3441,8 +3415,6 @@ func main() {
 
 `GET /organizations/{organizationId}/users/{userId}/consents/{consentId}`
 
-*Get a consent*
-
 Gets a given consent by id.
 
 <h3 id="get__organizations_{organizationid}_users_{userid}_consents_{consentid}-parameters">Parameters</h3>
@@ -3504,7 +3476,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## delete consent by id
+## Delete consent by id
 
 > Code samples
 
@@ -3636,8 +3608,6 @@ func main() {
 
 `DELETE /organizations/{organizationId}/users/{userId}/consents/{consentId}`
 
-*Delete a consent*
-
 Delete a given consent by ID
 
 <h3 id="delete__organizations_{organizationid}_users_{userid}_consents_{consentid}-parameters">Parameters</h3>
@@ -3659,7 +3629,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## get purpose details
+## Get purpose details
 
 > Code samples
 
@@ -3798,8 +3768,6 @@ func main() {
 
 `GET /organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}`
 
-*Get purpose details*
-
 Retrieves purpose details
 
 <h3 id="get__organizations_{organizationid}_users_{userid}_consents_{consentid}_purposes_{purposeid}-parameters">Parameters</h3>
@@ -3860,7 +3828,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## get purpose status
+## Get purpose status
 
 > Code samples
 
@@ -3999,8 +3967,6 @@ func main() {
 
 `GET /organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/status`
 
-*Get purpose details*
-
 Retrieves purpose details
 
 <h3 id="get__organizations_{organizationid}_users_{userid}_consents_{consentid}_purposes_{purposeid}_status-parameters">Parameters</h3>
@@ -4034,7 +4000,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## set purpose status
+## Set purpose status
 
 > Code samples
 
@@ -4182,8 +4148,6 @@ func main() {
 
 `POST /organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/status`
 
-*Set overall status for a purpose*
-
 Sets overall status for a given purpose, alternatives are "Allow" and "DisAllow"
 
 > Body parameter
@@ -4254,7 +4218,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## update consent status
+## Update consent status
 
 > Code samples
 
@@ -4403,8 +4367,6 @@ func main() {
 
 `PATCH /organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/attributes/{attrId}`
 
-*Update consent status*
-
 Updates "Consented" status in a given purpose (Allow/DisAllow) OR "Days", i.e. "{ "days": 40} 
 
 > Body parameter
@@ -4447,7 +4409,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## delete purposes
+## Delete purposes
 
 > Code samples
 
@@ -4586,8 +4548,6 @@ func main() {
 
 `DELETE /organizations/{organizationId}/purposes/{purposeID}`
 
-*Delete a purpose*
-
 Deletes a purpose from an organization based on IDs
 
 <h3 id="delete__organizations_{organizationid}_purposes_{purposeid}-parameters">Parameters</h3>
@@ -4658,7 +4618,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## set consent for atributes
+## Set consent for atributes
 
 > Code samples
 
@@ -4801,8 +4761,6 @@ func main() {
 
 `POST /organizations/{organizationId}/purposes/{PurposeId}/attributes/consent`
 
-*Set attributes in a purpose*
-
 Notification request for attributes in a purpose
 
 > Body parameter
@@ -4834,7 +4792,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## delete template
+## Delete template
 
 > Code samples
 
@@ -4973,8 +4931,6 @@ func main() {
 
 `DELETE /organizations/{organizationId}/templates/{templateID}`
 
-*Delete a template*
-
 Deletes a template from an organization based on IDs
 
 <h3 id="delete__organizations_{organizationid}_templates_{templateid}-parameters">Parameters</h3>
@@ -5045,7 +5001,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## get user consents
+## Get user consents
 
 > Code samples
 
@@ -5183,8 +5139,6 @@ func main() {
 ```
 
 `GET /user/organizations/{organizationId}/consents`
-
-*Get consents for users*
 
 Get the consents for users for a given organization
 
