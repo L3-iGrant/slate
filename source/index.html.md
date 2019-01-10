@@ -1626,7 +1626,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Add admins to an organization
+## Add admin to organisation
 
 > Code samples
 
@@ -1855,7 +1855,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Remove admins from an organization
+## Remove admin from organization
 
 > Code samples
 
