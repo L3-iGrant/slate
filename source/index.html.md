@@ -2271,7 +2271,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## post__organizations_{organizationId}_users
+## subsribe user
 
 > Code samples
 
