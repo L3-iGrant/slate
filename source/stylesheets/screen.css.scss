@@ -27,6 +27,14 @@ under the License.
 html, body {
   color: $main-text;
   padding: 0;
+  
+  font-family: "apercu",sans-serif;
+  font-size: 14px;
+  letter-spacing: .5px;
+  font-weight: 300;
+  color: #202121;
+  text-rendering: optimizeLegibility;
+
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -49,7 +57,6 @@ html, body {
 
 .toc-wrapper {
   transition: left 0.3s ease-in-out;
-
   overflow-y: auto;
   overflow-x: hidden;
   position: fixed;
@@ -57,8 +64,8 @@ html, body {
   top: 0;
   left: 0;
   bottom: 0;
-  width: $nav-width;
-  background-color: $nav-bg;
+  width: 224px;
+  background-color: #434344;
   font-size: 13px;
   font-weight: bold;
 
@@ -74,7 +81,9 @@ html, body {
   // This is the logo at the top of the ToC
   .logo {
     display: block;
-    max-width: 100%;
+    max-width: 80%;
+    margin-top:5px;
+    padding-left: 1em !important;
     margin-bottom: $logo-margin;
   }
 
@@ -82,7 +91,7 @@ html, body {
     position: relative;
 
     input {
-      background: $nav-bg;
+      background: #434344;
       border-width: 0 0 1px 0;
       border-color: $search-box-border-color;
       padding: 6px 0 6px 20px;
@@ -133,6 +142,8 @@ html, body {
     }
   }
 
+ 
+
 
   // The Table of Contents is composed of multiple nested
   // unordered lists.  These styles remove the default
@@ -165,14 +176,16 @@ html, body {
 
   .toc-list-h2 {
     display: none;
-    background-color: $nav-subitem-bg;
+    background-color:  #434344;
     font-weight: 500;
   }
-
   .toc-h2 {
     padding-left: $nav-padding + $nav-indent;
     font-size: 12px;
   }
+  
+ 
+  
 
   .toc-footer {
     padding: 1em 0;
@@ -197,13 +210,16 @@ html, body {
 }
 
 .toc-link, .toc-footer li {
-  padding: 0 $nav-padding 0 $nav-padding;
+  margin: 25px 15px;
+  color:#fff ;
+  border-radius: 4px;
+  opacity: 1; 
+  padding: 5px 15px;
   display: block;
   overflow-x: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   text-decoration: none;
-  color: $nav-text;
   transition-property: background;
   transition-timing-function: linear;
   transition-duration: 130ms;
@@ -253,7 +269,6 @@ html, body {
   z-index: 10;
   background-color: $main-bg;
   min-height: 100%;
-
   padding-bottom: 1px; // prevent margin overflow
 
   // The dark box is what gives the code samples their dark background.
@@ -273,30 +288,46 @@ html, body {
   .lang-selector {
     position: fixed;
     z-index: 50;
-    border-bottom: 5px solid $lang-select-active-bg;
   }
 }
 
 .lang-selector {
+  margin-top:5px;
+  z-index:50;
+  display:block;
+  opacity:0.9;
+  padding:10px;
+  border:1px solid transparent;
+  border-radius:40px;
+  cursor:pointer;
+  font-size:13px;
+  line-height:29px;
+  word-spacing: 2px;
+  background-color: #1E2224;
+  width: 100%;
   background-color: $lang-select-bg;
   width: 100%;
-  font-weight: bold;
   a {
     display: block;
     float:left;
     color: $lang-select-text;
     text-decoration: none;
-    padding: 0 10px;
-    line-height: 30px;
+    line-height: 3px;
     outline: 0;
+    border-radius: 9px;
+    padding: 10px;
+    width: auto;
 
     &:active, &:focus {
-      background-color: $lang-select-pressed-bg;
+      border-radius: 9px;
+      width: auto;
+      background-color :DodgerBlue;
       color: $lang-select-pressed-text;
     }
-
     &.active {
-      background-color: $lang-select-active-bg;
+      border-radius: 9px;
+      width: auto;
+      background-color: DodgerBlue;
       color: $lang-select-active-text;
     }
   }
@@ -446,6 +477,10 @@ html, body {
 
   img {
     max-width: 100%;
+      vertical-align: middle;
+      border-style: none;
+     
+    
   }
 
   code {
@@ -470,11 +505,11 @@ html, body {
     line-height: 1.6;
 
     &.warning {
-      background-color: $aside-warning-bg;
+      background-color:#ff6666;
     }
 
     &.success {
-      background-color: $aside-success-bg;
+      background-color: #ff6666;
     }
   }
 
