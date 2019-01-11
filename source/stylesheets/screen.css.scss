@@ -83,7 +83,7 @@ html, body {
     display: block;
     max-width: 80%;
     margin-top:5px;
-    padding-left: 1em !important;
+    padding-left: 1.5em !important;
     margin-bottom: $logo-margin;
   }
 
@@ -178,6 +178,10 @@ html, body {
     background-color:  #434344;
     font-weight: 500;
   }
+  .toc-list-h2[style] {
+    display: initial !important;
+   
+ }
   .toc-h2 {
     padding-left: $nav-padding + $nav-indent;
     font-size: 12px;
@@ -209,11 +213,10 @@ html, body {
 }
 
 .toc-link, .toc-footer li {
-  margin: 25px 15px;
+  margin: 5px 5px;
   color:#fff ;
   border-radius: 4px;
   opacity: 1; 
-  padding: 5px 15px;
   display: block;
   overflow-x: hidden;
   white-space: nowrap;
@@ -223,6 +226,11 @@ html, body {
   transition-timing-function: linear;
   transition-duration: 130ms;
 }
+
+.toc-link:hover{
+  text-decoration: underline;
+}
+
 
 // button to show navigation on mobile devices
 #nav-button {
