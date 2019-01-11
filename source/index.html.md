@@ -32,7 +32,7 @@ This specification is documented in **OpenAPI format**, it describes the REST AP
 iGrant.io offers one form of authentication:
 - Bearer authentication
   
-This form of authentication is a form of authentication scheme that involves security tokens. The client sends this token in the ***Authorization header*** when making requests. 
+This form of authentication is an authentication scheme that involves security tokens. The client sends this token in the ***Authorization header*** when making requests. 
 
 You can manage your API keys in the iGrant.io Dashboard. 
 
