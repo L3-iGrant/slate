@@ -13,6 +13,8 @@ test/version_tmp
 tmp
 *.DS_STORE
 build/
+deploy_version
+.bootstrap
 .cache
 .vagrant
 .sass-cache
@@ -22,3 +24,4 @@ build/
 _yardoc
 doc/
 .idea/
+
