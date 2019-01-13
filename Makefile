@@ -111,7 +111,7 @@ deploy/production: $(DEPLOY_VERSION_FILE) ## Deploy to K8s cluster (e.g. make de
 	kubectl set image deployment/igrant-slate igrant-slate=$(DEPLOY_VERSION) -n production
 
 deploy/staging: $(DEPLOY_VERSION_FILE) ## Deploy to K8s cluster (e.g. make deploy/{preview,staging,production})
-	kubectl set image deployment/igrant-slate-staging igrant-slate-staging=$(DEPLOY_VERSION) -n staging
+	kubectl set image deployment/igrant-slate igrant-slate=$(DEPLOY_VERSION) -n staging
 
 .PHONY: release
 release:  ## Produces binaries needed for a release
