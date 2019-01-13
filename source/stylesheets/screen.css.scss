@@ -27,11 +27,13 @@ under the License.
 html, body {
   color: $main-text;
   padding: 0;
-  
-  font-family: "apercu",sans-serif;
+  font-family: 'Helvetica neue';
+  font-weight: 400;
   font-size: 14px;
+
+  
   letter-spacing: .5px;
-  font-weight: 300;
+  
   color: #202121;
   text-rendering: optimizeLegibility;
 
@@ -48,14 +50,17 @@ html, body {
 // TABLE OF CONTENTS
 ////////////////////////////////////////////////////////////////////////////////
 
-#toc > ul > li > a > span {
+#toc > ul > a > span {
   float: right;
   background-color: #2484FF;
-  border-radius: 40px;
-  width: 20px;
+  border-radius: 400px;
+  width: 200px;
 }
 
 .toc-wrapper {
+  font-family: Helvetica,Helvetica neue;
+  font-weight: 400;
+  font-size: 16px;
   transition: left 0.3s ease-in-out;
   overflow-y: auto;
   overflow-x: hidden;
@@ -66,8 +71,6 @@ html, body {
   bottom: 0;
   width: 224px;
   background-color: #434344;
-  font-size: 13px;
-  font-weight: bold;
 
   // language selector for mobile devices
   .lang-selector {
@@ -77,14 +80,13 @@ html, body {
       padding-bottom: 0.5em;
     }
   }
+  
 
   // This is the logo at the top of the ToC
   .logo {
     display: block;
-    max-width: 90%;
-    margin-top:5px;
-    padding-left: 11px !important;
-    margin-bottom: $logo-margin;
+    max-width: 92.9%;
+    margin: .6rem !important;
   }
 
   &>.search {
@@ -164,23 +166,47 @@ html, body {
 
   // This is the currently selected ToC entry
   .toc-link.active {
-    background-color: $nav-active-bg;
+    background-color: hsla(0,0%,100%,.23);
     color: $nav-active-text;
   }
 
   // this is parent links of the currently selected ToC entry
   .toc-link.active-parent {
-    background-color: $nav-active-parent-bg;
+    background-color: rgba(255, 255, 255, 0.219);
     color: $nav-active-parent-text;
+    
   }
 
   .toc-list-h2 {
     background-color:  #434344;
     font-weight: 500;
+    display:none;
   }
   .toc-h2 {
     padding-left: $nav-padding + $nav-indent;
     font-size: 12px;
+    border-radius: 1px;
+  }
+
+  .toc-h1{
+    padding: 6px;
+    border-radius: 1px;
+    text-align: left;
+    border-style: square;
+    margin-bottom: 2px;
+  }
+  
+  .toc-h1:hover{
+    padding: 6px;
+    border-radius: 1px;
+    text-align: left;
+    background-color: #686868ea;
+  }
+  .toc-h2:hover{
+    padding-left: $nav-padding + $nav-indent;
+    font-size: 12px;
+    background-color: #575454;
+    opacity: 2;
   }
   
  
@@ -222,11 +248,11 @@ html, body {
   transition-property: background;
   transition-timing-function: linear;
   transition-duration: 130ms;
+  margin: 5px 10px;
+  border-radius: 4px;
+  opacity: .86;
 }
 
-.toc-link:hover{
-  text-decoration: underline;
-}
 
 
 // button to show navigation on mobile devices
@@ -255,7 +281,7 @@ html, body {
     height: 16px;
     vertical-align: bottom;
   }
-
+  margin-left:7px !important;
   transition: left 0.3s ease-in-out;
 
   &:hover { opacity: 1; }
