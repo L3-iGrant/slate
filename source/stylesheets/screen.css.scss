@@ -58,7 +58,7 @@ html, body {
 }
 
 .toc-wrapper {
-  font-family: Helvetica,Helvetica neue;
+  font-family: 'Helvetica neue';
   font-weight: 400;
   font-size: 16px;
   transition: left 0.3s ease-in-out;
@@ -184,8 +184,9 @@ html, body {
   }
   .toc-h2 {
     padding-left: $nav-padding + $nav-indent;
-    font-size: 12px;
+    font-size: 14px;
     border-radius: 1px;
+    font-family: 'Helvetica neue';
   }
 
   .toc-h1{
@@ -194,6 +195,8 @@ html, body {
     text-align: left;
     border-style: square;
     margin-bottom: 2px;
+    font-family: 'Helvetica neue';
+    font-size: 16px;
   }
   
   .toc-h1:hover{
