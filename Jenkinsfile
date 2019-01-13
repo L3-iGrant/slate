@@ -59,11 +59,5 @@ pipeline {
 
             }
         }
-
-        stage('Test cleanup') {
-            steps {
-                sh 'make clean'
-            }
-        }
     }
 }
