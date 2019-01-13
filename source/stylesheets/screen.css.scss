@@ -186,7 +186,6 @@ html, body {
     padding-left: $nav-padding + $nav-indent;
     font-size: 14px;
     border-radius: 1px;
-    font-family: 'Helvetica neue';
   }
 
   .toc-h1{
@@ -207,7 +206,7 @@ html, body {
   }
   .toc-h2:hover{
     padding-left: $nav-padding + $nav-indent;
-    font-size: 12px;
+    font-size: 14px;
     background-color: #575454;
     opacity: 2;
   }
