@@ -92,8 +92,8 @@ slate/run: ## Run SLATE locally for development purposes
 		--name "${CONTAINER_SLATE}" \
 		$(DEPLOY_VERSION)
 
-clean: mock/clean
-	rm -rf ./bin
+clean:
+	rm -rf ./build
 
 build/docker/builder: ## Builds docker image containing dependency for building the project
 	docker build -t $(DOCKER_IMAGE):builder -f resources/docker/builder/Dockerfile .
