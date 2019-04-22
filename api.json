@@ -3,7 +3,7 @@
   "info" : {
     "title" : "REST API documentation",
     "description" : "This specification is documented in **OpenAPI format**, it describes the REST APIs of iGrant.io.\n\n# Authentication iGrant.io offers one form of authentication:\n  - Bearer authentication\n  \nThis form of authentication is a form of authentication scheme that involves security tokens.\nThe client sends this token in the ***Authorization header*** when making requests. \n",
-    "version" : "2.0",
+    "version" : "2.1",
     "x-logo" : {
       "url" : "igrant_logo.jpg",
       "altText" : "iGrant.io logo"
