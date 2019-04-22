@@ -1,2331 +1,2111 @@
 {
-	"openapi": "3.0.0",
-	"info": {
-		"description": "This specification is documented in **OpenAPI format**, it describes the REST APIs of iGrant.io. The base URL is 'https://api.igrant.io/v1'.\n\n# Authentication\n\niGrant.io offers one form of authentication:  - Bearer authentication\n  \nThis form of authentication is a form of authentication scheme that involves security tokens.\nThe client sends this token in the ***Authorization header*** when making requests.\n",
-		"version": "1.0.0-oas3",
-		"title": "REST API documentation",
-		"x-logo": {
-			"url": "igrant_logo.jpg",
-			"altText": "iGrant.io logo"
-		}
-	},
-	"tags": [
-		{
-			"name": "Organizations",
-			"description": "Below you can find a collection of endpoints that respond to GET, POST, PUT, PATCH and DELETE requests."
-		}
-	],
-	"paths": {
-		"/organizations": {
-			"get": {
-				"tags": [
-					"Organizations"
-				],
-				"summary": "Get all organizations",
-				"description": "Gets existing organizations whose consent data is managed.\n",
-				"responses": {
-					"200": {
-						"description": "List of available organizations.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/Organizations"
-								}
-							}
-						}
-					}
-				},
-				"security": [
-					{
-						"Bearer": []
-					}
-				]
-			},
-			"post": {
-				"tags": [
-					"Organizations"
-				],
-				"summary": "Add an organization",
-				"description": "Adds a new organization\n",
-				"responses": {
-					"201": {
-						"description": "New Organization added successfully.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/OrganizationObject"
-								}
-							}
-						}
-					}
-				},
-				"security": [
-					{
-						"Bearer": []
-					}
-				],
-				"requestBody": {
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/CreateOrganization"
-							}
-						}
-					},
-					"required": true
-				}
-			}
-		},
-		"/organizations/roles": {
-			"get": {
-				"tags": [
-					"Organizations"
-				],
-				"summary": "Get all existing roles",
-				"description": "Gets existing roles.\n",
-				"responses": {
-					"200": {
-						"description": "List of available roles.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/Roles"
-								}
-							}
-						}
-					}
-				},
-				"security": [
-					{
-						"Bearer": []
-					}
-				]
-			}
-		},
-		"/organizations/{organizationId}": {
-			"get": {
-				"tags": [
-					"Organizations"
-				],
-				"summary": "View organization",
-				"description": "Get organization details.\n",
-				"parameters": [
-					{
-						"name": "organizationId",
-						"in": "path",
-						"description": "ID of the organization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Successful response",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/OrganizationObject"
-								}
-							}
-						}
-					},
-					"404": {
-						"description": "Organization id not found"
-					}
-				},
-				"security": [
-					{
-						"Bearer": []
-					}
-				]
-			},
-			"delete": {
-				"tags": [
-					"Organizations"
-				],
-				"summary": "Delete an organization",
-				"description": "Deletes a given organization by ID.\n",
-				"parameters": [
-					{
-						"name": "organizationId",
-						"in": "path",
-						"description": "ID of the organization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Deleted successfully."
-					},
-					"404": {
-						"description": "Organization ID not found."
-					}
-				},
-				"security": [
-					{
-						"Bearer": []
-					}
-				]
-			},
-			"patch": {
-				"tags": [
-					"Organizations"
-				],
-				"summary": "Update organization",
-				"description": "Update organization information\n",
-				"parameters": [
-					{
-						"name": "organizationId",
-						"in": "path",
-						"description": "ID of the organization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
-					"202": {
-						"description": "Updated organization data successfully.\n"
-					}
-				},
-				"security": [
-					{
-						"Bearer": []
-					}
-				],
-				"requestBody": {
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"Location": {
-										"type": "string",
-										"description": "location of the organization"
-									},
-									"Description": {
-										"type": "string",
-										"description": "description of the organization"
-									},
-									"Policyurl": {
-										"type": "string",
-										"description": "Organization's policyURL"
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		},
-		"/organizations/{organizationID}/subscribe-token": {
-			"get": {
-				"tags": [
-					"Organizations"
-				],
-				"summary": "Get subscribed tokens",
-				"description": "Gets all tokens subscribed to an organization\n",
-				"parameters": [
-					{
-						"name": "organizationID",
-						"in": "path",
-						"description": "id of the organization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "OK",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/SubscribeToken"
-								}
-							}
-						}
-					}
-				},
-				"security": [
-					{
-						"Bearer": []
-					}
-				]
-			},
-			"post": {
-				"tags": [
-					"Organizations"
-				],
-				"summary": "Create token",
-				"description": "Creates a token for an organization\n",
-				"parameters": [
-					{
-						"name": "organizationID",
-						"in": "path",
-						"description": "id of the organization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "OK",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/SubscribeToken"
-								}
-							}
-						}
-					}
-				},
-				"security": [
-					{
-						"Bearer": []
-					}
-				],
-				"requestBody": {
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/SubscribeToken"
-							}
-						}
-					},
-					"required": true
-				}
-			},
-			"delete": {
-				"tags": [
-					"Organizations"
-				],
-				"summary": "Delete token",
-				"description": "Deletes a token for an organization\n",
-				"parameters": [
-					{
-						"name": "organizationID",
-						"in": "path",
-						"description": "id of the organization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
-					"204": {
-						"description": "No content"
-					}
-				},
-				"security": [
-					{
-						"Bearer": []
-					}
-				]
-			}
-		},
-		"/organizations/{organizationId}/enable": {
-			"post": {
-				"tags": [
-					"Organizations"
-				],
-				"summary": "Enable organization",
-				"description": "Enables an organization\n",
-				"parameters": [
-					{
-						"name": "organizationId",
-						"in": "path",
-						"description": "id of the organization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "OK, Enabled",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/OrganizationObject"
-								}
-							}
-						}
-					}
-				},
-				"security": [
-					{
-						"Bearer": []
-					}
-				]
-			},
-			"delete": {
-				"tags": [
-					"Organizations"
-				],
-				"summary": "Disable organization",
-				"description": "Disables an organization\n",
-				"parameters": [
-					{
-						"name": "organizationId",
-						"in": "path",
-						"description": "id of the organization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "OK, disabled",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/OrganizationObject"
-								}
-							}
-						}
-					}
-				},
-				"security": [
-					{
-						"Bearer": []
-					}
-				]
-			}
-		},
-		"/organizations/{organizationId}/eulaURL": {
-			"post": {
-				"tags": [
-					"Organizations"
-				],
-				"summary": "Update eulaURL",
-				"description": "Updates the eulaURL for an organization\n",
-				"parameters": [
-					{
-						"name": "organizationId",
-						"in": "path",
-						"description": "ID of the organizaton",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
-					"202": {
-						"description": "Accepted"
-					}
-				},
-				"security": [
-					{
-						"Bearer": []
-					}
-				],
-				"requestBody": {
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"eulaURL": {
-										"type": "string",
-										"description": "URL"
-									}
-								}
-							}
-						}
-					},
-					"required": true
-				}
-			}
-		},
-		"/organizations/{organizationId}/logoimage": {
-			"post": {
-				"tags": [
-					"Organizations"
-				],
-				"summary": "Update logo image",
-				"description": "Updates the logo image for an organization\n",
-				"parameters": [
-					{
-						"name": "organizationId",
-						"in": "path",
-						"description": "ID of the organizaton",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Updated logo image",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/OrganizationObject"
-								}
-							}
-						}
-					}
-				},
-				"security": [
-					{
-						"Bearer": []
-					}
-				],
-				"requestBody": {
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"orgimage": {
-										"type": "string",
-										"description": "link to logo"
-									}
-								}
-							}
-						}
-					},
-					"required": true
-				}
-			}
-		},
-		"/organizations/{organizationId}/coverimage": {
-			"post": {
-				"tags": [
-					"Organizations"
-				],
-				"summary": "Update cover image",
-				"description": "Updates the cover image for an organization\n",
-				"parameters": [
-					{
-						"name": "organizationId",
-						"in": "path",
-						"description": "ID of the organizaton",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Updated cover image",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/OrganizationObject"
-								}
-							}
-						}
-					}
-				},
-				"security": [
-					{
-						"Bearer": []
-					}
-				],
-				"requestBody": {
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"orgimage": {
-										"type": "string",
-										"description": "link to image"
-									}
-								}
-							}
-						}
-					},
-					"required": true
-				}
-			}
-		},
-		"/organizations/{organizationId}/admins": {
-			"post": {
-				"tags": [
-					"Organizations"
-				],
-				"summary": "Add admins to an organization",
-				"description": "Add admins to an organization\n",
-				"parameters": [
-					{
-						"name": "organizationId",
-						"in": "path",
-						"description": "Id of the organization to which add a user",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Success; returns organization details",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/OrganizationObject"
-								}
-							}
-						}
-					},
-					"500": {
-						"description": "Failed to add admin user to organization"
-					}
-				},
-				"security": [
-					{
-						"Bearer": []
-					}
-				],
-				"requestBody": {
-					"$ref": "#/components/requestBodies/userDataAdmin"
-				}
-			},
-			"delete": {
-				"tags": [
-					"Organizations"
-				],
-				"summary": "Delete admins",
-				"description": "Delete admins from an organization\n",
-				"parameters": [
-					{
-						"name": "organizationId",
-						"in": "path",
-						"description": "Id of the organization for which a user shall be deleted",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Success; Organization details with deleted admin",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/OrganizationObject"
-								}
-							}
-						}
-					},
-					"500": {
-						"description": "Failed to delete admin user to organization"
-					}
-				},
-				"security": [
-					{
-						"Bearer": []
-					}
-				],
-				"requestBody": {
-					"$ref": "#/components/requestBodies/userDataAdmin"
-				}
-			}
-		},
-		"/organizations/{organizationId}/users": {
-			"get": {
-				"tags": [
-					"Organizations"
-				],
-				"summary": "Get all users",
-				"description": "Gets all users associated with an organization\n",
-				"parameters": [
-					{
-						"name": "organizationId",
-						"in": "path",
-						"description": "ID of the organization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Successful response",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/User"
-								}
-							}
-						}
-					},
-					"404": {
-						"description": "Organization id not found"
-					}
-				},
-				"security": [
-					{
-						"Bearer": []
-					}
-				]
-			},
-			"post": {
-				"tags": [
-					"Organizations"
-				],
-				"summary": "Subscribe user",
-				"description": "Subscribe a user to an organization\n",
-				"parameters": [
-					{
-						"name": "organizationId",
-						"in": "path",
-						"description": "ID of the organization to which a user shall be added",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "success, returns the user details",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/User"
-								}
-							}
-						}
-					},
-					"400": {
-						"description": "Failure, cannot subscribe to disabled organization"
-					}
-				},
-				"security": [
-					{
-						"Bearer": []
-					}
-				],
-				"requestBody": {
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"required": [
-									"userID"
-								],
-								"properties": {
-									"userId": {
-										"type": "string"
-									}
-								}
-							}
-						}
-					},
-					"required": true
-				}
-			}
-		},
-		"/organizations/{organizationId}/users/count": {
-			"get": {
-				"tags": [
-					"Organizations"
-				],
-				"summary": "Get subscribed users count",
-				"description": "Gets subscribed user count\n",
-				"parameters": [
-					{
-						"name": "organizationId",
-						"in": "path",
-						"description": "ID of the organization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Returns SubscribeUserCount",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/SubscribeUserCount"
-								}
-							}
-						}
-					}
-				},
-				"security": [
-					{
-						"Bearer": []
-					}
-				]
-			}
-		},
-		"/organizations/{organizationId}/users/{userId}": {
-			"get": {
-				"tags": [
-					"Organizations"
-				],
-				"summary": "Get user details",
-				"description": "Gets user details\n",
-				"parameters": [
-					{
-						"name": "organizationId",
-						"in": "path",
-						"description": "ID of the organization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "userId",
-						"in": "path",
-						"description": "ID of the user",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Successful response",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/User"
-								}
-							}
-						}
-					},
-					"404": {
-						"description": "Organization id or User id not found"
-					}
-				},
-				"security": [
-					{
-						"Bearer": []
-					}
-				]
-			},
-			"delete": {
-				"tags": [
-					"Organizations"
-				],
-				"summary": "Delete user",
-				"description": "Removes a given user from the organization.\n",
-				"parameters": [
-					{
-						"name": "organizationId",
-						"in": "path",
-						"description": "ID of the organization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "userId",
-						"in": "path",
-						"description": "ID of the user",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Removed user successfully from organization.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/User"
-								}
-							}
-						}
-					},
-					"404": {
-						"description": "Organization id or User id not found"
-					}
-				},
-				"security": [
-					{
-						"Bearer": []
-					}
-				]
-			}
-		},
-		"/organizations/{organizationId}/users/{userId}/consents": {
-			"get": {
-				"tags": [
-					"Organizations"
-				],
-				"summary": "Get user consent data",
-				"description": "Gets existing user data sets stored with an organization\n",
-				"parameters": [
-					{
-						"name": "organizationId",
-						"in": "path",
-						"description": "ID of the organization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "userId",
-						"in": "path",
-						"description": "ID of the user",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Successful response",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/Consent"
-								}
-							}
-						}
-					},
-					"404": {
-						"description": "Organization id or User id not found"
-					}
-				},
-				"security": [
-					{
-						"Bearer": []
-					}
-				]
-			},
-			"patch": {
-				"tags": [
-					"Organizations"
-				],
-				"summary": "Update user consents",
-				"description": "Update the user consents.\n",
-				"parameters": [
-					{
-						"name": "organizationId",
-						"in": "path",
-						"description": "ID of the organization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "userId",
-						"in": "path",
-						"description": "ID of the user",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
-					"201": {
-						"description": "Successfully modified the user consents"
-					},
-					"404": {
-						"description": "Organization id or User id not found"
-					}
-				},
-				"security": [
-					{
-						"Bearer": []
-					}
-				],
-				"requestBody": {
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/Consent"
-							}
-						}
-					},
-					"description": "User consents",
-					"required": true
-				}
-			}
-		},
-		"/organizations/{organizationId}/users/{userId}/consents/{consentId}": {
-			"get": {
-				"tags": [
-					"Organizations"
-				],
-				"summary": "Get a consent",
-				"description": "Gets a given consent by id.\n",
-				"parameters": [
-					{
-						"name": "organizationId",
-						"in": "path",
-						"description": "ID of the organization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "userId",
-						"in": "path",
-						"description": "ID of the user",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "consentId",
-						"in": "path",
-						"description": "ID of the consent",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Consent information of given Id.",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/Consent"
-								}
-							}
-						}
-					},
-					"404": {
-						"description": "Organization id or User id not found"
-					}
-				},
-				"security": [
-					{
-						"Bearer": []
-					}
-				]
-			},
-			"delete": {
-				"tags": [
-					"Organizations"
-				],
-				"summary": "Delete a consent",
-				"description": "Delete a given consent by ID\n",
-				"parameters": [
-					{
-						"name": "organizationId",
-						"in": "path",
-						"description": "ID of the organization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "userId",
-						"in": "path",
-						"description": "ID of the user",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "consentId",
-						"in": "path",
-						"description": "ID of the consent",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "OK"
-					}
-				},
-				"security": [
-					{
-						"Bearer": []
-					}
-				]
-			}
-		},
-		"/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}": {
-			"get": {
-				"tags": [
-					"Organizations"
-				],
-				"summary": "Get purpose details",
-				"description": "Retrieves purpose details\n",
-				"parameters": [
-					{
-						"name": "organizationId",
-						"in": "path",
-						"description": "ID of the organization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "UserId",
-						"in": "path",
-						"description": "ID of the user",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "ConsentId",
-						"in": "path",
-						"description": "ID of the consent",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "PurposeId",
-						"in": "path",
-						"description": "ID of the purpose",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Successful response",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/PurposeDetail"
-								}
-							}
-						}
-					}
-				},
-				"security": [
-					{
-						"Bearer": []
-					}
-				]
-			}
-		},
-		"/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/status": {
-			"get": {
-				"tags": [
-					"Organizations"
-				],
-				"summary": "Get purpose details",
-				"description": "Retrieves purpose details\n",
-				"parameters": [
-					{
-						"name": "organizationId",
-						"in": "path",
-						"description": "ID of the organization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "UserId",
-						"in": "path",
-						"description": "ID of the user",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "ConsentId",
-						"in": "path",
-						"description": "ID of the consent",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "PurposeId",
-						"in": "path",
-						"description": "ID of the purpose",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Successful response",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/StatusConsented"
-								}
-							}
-						}
-					},
-					"500": {
-						"description": "Request failed"
-					}
-				},
-				"security": [
-					{
-						"Bearer": []
-					}
-				]
-			},
-			"post": {
-				"tags": [
-					"Organizations"
-				],
-				"summary": "Set overall status for a purpose",
-				"description": "Sets overall status for a given purpose, alternatives are \"Allow\" and \"DisAllow\"",
-				"parameters": [
-					{
-						"name": "organizationId",
-						"in": "path",
-						"description": "ID of the organization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "UserId",
-						"in": "path",
-						"description": "ID of the user",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "ConsentId",
-						"in": "path",
-						"description": "ID of the consent",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "PurposeId",
-						"in": "path",
-						"description": "ID of the purpose",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Successful response",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/PurposeDetail"
-								}
-							}
-						}
-					},
-					"500": {
-						"description": "Failed response"
-					}
-				},
-				"security": [
-					{
-						"Bearer": []
-					}
-				],
-				"requestBody": {
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"required": [
-									"Consented"
-								],
-								"properties": {
-									"Consented": {
-										"type": "string",
-										"description": "Status of the consent for a given purpose"
-									}
-								}
-							}
-						}
-					},
-					"required": true
-				}
-			}
-		},
-		"/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/attributes/{attrId}": {
-			"patch": {
-				"tags": [
-					"Organizations"
-				],
-				"summary": "Update consent status",
-				"description": "Updates \"Consented\" status in a given purpose (Allow/DisAllow) OR \"Days\", i.e. \"{ \"days\": 40}",
-				"parameters": [
-					{
-						"name": "organizationId",
-						"in": "path",
-						"description": "ID of the organization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "UserId",
-						"in": "path",
-						"description": "ID of the user",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "ConsentId",
-						"in": "path",
-						"description": "ID of the consent",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "PurposeId",
-						"in": "path",
-						"description": "ID of the purpose",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "attrId",
-						"in": "path",
-						"description": "ID of attribute (consentId)",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Successful response",
-						"content": {
-							"application/json": {
-								"schema": {
-									"type": "object",
-									"properties": {
-										"Msg": {
-											"type": "string",
-											"description": "Response message"
-										},
-										"Status": {
-											"type": "integer",
-											"description": "Status Code"
-										}
-									},
-									"example": {
-										"Msg": "Consent updated successfully",
-										"Status": 200
-									}
-								}
-							}
-						}
-					},
-					"500": {
-						"description": "Failed response"
-					}
-				},
-				"security": [
-					{
-						"Bearer": []
-					}
-				],
-				"requestBody": {
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/ConsentedDays"
-							}
-						}
-					},
-					"required": true
-				}
-			}
-		},
-		"/organizations/{organizationId}/purposes/{purposeID}": {
-			"delete": {
-				"tags": [
-					"Organizations"
-				],
-				"summary": "Delete a purpose",
-				"description": "Deletes a purpose from an organization based on IDs\n",
-				"parameters": [
-					{
-						"name": "organizationId",
-						"in": "path",
-						"description": "ID of the organization from which a purpose shall be deleted",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "purposeID",
-						"in": "path",
-						"description": "ID of the purpose that shall be deleted",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
-					"201": {
-						"description": "success, returns the organization details",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/OrganizationObject"
-								}
-							}
-						}
-					}
-				},
-				"security": [
-					{
-						"Bearer": []
-					}
-				]
-			}
-		},
-		"/organizations/{organizationId}/purposes/{PurposeId}/attributes/consent": {
-			"post": {
-				"tags": [
-					"Organizations"
-				],
-				"summary": "Set attributes in a purpose",
-				"description": "Notification request for attributes in a purpose\n",
-				"parameters": [
-					{
-						"name": "organizationId",
-						"in": "path",
-						"description": "ID of the organization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "PurposeId",
-						"in": "path",
-						"description": "ID of the user",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
-					"202": {
-						"description": "Accepted, successful response"
-					}
-				},
-				"security": [
-					{
-						"Bearer": []
-					}
-				],
-				"requestBody": {
-					"content": {
-						"application/json": {
-							"schema": {
-								"type": "object",
-								"properties": {
-									"attributeIDs": {
-										"type": "array",
-										"items": {
-											"type": "string"
-										}
-									}
-								}
-							}
-						}
-					},
-					"required": true
-				}
-			}
-		},
-		"/organizations/{organizationID}/purposes/{purposeID}/attributes/{attributeID}/consented/users": {
-			"get": {
-				"tags": [
-					"Organizations"
-				],
-				"summary": "Get consented users consented for an attribute and purpose",
-				"description": "Retrieves the users consented for a given attribute and a given purpose\n",
-				"parameters": [
-					{
-						"name": "organizationID",
-						"in": "path",
-						"description": "ID of the organization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "purposeID",
-						"in": "path",
-						"description": "ID of the purpose",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "attributeID",
-						"in": "path",
-						"description": "ID of the attribute",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Success, list of users consented to the attribute for the given purpose",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/consentedUserResp"
-								}
-							}
-						}
-					},
-					"500": {
-						"description": "Request failed"
-					}
-				},
-				"security": [
-					{
-						"Bearer": []
-					}
-				]
-			}
-		},
-		"/organizations/{organizationId}/templates/{templateID}": {
-			"delete": {
-				"tags": [
-					"Organizations"
-				],
-				"summary": "Delete a template",
-				"description": "Deletes a template from an organization based on IDs\n",
-				"parameters": [
-					{
-						"name": "organizationId",
-						"in": "path",
-						"description": "ID of the organization from which a template shall be deleted",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "templateID",
-						"in": "path",
-						"description": "ID of the template that shall be deleted",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
-					"201": {
-						"description": "success, returns the organization details",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/OrganizationObject"
-								}
-							}
-						}
-					}
-				},
-				"security": [
-					{
-						"Bearer": []
-					}
-				]
-			}
-		},
-		"/user/organizations/{organizationId}/consents": {
-			"get": {
-				"tags": [
-					"Organizations"
-				],
-				"summary": "Get consents for users",
-				"description": "Get the consents for users for a given organization\n",
-				"parameters": [
-					{
-						"name": "organizationId",
-						"in": "path",
-						"description": "ID of the organization",
-						"required": true,
-						"schema": {
-							"type": "string"
-						}
-					}
-				],
-				"responses": {
-					"200": {
-						"description": "Successful response",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/Consent"
-								}
-							}
-						}
-					},
-					"500": {
-						"description": "Failed to fetch organization ID, organization ID not found"
-					}
-				},
-				"security": [
-					{
-						"Bearer": []
-					}
-				]
-			}
-		}
-	},
-	"servers": [
-		{
-			"url": "https://api.igrant.io/v1"
-		}
-	],
-	"components": {
-		"requestBodies": {
-			"userDataAdmin": {
-				"content": {
-					"application/json": {
-						"schema": {
-							"$ref": "#/components/schemas/userDataAdmin"
-						}
-					}
-				},
-				"required": true
-			}
-		},
-		"securitySchemes": {
-			"Bearer": {
-				"description": "All requests to iGrant.io's RestFul APIs require you to authenticate using Bearer authentication. You can obtain the credentials via the left panel, in \"API credentials\"\n",
-				"type": "apiKey",
-				"name": "Authorization",
-				"in": "header"
-			}
-		},
-		"schemas": {
-			"Consent": {
-				"type": "object",
-				"properties": {
-					"ID": {
-						"type": "string",
-						"description": "ID of the consent"
-					},
-					"OrgID": {
-						"type": "string",
-						"description": "Organization ID"
-					},
-					"UserID": {
-						"type": "string",
-						"description": "ID of the user"
-					},
-					"ConsentsAndPurposes": {
-						"type": "array",
-						"items": {
-							"type": "object",
-							"properties": {
-								"Purpose": {
-									"type": "object",
-									"properties": {
-										"ID": {
-											"type": "string"
-										},
-										"Description": {
-											"type": "string"
-										},
-										"LawfulUsage": {
-											"type": "boolean"
-										},
-										"PolicyURL": {
-											"type": "string"
-										}
-									}
-								},
-								"Count": {
-									"type": "object",
-									"properties": {
-										"Total": {
-											"type": "integer",
-											"description": "Total amount of purposes"
-										},
-										"Consented": {
-											"type": "integer",
-											"description": "Total consented"
-										}
-									}
-								},
-								"Consents": {
-									"type": "object",
-									"properties": {
-										"ID": {
-											"type": "string",
-											"description": "Consent ID"
-										},
-										"Description": {
-											"type": "string",
-											"description": "Description of consent"
-										},
-										"Value": {
-											"type": "string",
-											"description": "Value of consent"
-										},
-										"Status": {
-											"$ref": "#/components/schemas/Status"
-										}
-									}
-								}
-							}
-						}
-					}
-				},
-				"example": {
-					"ID": "5bba6a9998135900010927bb",
-					"OrgID": "5bba686e98135900010927a8",
-					"UserID": "5bc786ea90e2a00001de6de1",
-					"ConsentsAndPurposes": [
-						{
-							"Purpose": {
-								"ID": "5bba69db98135900010927ac",
-								"Description": "Contractual Purpose",
-								"LawfulUsage": "False",
-								"PolicyUrl": "https://www.ica.se/policies/behandling-av-personuppgifter/"
-							},
-							"Count": {
-								"Total": "2",
-								"Consented": "2"
-							},
-							"Consents": [
-								{
-									"ID": "5bba6a9998135900010927bb",
-									"Description": "No. of kids",
-									"Value": "",
-									"Status": {
-										"Consented": "Allow",
-										"TimeStamp": "0001-01-01T00:00:00Z",
-										"Days": 0,
-										"Remaining": 0
-									}
-								}
-							]
-						}
-					]
-				}
-			},
-			"StatusConsented": {
-				"type": "object",
-				"properties": {
-					"Consented": {
-						"type": "string",
-						"description": "Status of the consent for a given purpose"
-					}
-				}
-			},
-			"ConsentedDays": {
-				"type": "object",
-				"properties": {
-					"Consented": {
-						"type": "string",
-						"description": "Status of the consent for a given purpose"
-					},
-					"Days": {
-						"type": "integer",
-						"description": "Amount of days consented"
-					}
-				},
-				"minProperties": 1
-			},
-			"PurposeDetail": {
-				"type": "object",
-				"properties": {
-					"ID": {
-						"type": "string",
-						"description": "ID of purpose"
-					},
-					"ConsentID": {
-						"type": "string",
-						"description": "ID of consent"
-					},
-					"OrgID": {
-						"type": "string",
-						"description": "Organization ID"
-					},
-					"UserID": {
-						"type": "string",
-						"description": "ID of user"
-					},
-					"Consents": {
-						"type": "object",
-						"properties": {
-							"Purpose": {
-								"$ref": "#/components/schemas/Purpose"
-							},
-							"Count": {
-								"$ref": "#/components/schemas/Count"
-							},
-							"Consents": {
-								"type": "array",
-								"items": {
-									"$ref": "#/components/schemas/Consents"
-								}
-							}
-						}
-					}
-				}
-			},
-			"Consents": {
-				"type": "object",
-				"properties": {
-					"ID": {
-						"type": "string",
-						"description": "Consent ID"
-					},
-					"Description": {
-						"type": "string",
-						"description": "description"
-					},
-					"Value": {
-						"type": "string",
-						"description": "Consent value"
-					},
-					"Status": {
-						"$ref": "#/components/schemas/Status"
-					}
-				}
-			},
-			"Status": {
-				"type": "object",
-				"properties": {
-					"Consented": {
-						"type": "string",
-						"description": "Allow/DisAllow"
-					},
-					"TimeStamp": {
-						"type": "string",
-						"description": "Timestamp"
-					},
-					"Days": {
-						"type": "integer",
-						"description": "Amount of days to consent"
-					},
-					"Remaining": {
-						"type": "integer",
-						"description": "Amount of days remaining"
-					}
-				}
-			},
-			"Count": {
-				"type": "object",
-				"properties": {
-					"Total": {
-						"type": "integer",
-						"description": "Total amount of purposes"
-					},
-					"Consented": {
-						"type": "integer",
-						"description": "Total consented"
-					}
-				},
-				"example": {
-					"Total": 2,
-					"Consented": 2
-				}
-			},
-			"CreateOrganization": {
-				"type": "object",
-				"required": [
-					"Name",
-					"Location",
-					"Description",
-					"TypeID"
-				],
-				"properties": {
-					"Name": {
-						"type": "string",
-						"description": "Name of the organization"
-					},
-					"Location": {
-						"type": "string",
-						"description": "Location of the organization"
-					},
-					"Description": {
-						"type": "string",
-						"description": "Description of the organization"
-					},
-					"TypeID": {
-						"type": "string",
-						"description": "ID of the type of organization"
-					}
-				}
-			},
-			"ConsentTemplate": {
-				"type": "object",
-				"properties": {
-					"ID": {
-						"type": "string",
-						"description": "ID of the consent"
-					},
-					"Consent": {
-						"type": "string",
-						"description": "Consent, e.g. Spouse"
-					},
-					"PurposeIDs": {
-						"type": "array",
-						"items": {
-							"type": "string"
-						},
-						"description": "An array of PurposeIDs"
-					}
-				},
-				"example": {
-					"ID": "5bba6a9998135900010927ba",
-					"Consent": "Spouse",
-					"PurposeIDs": [
-						"5bba69db98135900010927ac, 8bba69db98135900010927af"
-					]
-				}
-			},
-			"Type": {
-				"type": "object",
-				"properties": {
-					"ID": {
-						"type": "string",
-						"description": "ID of Type"
-					},
-					"Type": {
-						"type": "string",
-						"description": "Describes the type of organization (field, ID of field etc.)"
-					},
-					"ImageID": {
-						"type": "string",
-						"description": "ID of image"
-					},
-					"ImageURL": {
-						"type": "string",
-						"description": "URL of image (where the Image is located)"
-					}
-				},
-				"example": {
-					"ID": "5bba67ba98135900010927a5",
-					"Type": "Retail",
-					"ImageID": "5bba67e798135900010927a7",
-					"ImageURL": "https://api.igrant.io/v1/organizations/types/5bba67ba98135900010927a5/image"
-				}
-			},
-			"Purpose": {
-				"type": "object",
-				"properties": {
-					"ID": {
-						"type": "string",
-						"description": "ID of purpose"
-					},
-					"Description": {
-						"type": "string",
-						"description": "Description of purpose"
-					},
-					"LawfulUsage": {
-						"type": "boolean",
-						"description": "Lawful usage (True or False)"
-					},
-					"PolicyURL": {
-						"type": "string",
-						"description": "URL of policy"
-					}
-				}
-			},
-			"ClientData": {
-				"type": "object",
-				"properties": {
-					"Token": {
-						"type": "string",
-						"description": "Client token"
-					},
-					"Type": {
-						"type": "integer",
-						"description": "Type of client"
-					}
-				}
-			},
-			"Orgs": {
-				"type": "object",
-				"properties": {
-					"OrgID": {
-						"type": "string",
-						"description": "This is the ID of the organization"
-					},
-					"Name": {
-						"type": "string",
-						"description": "Name of organization"
-					},
-					"Location": {
-						"type": "string",
-						"description": "Location of the organization"
-					},
-					"Type": {
-						"type": "string",
-						"description": "Field of organization like retail, medical etc"
-					},
-					"TypeID": {
-						"type": "string",
-						"description": "Type ID"
-					}
-				}
-			},
-			"SubscribeUserCount": {
-				"type": "integer",
-				"description": "The number of users subscribed",
-				"example": {
-					"SubscribeUserCount": 7
-				}
-			},
-			"User": {
-				"type": "object",
-				"properties": {
-					"ID": {
-						"type": "string",
-						"description": "The ID of the user"
-					},
-					"Name": {
-						"type": "string",
-						"description": "The name of the user"
-					},
-					"IamID": {
-						"type": "string",
-						"description": "Identity management ID"
-					},
-					"Email": {
-						"type": "string",
-						"description": "User email address"
-					},
-					"Phone": {
-						"type": "string",
-						"description": "User phone number"
-					},
-					"ImageID": {
-						"type": "string",
-						"description": "User image ID"
-					},
-					"ImageURL": {
-						"type": "string",
-						"description": "URL of user image"
-					},
-					"LastVisit": {
-						"type": "string",
-						"format": "date",
-						"description": "Date and time of LastVisit"
-					},
-					"Client": {
-						"$ref": "#/components/schemas/ClientData"
-					},
-					"Orgs": {
-						"type": "array",
-						"items": {
-							"$ref": "#/components/schemas/Orgs"
-						}
-					}
-				},
-				"example": {
-					"User": {
-						"ID": "5b9025defef8d50001ebb6f2",
-						"Name": "Test production",
-						"IamID": "7c7591e507",
-						"Email": "p@p.io",
-						"Phone": "+358 549 45043",
-						"ImageID": "423049",
-						"ImageURL": "imageurl.fi",
-						"LastVisit": "2018-09-05 18:55:21",
-						"Client": {
-							"Token": 34234234,
-							"Type": 0
-						},
-						"Orgs": [
-							{
-								"OrgID": "5b4ab3f926eddc0001ad3885",
-								"Name": "iGrant.io",
-								"Location": "Stockholm, Sweden",
-								"Type": "RegTech",
-								"TypeID\"": "b4ab3bf26eddc0001ad3883"
-							}
-						]
-					}
-				}
-			},
-			"Organization": {
-				"type": "object",
-				"properties": {
-					"ID": {
-						"type": "string",
-						"description": "ID of the organization"
-					},
-					"Name": {
-						"type": "string",
-						"description": "Name of the organization"
-					},
-					"CoverImageID": {
-						"type": "string",
-						"description": "This is the ID of the coverImage"
-					},
-					"CoverImageurl": {
-						"type": "string",
-						"description": "URL of the coverImage"
-					},
-					"LogoImageID": {
-						"type": "string",
-						"description": "ID of the logo Image"
-					},
-					"LogoImageURL": {
-						"type": "string",
-						"description": "URL of the logoImage"
-					},
-					"Location": {
-						"type": "string",
-						"description": "Location of the organization (Country, City)"
-					},
-					"Type": {
-						"$ref": "#/components/schemas/Type"
-					},
-					"Description": {
-						"description": "The description of the organization",
-						"type": "string"
-					},
-					"Enabled": {
-						"type": "boolean",
-						"description": "Boolean value for indicating if the organization is enabled in the system"
-					},
-					"Policyurl": {
-						"type": "string",
-						"description": "URL of company policy"
-					},
-					"EulaURL": {
-						"type": "string",
-						"description": "EulaURL"
-					},
-					"Template": {
-						"type": "array",
-						"items": {
-							"$ref": "#/components/schemas/ConsentTemplate"
-						},
-						"description": "Contains properties of a consent"
-					},
-					"Purposes": {
-						"type": "array",
-						"items": {
-							"$ref": "#/components/schemas/Purpose"
-						},
-						"description": "contains information about purposes"
-					},
-					"Admins": {
-						"type": "array",
-						"items": {
-							"$ref": "#/components/schemas/userDataAdmin"
-						},
-						"description": "represents the admins of the organization"
-					},
-					"BillingInfo": {
-						"$ref": "#/components/schemas/BillingInfo"
-					}
-				}
-			},
-			"BillingInfo": {
-				"type": "object",
-				"properties": {
-					"BillingRegistrationID": {
-						"type": "string",
-						"description": "ID of billing registration"
-					},
-					"PlanType": {
-						"type": "string",
-						"description": "Type of plan"
-					}
-				}
-			},
-			"OrganizationObject": {
-				"type": "object",
-				"properties": {
-					"Organization": {
-						"$ref": "#/components/schemas/Organization"
-					}
-				}
-			},
-			"Roles": {
-				"type": "object",
-				"properties": {
-					"ID": {
-						"type": "integer",
-						"description": "Unique ID of the roles"
-					},
-					"Role": {
-						"type": "string",
-						"description": "Name of the role"
-					}
-				},
-				"example": {
-					"ID": 1,
-					"Role": "Admin"
-				}
-			},
-			"userDataAdmin": {
-				"type": "object",
-				"properties": {
-					"userID": {
-						"type": "string",
-						"description": "ID of user"
-					},
-					"roleID": {
-						"type": "integer",
-						"description": "ID of role"
-					}
-				}
-			},
-			"Organizations": {
-				"type": "array",
-				"items": {
-					"$ref": "#/components/schemas/Organization"
-				},
-				"example": {
-					"Organizations": [
-						{
-							"ID": "OrgID",
-							"Name": "TestOrg",
-							"CoverImageID": "ID",
-							"CoverImageurl": "url",
-							"LogoImageID": "ID",
-							"LogoImageURL": "url",
-							"Location": "Turku",
-							"Type": {
-								"ID": "ID",
-								"Type": "Retail",
-								"ImageID": "imageID",
-								"ImageURL": "url"
-							},
-							"Description": "Testorg stores and processes the following data of yours. For each of your personal data attributes, you can view what is used as contractual basis in order for us to carry out a business relation with you. You can view the current status for all your personal data attributes, the purpose in which they are used and provide you the choice to opt-in or opt-out. \\n\\nYes, We are GDPR compliant.",
-							"Enabled": true,
-							"Policyurl": "URL",
-							"EulaURL": "EulaURL",
-							"Templates": [
-								{
-									"ID": "TemplateID",
-									"Consent": "Spouse",
-									"PurposeIDs": [
-										"IDs.."
-									]
-								}
-							],
-							"Purposes": [
-								{
-									"ID": "PurposeID",
-									"Description": "Contractual purpose",
-									"LawfulUsage": false,
-									"PolicyURL": "URL"
-								}
-							],
-							"Admins": [
-								{
-									"UserID": "UserID",
-									"RoleID": 1
-								}
-							],
-							"BillingInfo": {
-								"BillingRegistrationID": "",
-								"PlanType": ""
-							}
-						}
-					]
-				}
-			},
-			"consentedUserResp": {
-				"type": "array",
-				"items": {
-					"$ref": "#/components/schemas/User"
-				},
-				"properties": {
-					"ID": {
-						"type": "string",
-						"description": "ID of the user"
-					},
-					"Name": {
-						"type": "string",
-						"description": "Name of the user"
-					},
-					"Phone": {
-						"type": "string",
-						"description": "User phone number"
-					}
-				}
-			},
-			"SubscribeToken": {
-				"type": "object",
-				"properties": {
-					"SubscribeToken": {
-						"type": "string",
-						"description": "Client token"
-					},
-					"SubscribeMethod": {
-						"type": "string",
-						"description": "Type of client"
-					}
-				}
-			}
-		}
-	}
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "REST API documentation",
+    "description" : "This specification is documented in **OpenAPI format**, it describes the REST APIs of iGrant.io.\n\n# Authentication iGrant.io offers one form of authentication:\n  - Bearer authentication\n  \nThis form of authentication is a form of authentication scheme that involves security tokens.\nThe client sends this token in the ***Authorization header*** when making requests. \n",
+    "version" : "2.0",
+    "x-logo" : {
+      "url" : "igrant_logo.jpg",
+      "altText" : "iGrant.io logo"
+    }
+  },
+  "servers" : [ {
+    "url" : "https://api.igrant.io/v1"
+  } ],
+  "tags" : [ {
+    "name" : "Organizations",
+    "description" : "Below you can find a collection of endpoints that respond to GET, POST, PUT, PATCH and DELETE requests."
+  } ],
+  "paths" : {
+    "/organizations" : {
+      "get" : {
+        "summary" : "Get all organizations",
+        "description" : "Gets existing organizations whose consent data is managed.\n",
+        "responses" : {
+          "200" : {
+            "description" : "List of available organizations.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Organizations"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ]
+      },
+      "post" : {
+        "tags" : [ "Organizations" ],
+        "summary" : "Add an organization",
+        "description" : "Adds a new organization\n",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CreateOrganization"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "New Organization added successfully.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrganizationObject"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ]
+      }
+    },
+    "/organizations/roles" : {
+      "get" : {
+        "tags" : [ "Organizations" ],
+        "summary" : "Get all existing roles",
+        "description" : "Gets existing roles.\n",
+        "responses" : {
+          "200" : {
+            "description" : "List of available roles.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Roles"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ]
+      }
+    },
+    "/organizations/{organizationId}" : {
+      "get" : {
+        "tags" : [ "Organizations" ],
+        "summary" : "View organization",
+        "description" : "Get organization details.\n",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "description" : "ID of the organization",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrganizationObject"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Organization id not found"
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ]
+      },
+      "delete" : {
+        "tags" : [ "Organizations" ],
+        "summary" : "Delete an organization",
+        "description" : "Deletes a given organization by ID.\n",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "description" : "ID of the organization",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Deleted successfully."
+          },
+          "404" : {
+            "description" : "Organization ID not found."
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ]
+      },
+      "patch" : {
+        "tags" : [ "Organizations" ],
+        "summary" : "Update organization",
+        "description" : "Update organization information\n",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "description" : "ID of the organization",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "202" : {
+            "description" : "Updated organization data successfully.\n"
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ]
+      }
+    },
+    "/organizations/{organizationId}/enable" : {
+      "post" : {
+        "tags" : [ "Organizations" ],
+        "summary" : "Enable organization",
+        "description" : "Enables organization",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "description" : "id of the organization",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK, Enabled",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrganizationObject"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ]
+      },
+      "delete" : {
+        "tags" : [ "Organizations" ],
+        "summary" : "Disable organization",
+        "description" : "Disables organization",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "description" : "id of the organization",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK, disabled",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrganizationObject"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ]
+      }
+    },
+    "/organizations/{organizationId}/eulaURL" : {
+      "post" : {
+        "tags" : [ "Organizations" ],
+        "summary" : "Update eulaURL",
+        "description" : "Updates the eulaURL for an organization",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "description" : "ID of the organizaton",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body_1"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "202" : {
+            "description" : "Accepted"
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ]
+      }
+    },
+    "/organizations/{organizationId}/logoimage" : {
+      "post" : {
+        "tags" : [ "Organizations" ],
+        "summary" : "Update logo image",
+        "description" : "Updates the logo image for an organization",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "description" : "ID of the organizaton",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body_2"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Updated logo image",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrganizationObject"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ]
+      }
+    },
+    "/organizations/{organizationId}/coverimage" : {
+      "post" : {
+        "tags" : [ "Organizations" ],
+        "summary" : "Update cover image",
+        "description" : "Updates the cover image for an organization",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "description" : "ID of the organizaton",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body_3"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Updated cover image",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrganizationObject"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ]
+      }
+    },
+    "/organizations/{organizationId}/admins" : {
+      "post" : {
+        "tags" : [ "Organizations" ],
+        "summary" : "Add admins to an organization",
+        "description" : "Add admins to an organization\n",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "description" : "Id of the organization to which add a user",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/userDataAdmin"
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success; returns organization details",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrganizationObject"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Failed to add admin user to organization"
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ]
+      },
+      "delete" : {
+        "tags" : [ "Organizations" ],
+        "summary" : "Delete admins",
+        "description" : "Delete admins from an organization\n",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "description" : "Id of the organization for which a user shall be deleted",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "$ref" : "#/components/requestBodies/userDataAdmin"
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success; Organization details with deleted admin",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrganizationObject"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Failed to delete admin user to organization"
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ]
+      }
+    },
+    "/organizations/{organizationId}/users" : {
+      "get" : {
+        "tags" : [ "Organizations" ],
+        "summary" : "Get all users",
+        "description" : "Gets all users associated with an organization\n",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "description" : "ID of the organization",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Organization id not found"
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ]
+      },
+      "post" : {
+        "tags" : [ "Organizations" ],
+        "summary" : "Subscribe user",
+        "description" : "Subscribe a user to an organization\n",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "description" : "ID of the organization to which a user shall be added",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body_4"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "success, returns the user details",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Failure, cannot subscribe to disabled organization"
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ]
+      }
+    },
+    "/organizations/{organizationId}/users/count" : {
+      "get" : {
+        "tags" : [ "Organizations" ],
+        "summary" : "Get subscribed users count",
+        "description" : "Gets subscribed user count\n",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "description" : "ID of the organization",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns SubscribeUserCount",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/SubscribeUserCount"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ]
+      }
+    },
+    "/organizations/{organizationId}/users/{userId}" : {
+      "get" : {
+        "tags" : [ "Organizations" ],
+        "summary" : "Get user details",
+        "description" : "Gets user details\n",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "description" : "ID of the organization",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "userId",
+          "in" : "path",
+          "description" : "ID of the user",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Organization id or User id not found"
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ]
+      },
+      "delete" : {
+        "tags" : [ "Organizations" ],
+        "summary" : "Delete user",
+        "description" : "Removes a given user from the organization.",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "description" : "ID of the organization",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "userId",
+          "in" : "path",
+          "description" : "ID of the user",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Removed user successfully from organization.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Organization id or User id not found"
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ]
+      }
+    },
+    "/organizations/{organizationId}/users/{userId}/consents" : {
+      "get" : {
+        "tags" : [ "Organizations" ],
+        "summary" : "Get user consent data",
+        "description" : "Gets existing user data sets stored with an organization\n",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "description" : "ID of the organization",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "userId",
+          "in" : "path",
+          "description" : "ID of the user",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Consent"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Organization id or User id not found"
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ]
+      },
+      "patch" : {
+        "tags" : [ "Organizations" ],
+        "summary" : "Update user consents",
+        "description" : "Update the user consents.\n",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "description" : "ID of the organization",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "userId",
+          "in" : "path",
+          "description" : "ID of the user",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "description" : "User consents",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Consent"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Successfully modified the user consents"
+          },
+          "404" : {
+            "description" : "Organization id or User id not found"
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ]
+      }
+    },
+    "/organizations/{organizationId}/users/{userId}/consents/{consentId}" : {
+      "get" : {
+        "tags" : [ "Organizations" ],
+        "summary" : "Get a consent",
+        "description" : "Gets a given consent by id.",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "description" : "ID of the organization",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "userId",
+          "in" : "path",
+          "description" : "ID of the user",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "consentId",
+          "in" : "path",
+          "description" : "ID of the consent",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Consent information of given Id.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Consent"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Organization id or User id not found"
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ]
+      },
+      "delete" : {
+        "tags" : [ "Organizations" ],
+        "summary" : "Delete a consent",
+        "description" : "Delete a given consent by ID",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "description" : "ID of the organization",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "userId",
+          "in" : "path",
+          "description" : "ID of the user",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "consentId",
+          "in" : "path",
+          "description" : "ID of the consent",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "OK"
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ]
+      }
+    },
+    "/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}" : {
+      "get" : {
+        "tags" : [ "Organizations" ],
+        "summary" : "Get purpose details",
+        "description" : "Retrieves purpose details",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "description" : "ID of the organization",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "UserId",
+          "in" : "path",
+          "description" : "ID of the user",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "ConsentId",
+          "in" : "path",
+          "description" : "ID of the consent",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "PurposeId",
+          "in" : "path",
+          "description" : "ID of the purpose",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PurposeDetail"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ]
+      }
+    },
+    "/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/status" : {
+      "get" : {
+        "tags" : [ "Organizations" ],
+        "summary" : "Get purpose details",
+        "description" : "Retrieves purpose details",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "description" : "ID of the organization",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "UserId",
+          "in" : "path",
+          "description" : "ID of the user",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "ConsentId",
+          "in" : "path",
+          "description" : "ID of the consent",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "PurposeId",
+          "in" : "path",
+          "description" : "ID of the purpose",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/StatusConsented"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Request failed"
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ]
+      },
+      "post" : {
+        "tags" : [ "Organizations" ],
+        "summary" : "Set overall status for a purpose",
+        "description" : "Sets overall status for a given purpose, alternatives are \"Allow\" and \"DisAllow\"",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "description" : "ID of the organization",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "UserId",
+          "in" : "path",
+          "description" : "ID of the user",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "ConsentId",
+          "in" : "path",
+          "description" : "ID of the consent",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "PurposeId",
+          "in" : "path",
+          "description" : "ID of the purpose",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body_5"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successful response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PurposeDetail"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Failed response"
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ]
+      }
+    },
+    "/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/attributes/{attrId}" : {
+      "patch" : {
+        "tags" : [ "Organizations" ],
+        "summary" : "Update consent status",
+        "description" : "Updates \"Consented\" status in a given purpose (Allow/DisAllow) OR \"Days\", i.e. \"{ \"days\": 40} ",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "description" : "ID of the organization",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "UserId",
+          "in" : "path",
+          "description" : "ID of the user",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "ConsentId",
+          "in" : "path",
+          "description" : "ID of the consent",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "PurposeId",
+          "in" : "path",
+          "description" : "ID of the purpose",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "attrId",
+          "in" : "path",
+          "description" : "ID of attribute (consentId)",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ConsentedDays"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successful response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Failed response"
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ]
+      }
+    },
+    "/organizations/{organizationId}/purposes/{purposeID}" : {
+      "delete" : {
+        "tags" : [ "Organizations" ],
+        "summary" : "Delete a purpose",
+        "description" : "Deletes a purpose from an organization based on IDs",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "description" : "ID of the organization from which a purpose shall be deleted",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "purposeID",
+          "in" : "path",
+          "description" : "ID of the purpose that shall be deleted",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "success, returns the organization details",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrganizationObject"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ]
+      }
+    },
+    "/organizations/{organizationId}/purposes/{PurposeId}/attributes/consent" : {
+      "post" : {
+        "tags" : [ "Organizations" ],
+        "summary" : "Set attributes in a purpose",
+        "description" : "Notification request for attributes in a purpose",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "description" : "ID of the organization",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "PurposeId",
+          "in" : "path",
+          "description" : "ID of the user",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body_6"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "202" : {
+            "description" : "Accepted, successful response"
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ]
+      }
+    },
+    "/organizations/{organizationID}/purposes/{purposeID}/attributes/{attributeID}/consented/users" : {
+      "get" : {
+        "tags" : [ "Organizations" ],
+        "summary" : "Get consented users consented for an attribute and purpose",
+        "description" : "Retrieves the users consented for a given attribute and a given purpose",
+        "parameters" : [ {
+          "name" : "organizationID",
+          "in" : "path",
+          "description" : "ID of the organization",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "purposeID",
+          "in" : "path",
+          "description" : "ID of the purpose",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "attributeID",
+          "in" : "path",
+          "description" : "ID of the attribute",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success, list of users consented to the attribute for the given purpose",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/consentedUserResp"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Request failed"
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ]
+      }
+    },
+    "/organizations/{organizationId}/templates/{templateID}" : {
+      "delete" : {
+        "tags" : [ "Organizations" ],
+        "summary" : "Delete a template",
+        "description" : "Deletes a template from an organization based on IDs",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "description" : "ID of the organization from which a template shall be deleted",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "templateID",
+          "in" : "path",
+          "description" : "ID of the template that shall be deleted",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "success, returns the organization details",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/OrganizationObject"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ]
+      }
+    },
+    "/user/organizations/{organizationId}/consents" : {
+      "get" : {
+        "tags" : [ "Organizations" ],
+        "summary" : "Get consents for users",
+        "description" : "Get the consents for users for a given organization",
+        "parameters" : [ {
+          "name" : "organizationId",
+          "in" : "path",
+          "description" : "ID of the organization",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Consent"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Failed to fetch organization ID, organization ID not found"
+          }
+        },
+        "security" : [ {
+          "Bearer" : [ ]
+        } ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Consent" : {
+        "type" : "object",
+        "properties" : {
+          "ID" : {
+            "type" : "string",
+            "description" : "ID of the consent"
+          },
+          "OrgID" : {
+            "type" : "string",
+            "description" : "Organization ID"
+          },
+          "UserID" : {
+            "type" : "string",
+            "description" : "ID of the user"
+          },
+          "ConsentsAndPurposes" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Consent_ConsentsAndPurposes"
+            }
+          }
+        },
+        "example" : {
+          "ID" : "5bba6a9998135900010927bb",
+          "OrgID" : "5bba686e98135900010927a8",
+          "UserID" : "5bc786ea90e2a00001de6de1",
+          "ConsentsAndPurposes" : [ {
+            "Purpose" : {
+              "ID" : "5bba69db98135900010927ac",
+              "Description" : "Contractual Purpose",
+              "LawfulUsage" : "False",
+              "PolicyUrl" : "https://www.ica.se/policies/behandling-av-personuppgifter/"
+            },
+            "Count" : {
+              "Total" : "2",
+              "Consented" : "2"
+            },
+            "Consents" : [ {
+              "ID" : "5bba6a9998135900010927bb",
+              "Description" : "No. of kids",
+              "Value" : "",
+              "Status" : {
+                "Consented" : "Allow",
+                "TimeStamp" : "0001-01-01T00:00:00Z",
+                "Days" : 0,
+                "Remaining" : 0
+              }
+            } ]
+          } ]
+        }
+      },
+      "StatusConsented" : {
+        "type" : "object",
+        "properties" : {
+          "Consented" : {
+            "type" : "string",
+            "description" : "Status of the consent for a given purpose"
+          }
+        }
+      },
+      "ConsentedDays" : {
+        "minProperties" : 1,
+        "type" : "object",
+        "properties" : {
+          "Consented" : {
+            "type" : "string",
+            "description" : "Status of the consent for a given purpose"
+          },
+          "Days" : {
+            "type" : "integer",
+            "description" : "Amount of days consented"
+          }
+        }
+      },
+      "PurposeDetail" : {
+        "type" : "object",
+        "properties" : {
+          "ID" : {
+            "type" : "string",
+            "description" : "ID of purpose"
+          },
+          "ConsentID" : {
+            "type" : "string",
+            "description" : "ID of consent"
+          },
+          "OrgID" : {
+            "type" : "string",
+            "description" : "Organization ID"
+          },
+          "UserID" : {
+            "type" : "string",
+            "description" : "ID of user"
+          },
+          "Consents" : {
+            "$ref" : "#/components/schemas/PurposeDetail_Consents"
+          }
+        }
+      },
+      "Consents" : {
+        "type" : "object",
+        "properties" : {
+          "ID" : {
+            "type" : "string",
+            "description" : "Consent ID"
+          },
+          "Description" : {
+            "type" : "string",
+            "description" : "description"
+          },
+          "Value" : {
+            "type" : "string",
+            "description" : "Consent value"
+          },
+          "Status" : {
+            "$ref" : "#/components/schemas/Status"
+          }
+        }
+      },
+      "Status" : {
+        "type" : "object",
+        "properties" : {
+          "Consented" : {
+            "type" : "string",
+            "description" : "Allow/DisAllow"
+          },
+          "TimeStamp" : {
+            "type" : "string",
+            "description" : "Timestamp"
+          },
+          "Days" : {
+            "type" : "integer",
+            "description" : "Amount of days to consent"
+          },
+          "Remaining" : {
+            "type" : "integer",
+            "description" : "Amount of days remaining"
+          }
+        }
+      },
+      "Count" : {
+        "type" : "object",
+        "properties" : {
+          "Total" : {
+            "type" : "integer",
+            "description" : "Total amount of purposes"
+          },
+          "Consented" : {
+            "type" : "integer",
+            "description" : "Total consented"
+          }
+        },
+        "example" : {
+          "Total" : 2,
+          "Consented" : 2
+        }
+      },
+      "CreateOrganization" : {
+        "required" : [ "Description", "Location", "Name", "TypeID" ],
+        "type" : "object",
+        "properties" : {
+          "Name" : {
+            "type" : "string",
+            "description" : "Name of the organization"
+          },
+          "Location" : {
+            "type" : "string",
+            "description" : "Location of the organization"
+          },
+          "Description" : {
+            "type" : "string",
+            "description" : "Description of the organization"
+          },
+          "TypeID" : {
+            "type" : "string",
+            "description" : "ID of the type of organization"
+          }
+        }
+      },
+      "ConsentTemplate" : {
+        "type" : "object",
+        "properties" : {
+          "ID" : {
+            "type" : "string",
+            "description" : "ID of the consent"
+          },
+          "Consent" : {
+            "type" : "string",
+            "description" : "Consent, e.g. Spouse"
+          },
+          "PurposeIDs" : {
+            "type" : "array",
+            "description" : "An array of PurposeIDs",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        },
+        "example" : {
+          "ID" : "5bba6a9998135900010927ba",
+          "Consent" : "Spouse",
+          "PurposeIDs" : [ "5bba69db98135900010927ac, 8bba69db98135900010927af" ]
+        }
+      },
+      "Type" : {
+        "type" : "object",
+        "properties" : {
+          "ID" : {
+            "type" : "string",
+            "description" : "ID of Type"
+          },
+          "Type" : {
+            "type" : "string",
+            "description" : "Describes the type of organization (field, ID of field etc.)"
+          },
+          "ImageID" : {
+            "type" : "string",
+            "description" : "ID of image"
+          },
+          "ImageURL" : {
+            "type" : "string",
+            "description" : "URL of image (where the Image is located)"
+          }
+        },
+        "example" : {
+          "ID" : "5bba67ba98135900010927a5",
+          "Type" : "Retail",
+          "ImageID" : "5bba67e798135900010927a7",
+          "ImageURL" : "https://api.igrant.io/v1/organizations/types/5bba67ba98135900010927a5/image"
+        }
+      },
+      "Purpose" : {
+        "type" : "object",
+        "properties" : {
+          "ID" : {
+            "type" : "string",
+            "description" : "ID of purpose"
+          },
+          "Description" : {
+            "type" : "string",
+            "description" : "Description of purpose"
+          },
+          "LawfulUsage" : {
+            "type" : "boolean",
+            "description" : "Lawful usage (True or False)"
+          },
+          "PolicyURL" : {
+            "type" : "string",
+            "description" : "URL of policy"
+          }
+        }
+      },
+      "ClientData" : {
+        "type" : "object",
+        "properties" : {
+          "Token" : {
+            "type" : "string",
+            "description" : "Client token"
+          },
+          "Type" : {
+            "type" : "integer",
+            "description" : "Type of client"
+          }
+        }
+      },
+      "Orgs" : {
+        "type" : "object",
+        "properties" : {
+          "OrgID" : {
+            "type" : "string",
+            "description" : "This is the ID of the organization"
+          },
+          "Name" : {
+            "type" : "string",
+            "description" : "Name of organization"
+          },
+          "Location" : {
+            "type" : "string",
+            "description" : "Location of the organization"
+          },
+          "Type" : {
+            "type" : "string",
+            "description" : "Field of organization like retail, medical etc"
+          },
+          "TypeID" : {
+            "type" : "string",
+            "description" : "Type ID"
+          }
+        }
+      },
+      "SubscribeUserCount" : {
+        "type" : "integer",
+        "description" : "The number of users subscribed"
+      },
+      "User" : {
+        "type" : "object",
+        "properties" : {
+          "ID" : {
+            "type" : "string",
+            "description" : "The ID of the user"
+          },
+          "Name" : {
+            "type" : "string",
+            "description" : "The name of the user"
+          },
+          "IamID" : {
+            "type" : "string",
+            "description" : "Identity management ID"
+          },
+          "Email" : {
+            "type" : "string",
+            "description" : "User email address"
+          },
+          "Phone" : {
+            "type" : "string",
+            "description" : "User phone number"
+          },
+          "ImageID" : {
+            "type" : "string",
+            "description" : "User image ID"
+          },
+          "ImageURL" : {
+            "type" : "string",
+            "description" : "URL of user image"
+          },
+          "LastVisit" : {
+            "type" : "string",
+            "description" : "Date and time of LastVisit",
+            "format" : "date"
+          },
+          "Client" : {
+            "$ref" : "#/components/schemas/ClientData"
+          },
+          "Orgs" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Orgs"
+            }
+          }
+        },
+        "example" : {
+          "User" : {
+            "ID" : "5b9025defef8d50001ebb6f2",
+            "Name" : "Test production",
+            "IamID" : "7c7591e507",
+            "Email" : "p@p.io",
+            "Phone" : "+358 549 45043",
+            "ImageID" : "423049",
+            "ImageURL" : "imageurl.fi",
+            "LastVisit" : "2018-09-05 18:55:21",
+            "Client" : {
+              "Token" : 34234234,
+              "Type" : 0
+            },
+            "Orgs" : [ {
+              "OrgID" : "5b4ab3f926eddc0001ad3885",
+              "Name" : "iGrant.io",
+              "Location" : "Stockholm, Sweden",
+              "Type" : "RegTech",
+              "TypeID\"" : "b4ab3bf26eddc0001ad3883"
+            } ]
+          }
+        }
+      },
+      "Organization" : {
+        "type" : "object",
+        "properties" : {
+          "ID" : {
+            "type" : "string",
+            "description" : "ID of the organization"
+          },
+          "Name" : {
+            "type" : "string",
+            "description" : "Name of the organization"
+          },
+          "CoverImageID" : {
+            "type" : "string",
+            "description" : "This is the ID of the coverImage"
+          },
+          "CoverImageurl" : {
+            "type" : "string",
+            "description" : "URL of the coverImage"
+          },
+          "LogoImageID" : {
+            "type" : "string",
+            "description" : "ID of the logo Image"
+          },
+          "LogoImageURL" : {
+            "type" : "string",
+            "description" : "URL of the logoImage"
+          },
+          "Location" : {
+            "type" : "string",
+            "description" : "Location of the organization (Country, City)"
+          },
+          "Type" : {
+            "$ref" : "#/components/schemas/Type"
+          },
+          "Description" : {
+            "type" : "string",
+            "description" : "The description of the organization"
+          },
+          "Enabled" : {
+            "type" : "boolean",
+            "description" : "Boolean value for indicating if the organization is enabled in the system"
+          },
+          "Policyurl" : {
+            "type" : "string",
+            "description" : "URL of company policy"
+          },
+          "EulaURL" : {
+            "type" : "string",
+            "description" : "EulaURL"
+          },
+          "Template" : {
+            "type" : "array",
+            "description" : "Contains properties of a consent",
+            "items" : {
+              "$ref" : "#/components/schemas/ConsentTemplate"
+            }
+          },
+          "Purposes" : {
+            "type" : "array",
+            "description" : "contains information about purposes",
+            "items" : {
+              "$ref" : "#/components/schemas/Purpose"
+            }
+          },
+          "Admins" : {
+            "type" : "array",
+            "description" : "represents the admins of the organization",
+            "items" : {
+              "$ref" : "#/components/schemas/userDataAdmin"
+            }
+          },
+          "BillingInfo" : {
+            "$ref" : "#/components/schemas/BillingInfo"
+          }
+        }
+      },
+      "BillingInfo" : {
+        "type" : "object",
+        "properties" : {
+          "BillingRegistrationID" : {
+            "type" : "string",
+            "description" : "ID of billing registration"
+          },
+          "PlanType" : {
+            "type" : "string",
+            "description" : "Type of plan"
+          }
+        }
+      },
+      "OrganizationObject" : {
+        "type" : "object",
+        "properties" : {
+          "Organization" : {
+            "$ref" : "#/components/schemas/Organization"
+          }
+        }
+      },
+      "Roles" : {
+        "type" : "object",
+        "properties" : {
+          "ID" : {
+            "type" : "integer",
+            "description" : "Unique ID of the roles"
+          },
+          "Role" : {
+            "type" : "string",
+            "description" : "Name of the role"
+          }
+        },
+        "example" : {
+          "ID" : 1,
+          "Role" : "Admin"
+        }
+      },
+      "userDataAdmin" : {
+        "type" : "object",
+        "properties" : {
+          "userID" : {
+            "type" : "string",
+            "description" : "ID of user"
+          },
+          "roleID" : {
+            "type" : "integer",
+            "description" : "ID of role"
+          }
+        }
+      },
+      "Organizations" : {
+        "type" : "array",
+        "example" : {
+          "Organizations" : [ {
+            "ID" : "OrgID",
+            "Name" : "TestOrg",
+            "CoverImageID" : "ID",
+            "CoverImageurl" : "url",
+            "LogoImageID" : "ID",
+            "LogoImageURL" : "url",
+            "Location" : "Turku",
+            "Type" : {
+              "ID" : "ID",
+              "Type" : "Retail",
+              "ImageID" : "imageID",
+              "ImageURL" : "url"
+            },
+            "Description" : "Testorg stores and processes the following data of yours. For each of your personal data attributes, you can view what is used as contractual basis in order for us to carry out a business relation with you. You can view the current status for all your personal data attributes, the purpose in which they are used and provide you the choice to opt-in or opt-out. \\n\\nYes, We are GDPR compliant.",
+            "Enabled" : true,
+            "Policyurl" : "URL",
+            "EulaURL" : "EulaURL",
+            "Templates" : [ {
+              "ID" : "TemplateID",
+              "Consent" : "Spouse",
+              "PurposeIDs" : [ "IDs.." ]
+            } ],
+            "Purposes" : [ {
+              "ID" : "PurposeID",
+              "Description" : "Contractual purpose",
+              "LawfulUsage" : false,
+              "PolicyURL" : "URL"
+            } ],
+            "Admins" : [ {
+              "UserID" : "UserID",
+              "RoleID" : 1
+            } ],
+            "BillingInfo" : {
+              "BillingRegistrationID" : "",
+              "PlanType" : ""
+            }
+          } ]
+        },
+        "items" : {
+          "$ref" : "#/components/schemas/Organization"
+        }
+      },
+      "consentedUserResp" : {
+        "type" : "array",
+        "properties" : {
+          "ID" : {
+            "type" : "string",
+            "description" : "ID of the user"
+          },
+          "Name" : {
+            "type" : "string",
+            "description" : "Name of the user"
+          },
+          "Phone" : {
+            "type" : "string",
+            "description" : "User phone number"
+          }
+        },
+        "items" : {
+          "$ref" : "#/components/schemas/User"
+        }
+      },
+      "body" : {
+        "type" : "object",
+        "properties" : {
+          "Location" : {
+            "type" : "string",
+            "description" : "location of the organization"
+          },
+          "Description" : {
+            "type" : "string",
+            "description" : "description of the organization"
+          },
+          "Policyurl" : {
+            "type" : "string",
+            "description" : "Organization's policyURL"
+          }
+        }
+      },
+      "body_1" : {
+        "type" : "object",
+        "properties" : {
+          "eulaURL" : {
+            "type" : "string",
+            "description" : "URL"
+          }
+        }
+      },
+      "body_2" : {
+        "type" : "object",
+        "properties" : {
+          "orgimage" : {
+            "type" : "string",
+            "description" : "link to logo"
+          }
+        }
+      },
+      "body_3" : {
+        "type" : "object",
+        "properties" : {
+          "orgimage" : {
+            "type" : "string",
+            "description" : "link to image"
+          }
+        }
+      },
+      "body_4" : {
+        "required" : [ "userID" ],
+        "type" : "object",
+        "properties" : {
+          "userId" : {
+            "type" : "string"
+          }
+        }
+      },
+      "body_5" : {
+        "required" : [ "Consented" ],
+        "type" : "object",
+        "properties" : {
+          "Consented" : {
+            "type" : "string",
+            "description" : "Status of the consent for a given purpose"
+          }
+        }
+      },
+      "inline_response_200" : {
+        "type" : "object",
+        "properties" : {
+          "Msg" : {
+            "type" : "string",
+            "description" : "Response message"
+          },
+          "Status" : {
+            "type" : "integer",
+            "description" : "Status Code"
+          }
+        },
+        "example" : "{\"Msg\":\"Consent updated successfully\",\"Status\":200}"
+      },
+      "body_6" : {
+        "type" : "object",
+        "properties" : {
+          "attributeIDs" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "Consent_Purpose" : {
+        "type" : "object",
+        "properties" : {
+          "ID" : {
+            "type" : "string"
+          },
+          "Description" : {
+            "type" : "string"
+          },
+          "LawfulUsage" : {
+            "type" : "boolean"
+          },
+          "PolicyURL" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Consent_Count" : {
+        "type" : "object",
+        "properties" : {
+          "Total" : {
+            "type" : "integer",
+            "description" : "Total amount of purposes"
+          },
+          "Consented" : {
+            "type" : "integer",
+            "description" : "Total consented"
+          }
+        }
+      },
+      "Consent_Consents" : {
+        "type" : "object",
+        "properties" : {
+          "ID" : {
+            "type" : "string",
+            "description" : "Consent ID"
+          },
+          "Description" : {
+            "type" : "string",
+            "description" : "Description of consent"
+          },
+          "Value" : {
+            "type" : "string",
+            "description" : "Value of consent"
+          },
+          "Status" : {
+            "$ref" : "#/components/schemas/Status"
+          }
+        }
+      },
+      "Consent_ConsentsAndPurposes" : {
+        "type" : "object",
+        "properties" : {
+          "Purpose" : {
+            "$ref" : "#/components/schemas/Consent_Purpose"
+          },
+          "Count" : {
+            "$ref" : "#/components/schemas/Consent_Count"
+          },
+          "Consents" : {
+            "$ref" : "#/components/schemas/Consent_Consents"
+          }
+        }
+      },
+      "PurposeDetail_Consents" : {
+        "type" : "object",
+        "properties" : {
+          "Purpose" : {
+            "$ref" : "#/components/schemas/Purpose"
+          },
+          "Count" : {
+            "$ref" : "#/components/schemas/Count"
+          },
+          "Consents" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Consents"
+            }
+          }
+        }
+      }
+    },
+    "requestBodies" : {
+      "userDataAdmin" : {
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "$ref" : "#/components/schemas/userDataAdmin"
+            }
+          }
+        },
+        "required" : true
+      }
+    },
+    "securitySchemes" : {
+      "Bearer" : {
+        "type" : "apiKey",
+        "description" : "All requests to iGrant.io's RestFul APIs require you to authenticate using Bearer authentication. You can obtain the credentials via the left panel, in \"API credentials\"\n",
+        "name" : "Authorization",
+        "in" : "header"
+      }
+    }
+  }
 }
