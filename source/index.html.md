@@ -23,7 +23,7 @@ headingLevel: 2
 
 > The API end point is 'https://api.igrant.io/v1'.
 
-> This is version **1.5.3**
+> This is version **1.5.4**
 
 This specification is documented in **OpenAPI format**, it describes the REST APIs of **[iGrant.io](https://igrant.io)**. 
 
@@ -50,7 +50,7 @@ Below you can find a collection of endpoints that respond to GET, POST, PUT, PAT
 # You can also use wget
 curl -X GET https://api.igrant.io/v1/organizations \
   -H 'Accept: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -261,7 +261,7 @@ Bearer
 curl -X POST https://api.igrant.io/v1/organizations \
   -H 'Content-Type: application/json' \
   -H 'Accept: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -496,7 +496,7 @@ Bearer
 # You can also use wget
 curl -X GET https://api.igrant.io/v1/organizations/roles \
   -H 'Accept: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -659,7 +659,7 @@ Bearer
 # You can also use wget
 curl -X GET https://api.igrant.io/v1/organizations/{organizationId} \
   -H 'Accept: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -872,7 +872,7 @@ Bearer
 ```shell
 # You can also use wget
 curl -X DELETE https://api.igrant.io/v1/organizations/{organizationId} \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -1025,7 +1025,7 @@ Bearer
 # You can also use wget
 curl -X PATCH https://api.igrant.io/v1/organizations/{organizationId} \
   -H 'Content-Type: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -1201,7 +1201,7 @@ Bearer
 # You can also use wget
 curl -X GET https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token \
   -H 'Accept: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -1371,7 +1371,7 @@ Bearer
 curl -X POST https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token \
   -H 'Content-Type: application/json' \
   -H 'Accept: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -1558,7 +1558,7 @@ Bearer
 ```shell
 # You can also use wget
 curl -X DELETE https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -1710,7 +1710,7 @@ Bearer
 # You can also use wget
 curl -X POST https://api.igrant.io/v1/organizations/{organizationId}/enable \
   -H 'Accept: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -1923,7 +1923,7 @@ Bearer
 # You can also use wget
 curl -X DELETE https://api.igrant.io/v1/organizations/{organizationId}/enable \
   -H 'Accept: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -2136,7 +2136,7 @@ Bearer
 # You can also use wget
 curl -X POST https://api.igrant.io/v1/organizations/{organizationId}/eulaURL \
   -H 'Content-Type: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -2307,7 +2307,7 @@ Bearer
 curl -X POST https://api.igrant.io/v1/organizations/{organizationId}/logoimage \
   -H 'Content-Type: application/json' \
   -H 'Accept: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -2539,7 +2539,7 @@ Bearer
 curl -X POST https://api.igrant.io/v1/organizations/{organizationId}/coverimage \
   -H 'Content-Type: application/json' \
   -H 'Accept: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -2771,7 +2771,7 @@ Bearer
 curl -X POST https://api.igrant.io/v1/organizations/{organizationId}/admins \
   -H 'Content-Type: application/json' \
   -H 'Accept: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -2918,7 +2918,7 @@ Add admins to an organization
 ```json
 {
   "userID": "string",
-  "roleID": 0
+  "roleID": 1
 }
 ```
 
@@ -3005,7 +3005,7 @@ Bearer
 curl -X DELETE https://api.igrant.io/v1/organizations/{organizationId}/admins \
   -H 'Content-Type: application/json' \
   -H 'Accept: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -3238,7 +3238,7 @@ Bearer
 # You can also use wget
 curl -X GET https://api.igrant.io/v1/organizations/{organizationId}/users \
   -H 'Accept: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -3430,7 +3430,7 @@ Bearer
 curl -X POST https://api.igrant.io/v1/organizations/{organizationId}/users \
   -H 'Content-Type: application/json' \
   -H 'Accept: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -3585,7 +3585,7 @@ Subscribe a user to an organization
 |---|---|---|---|---|
 |organizationId|path|string|true|ID of the organization to which a user shall be added|
 |body|body|object|true|none|
-|» userId|body|string|false|none|
+|userId|body|string|false|none|
 
 > Example responses
 
@@ -3639,7 +3639,7 @@ Bearer
 # You can also use wget
 curl -X GET https://api.igrant.io/v1/organizations/{organizationId}/users/count \
   -H 'Accept: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -3807,7 +3807,7 @@ Bearer
 # You can also use wget
 curl -X GET https://api.igrant.io/v1/organizations/{organizationId}/users/{userId} \
   -H 'Accept: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -3999,7 +3999,7 @@ Bearer
 # You can also use wget
 curl -X DELETE https://api.igrant.io/v1/organizations/{organizationId}/users/{userId} \
   -H 'Accept: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -4191,7 +4191,7 @@ Bearer
 # You can also use wget
 curl -X GET https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}/consents \
   -H 'Accept: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -4390,7 +4390,7 @@ Bearer
 # You can also use wget
 curl -X PATCH https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}/consents \
   -H 'Content-Type: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -4619,7 +4619,7 @@ Bearer
 # You can also use wget
 curl -X GET https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}/consents/{consentId} \
   -H 'Accept: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -4818,7 +4818,7 @@ Bearer
 ```shell
 # You can also use wget
 curl -X DELETE https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}/consents/{consentId} \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -4972,7 +4972,7 @@ Bearer
 # You can also use wget
 curl -X GET https://api.igrant.io/v1/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId} \
   -H 'Accept: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -5171,7 +5171,7 @@ Bearer
 # You can also use wget
 curl -X GET https://api.igrant.io/v1/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/status \
   -H 'Accept: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -5344,7 +5344,7 @@ Bearer
 curl -X POST https://api.igrant.io/v1/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/status \
   -H 'Content-Type: application/json' \
   -H 'Accept: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -5502,7 +5502,7 @@ Sets overall status for a given purpose, alternatives are "Allow" and "DisAllow"
 |ConsentId|path|string|true|ID of the consent|
 |PurposeId|path|string|true|ID of the purpose|
 |body|body|object|true|none|
-|» Consented|body|string|true|Status of the consent for a given purpose|
+|Consented|body|string|true|Status of the consent for a given purpose|
 
 > Example responses
 
@@ -5563,7 +5563,7 @@ Bearer
 curl -X PATCH https://api.igrant.io/v1/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/attributes/{attrId} \
   -H 'Content-Type: application/json' \
   -H 'Accept: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -5765,7 +5765,7 @@ Bearer
 # You can also use wget
 curl -X DELETE https://api.igrant.io/v1/organizations/{organizationId}/purposes/{purposeID} \
   -H 'Accept: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -5979,7 +5979,7 @@ Bearer
 # You can also use wget
 curl -X POST https://api.igrant.io/v1/organizations/{organizationId}/purposes/{PurposeId}/attributes/consent \
   -H 'Content-Type: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -6133,7 +6133,7 @@ Notification request for attributes in a purpose
 |organizationId|path|string|true|ID of the organization|
 |PurposeId|path|string|true|ID of the user|
 |body|body|object|true|none|
-|» attributeIDs|body|[string]|false|none|
+|attributeIDs|body|[string]|false|none|
 
 <h3 id="post__organizations_{organizationid}_purposes_{purposeid}_attributes_consent-responses">Responses</h3>
 
@@ -6154,7 +6154,7 @@ Bearer
 # You can also use wget
 curl -X GET https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/attributes/{attributeID}/consented/users \
   -H 'Accept: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -6349,7 +6349,7 @@ Bearer
 # You can also use wget
 curl -X DELETE https://api.igrant.io/v1/organizations/{organizationId}/templates/{templateID} \
   -H 'Accept: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -6563,7 +6563,7 @@ Bearer
 # You can also use wget
 curl -X GET https://api.igrant.io/v1/user/organizations/{organizationId}/consents \
   -H 'Accept: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -6803,19 +6803,19 @@ Bearer
 |OrgID|string|false|none|Organization ID|
 |UserID|string|false|none|ID of the user|
 |ConsentsAndPurposes|[object]|false|none|none|
-|» Purpose|object|false|none|none|
-|»» ID|string|false|none|none|
-|»» Description|string|false|none|none|
-|»» LawfulUsage|boolean|false|none|none|
-|»» PolicyURL|string|false|none|none|
-|» Count|object|false|none|none|
-|»» Total|integer|false|none|Total amount of purposes|
-|»» Consented|integer|false|none|Total consented|
-|» Consents|object|false|none|none|
-|»» ID|string|false|none|Consent ID|
-|»» Description|string|false|none|Description of consent|
-|»» Value|string|false|none|Value of consent|
-|»» Status|[Status](#schemastatus)|false|none|none|
+|Purpose|object|false|none|none|
+|ID|string|false|none|none|
+|Description|string|false|none|none|
+|LawfulUsage|boolean|false|none|none|
+|PolicyURL|string|false|none|none|
+|Count|object|false|none|none|
+|Total|integer|false|none|Total amount of purposes|
+|Consented|integer|false|none|Total consented|
+|Consents|object|false|none|none|
+|ID|string|false|none|Consent ID|
+|Description|string|false|none|Description of consent|
+|Value|string|false|none|Value of consent|
+|Status|[Status](#schemastatus)|false|none|none|
 
 <h2 id="tocSstatusconsented">StatusConsented</h2>
 
@@ -6901,9 +6901,9 @@ Bearer
 |OrgID|string|false|none|Organization ID|
 |UserID|string|false|none|ID of user|
 |Consents|object|false|none|none|
-|» Purpose|[Purpose](#schemapurpose)|false|none|none|
-|» Count|[Count](#schemacount)|false|none|none|
-|» Consents|[[Consents](#schemaconsents)]|false|none|none|
+|Purpose|[Purpose](#schemapurpose)|false|none|none|
+|Count|[Count](#schemacount)|false|none|none|
+|Consents|[[Consents](#schemaconsents)]|false|none|none|
 
 <h2 id="tocSconsents">Consents</h2>
 
