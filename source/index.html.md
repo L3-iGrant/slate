@@ -2303,11 +2303,15 @@ Bearer
 > Code samples
 
 ```shell
+
+
 # You can also use wget
-curl -X POST https://api.igrant.io/v1/organizations/{organizationId}/logoimage \
-  -H 'Content-Type: application/json' \
-  -H 'Accept: application/json' \
-  -H 'Authorization: Bearer API_KEY'
+curl -H 'Authorization: Bearer API_KEY' \
+  https://api.igrant.io/v1/organizations/{organizationId}/logoimage \
+  -F "orgimage={pathToImage}"
+
+
+
 
 ```
 
@@ -2448,21 +2452,12 @@ func main() {
 
 Updates the logo image for an organization
 
-> Body parameter
-
-```json
-{
-  "orgimage": "string"
-}
-```
-
 <h3 id="post__organizations_{organizationid}_logoimage-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
 |organizationId|path|string|true|ID of the organizaton|
-|body|body|object|true|none|
-|» orgimage|body|string|false|link to logo|
+|orgimage|body|string|true|link to logo|
 
 > Example responses
 
