@@ -23,7 +23,7 @@ headingLevel: 2
 
 > The API end point is 'https://api.igrant.io/v1'.
 
-> This is version **1.5.4**
+> This is version **1.6.0**
 
 This specification is documented in **OpenAPI format**, it describes the REST APIs of **[iGrant.io](https://igrant.io)**. 
 
@@ -42,217 +42,8 @@ Base URLs:
 
 Below you can find a collection of endpoints that respond to GET, POST, PUT, PATCH and DELETE requests.
 
-## Get organizations
 
-> Code samples
-
-```shell
-# You can also use wget
-curl -X GET https://api.igrant.io/v1/organizations \
-  -H 'Accept: application/json' \
-  -H 'Authorization: Bearer API_KEY'
-
-```
-
-```http
-GET https://api.igrant.io/v1/organizations HTTP/1.1
-Host: api.igrant.io
-Accept: application/json
-
-```
-
-```javascript
-var headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations',
-  method: 'get',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
-
-const headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-fetch('https://api.igrant.io/v1/organizations',
-{
-  method: 'GET',
-
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
-}
-
-result = RestClient.get 'https://api.igrant.io/v1/organizations',
-  params: {
-  }, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Accept': 'application/json',
-  'Authorization': 'API_KEY'
-}
-
-r = requests.get('https://api.igrant.io/v1/organizations', params={
-
-}, headers = headers)
-
-print r.json()
-
-```
-
-```java
-URL obj = new URL("https://api.igrant.io/v1/organizations");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("GET");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`GET /organizations`
-
-Gets existing organizations whose consent data is managed.
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "Organizations": [
-    {
-      "ID": "OrgID",
-      "Name": "TestOrg",
-      "CoverImageID": "ID",
-      "CoverImageurl": "url",
-      "LogoImageID": "ID",
-      "LogoImageURL": "url",
-      "Location": "Turku",
-      "Type": {
-        "ID": "ID",
-        "Type": "Retail",
-        "ImageID": "imageID",
-        "ImageURL": "url"
-      },
-      "Description": "Testorg stores and processes the following data of yours. For each of your personal data attributes, you can view what is used as contractual basis in order for us to carry out a business relation with you. You can view the current status for all your personal data attributes, the purpose in which they are used and provide you the choice to opt-in or opt-out. \\n\\nYes, We are GDPR compliant.",
-      "Enabled": true,
-      "Policyurl": "URL",
-      "EulaURL": "EulaURL",
-      "Templates": [
-        {
-          "ID": "TemplateID",
-          "Consent": "Spouse",
-          "PurposeIDs": [
-            "IDs.."
-          ]
-        }
-      ],
-      "Purposes": [
-        {
-          "ID": "PurposeID",
-          "Description": "Contractual purpose",
-          "LawfulUsage": false,
-          "PolicyURL": "URL"
-        }
-      ],
-      "Admins": [
-        {
-          "UserID": "UserID",
-          "RoleID": 1
-        }
-      ],
-      "BillingInfo": {
-        "BillingRegistrationID": "",
-        "PlanType": ""
-      }
-    }
-  ]
-}
-```
-
-<h3 id="get__organizations-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|List of available organizations.|[Organizations](#schemaorganizations)|
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-
-Bearer
-</aside>
-
-## Add organization
+## Create an organization
 
 > Code samples
 
@@ -403,7 +194,7 @@ func main() {
 
 `POST /organizations`
 
-Adds a new organization
+Creates a new organization for which consent data need to be managed.
 
 > Body parameter
 
@@ -488,20 +279,20 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Get existing roles
+## View organizations
 
 > Code samples
 
 ```shell
 # You can also use wget
-curl -X GET https://api.igrant.io/v1/organizations/roles \
+curl -X GET https://api.igrant.io/v1/organizations \
   -H 'Accept: application/json' \
   -H 'Authorization: Bearer API_KEY'
 
 ```
 
 ```http
-GET https://api.igrant.io/v1/organizations/roles HTTP/1.1
+GET https://api.igrant.io/v1/organizations HTTP/1.1
 Host: api.igrant.io
 Accept: application/json
 
@@ -515,7 +306,7 @@ var headers = {
 };
 
 $.ajax({
-  url: 'https://api.igrant.io/v1/organizations/roles',
+  url: 'https://api.igrant.io/v1/organizations',
   method: 'get',
 
   headers: headers,
@@ -535,7 +326,7 @@ const headers = {
 
 };
 
-fetch('https://api.igrant.io/v1/organizations/roles',
+fetch('https://api.igrant.io/v1/organizations',
 {
   method: 'GET',
 
@@ -558,7 +349,7 @@ headers = {
   'Authorization' => 'API_KEY'
 }
 
-result = RestClient.get 'https://api.igrant.io/v1/organizations/roles',
+result = RestClient.get 'https://api.igrant.io/v1/organizations',
   params: {
   }, headers: headers
 
@@ -573,7 +364,7 @@ headers = {
   'Authorization': 'API_KEY'
 }
 
-r = requests.get('https://api.igrant.io/v1/organizations/roles', params={
+r = requests.get('https://api.igrant.io/v1/organizations', params={
 
 }, headers = headers)
 
@@ -582,7 +373,7 @@ print r.json()
 ```
 
 ```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/roles");
+URL obj = new URL("https://api.igrant.io/v1/organizations");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("GET");
 int responseCode = con.getResponseCode();
@@ -615,7 +406,7 @@ func main() {
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/roles", data)
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -625,9 +416,9 @@ func main() {
 
 ```
 
-`GET /organizations/roles`
+`GET /organizations`
 
-Gets existing roles.
+View all existing organizations whose consent data is managed.
 
 > Example responses
 
@@ -635,23 +426,71 @@ Gets existing roles.
 
 ```json
 {
-  "ID": 1,
-  "Role": "Admin"
+  "Organizations": [
+    {
+      "ID": "OrgID",
+      "Name": "TestOrg",
+      "CoverImageID": "ID",
+      "CoverImageurl": "url",
+      "LogoImageID": "ID",
+      "LogoImageURL": "url",
+      "Location": "Turku",
+      "Type": {
+        "ID": "ID",
+        "Type": "Retail",
+        "ImageID": "imageID",
+        "ImageURL": "url"
+      },
+      "Description": "Testorg stores and processes the following data of yours. For each of your personal data attributes, you can view what is used as contractual basis in order for us to carry out a business relation with you. You can view the current status for all your personal data attributes, the purpose in which they are used and provide you the choice to opt-in or opt-out. \\n\\nYes, We are GDPR compliant.",
+      "Enabled": true,
+      "Policyurl": "URL",
+      "EulaURL": "EulaURL",
+      "Templates": [
+        {
+          "ID": "TemplateID",
+          "Consent": "Spouse",
+          "PurposeIDs": [
+            "IDs.."
+          ]
+        }
+      ],
+      "Purposes": [
+        {
+          "ID": "PurposeID",
+          "Description": "Contractual purpose",
+          "LawfulUsage": false,
+          "PolicyURL": "URL"
+        }
+      ],
+      "Admins": [
+        {
+          "UserID": "UserID",
+          "RoleID": 1
+        }
+      ],
+      "BillingInfo": {
+        "BillingRegistrationID": "",
+        "PlanType": ""
+      }
+    }
+  ]
 }
 ```
 
-<h3 id="get__organizations_roles-responses">Responses</h3>
+<h3 id="get__organizations-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|List of available roles.|[Roles](#schemaroles)|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|List of available organizations.|[Organizations](#schemaorganizations)|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
+
 Bearer
 </aside>
 
-## View organizations
+
+## View an organization
 
 > Code samples
 
@@ -790,7 +629,7 @@ func main() {
 
 `GET /organizations/{organizationId}`
 
-Get organization details.
+View an organization details using the organization ID.
 
 <h3 id="get__organizations_{organizationid}-parameters">Parameters</h3>
 
@@ -865,7 +704,8 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Delete organization
+
+## Delete an organization
 
 > Code samples
 
@@ -997,7 +837,7 @@ func main() {
 
 `DELETE /organizations/{organizationId}`
 
-Deletes a given organization by ID.
+Delete an organization using the organization ID.
 
 <h3 id="delete__organizations_{organizationid}-parameters">Parameters</h3>
 
@@ -1017,7 +857,8 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Update organization
+
+## Update an organization
 
 > Code samples
 
@@ -1160,7 +1001,7 @@ func main() {
 
 `PATCH /organizations/{organizationId}`
 
-Update organization information
+Update basic organization details using organization ID.
 
 > Body parameter
 
@@ -1193,20 +1034,21 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Get subscribed tokens
+
+## View user roles
 
 > Code samples
 
 ```shell
 # You can also use wget
-curl -X GET https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token \
+curl -X GET https://api.igrant.io/v1/organizations/roles \
   -H 'Accept: application/json' \
   -H 'Authorization: Bearer API_KEY'
 
 ```
 
 ```http
-GET https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token HTTP/1.1
+GET https://api.igrant.io/v1/organizations/roles HTTP/1.1
 Host: api.igrant.io
 Accept: application/json
 
@@ -1220,7 +1062,7 @@ var headers = {
 };
 
 $.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token',
+  url: 'https://api.igrant.io/v1/organizations/roles',
   method: 'get',
 
   headers: headers,
@@ -1240,7 +1082,7 @@ const headers = {
 
 };
 
-fetch('https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token',
+fetch('https://api.igrant.io/v1/organizations/roles',
 {
   method: 'GET',
 
@@ -1263,7 +1105,7 @@ headers = {
   'Authorization' => 'API_KEY'
 }
 
-result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token',
+result = RestClient.get 'https://api.igrant.io/v1/organizations/roles',
   params: {
   }, headers: headers
 
@@ -1278,7 +1120,7 @@ headers = {
   'Authorization': 'API_KEY'
 }
 
-r = requests.get('https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token', params={
+r = requests.get('https://api.igrant.io/v1/organizations/roles', params={
 
 }, headers = headers)
 
@@ -1287,7 +1129,7 @@ print r.json()
 ```
 
 ```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token");
+URL obj = new URL("https://api.igrant.io/v1/organizations/roles");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("GET");
 int responseCode = con.getResponseCode();
@@ -1320,7 +1162,7 @@ func main() {
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token", data)
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/roles", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -1330,15 +1172,9 @@ func main() {
 
 ```
 
-`GET /organizations/{organizationID}/subscribe-token`
+`GET /organizations/roles`
 
-Gets all tokens subscribed to an organization
-
-<h3 id="get__organizations_{organizationid}_subscribe-token-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|organizationID|path|string|true|id of the organization|
+View available user roles possible within an organisation.
 
 > Example responses
 
@@ -1346,23 +1182,25 @@ Gets all tokens subscribed to an organization
 
 ```json
 {
-  "SubscribeToken": "string",
-  "SubscribeMethod": "string"
+  "ID": 1,
+  "Role": "Admin"
 }
 ```
 
-<h3 id="get__organizations_{organizationid}_subscribe-token-responses">Responses</h3>
+<h3 id="get__organizations_roles-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[SubscribeToken](#schemasubscribetoken)|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|List of available roles.|[Roles](#schemaroles)|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
 Bearer
 </aside>
 
-## Create token
+
+
+## Create subscription token
 
 > Code samples
 
@@ -1511,7 +1349,7 @@ func main() {
 
 `POST /organizations/{organizationID}/subscribe-token`
 
-Creates a token for an organization
+Create subscription token if the organisation subsciption is key based.
 
 > Body parameter
 
@@ -1551,7 +1389,179 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Delete token
+
+## View subscription token
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X GET https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer API_KEY'
+
+```
+
+```http
+GET https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+var headers = {
+  'Accept':'application/json',
+  'Authorization':'API_KEY'
+
+};
+
+$.ajax({
+  url: 'https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token',
+  method: 'get',
+
+  headers: headers,
+  success: function(data) {
+    console.log(JSON.stringify(data));
+  }
+})
+
+```
+
+```javascript--nodejs
+const fetch = require('node-fetch');
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'API_KEY'
+
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token',
+{
+  method: 'GET',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'API_KEY'
+}
+
+result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'API_KEY'
+}
+
+r = requests.get('https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token', params={
+
+}, headers = headers)
+
+print r.json()
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"API_KEY"},
+        
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`GET /organizations/{organizationID}/subscribe-token`
+
+View the subscription method for an organisation. If its key based, it will also return the subscription key that will be used by the user to subscribe to the organisation.
+
+<h3 id="get__organizations_{organizationid}_subscribe-token-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|id of the organization|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "SubscribeToken": "string",
+  "SubscribeMethod": "string"
+}
+```
+
+<h3 id="get__organizations_{organizationid}_subscribe-token-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[SubscribeToken](#schemasubscribetoken)|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+Bearer
+</aside>
+
+
+
+## Delete subscription token
 
 > Code samples
 
@@ -1683,7 +1693,7 @@ func main() {
 
 `DELETE /organizations/{organizationID}/subscribe-token`
 
-Deletes a token for an organization
+Deletes the subscription token for an organisation. This is usually called when the organisation disables a key-based subscription method or when the subscription method is changed to other forms. e.g. using organization IDAM.
 
 <h3 id="delete__organizations_{organizationid}_subscribe-token-parameters">Parameters</h3>
 
@@ -1702,7 +1712,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Enable organization
+## Enable an organization
 
 > Code samples
 
@@ -1841,7 +1851,7 @@ func main() {
 
 `POST /organizations/{organizationId}/enable`
 
-Enables an organization 
+Enables an organization. This is needed to publish the organization towards users.
 
 <h3 id="post__organizations_{organizationid}_enable-parameters">Parameters</h3>
 
@@ -1915,7 +1925,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Disable organization
+## Disable an organization
 
 > Code samples
 
@@ -2054,7 +2064,7 @@ func main() {
 
 `DELETE /organizations/{organizationId}/enable`
 
-Disables an organization
+Disables an organisation. This is needed to unpublish the organization towards the users.
 
 <h3 id="delete__organizations_{organizationid}_enable-parameters">Parameters</h3>
 
@@ -2128,7 +2138,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Update eulaURL
+## Update EULA url
 
 > Code samples
 
@@ -2269,7 +2279,7 @@ func main() {
 
 `POST /organizations/{organizationId}/eulaURL`
 
-Updates the EULA URL for an organization
+Updates the EULA url for an organization.
 
 > Body parameter
 
@@ -2285,7 +2295,7 @@ Updates the EULA URL for an organization
 |---|---|---|---|---|
 |organizationId|path|string|true|ID of the organizaton|
 |body|body|object|true|none|
-|» eulaURL|body|string|false|URL|
+|eulaURL|body|string|false|URL|
 
 <h3 id="post__organizations_{organizationid}_eulaurl-responses">Responses</h3>
 
@@ -2298,7 +2308,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Update logo image
+## Update logo
 
 > Code samples
 
@@ -2450,7 +2460,7 @@ func main() {
 
 `POST /organizations/{organizationId}/logoimage`
 
-Updates the logo image for an organization
+Updates the logo image for an org. The recommended image size is 400x400 px and in JPG format.
 
 <h3 id="post__organizations_{organizationid}_logoimage-parameters">Parameters</h3>
 
@@ -2677,7 +2687,7 @@ func main() {
 
 `POST /organizations/{organizationId}/coverimage`
 
-Updates the cover image for an organization
+Updates the cover image for an org. The recommended image size is 1500x500 px and in JPG format.
 
 
 <h3 id="post__organizations_{organizationid}_coverimage-parameters">Parameters</h3>
@@ -2753,7 +2763,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Add admin
+## Add admin to an organization
 
 > Code samples
 
@@ -2902,7 +2912,7 @@ func main() {
 
 `POST /organizations/{organizationId}/admins`
 
-Add admins to an organization
+Add a user as an admin to an organization.
 
 > Body parameter
 
@@ -3136,7 +3146,7 @@ func main() {
 
 `DELETE /organizations/{organizationId}/admins`
 
-Delete admins from an organization
+Delete an admin user from an organization.
 
 > Body parameter
 
@@ -3221,7 +3231,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Get all users
+## View users
 
 > Code samples
 
@@ -3360,7 +3370,7 @@ func main() {
 
 `GET /organizations/{organizationId}/users`
 
-Gets all users associated with an organization
+View all users associated with an organization.
 
 <h3 id="get__organizations_{organizationid}_users-parameters">Parameters</h3>
 
@@ -3560,7 +3570,7 @@ func main() {
 
 `POST /organizations/{organizationId}/users`
 
-Subscribe a user to an organization
+Subscribe a user to an organization.
 
 > Body parameter
 
@@ -3622,7 +3632,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Get users count
+## View subscribed users count
 
 > Code samples
 
@@ -3761,7 +3771,7 @@ func main() {
 
 `GET /organizations/{organizationId}/users/count`
 
-Gets subscribed users count
+View the number of users subscribed to an organization.
 
 <h3 id="get__organizations_{organizationid}_users_count-parameters">Parameters</h3>
 
@@ -3790,7 +3800,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Get user details
+## View subscribed user details
 
 > Code samples
 
@@ -3929,7 +3939,7 @@ func main() {
 
 `GET /organizations/{organizationId}/users/{userId}`
 
-Gets user details
+View the details of a user in an organization.
 
 <h3 id="get__organizations_{organizationid}_users_{userid}-parameters">Parameters</h3>
 
@@ -3982,7 +3992,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Delete user
+## Delete subscribed user
 
 > Code samples
 
@@ -4121,7 +4131,7 @@ func main() {
 
 `DELETE /organizations/{organizationId}/users/{userId}`
 
-Removes a given user from the organization.
+Delete a user from the organization using user ID.
 
 <h3 id="delete__organizations_{organizationid}_users_{userid}-parameters">Parameters</h3>
 
@@ -4174,7 +4184,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Get user consent data
+## View user consent data
 
 > Code samples
 
@@ -4313,7 +4323,7 @@ func main() {
 
 `GET /organizations/{organizationId}/users/{userId}/consents`
 
-Gets existing user data sets stored with an organization
+View existing user data sets stored with an organization.
 
 <h3 id="get__organizations_{organizationid}_users_{userid}_consents-parameters">Parameters</h3>
 
@@ -4543,7 +4553,7 @@ func main() {
 
 `PATCH /organizations/{organizationId}/users/{userId}/consents`
 
-Update the user consents.
+Update the consent given by the user.
 
 > Body parameter
 
@@ -4602,7 +4612,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Get a consent
+## View a user consent
 
 > Code samples
 
@@ -4741,7 +4751,7 @@ func main() {
 
 `GET /organizations/{organizationId}/users/{userId}/consents/{consentId}`
 
-Gets a given consent by id.
+View details of a user consent in an organization.
 
 <h3 id="get__organizations_{organizationid}_users_{userid}_consents_{consentid}-parameters">Parameters</h3>
 
@@ -4802,7 +4812,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Delete a consent
+## Delete a user consent
 
 > Code samples
 
@@ -4934,7 +4944,7 @@ func main() {
 
 `DELETE /organizations/{organizationId}/users/{userId}/consents/{consentId}`
 
-Delete a given consent by ID
+Delete a given user consent in an organization by consent ID.
 
 <h3 id="delete__organizations_{organizationid}_users_{userid}_consents_{consentid}-parameters">Parameters</h3>
 
@@ -4955,7 +4965,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Get purpose details
+## View purpose details
 
 > Code samples
 
@@ -5094,7 +5104,7 @@ func main() {
 
 `GET /organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}`
 
-Retrieves purpose details
+View details of a purpose of an organization.
 
 <h3 id="get__organizations_{organizationid}_users_{userid}_consents_{consentid}_purposes_{purposeid}-parameters">Parameters</h3>
 
@@ -5154,7 +5164,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Set status of purpose
+## Set status of a purpose
 
 > Code samples
 
@@ -5302,7 +5312,7 @@ func main() {
 
 `POST /organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/status`
 
-Sets overall status for a given purpose, alternatives are "Allow" and "DisAllow"
+Sets overall status for a given purpose, alternatives are "Allow" and "DisAllow".
 
 > Body parameter
 
@@ -5373,7 +5383,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Update consent
+## Update consent status
 
 > Code samples
 
@@ -5568,13 +5578,251 @@ Status Code **200**
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|» Msg|string|false|none|Response message|
-|» Status|integer|false|none|Status Code|
+|Msg|string|false|none|Response message|
+|Status|integer|false|none|Status Code|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
 Bearer
 </aside>
+
+
+## Add a purpose
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://api.igrant.io/v1/organizations/{organizationId}/purposes \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer API_KEY'
+
+```
+
+```http
+POST https://api.igrant.io/v1/organizations/{organizationId}/purposes HTTP/1.1
+Host: api.igrant.io
+Content-Type: application/json
+Accept: application/json
+
+```
+
+```javascript
+var headers = {
+  'Accept':'application/json',
+  'Authorization':'Bearer API_KEY'
+
+};
+
+$.ajax({
+  url: 'https://api.igrant.io/v1/organizations/{organizationId}/purposes',
+  method: 'post',
+
+  headers: headers,
+  success: function(data) {
+    console.log(JSON.stringify(data));
+  }
+})
+
+```
+
+```javascript--nodejs
+const fetch = require('node-fetch');
+const inputBody = '{
+  "ID": "string",
+  "Description": "string",
+  "LawfulUsage": true,
+  "PolicyURL": "string"
+}';
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'Bearer API_KEY'
+
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationId}/purposes',
+{
+  method: 'POST',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer API_KEY'
+}
+
+result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationId}/purposes',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'Bearer API_KEY'
+}
+
+r = requests.post('https://api.igrant.io/v1/organizations/{organizationId}/purposes', params={
+
+}, headers = headers)
+
+print r.json()
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/purposes");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"API_KEY"},
+        
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationId}/purposes", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /organizations/{organizationId}/purposes`
+
+Add a purpose to an organization.
+
+> Body parameter
+
+```json
+{
+  "ID": "string",
+  "Description": "string",
+  "LawfulUsage": true,
+  "PolicyURL": "string"
+}
+```
+
+<h3 id="post__organizations_{organizationid}_purposes-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationId|path|string|true|ID of the organization|
+|ID|path|string|true|ID of the purpose|
+|Description|path|string|true|Name of the purpose|
+|LawfulUsage|path|string|true|Boolean true or false|
+|PolicyUrl|path|string|true|Link to privacy policy|
+
+> Example responses
+
+> 201 Response
+
+```json
+{
+  "Organization": {
+    "ID": "string",
+    "Name": "string",
+    "CoverImageID": "string",
+    "CoverImageurl": "string",
+    "LogoImageID": "string",
+    "LogoImageURL": "string",
+    "Location": "string",
+    "Type": {
+      "ID": "5bba67ba98135900010927a5",
+      "Type": "Retail",
+      "ImageID": "5bba67e798135900010927a7",
+      "ImageURL": "https://api.igrant.io/v1/organizations/types/5bba67ba98135900010927a5/image"
+    },
+    "Description": "string",
+    "Enabled": true,
+    "Policyurl": "string",
+    "EulaURL": "string",
+    "Template": [
+      {
+        "ID": "5bba6a9998135900010927ba",
+        "Consent": "Spouse",
+        "PurposeIDs": [
+          "5bba69db98135900010927ac, 8bba69db98135900010927af"
+        ]
+      }
+    ],
+    "Purposes": [
+      {
+        "ID": "string",
+        "Description": "string",
+        "LawfulUsage": true,
+        "PolicyURL": "string"
+      }
+    ],
+    "Admins": [
+      {
+        "userID": "string",
+        "roleID": 0
+      }
+    ],
+    "BillingInfo": {
+      "BillingRegistrationID": "string",
+      "PlanType": "string"
+    }
+  }
+}
+```
+
+<h3 id="post__organizations_{organizationid}_purposes-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|success, returns the organization details|[OrganizationObject](#schemaorganizationobject)|
+
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+Bearer
+</aside>
+
+
 
 ## Delete a purpose
 
@@ -5715,7 +5963,7 @@ func main() {
 
 `DELETE /organizations/{organizationId}/purposes/{purposeID}`
 
-Deletes a purpose from an organization based on IDs
+Deletes a purpose from an organization based on purpose ID.
 
 <h3 id="delete__organizations_{organizationid}_purposes_{purposeid}-parameters">Parameters</h3>
 
@@ -5783,14 +6031,14 @@ Deletes a purpose from an organization based on IDs
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|success, returns the organization details|[OrganizationObject](#schemaorganizationobject)|
+|201|[Deleted](https://tools.ietf.org/html/rfc7231#section-6.3.2)|success, returns the organization details|[OrganizationObject](#schemaorganizationobject)|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
 Bearer
 </aside>
 
-## Set attributes
+## Set attributes in a purpose
 
 > Code samples
 
@@ -5933,7 +6181,7 @@ func main() {
 
 `POST /organizations/{organizationId}/purposes/{PurposeId}/attributes/consent`
 
-Notification request for attributes in a purpose
+Notification request for attributes in a purpose.
 
 > Body parameter
 
@@ -5965,7 +6213,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Get consented users 
+## View consented users
 
 > Code samples
 
@@ -6104,7 +6352,7 @@ func main() {
 
 `GET /organizations/{organizationID}/purposes/{purposeID}/attributes/{attributeID}/consented/users`
 
-Retrieves the users consented for a given attribute and a given purpose
+Retrieves the users consented for a given attribute and a given purpose.
 
 <h3 id="get__organizations_{organizationid}_purposes_{purposeid}_attributes_{attributeid}_consented_users-parameters">Parameters</h3>
 
@@ -6299,7 +6547,7 @@ func main() {
 
 `DELETE /organizations/{organizationId}/templates/{templateID}`
 
-Deletes a template from an organization based on IDs
+Deletes a template from an organization based on template IDs.
 
 <h3 id="delete__organizations_{organizationid}_templates_{templateid}-parameters">Parameters</h3>
 
@@ -6374,7 +6622,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Get consents
+## Get consents for users
 
 > Code samples
 
@@ -6513,7 +6761,7 @@ func main() {
 
 `GET /user/organizations/{organizationId}/consents`
 
-Get the consents for users for a given organization
+Get the consents for users for a given organization.
 
 <h3 id="get__user_organizations_{organizationid}_consents-parameters">Parameters</h3>
 
@@ -6881,10 +7129,10 @@ Bearer
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|ID|string|false|none|ID of purpose|
-|Description|string|false|none|Description of purpose|
-|LawfulUsage|boolean|false|none|Lawful usage (True or False)|
-|PolicyURL|string|false|none|URL of policy|
+|ID|string|true|none|ID of purpose|
+|Description|string|true|none|Description of purpose|
+|LawfulUsage|boolean|true|none|Lawful usage (True or False)|
+|PolicyURL|string|true|none|URL of policy|
 
 <h2 id="tocSclientdata">ClientData</h2>
 
