@@ -69,7 +69,7 @@ html, body {
   top: 0;
   left: 0;
   bottom: 0;
-  width: 224px;
+  width: 255px;
   background-color: black;
 
   // language selector for mobile devices
@@ -120,6 +120,7 @@ html, body {
     margin-top: 0;
     box-sizing: border-box;
     height: 0;
+    font-size: 12px;
     overflow-y: auto;
     overflow-x: hidden;
     transition-property: height, margin;
@@ -187,7 +188,7 @@ html, body {
   }
   .toc-h2 {
     padding-left: $nav-padding + $nav-indent;
-    font-size: 14px;
+    font-size: 12px;
     border-radius: 0px;
     font-weight: normal;
   }
@@ -199,7 +200,7 @@ html, body {
     border-style: square;
     margin-bottom: 2px;
     font-family: 'Helvetica neue';
-    font-size: 16px;
+    font-size: 14px;
   }
   
   .toc-h1:hover{
@@ -207,6 +208,7 @@ html, body {
     border-radius: 0px;
     text-align: left;
     background-color: rgba(255, 255, 255, 0.103);
+    font-size: 16px;
   }
   
   .toc-h2:hover{
@@ -319,6 +321,7 @@ html, body {
     right: 0;
     top: 0;
     bottom: 0;
+    
   }
 
   .lang-selector {
@@ -395,6 +398,7 @@ html, body {
 
   &>h1, &>h2, &>h3, &>h4, &>h5, &>h6, &>p, &>table, &>ul, &>ol, &>aside, &>dl {
     margin-right: $examples-width;
+    margin-left: 30px;
     padding: 0 $main-padding;
     box-sizing: border-box;
     display: block;
@@ -639,10 +643,19 @@ html, body {
   .page-wrapper {
     margin-left: 0;
   }
+  .toc-wrapper{
+    width: 224px;
+  }
 
   #nav-button {
     display: block;
   }
+
+  .content {
+    &>h1, &>h2, &>h3, &>h4, &>h5, &>h6, &>p, &>table, &>ul, &>ol, &>aside, &>dl {
+margin-left: -5px;
+    }
+  } 
 
   .toc-link {
     padding-top: 0.3em;
@@ -661,6 +674,16 @@ html, body {
 
   .toc-wrapper .lang-selector {
     display: block;
+  }
+  .content {
+    &>h1, &>h2, &>h3, &>h4, &>h5, &>h6, &>p, &>table, &>ul, &>ol, &>aside, &>dl {
+margin-left: -5px;
+    }
+  } 
+  
+
+  .toc-wrapper{
+    width: 224px;
   }
 
   .page-wrapper .lang-selector {
