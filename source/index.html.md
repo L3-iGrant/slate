@@ -252,7 +252,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Add an organization
+## Add organization
 
 > Code samples
 
@@ -865,7 +865,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Delete an organization
+## Delete organization
 
 > Code samples
 
@@ -1178,9 +1178,9 @@ Update organization information
 |---|---|---|---|---|
 |organizationId|path|string|true|ID of the organization|
 |body|body|object|false|none|
-|» Location|body|string|false|location of the organization|
-|» Description|body|string|false|description of the organization|
-|» Policyurl|body|string|false|Organization's policyURL|
+|Location|body|string|false|location of the organization|
+|Description|body|string|false|description of the organization|
+|Policyurl|body|string|false|Organization's policyURL|
 
 <h3 id="patch__organizations_{organizationid}-responses">Responses</h3>
 
@@ -2753,7 +2753,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Add admins to an organization
+## Add admin
 
 > Code samples
 
@@ -2987,7 +2987,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Delete admins
+## Delete admin
 
 > Code samples
 
@@ -3622,7 +3622,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Get subscribed users count
+## Get users count
 
 > Code samples
 
@@ -3761,7 +3761,7 @@ func main() {
 
 `GET /organizations/{organizationId}/users/count`
 
-Gets subscribed user count
+Gets subscribed users count
 
 <h3 id="get__organizations_{organizationid}_users_count-parameters">Parameters</h3>
 
@@ -5154,179 +5154,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Get purpose details
-
-> Code samples
-
-```shell
-# You can also use wget
-curl -X GET https://api.igrant.io/v1/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/status \
-  -H 'Accept: application/json' \
-  -H 'Authorization: Bearer API_KEY'
-
-```
-
-```http
-GET https://api.igrant.io/v1/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/status HTTP/1.1
-Host: api.igrant.io
-Accept: application/json
-
-```
-
-```javascript
-var headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/status',
-  method: 'get',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
-
-const headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-fetch('https://api.igrant.io/v1/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/status',
-{
-  method: 'GET',
-
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
-}
-
-result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/status',
-  params: {
-  }, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Accept': 'application/json',
-  'Authorization': 'API_KEY'
-}
-
-r = requests.get('https://api.igrant.io/v1/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/status', params={
-
-}, headers = headers)
-
-print r.json()
-
-```
-
-```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/status");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("GET");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/status", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`GET /organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/status`
-
-Retrieves purpose details
-
-<h3 id="get__organizations_{organizationid}_users_{userid}_consents_{consentid}_purposes_{purposeid}_status-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|organizationId|path|string|true|ID of the organization|
-|UserId|path|string|true|ID of the user|
-|ConsentId|path|string|true|ID of the consent|
-|PurposeId|path|string|true|ID of the purpose|
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "Consented": "string"
-}
-```
-
-<h3 id="get__organizations_{organizationid}_users_{userid}_consents_{consentid}_purposes_{purposeid}_status-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful response|[StatusConsented](#schemastatusconsented)|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Request failed|None|
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
-</aside>
-
-## Set overall status for a purpose
+## Set status of purpose
 
 > Code samples
 
@@ -5545,7 +5373,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Update consent status
+## Update consent
 
 > Code samples
 
@@ -5962,7 +5790,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Set attributes in a purpose
+## Set attributes
 
 > Code samples
 
@@ -6546,7 +6374,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Get consents for users
+## Get consents
 
 > Code samples
 
