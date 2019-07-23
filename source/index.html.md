@@ -5738,7 +5738,6 @@ Add a purpose to an organization.
 
 ```json
 {
-  "ID": "string",
   "Description": "string",
   "LawfulUsage": true,
   "PolicyURL": "string"
@@ -5750,10 +5749,8 @@ Add a purpose to an organization.
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
 |organizationId|path|string|true|ID of the organization|
-|ID|path|string|true|ID of the purpose|
-|Description|path|string|true|Name of the purpose|
-|LawfulUsage|path|string|true|Boolean true or false|
-|PolicyUrl|path|string|true|Link to privacy policy|
+|body|body|object|true|none|
+
 
 > Example responses
 
