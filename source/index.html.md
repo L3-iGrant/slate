@@ -489,7 +489,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Generate Organization QR code
+## Generate QR code
 
 > Code samples
 
@@ -648,7 +648,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## View organization QR code
+## View QR code
 
 > Code samples
 
@@ -2456,7 +2456,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Update EULA url
+## Notify end users - EULA updates
 
 > Code samples
 
@@ -2627,7 +2627,7 @@ Bearer
 </aside>
 
 
-## Notify data breach
+## Notify end users - data breach
 
 > Code samples
 
@@ -2806,6 +2806,185 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
+
+## Notify end users - events
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://api.igrant.io/v1/organizations/{organizationId}/notify-data-breach \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer API_KEY'
+
+```
+
+```http
+POST https://api.igrant.io/v1/organizations/{organizationId}/notify-data-breach HTTP/1.1
+Host: api.igrant.io
+Content-Type: application/json
+Accept: application/json
+
+```
+
+```javascript
+var headers = {
+  'Content-Type':'application/json',
+  'Accept':'application/json',
+  'Authorization':'API_KEY'
+
+};
+
+$.ajax({
+  url: 'https://api.igrant.io/v1/organizations/{organizationId}/notify-data-breach',
+  method: 'post',
+
+  headers: headers,
+  success: function(data) {
+    console.log(JSON.stringify(data));
+  }
+})
+
+```
+
+```javascript--nodejs
+const fetch = require('node-fetch');
+const inputBody = '{
+  "string"
+}';
+const headers = {
+  'Content-Type':'application/json',
+  'Accept':'application/json',
+  'Authorization':'API_KEY'
+
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationId}/notify-data-breach',
+{
+  method: 'POST',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Content-Type' => 'application/json',
+  'Accept' => 'application/json',
+  'Authorization' => 'API_KEY'
+}
+
+result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationId}/notify-data-breach',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json',
+  'Accept': 'application/json',
+  'Authorization': 'API_KEY'
+}
+
+r = requests.post('https://api.igrant.io/v1/organizations/{organizationId}/notify-data-breach', params={
+
+}, headers = headers)
+
+print r.json()
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/notify-data-breach");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Content-Type": []string{"application/json"},
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"API_KEY"},
+        
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationId}/notify-data-breach", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /organizations/{organizationId}/notify-data-breach`
+
+Raise notifications towards subscribed users to your organisation
+
+> Body parameter
+
+```json
+{
+  "string"
+}
+```
+
+<h3 id="post__organizations_{organizationid}_notify-data-breach-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationId|path|string|true|ID of the organization|
+|body|body|String|true|Event details|
+
+> Example responses
+
+<h3 id="post__organizations_{organizationid}_notify-data-breach-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Event Notified|None|
+
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+Bearer
+</aside>
 
 ## Update logo
 
@@ -6320,7 +6499,7 @@ Bearer
 
 
 
-## Generate purpose QR code
+## Generate QR code for a purpose
 
 > Code samples
 
@@ -6482,7 +6661,7 @@ Bearer
 </aside>
 
 
-## View purpose QR code
+## View QR code for a purpose
 
 > Code samples
 
@@ -7037,7 +7216,7 @@ Bearer
 </aside>
 
 
-## View consented users - purpose
+## View consented users for a purpose
 
 > Code samples
 
@@ -7233,7 +7412,7 @@ Bearer
 
 
 
-## View consented users - attribute
+## View consented users for an attribute
 
 > Code samples
 
