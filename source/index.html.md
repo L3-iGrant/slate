@@ -497,7 +497,7 @@ Bearer
 # You can also use wget
 curl -X POST https://api.igrant.io/v1/organizations/{organizationID}/qrcode \
   -H 'Accept: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -656,7 +656,7 @@ Bearer
 # You can also use wget
 curl -X GET https://api.igrant.io/v1/organizations/{organizationID}/qrcode/web \
   -H 'Accept: image/png' \
-  -H 'Authorization: API_KEY' >> OrgQRcode.png
+  -H 'Authorization: Bearer API_KEY' >> OrgQRcode.png
 
 ```
 
@@ -2636,7 +2636,7 @@ Bearer
 curl -X POST https://api.igrant.io/v1/organizations/{organizationId}/notify-data-breach \
   -H 'Content-Type: application/json' \
   -H 'Accept: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -6328,7 +6328,7 @@ Bearer
 # You can also use wget
 curl -X POST https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/qrcode \
   -H 'Accept: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -6490,7 +6490,7 @@ Bearer
 # You can also use wget
 curl -X GET https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/qrcode/web \
   -H 'Accept: image/png' \
-  -H 'Authorization: API_KEY' >> QRcode.png
+  -H 'Authorization: Bearer API_KEY' >> QRcode.png
 
 
 ```
@@ -7037,7 +7037,7 @@ Bearer
 </aside>
 
 
-## View consented users purpose
+## View consented users - purpose
 
 > Code samples
 
@@ -7045,7 +7045,7 @@ Bearer
 # You can also use wget
 curl -X GET https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/consented/users \
   -H 'Accept: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer API_KEY'
 
 ```
 
@@ -7233,7 +7233,7 @@ Bearer
 
 
 
-## View consented users attribute
+## View consented users - attribute
 
 > Code samples
 
