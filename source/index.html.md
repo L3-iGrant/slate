@@ -489,6 +489,324 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
+## Generate Organization QR code
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://api.igrant.io/v1/organizations/{organizationID}/qrcode \
+  -H 'Accept: application/json' \
+  -H 'Authorization: API_KEY'
+
+```
+
+```http
+POST https://api.igrant.io/v1/organizations/{organizationID}/qrcode HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+var headers = {
+  'Accept':'application/json',
+  'Authorization':'API_KEY'
+
+};
+
+$.ajax({
+  url: 'https://api.igrant.io/v1/organizations/{organizationID}/qrcode',
+  method: 'post',
+
+  headers: headers,
+  success: function(data) {
+    console.log(JSON.stringify(data));
+  }
+})
+
+```
+
+```javascript--nodejs
+const fetch = require('node-fetch');
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'API_KEY'
+
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/qrcode',
+{
+  method: 'POST',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'API_KEY'
+}
+
+result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationID}/qrcode',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'API_KEY'
+}
+
+r = requests.post('https://api.igrant.io/v1/organizations/{organizationID}/qrcode', params={
+
+}, headers = headers)
+
+print r.json()
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/qrcode");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"API_KEY"},
+        
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationID}/qrcode", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /organizations/{organizationID}/qrcode`
+
+Generate the QR code for a given purpose in an organization
+
+<h3 id="post__organizations_{organizationid}_qrcode-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|ID of the organization|
+
+
+<h3 id="post__organizations_{organizationid}_qrcode-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|QR code generated|None|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+Bearer
+</aside>
+
+## View organization QR code
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X GET https://api.igrant.io/v1/organizations/{organizationID}/qrcode/web \
+  -H 'Accept: image/png' \
+  -H 'Authorization: API_KEY' >> OrgQRcode.png
+
+```
+
+```http
+GET https://api.igrant.io/v1/organizations/{organizationID}/qrcode/web HTTP/1.1
+Host: api.igrant.io
+Accept: image/png
+
+```
+
+```javascript
+var headers = {
+  'Accept':'image/png',
+  'Authorization':'API_KEY'
+
+};
+
+$.ajax({
+  url: 'https://api.igrant.io/v1/organizations/{organizationID}/qrcode/web',
+  method: 'get',
+
+  headers: headers,
+  success: function(data) {
+    console.log(JSON.stringify(data));
+  }
+})
+
+```
+
+```javascript--nodejs
+const fetch = require('node-fetch');
+
+const headers = {
+  'Accept':'image/png',
+  'Authorization':'API_KEY'
+
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/qrcode/web',
+{
+  method: 'GET',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'image/png',
+  'Authorization' => 'API_KEY'
+}
+
+result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationID}/qrcode/web',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'image/png',
+  'Authorization': 'API_KEY'
+}
+
+r = requests.get('https://api.igrant.io/v1/organizations/{organizationID}/qrcode/web', params={
+
+}, headers = headers)
+
+print r.json()
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/qrcode/web");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"image/png"},
+        "Authorization": []string{"API_KEY"},
+        
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationID}/qrcode/web", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`GET /organizations/{organizationID}/qrcode/web`
+
+Download the QR code of an organization as an image
+
+<h3 id="get__organizations_{organizationid}_qrcode_web-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|ID of the organization|
+
+
+<h3 id="get__organizations_{organizationid}_qrcode_web-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|QR code Returned|None|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+Bearer
+</aside>
+
 
 ## View an organization
 
@@ -2307,6 +2625,187 @@ Updates the EULA url for an organization.
 To perform this operation, you must be authenticated by means of one of the following methods:
 Bearer
 </aside>
+
+
+## Notify data breach
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://api.igrant.io/v1/organizations/{organizationId}/notify-data-breach \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
+  -H 'Authorization: API_KEY'
+
+```
+
+```http
+POST https://api.igrant.io/v1/organizations/{organizationId}/notify-data-breach HTTP/1.1
+Host: api.igrant.io
+Content-Type: application/json
+Accept: application/json
+
+```
+
+```javascript
+var headers = {
+  'Content-Type':'application/json',
+  'Accept':'application/json',
+  'Authorization':'API_KEY'
+
+};
+
+$.ajax({
+  url: 'https://api.igrant.io/v1/organizations/{organizationId}/notify-data-breach',
+  method: 'post',
+
+  headers: headers,
+  success: function(data) {
+    console.log(JSON.stringify(data));
+  }
+})
+
+```
+
+```javascript--nodejs
+const fetch = require('node-fetch');
+const inputBody = '{
+  "Measures": "string"
+}';
+const headers = {
+  'Content-Type':'application/json',
+  'Accept':'application/json',
+  'Authorization':'API_KEY'
+
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationId}/notify-data-breach',
+{
+  method: 'POST',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Content-Type' => 'application/json',
+  'Accept' => 'application/json',
+  'Authorization' => 'API_KEY'
+}
+
+result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationId}/notify-data-breach',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json',
+  'Accept': 'application/json',
+  'Authorization': 'API_KEY'
+}
+
+r = requests.post('https://api.igrant.io/v1/organizations/{organizationId}/notify-data-breach', params={
+
+}, headers = headers)
+
+print r.json()
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/notify-data-breach");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Content-Type": []string{"application/json"},
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"API_KEY"},
+        
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationId}/notify-data-breach", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /organizations/{organizationId}/notify-data-breach`
+
+Raise notifications towards subscribed users to your organisation
+
+> Body parameter
+
+```json
+{
+  "Measures": "string"
+}
+```
+
+<h3 id="post__organizations_{organizationid}_notify-data-breach-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationId|path|string|true|ID of the organization|
+|body|body|[Databreach](#schemadatabreach)|true|none|
+
+> Example responses
+
+<h3 id="post__organizations_{organizationid}_notify-data-breach-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Notified data breach|None|
+
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+Bearer
+</aside>
+
 
 ## Update logo
 
@@ -5821,6 +6320,333 @@ Bearer
 
 
 
+## Generate purpose QR code
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/qrcode \
+  -H 'Accept: application/json' \
+  -H 'Authorization: API_KEY'
+
+```
+
+```http
+POST https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/qrcode HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+var headers = {
+  'Accept':'application/json',
+  'Authorization':'API_KEY'
+
+};
+
+$.ajax({
+  url: 'https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/qrcode',
+  method: 'post',
+
+  headers: headers,
+  success: function(data) {
+    console.log(JSON.stringify(data));
+  }
+})
+
+```
+
+```javascript--nodejs
+const fetch = require('node-fetch');
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'API_KEY'
+
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/qrcode',
+{
+  method: 'POST',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'API_KEY'
+}
+
+result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/qrcode',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'API_KEY'
+}
+
+r = requests.post('https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/qrcode', params={
+
+}, headers = headers)
+
+print r.json()
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/qrcode");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"API_KEY"},
+        
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/qrcode", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /organizations/{organizationID}/purposes/{purposeID}/qrcode`
+
+Generate the QR code for a given purpose in an organization
+
+<h3 id="post__organizations_{organizationid}_purposes_{purposeid}_qrcode-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|ID of the organization|
+|purposeID|path|string|true|ID of the purpose|
+
+
+
+<h3 id="post__organizations_{organizationid}_purposes_{purposeid}_qrcode-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|QR code generated|None|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+Bearer
+</aside>
+
+
+## View purpose QR code
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X GET https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/qrcode/web \
+  -H 'Accept: image/png' \
+  -H 'Authorization: API_KEY' >> QRcode.png
+
+
+```
+
+```http
+GET https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/qrcode/web HTTP/1.1
+Host: api.igrant.io
+Accept: image/png
+
+```
+
+```javascript
+var headers = {
+  'Accept':'image/png',
+  'Authorization':'API_KEY'
+
+};
+
+$.ajax({
+  url: 'https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/qrcode/web',
+  method: 'get',
+
+  headers: headers,
+  success: function(data) {
+    console.log(JSON.stringify(data));
+  }
+})
+
+```
+
+```javascript--nodejs
+const fetch = require('node-fetch');
+
+const headers = {
+  'Accept':'image/png',
+  'Authorization':'API_KEY'
+
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/qrcode/web',
+{
+  method: 'GET',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'image/png',
+  'Authorization' => 'API_KEY'
+}
+
+result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/qrcode/web',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'image/png',
+  'Authorization': 'API_KEY'
+}
+
+r = requests.get('https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/qrcode/web', params={
+
+}, headers = headers)
+
+print r.json()
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/qrcode/web");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"image/png"},
+        "Authorization": []string{"API_KEY"},
+        
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/qrcode/web", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`GET /organizations/{organizationID}/purposes/{purposeID}/qrcode/web`
+
+Download the QR code of a given purpose in an organization as an image
+
+<h3 id="get__organizations_{organizationid}_purposes_{purposeid}_qrcode_web-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|ID of the organization|
+|purposeID|path|string|true|ID of the purpose|
+
+> Example responses
+
+<h3 id="get__organizations_{organizationid}_purposes_{purposeid}_qrcode_web-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|QR code returned|None|
+
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+Bearer
+</aside>
+
+
+
 ## Delete a purpose
 
 > Code samples
@@ -6210,7 +7036,204 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## View consented users
+
+## View consented users purpose
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X GET https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/consented/users \
+  -H 'Accept: application/json' \
+  -H 'Authorization: API_KEY'
+
+```
+
+```http
+GET https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/consented/users HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+var headers = {
+  'Accept':'application/json',
+  'Authorization':'API_KEY'
+
+};
+
+$.ajax({
+  url: 'https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/consented/users',
+  method: 'get',
+
+  headers: headers,
+  success: function(data) {
+    console.log(JSON.stringify(data));
+  }
+})
+
+```
+
+```javascript--nodejs
+const fetch = require('node-fetch');
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'API_KEY'
+
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/consented/users',
+{
+  method: 'GET',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'API_KEY'
+}
+
+result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/consented/users',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'API_KEY'
+}
+
+r = requests.get('https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/consented/users', params={
+
+}, headers = headers)
+
+print r.json()
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/consented/users");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"API_KEY"},
+        
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/consented/users", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`GET /organizations/{organizationID}/purposes/{purposeID}/consented/users`
+
+Retrieves the users consented for a given purpose
+
+<h3 id="get__organizations_{organizationid}_purposes_{purposeid}_consented_users-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|ID of the organization|
+|purposeID|path|string|true|ID of the purpose|
+
+> Example responses
+
+> 200 Response
+
+```json
+[
+  {
+    "User": {
+      "ID": "5b9025defef8d50001ebb6f2",
+      "Name": "Test production",
+      "IamID": "7c7591e507",
+      "Email": "p@p.io",
+      "Phone": "+358 549 45043",
+      "ImageID": "423049",
+      "ImageURL": "imageurl.fi",
+      "LastVisit": "2018-09-05 18:55:21",
+      "Client": {
+        "Token": 34234234,
+        "Type": 0
+      },
+      "Orgs": [
+        {
+          "OrgID": "5b4ab3f926eddc0001ad3885",
+          "Name": "iGrant.io",
+          "Location": "Stockholm, Sweden",
+          "Type": "RegTech",
+          "TypeID\"": "b4ab3bf26eddc0001ad3883"
+        }
+      ]
+    }
+  }
+]
+```
+
+<h3 id="get__organizations_{organizationid}_purposes_{purposeid}_consented_users-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Success, list of users consented to the given purpose|[consentedUserResp](#schemaconsenteduserresp)|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Request failed|None|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+Bearer
+</aside>
+
+
+
+## View consented users attribute
 
 > Code samples
 
@@ -6349,7 +7372,7 @@ func main() {
 
 `GET /organizations/{organizationID}/purposes/{purposeID}/attributes/{attributeID}/consented/users`
 
-Retrieves the users consented for a given attribute and a given purpose.
+Retrieves the users consented for a given attribute of a purpose.
 
 <h3 id="get__organizations_{organizationid}_purposes_{purposeid}_attributes_{attributeid}_consented_users-parameters">Parameters</h3>
 
@@ -6619,7 +7642,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## Get consents for users
+## Get consents of users
 
 > Code samples
 
@@ -6758,7 +7781,7 @@ func main() {
 
 `GET /user/organizations/{organizationId}/consents`
 
-Get the consents for users for a given organization.
+Get the consents of users for a given organization.
 
 <h3 id="get__user_organizations_{organizationid}_consents-parameters">Parameters</h3>
 
@@ -7130,6 +8153,24 @@ Bearer
 |Description|string|true|none|Description of purpose|
 |LawfulUsage|boolean|true|none|Lawful usage (True or False)|
 |PolicyURL|string|true|none|URL of policy|
+
+
+<h2 id="tocSdatabreach">Databreach</h2>
+
+<a id="schemadatabreach"></a>
+
+```json
+{
+  "Measures": "string"
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|Measures|string|true|none|Measures to be taken|
 
 <h2 id="tocSclientdata">ClientData</h2>
 
