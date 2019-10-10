@@ -2671,7 +2671,11 @@ $.ajax({
 ```javascript--nodejs
 const fetch = require('node-fetch');
 const inputBody = '{
-  "Measures": "string"
+  "headline": "string",
+  "userscount": 0,
+  "dpoemail": "string",
+  "consequence": "string",
+  "measures": "string"
 }';
 const headers = {
   'Content-Type':'application/json',
@@ -2781,7 +2785,11 @@ Raise notifications towards subscribed users to your organisation
 
 ```json
 {
-  "Measures": "string"
+  "headline": "string",
+  "userscount": 0,
+  "dpoemail": "string",
+  "consequence": "string",
+  "measures": "string"
 }
 ```
 
@@ -2813,7 +2821,7 @@ Bearer
 
 ```shell
 # You can also use wget
-curl -X POST https://api.igrant.io/v1/organizations/{organizationId}/notify-data-breach \
+curl -X POST https://api.igrant.io/v1/organizations/{organizationId}/notify-events \
   -H 'Content-Type: application/json' \
   -H 'Accept: application/json' \
   -H 'Authorization: Bearer API_KEY'
@@ -2821,7 +2829,7 @@ curl -X POST https://api.igrant.io/v1/organizations/{organizationId}/notify-data
 ```
 
 ```http
-POST https://api.igrant.io/v1/organizations/{organizationId}/notify-data-breach HTTP/1.1
+POST https://api.igrant.io/v1/organizations/{organizationId}/notify-events HTTP/1.1
 Host: api.igrant.io
 Content-Type: application/json
 Accept: application/json
@@ -2837,7 +2845,7 @@ var headers = {
 };
 
 $.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationId}/notify-data-breach',
+  url: 'https://api.igrant.io/v1/organizations/{organizationId}/notify-events',
   method: 'post',
 
   headers: headers,
@@ -2851,7 +2859,7 @@ $.ajax({
 ```javascript--nodejs
 const fetch = require('node-fetch');
 const inputBody = '{
-  "string"
+  "details": "string"
 }';
 const headers = {
   'Content-Type':'application/json',
@@ -2860,7 +2868,7 @@ const headers = {
 
 };
 
-fetch('https://api.igrant.io/v1/organizations/{organizationId}/notify-data-breach',
+fetch('https://api.igrant.io/v1/organizations/{organizationId}/notify-events',
 {
   method: 'POST',
   body: inputBody,
@@ -2884,7 +2892,7 @@ headers = {
   'Authorization' => 'API_KEY'
 }
 
-result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationId}/notify-data-breach',
+result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationId}/notify-events',
   params: {
   }, headers: headers
 
@@ -2900,7 +2908,7 @@ headers = {
   'Authorization': 'API_KEY'
 }
 
-r = requests.post('https://api.igrant.io/v1/organizations/{organizationId}/notify-data-breach', params={
+r = requests.post('https://api.igrant.io/v1/organizations/{organizationId}/notify-events', params={
 
 }, headers = headers)
 
@@ -2909,7 +2917,7 @@ print r.json()
 ```
 
 ```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/notify-data-breach");
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/notify-events");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("POST");
 int responseCode = con.getResponseCode();
@@ -2943,7 +2951,7 @@ func main() {
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationId}/notify-data-breach", data)
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationId}/notify-events", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -2953,7 +2961,7 @@ func main() {
 
 ```
 
-`POST /organizations/{organizationId}/notify-data-breach`
+`POST /organizations/{organizationId}/notify-events`
 
 Raise notifications towards subscribed users to your organisation
 
@@ -2961,20 +2969,20 @@ Raise notifications towards subscribed users to your organisation
 
 ```json
 {
-  "string"
+  "details": "string"
 }
 ```
 
-<h3 id="post__organizations_{organizationid}_notify-data-breach-parameters">Parameters</h3>
+<h3 id="post__organizations_{organizationid}_notify-events-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
 |organizationId|path|string|true|ID of the organization|
-|body|body|String|true|Event details|
+|details|body|string|true|Event details|
 
 > Example responses
 
-<h3 id="post__organizations_{organizationid}_notify-data-breach-responses">Responses</h3>
+<h3 id="post__organizations_{organizationid}_notify-events-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
@@ -8340,7 +8348,11 @@ Bearer
 
 ```json
 {
-  "Measures": "string"
+  "headline": "string",
+  "userscount": 0,
+  "dpoemail": "string",
+  "consequence": "string",
+  "measures": "string"
 }
 
 ```
@@ -8349,7 +8361,11 @@ Bearer
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|Measures|string|true|none|Measures to be taken|
+|headline|string|false|none|Nature of data breach|
+|userscount|integer|false|none|Number of data subjects|
+|dpoemail|string|false|none|Dpo contact|
+|consequence|string|false|none|Consequence of personal data breach|
+|measures|string|false|none|Measures to be taken|
 
 <h2 id="tocSclientdata">ClientData</h2>
 
