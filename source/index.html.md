@@ -2249,14 +2249,14 @@ Bearer
 
 ```shell
 # You can also use wget
-curl -X DELETE https://api.igrant.io/v1/organizations/{organizationId}/enable \
+curl -X POST https://api.igrant.io/v1/organizations/{organizationId}/disable \
   -H 'Accept: application/json' \
   -H 'Authorization: Bearer API_KEY'
 
 ```
 
 ```http
-DELETE https://api.igrant.io/v1/organizations/{organizationId}/enable HTTP/1.1
+POST https://api.igrant.io/v1/organizations/{organizationId}/disable HTTP/1.1
 Host: api.igrant.io
 Accept: application/json
 
@@ -2270,8 +2270,8 @@ var headers = {
 };
 
 $.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationId}/enable',
-  method: 'delete',
+  url: 'https://api.igrant.io/v1/organizations/{organizationId}/disable',
+  method: 'post',
 
   headers: headers,
   success: function(data) {
@@ -2290,9 +2290,9 @@ const headers = {
 
 };
 
-fetch('https://api.igrant.io/v1/organizations/{organizationId}/enable',
+fetch('https://api.igrant.io/v1/organizations/{organizationId}/disable',
 {
-  method: 'DELETE',
+  method: 'POST',
 
   headers: headers
 })
@@ -2313,7 +2313,7 @@ headers = {
   'Authorization' => 'API_KEY'
 }
 
-result = RestClient.delete 'https://api.igrant.io/v1/organizations/{organizationId}/enable',
+result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationId}/disable',
   params: {
   }, headers: headers
 
@@ -2328,7 +2328,7 @@ headers = {
   'Authorization': 'API_KEY'
 }
 
-r = requests.delete('https://api.igrant.io/v1/organizations/{organizationId}/enable', params={
+r = requests.post('https://api.igrant.io/v1/organizations/{organizationId}/disable', params={
 
 }, headers = headers)
 
@@ -2337,7 +2337,7 @@ print r.json()
 ```
 
 ```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/enable");
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/disable");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("DELETE");
 int responseCode = con.getResponseCode();
@@ -2370,7 +2370,7 @@ func main() {
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("DELETE", "https://api.igrant.io/v1/organizations/{organizationId}/enable", data)
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationId}/disable", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -2380,7 +2380,7 @@ func main() {
 
 ```
 
-`DELETE /organizations/{organizationId}/enable`
+`POST /organizations/{organizationId}/disable`
 
 Disables an organisation. This is needed to unpublish the organization towards the users.
 
@@ -2411,7 +2411,7 @@ Disables an organisation. This is needed to unpublish the organization towards t
       "ImageURL": "https://api.igrant.io/v1/organizations/types/5bba67ba98135900010927a5/image"
     },
     "Description": "string",
-    "Enabled": true,
+    "Enabled": false,
     "Policyurl": "string",
     "EulaURL": "string",
     "Template": [
