@@ -2249,14 +2249,14 @@ Bearer
 
 ```shell
 # You can also use wget
-curl -X POST https://api.igrant.io/v1/organizations/{organizationId}/subscription \
+curl -X GET https://api.igrant.io/v1/organizations/{organizationId}/subscription \
   -H 'Accept: application/json' \
   -H 'Authorization: API_KEY'
 
 ```
 
 ```http
-POST https://api.igrant.io/v1/organizations/{organizationId}/subscription HTTP/1.1
+GET https://api.igrant.io/v1/organizations/{organizationId}/subscription HTTP/1.1
 Host: api.igrant.io
 Accept: application/json
 
@@ -2271,7 +2271,7 @@ var headers = {
 
 $.ajax({
   url: 'https://api.igrant.io/v1/organizations/{organizationId}/subscription',
-  method: 'post',
+  method: 'get',
 
   headers: headers,
   success: function(data) {
@@ -2292,7 +2292,7 @@ const headers = {
 
 fetch('https://api.igrant.io/v1/organizations/{organizationId}/subscription',
 {
-  method: 'POST',
+  method: ' GET ',
 
   headers: headers
 })
@@ -2328,7 +2328,7 @@ headers = {
   'Authorization': 'API_KEY'
 }
 
-r = requests.post('https://api.igrant.io/v1/organizations/{organizationId}/subscription', params={
+r = requests.get('https://api.igrant.io/v1/organizations/{organizationId}/subscription', params={
 
 }, headers = headers)
 
@@ -2339,7 +2339,7 @@ print r.json()
 ```java
 URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/subscription");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("POST");
+con.setRequestMethod("GET");
 int responseCode = con.getResponseCode();
 BufferedReader in = new BufferedReader(
     new InputStreamReader(con.getInputStream()));
@@ -2370,7 +2370,7 @@ func main() {
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationId}/subscription", data)
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationId}/subscription", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -2380,7 +2380,7 @@ func main() {
 
 ```
 
-`POST /organizations/{organizationId}/subscription`
+`GET /organizations/{organizationId}/subscription`
 
 
 View the organization subscription status ie Enabled or Disabled
