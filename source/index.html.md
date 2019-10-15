@@ -2036,14 +2036,14 @@ Bearer
 
 ```shell
 # You can also use wget
-curl -X POST https://api.igrant.io/v1/organizations/{organizationId}/enable \
+curl -X POST https://api.igrant.io/v1/organizations/{organizationId}/subscription/enable \
   -H 'Accept: application/json' \
   -H 'Authorization: Bearer API_KEY'
 
 ```
 
 ```http
-POST https://api.igrant.io/v1/organizations/{organizationId}/enable HTTP/1.1
+POST https://api.igrant.io/v1/organizations/{organizationId}/subscription/enable HTTP/1.1
 Host: api.igrant.io
 Accept: application/json
 
@@ -2057,7 +2057,7 @@ var headers = {
 };
 
 $.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationId}/enable',
+  url: 'https://api.igrant.io/v1/organizations/{organizationId}/subscription/enable',
   method: 'post',
 
   headers: headers,
@@ -2077,7 +2077,7 @@ const headers = {
 
 };
 
-fetch('https://api.igrant.io/v1/organizations/{organizationId}/enable',
+fetch('https://api.igrant.io/v1/organizations/{organizationId}/subscription/enable',
 {
   method: 'POST',
 
@@ -2100,7 +2100,7 @@ headers = {
   'Authorization' => 'API_KEY'
 }
 
-result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationId}/enable',
+result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationId}/subscription/enable',
   params: {
   }, headers: headers
 
@@ -2115,7 +2115,7 @@ headers = {
   'Authorization': 'API_KEY'
 }
 
-r = requests.post('https://api.igrant.io/v1/organizations/{organizationId}/enable', params={
+r = requests.post('https://api.igrant.io/v1/organizations/{organizationId}/subscription/enable', params={
 
 }, headers = headers)
 
@@ -2124,7 +2124,7 @@ print r.json()
 ```
 
 ```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/enable");
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/subscription/enable");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("POST");
 int responseCode = con.getResponseCode();
@@ -2157,7 +2157,7 @@ func main() {
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationId}/enable", data)
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationId}/subscription/enable", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -2236,27 +2236,27 @@ Enables an organization. This is needed to publish the organization towards user
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK, Enabled|[OrganizationObject](#schemaorganizationobject)|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[OrganizationObject](#schemaorganizationobject)|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
 Bearer
 </aside>
 
-## Disable an organization
+## View Status of subscription
 
 > Code samples
 
 ```shell
 # You can also use wget
-curl -X POST https://api.igrant.io/v1/organizations/{organizationId}/disable \
+curl -X POST https://api.igrant.io/v1/organizations/{organizationId}/subscription \
   -H 'Accept: application/json' \
-  -H 'Authorization: Bearer API_KEY'
+  -H 'Authorization: API_KEY'
 
 ```
 
 ```http
-POST https://api.igrant.io/v1/organizations/{organizationId}/disable HTTP/1.1
+POST https://api.igrant.io/v1/organizations/{organizationId}/subscription HTTP/1.1
 Host: api.igrant.io
 Accept: application/json
 
@@ -2270,7 +2270,7 @@ var headers = {
 };
 
 $.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationId}/disable',
+  url: 'https://api.igrant.io/v1/organizations/{organizationId}/subscription',
   method: 'post',
 
   headers: headers,
@@ -2290,7 +2290,7 @@ const headers = {
 
 };
 
-fetch('https://api.igrant.io/v1/organizations/{organizationId}/disable',
+fetch('https://api.igrant.io/v1/organizations/{organizationId}/subscription',
 {
   method: 'POST',
 
@@ -2313,7 +2313,7 @@ headers = {
   'Authorization' => 'API_KEY'
 }
 
-result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationId}/disable',
+result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationId}/subscription',
   params: {
   }, headers: headers
 
@@ -2328,7 +2328,7 @@ headers = {
   'Authorization': 'API_KEY'
 }
 
-r = requests.post('https://api.igrant.io/v1/organizations/{organizationId}/disable', params={
+r = requests.post('https://api.igrant.io/v1/organizations/{organizationId}/subscription', params={
 
 }, headers = headers)
 
@@ -2337,7 +2337,176 @@ print r.json()
 ```
 
 ```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/disable");
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/subscription");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"API_KEY"},
+        
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationId}/subscription", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /organizations/{organizationId}/subscription`
+
+
+View the organization subscription status ie Enabled or Disabled
+
+<h3 id="post__organizations_{organizationid}_subscription-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationId|path|string|true|ID of the organization|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "Enabled": boolean
+}
+```
+
+<h3 id="post__organizations_{organizationid}_subscription-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[SubscriptionStatus](#schemasubscriptionstatus)|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+Bearer
+</aside>
+
+## Disable an organization
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://api.igrant.io/v1/organizations/{organizationId}/subscription/disable \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer API_KEY'
+
+```
+
+```http
+POST https://api.igrant.io/v1/organizations/{organizationId}/subscription/disable HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+var headers = {
+  'Accept':'application/json',
+  'Authorization':'API_KEY'
+
+};
+
+$.ajax({
+  url: 'https://api.igrant.io/v1/organizations/{organizationId}/subscription/disable',
+  method: 'post',
+
+  headers: headers,
+  success: function(data) {
+    console.log(JSON.stringify(data));
+  }
+})
+
+```
+
+```javascript--nodejs
+const fetch = require('node-fetch');
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'API_KEY'
+
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationId}/subscription/disable',
+{
+  method: 'POST',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'API_KEY'
+}
+
+result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationId}/subscription/disable',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'API_KEY'
+}
+
+r = requests.post('https://api.igrant.io/v1/organizations/{organizationId}/subscription/disable', params={
+
+}, headers = headers)
+
+print r.json()
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/subscription/disable");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("DELETE");
 int responseCode = con.getResponseCode();
@@ -2370,7 +2539,7 @@ func main() {
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationId}/disable", data)
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationId}/subscription/disable", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -2449,7 +2618,7 @@ Disables an organisation. This is needed to unpublish the organization towards t
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK, disabled|[OrganizationObject](#schemaorganizationobject)|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[OrganizationObject](#schemaorganizationobject)|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
@@ -8410,6 +8579,25 @@ Bearer
 |Location|string|false|none|Location of the organization|
 |Type|string|false|none|Field of organization like retail, medical etc|
 |TypeID|string|false|none|Type ID|
+
+
+<h2 id="tocSsubscriptionstatus">SubscriptionStatus</h2>
+
+<a id="schemasubscriptionstatus"></a>
+
+```json
+{
+  "Enabled": true
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|Enabled|boolean|false|none|Status of subscription of an organization|
+
 
 <h2 id="tocSsubscribeusercount">SubscribeUserCount</h2>
 
