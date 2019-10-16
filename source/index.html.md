@@ -2243,7 +2243,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
-## View Status of subscription
+## View subscription status
 
 > Code samples
 
@@ -2383,7 +2383,7 @@ func main() {
 `GET /organizations/{organizationId}/subscription`
 
 
-View the organization subscription status ie Enabled or Disabled
+View the organization subscription status if its enabled or disabled towards users.
 
 <h3 id="post__organizations_{organizationid}_subscription-parameters">Parameters</h3>
 
