@@ -7393,7 +7393,7 @@ Bearer
 </aside>
 
 
-## View consented users for a purpose
+## View consented users for purpose
 
 > Code samples
 
@@ -7589,7 +7589,7 @@ Bearer
 
 
 
-## View consented users for an attribute
+## View consented users for attribute
 
 > Code samples
 
