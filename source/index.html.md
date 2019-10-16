@@ -8596,7 +8596,7 @@ Bearer
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|Enabled|boolean|false|none|Status of subscription of an organization|
+|Enabled|boolean|false|none|Subscription status of an organisation|
 
 
 <h2 id="tocSsubscribeusercount">SubscribeUserCount</h2>
