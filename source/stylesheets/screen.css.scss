@@ -69,7 +69,7 @@ html, body {
   top: 0;
   left: 0;
   bottom: 0;
-  width: 295px;
+  width: 305px;
   background-color: black;
 
   // language selector for mobile devices
@@ -189,8 +189,9 @@ html, body {
   }
   .toc-h2 {
     padding-left: $nav-padding + $nav-indent;
-    font-size: 12px;
+    font-size: 13px;
     border-radius: 0px;
+    font-family: 'Helvetica neue';
     font-weight: normal;
   }
 
@@ -214,10 +215,11 @@ html, body {
   
   .toc-h2:hover{
     padding-left: $nav-padding + $nav-indent;
-    font-size: 12px;
+    font-size: 13px;
     background-color: rgba(255, 255, 255, 0.103);
     opacity: 2;
-    font-weight: normal;
+    font-family: 'Helvetica neue';
+    font-weight: 0px;
   }
   
   .toc-footer {
