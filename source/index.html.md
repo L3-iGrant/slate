@@ -489,6 +489,564 @@ To perform this operation, you must be authenticated by means of one of the foll
 Bearer
 </aside>
 
+## View privacy dashboard status
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X GET https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards \
+  -H 'Accept: application/json' \
+  -H 'Authorization: API_KEY'
+
+```
+
+```http
+GET https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+var headers = {
+  'Accept':'application/json',
+  'Authorization':'API_KEY'
+
+};
+
+$.ajax({
+  url: 'https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards',
+  method: 'get',
+
+  headers: headers,
+  success: function(data) {
+    console.log(JSON.stringify(data));
+  }
+})
+
+```
+
+```javascript--nodejs
+const fetch = require('node-fetch');
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'API_KEY'
+
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards',
+{
+  method: 'GET',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'API_KEY'
+}
+
+result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'API_KEY'
+}
+
+r = requests.get('https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards', params={
+
+}, headers = headers)
+
+print r.json()
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"API_KEY"},
+        
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`GET /organizations/{organizationID}/privacy-dashboards`
+
+View privacy dashboard deployment status
+
+<h3 id="get__organizations_{organizationid}_privacy-dashboards-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|ID of the organization|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "HostName": "string",
+  "Version": "string",
+  "IPAddress": "string",
+  "Status": 0,
+  "StatusStr": "string"
+}
+```
+
+<h3 id="get__organizations_{organizationid}_privacy-dashboards-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[PrivacyDashboard](#schemaprivacydashboard)|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+Bearer
+</aside>
+
+## Update privacy dashboard status
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
+  -H 'Authorization: API_KEY'
+
+```
+
+```http
+POST https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards HTTP/1.1
+Host: api.igrant.io
+Content-Type: application/json
+Accept: application/json
+
+```
+
+```javascript
+var headers = {
+  'Content-Type':'application/json',
+  'Accept':'application/json',
+  'Authorization':'API_KEY'
+
+};
+
+$.ajax({
+  url: 'https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards',
+  method: 'post',
+
+  headers: headers,
+  success: function(data) {
+    console.log(JSON.stringify(data));
+  }
+})
+
+```
+
+```javascript--nodejs
+const fetch = require('node-fetch');
+const inputBody = '{
+  "HostName": "string"
+}';
+const headers = {
+  'Content-Type':'application/json',
+  'Accept':'application/json',
+  'Authorization':'API_KEY'
+
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards',
+{
+  method: 'POST',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Content-Type' => 'application/json',
+  'Accept' => 'application/json',
+  'Authorization' => 'API_KEY'
+}
+
+result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json',
+  'Accept': 'application/json',
+  'Authorization': 'API_KEY'
+}
+
+r = requests.post('https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards', params={
+
+}, headers = headers)
+
+print r.json()
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Content-Type": []string{"application/json"},
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"API_KEY"},
+        
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /organizations/{organizationID}/privacy-dashboards`
+
+Update the privacy dashboard deployment status
+
+> Body parameter
+
+```json
+{
+  "HostName": "string"
+}
+```
+
+<h3 id="post__organizations_{organizationid}_privacy-dashboard-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Id of the organization|
+|body|body|[PrivacyDashboardReq](#schemaprivacydashboardreq)|true|none|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "HostName": "string",
+  "Version": "string",
+  "IPAddress": "string",
+  "Status": 0,
+  "StatusStr": "string"
+}
+```
+
+<h3 id="post__organizations_{organizationid}_privacy-dashboard-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[PrivacyDashboard](#schemaprivacydashboard)|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+Bearer
+</aside>
+
+## Update privacy dashboard details
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X PUT https://api.igrant.io/v1/admin/organizations/{organizationID}/privacy-dashboards \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
+  -H 'Authorization: API_KEY'
+
+```
+
+```http
+PUT https://api.igrant.io/v1/admin/organizations/{organizationID}/privacy-dashboards HTTP/1.1
+Host: api.igrant.io
+Content-Type: application/json
+Accept: application/json
+
+```
+
+```javascript
+var headers = {
+  'Content-Type':'application/json',
+  'Accept':'application/json',
+  'Authorization':'API_KEY'
+
+};
+
+$.ajax({
+  url: 'https://api.igrant.io/v1/admin/organizations/{organizationID}/privacy-dashboards',
+  method: 'put',
+
+  headers: headers,
+  success: function(data) {
+    console.log(JSON.stringify(data));
+  }
+})
+
+```
+
+```javascript--nodejs
+const fetch = require('node-fetch');
+const inputBody = '{
+  "HostName": "string",
+  "Version": "string",
+  "IPAddress": "string",
+  "Status": 0,
+  "StatusStr": "string"
+}';
+const headers = {
+  'Content-Type':'application/json',
+  'Accept':'application/json',
+  'Authorization':'API_KEY'
+
+};
+
+fetch('https://api.igrant.io/v1/admin/organizations/{organizationID}/privacy-dashboards',
+{
+  method: 'PUT',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Content-Type' => 'application/json',
+  'Accept' => 'application/json',
+  'Authorization' => 'API_KEY'
+}
+
+result = RestClient.put 'https://api.igrant.io/v1/admin/organizations/{organizationID}/privacy-dashboards',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json',
+  'Accept': 'application/json',
+  'Authorization': 'API_KEY'
+}
+
+r = requests.put('https://api.igrant.io/v1/admin/organizations/{organizationID}/privacy-dashboards', params={
+
+}, headers = headers)
+
+print r.json()
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/admin/organizations/{organizationID}/privacy-dashboards");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("PUT");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Content-Type": []string{"application/json"},
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"API_KEY"},
+        
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("PUT", "https://api.igrant.io/v1/admin/organizations/{organizationID}/privacy-dashboards", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`PUT /admin/organizations/{organizationID}/privacy-dashboards`
+
+Update the privacy dashboard deployment details by admin
+
+> Body parameter
+
+```json
+{
+  "HostName": "string",
+  "Version": "string",
+  "IPAddress": "string",
+  "Status": 0,
+  "StatusStr": "string"
+}
+```
+
+<h3 id="put__admin_organizations_{organizationid}_privacy-dashboards-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Id of the organization|
+|body|body|[PrivacyDashboard](#schemaprivacydashboard)|true|none|
+
+> Example responses
+
+```json
+{
+  "HostName": "string",
+  "Version": "string",
+  "IPAddress": "string",
+  "Status": 0,
+  "StatusStr": "string"
+}
+```
+
+<h3 id="put__admin_organizations_{organizationid}_privacy-dashboards-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[PrivacyDashboard](#schemaprivacydashboard)|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+Bearer
+</aside>
+
 ## Generate QR code
 
 > Code samples
@@ -8840,6 +9398,48 @@ Bearer
 |---|---|---|---|---|
 |ID|integer|false|none|Unique ID of the roles|
 |Role|string|false|none|Name of the role|
+
+<h2 id="tocSprivacydashboardreq">PrivacyDashboardReq</h2>
+
+<a id="schemaprivacydashboardreq"></a>
+
+```json
+{
+  "HostName": "string"
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|HostName|string|true|none|Name of host|
+
+<h2 id="tocSprivacydashboard">PrivacyDashboard</h2>
+
+<a id="schemaprivacydashboard"></a>
+
+```json
+{
+  "HostName": "string",
+  "Version": "string",
+  "IPAddress": "string",
+  "Status": 0,
+  "StatusStr": "string"
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|HostName|string|true|none|Name of host|
+|Version|string|false|none|Version number|
+|IPAddress|string|false|none|IP address of the host|
+|Status|integer|false|none|status code|
+|StatusStr|string|false|none|Status of privacy dashboard deployment|
 
 <h2 id="tocSuserdataadmin">userDataAdmin</h2>
 
