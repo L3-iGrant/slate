@@ -12,6 +12,10 @@ info:
 servers:
 - url: https://api.igrant.io/v1
   description: iGrant.io production server address
+- url: http://demo-api.igrant.io/v1
+  description: iGrant.io demo server address
+- url: https://staging-api.igrant.io/v1
+  description: iGrant.io staging server address
 security:
 - bearerAuth: []
 paths:
@@ -22,6 +26,8 @@ paths:
       deprecated: false
       security: []
       servers: 
+      - url: https://staging-api.igrant.io
+        description: Staging server
       - url: http://demo-api.igrant.io
         description: Demo server
       tags:
@@ -5030,16 +5036,16 @@ tags:
     description: "Permission management enables people to manage and have an overview of data transactions and connections and to execute their legal rights (for example, as per the GDPR Articles for ). Using iGrant.io services, organisations can manage consents from individuals throughout its lifecycle. It can be an active consenting where consent is given in real-time or passive consenting where consents can be given anytime. In either case, individuals can at any time use the service to re-evaluate their consents if the need arises."
 
   - name: Service management (User)
-    description: "iGrant.io enables a multi-operator environment via a distributed service registry. The service management functions are at two levels: one at the individual level and the other at the organisational level. This section lists all service management functions towards individuals. This includes functions like registrations, user progile management, subscription to a specific organisatione etc."
+    description: "iGrant.io enables a multi-operator environment via a distributed service registry. The service management functions are at two levels: one at the individual level and the other at the organisational level. This section lists all service management functions towards individual users. This includes functions like registrations, user profile management, subscription to a specific organisatione etc."
 
   - name: Service management (Organization)
     description: "iGrant.io enables a multi-operator environment via a distributed service registry. The service management functions are at two levels: one at the individual level and the other at the organisational level. This section lists all service management functions towards organisations. This includes functions like organisation onboarding/provisioning, managing organisation users, adding end users or consumers to organisation, agreement handling between a organisations for data exchange etc."
 
   - name: Value exchange
-    description: "This includes APIs that are used for pricing and packaging. "
+    description: "This includes APIs that are used for pricing, packaging and billing"
 
   - name: Data model management
-    description: "iGrant.io maintains a metadata indexed registry with a publish–subscribe service. We provide CRUD (create, read, update, and delete) services for managing metadata of the data models for any organisation. These services are used for governance, transparency, facilitating agreement handling between ecosystem players and exercising personal data rights in a standardised manner."
+    description: "iGrant.io maintains a metadata indexed registry with a publish–subscribe service. It supports all CRUD (create, read, update, and delete) services for managing metadata of the data models for any organisation. These services are used for transparency, compliance, facilitating agreement handling between ecosystem players and exercising personal data rights in a standardised manner."
 
   - name: Personal data transfer
     description: "A key aspect of iGrant.io is that it enables a consented data exchange. The platform allows organisations to define the data exchange purpose and the lawful basis of processing or exchanging data. The lawful basis can be based on consent or other legal basis (e.g. lawful purpose, contract, legal obligation, vital interests, public task, legitimate interests). If it's without consent, individuals will only have limited or no rights to withdraw the consents, however the individual can still follow what data is processed and why."

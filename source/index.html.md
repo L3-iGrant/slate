@@ -29,7 +29,7 @@ iGrant.io offers one form of authentication - Bearer authentication
 
 This form of authentication is a form of authentication scheme that involves security tokens. The client sends this token in the Authorization header when making request.
 
-Base URL: <a href="https://api.igrant.io/v1">https://api.igrant.io/v1</a>
+Base URLs: <a href="https://api.igrant.io/v1">https://api.igrant.io/v1</a>
 
 <h1 id="introduction-to-igrant-io-apis-identity-management">Identity management</h1>
 
@@ -3393,7 +3393,7 @@ bearerAuth
 
 <h1 id="introduction-to-igrant-io-apis-service-management-user-">Service management (User)</h1>
 
-iGrant.io enables a multi-operator environment via a distributed service registry. The service management functions are at two levels: one at the individual level and the other at the organisational level. This section lists all service management functions towards individuals. This includes functions like registrations, user progile management, subscription to a specific organisatione etc.
+iGrant.io enables a multi-operator environment via a distributed service registry. The service management functions are at two levels: one at the individual level and the other at the organisational level. This section lists all service management functions towards individual users. This includes functions like registrations, user profile management, subscription to a specific organisatione etc.
 
 ## Reset user password
 
@@ -14336,7 +14336,7 @@ bearerAuth
 
 <h1 id="introduction-to-igrant-io-apis-data-model-management">Data model management</h1>
 
-iGrant.io maintains a metadata indexed registry with a publish–subscribe service. We provide CRUD (create, read, update, and delete) services for managing metadata of the data models for any organisation. These services are used for governance, transparency, facilitating agreement handling between ecosystem players and exercising personal data rights in a standardised manner.
+iGrant.io maintains a metadata indexed registry with a publish–subscribe service. It supports all CRUD (create, read, update, and delete) services for managing metadata of the data models for any organisation. These services are used for transparency, compliance, facilitating agreement handling between ecosystem players and exercising personal data rights in a standardised manner.
 
 ## Add usage purpose
 
