@@ -1,12 +1,12 @@
 ---
-title: REST API documentation
+title: Introduction to iGrant.io APIs 
 language_tabs:
   - shell: Shell
   - http: HTTP
   - javascript: JavaScript
-  - javascript--nodejs: Node.JS
   - ruby: Ruby
   - python: Python
+  - php: PHP
   - java: Java
   - go: Go
 toc_footers: []
@@ -17,47 +17,43 @@ headingLevel: 2
 
 ---
 
-# Introduction
+<!-- Generator: Widdershins v4.0.1 -->
+
+<h1 id="introduction-to-igrant-io-apis">Introduction to iGrant.io APIs</h1>
 
 > Scroll down for code samples, example requests and responses. Select a language for code samples from the tabs above or the mobile navigation menu.
 
-> The API end point is 'https://api.igrant.io/v1'.
-
-> This is version **1.6.0**
-
-This specification is documented in **OpenAPI format**, it describes the REST APIs of **[iGrant.io](https://igrant.io)**. 
-
-# Authentication
-
-iGrant.io offers one form of authentication:  - Bearer authentication
+This specification is documented in **OpenAPI format**, it describes the RESTFul APIs of **iGrant.io (v2.1.2)**.
   
-This form of authentication is a form of authentication scheme that involves security tokens. The client sends this token in the ***Authorization header*** when making requests.
+iGrant.io offers one form of authentication - Bearer authentication
+
+This form of authentication is a form of authentication scheme that involves security tokens. The client sends this token in the Authorization header when making request.
 
 Base URLs:
 
 * <a href="https://api.igrant.io/v1">https://api.igrant.io/v1</a>
 
 
-<h1 id="rest-api-documentation-organizations">Organizations</h1>
+<h1 id="introduction-to-igrant-io-apis-identity-management">Identity management</h1>
 
-Below you can find a collection of endpoints that respond to GET, POST, PUT, PATCH and DELETE requests.
+Identity management handles authentication and authorisation of individuals and organisations (further split to owners, admins, developers and dpo roles).
 
+## Login as user
 
-## Create an organization
+<a id="opIdLogin as user"></a>
 
 > Code samples
 
 ```shell
 # You can also use wget
-curl -X POST https://api.igrant.io/v1/organizations \
+curl -X POST https://api.igrant.io/v1/v1.1/users/login \
   -H 'Content-Type: application/json' \
-  -H 'Accept: application/json' \
-  -H 'Authorization: Bearer API_KEY'
+  -H 'Accept: application/json'
 
 ```
 
 ```http
-POST https://api.igrant.io/v1/organizations HTTP/1.1
+POST https://api.igrant.io/v1/v1.1/users/login HTTP/1.1
 Host: api.igrant.io
 Content-Type: application/json
 Accept: application/json
@@ -65,41 +61,16 @@ Accept: application/json
 ```
 
 ```javascript
-var headers = {
-  'Content-Type':'application/json',
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations',
-  method: 'post',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
 const inputBody = '{
-  "Name": "string",
-  "Location": "string",
-  "Description": "string",
-  "TypeID": "string"
+  "username": "string",
+  "password": "pa$$word"
 }';
 const headers = {
   'Content-Type':'application/json',
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
+  'Accept':'application/json'
 };
 
-fetch('https://api.igrant.io/v1/organizations',
+fetch('https://api.igrant.io/v1/v1.1/users/login',
 {
   method: 'POST',
   body: inputBody,
@@ -119,11 +90,10 @@ require 'json'
 
 headers = {
   'Content-Type' => 'application/json',
-  'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
+  'Accept' => 'application/json'
 }
 
-result = RestClient.post 'https://api.igrant.io/v1/organizations',
+result = RestClient.post 'https://api.igrant.io/v1/v1.1/users/login',
   params: {
   }, headers: headers
 
@@ -135,20 +105,49 @@ p JSON.parse(result)
 import requests
 headers = {
   'Content-Type': 'application/json',
-  'Accept': 'application/json',
-  'Authorization': 'API_KEY'
+  'Accept': 'application/json'
 }
 
-r = requests.post('https://api.igrant.io/v1/organizations', params={
+r = requests.post('https://api.igrant.io/v1/v1.1/users/login', headers = headers)
 
-}, headers = headers)
+print(r.json())
 
-print r.json()
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Content-Type' => 'application/json',
+    'Accept' => 'application/json',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://api.igrant.io/v1/v1.1/users/login', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
 
 ```
 
 ```java
-URL obj = new URL("https://api.igrant.io/v1/organizations");
+URL obj = new URL("https://api.igrant.io/v1/v1.1/users/login");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("POST");
 int responseCode = con.getResponseCode();
@@ -177,12 +176,10 @@ func main() {
     headers := map[string][]string{
         "Content-Type": []string{"application/json"},
         "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations", data)
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/v1.1/users/login", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -192,141 +189,1000 @@ func main() {
 
 ```
 
-`POST /organizations`
+`POST /v1.1/users/login`
 
-Creates a new organization for which consent data need to be managed.
+Login as user
 
 > Body parameter
 
 ```json
 {
-  "Name": "string",
-  "Location": "string",
-  "Description": "string",
-  "TypeID": "string"
+  "username": "string",
+  "password": "pa$$word"
 }
 ```
 
-<h3 id="post__organizations-parameters">Parameters</h3>
+<h3 id="login-as-user-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|body|body|[CreateOrganization](#schemacreateorganization)|true|none|
+|body|body|object|false|Login credentials|
+|» username|body|string|true|none|
+|» password|body|string(password)|true|none|
 
 > Example responses
 
-> 201 Response
+> 200 Response
 
 ```json
 {
-  "Organization": {
-    "ID": "string",
-    "Name": "string",
-    "CoverImageID": "string",
-    "CoverImageurl": "string",
-    "LogoImageID": "string",
-    "LogoImageURL": "string",
-    "Location": "string",
-    "Type": {
-      "ID": "5bba67ba98135900010927a5",
-      "Type": "Retail",
-      "ImageID": "5bba67e798135900010927a7",
-      "ImageURL": "https://api.igrant.io/v1/organizations/types/5bba67ba98135900010927a5/image"
+  "User": {
+    "ID": "5daf22cea531351111afc7c8",
+    "Name": "George Floyd",
+    "IamID": "9d8c4h69-9fb2-4115-a4c3-53bddb8f2d7f",
+    "Email": "dmart@yopmail.com",
+    "Phone": "+46 7252 98991",
+    "ImageID": "5f1458a5chaa930001e78f12",
+    "ImageURL": "https:/<server-url>/image/5f1458a5chaa930001e78f12",
+    "LastVisit": "2020-07-22T18:04:02Z",
+    "Client": {
+      "Token": "fEkxEwh4T2mr-B4yQoZ9TT:APA91bHibhwLXkc2l6LxWxHW5TrKBoLrXGCHDO6A9pXQ0ShvDYPfxXm57D8tIsR-fwybjs-_OFXCgCbBQpYVON2svUiooWgJBFETXg_jUGy0B9etUHFnyuCbXPihyoCuJc2Gn6s9XkN_",
+      "Type": 2
     },
-    "Description": "string",
-    "Enabled": true,
-    "Policyurl": "string",
-    "EulaURL": "string",
-    "Template": [
+    "Orgs": [
       {
-        "ID": "5bba6a9998135900010927ba",
-        "Consent": "Spouse",
-        "PurposeIDs": [
-          "5bba69db98135900010927ac, 8bba69db98135900010927af"
-        ]
+        "OrgID": "5dae2a9fa1215e00012103e4",
+        "Name": "Nordea Bank AB",
+        "Location": "Stockholm, Sweden",
+        "Type": "Banking and Finance",
+        "TypeID": "5d95a566a67c8800012f27d1",
+        "EulaAccepted": false
       }
     ],
-    "Purposes": [
+    "APIKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI1ZGFmMjJjZWE1MzEzNTAwMDFhZmM3YzgiLCJleHAiOjE2MDQwNjMwNjV9.Irk0XgXfVhIdlgBNz6ggEXlvoIPtzUzJv4-x0VKYBGE",
+    "Roles": [
       {
-        "ID": "string",
-        "Description": "string",
-        "LawfulUsage": true,
-        "PolicyURL": "string"
+        "RoleID": 1,
+        "OrgID": "5daf22d0a531350001afc7c9"
       }
-    ],
-    "Admins": [
-      {
-        "userID": "string",
-        "roleID": 0
-      }
-    ],
-    "BillingInfo": {
-      "BillingRegistrationID": "string",
-      "PlanType": "string"
-    }
+    ]
+  },
+  "Token": {
+    "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJDeHhVYTVaQ2NnaENxQUxTZy1wbFVYUkJlNE1ERG9zamF0enNYa1lqMEtFIn0.eyJqdGkiOiIzZDM0NDk3Zi05NDYxLTQyZDItYjA0My01ZTU2MTVhOTg0ODYiLCJleHAiOjE1OTU2MTAwMjksIm5iZiI6MCwiaWF0IjoxNTk1NTg4NDI5LCJpc3MiOiJodHRwczovL3N0YWdpbmctaWFtLmlncmFudC5pby9hdXRoL3JlYWxtcy9pZ3JhbnQtdXNlcnMiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiOWQ4YzRkNjktOWZiMi00MTE1LWE0YzMtNTNiY2JiOGYyZDdmIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiaWdyYW50LWlvcy1hcHAiLCJhdXRoX3RpbWUiOjAsInNlc3Npb25fc3RhdGUiOiIxMWQwYjg3OC0wMWNkLTQ1YmYtYTQxOC04Yzc0ZjkyNTE5NmUiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsIm5hbWUiOiJSYXZpIFNoYW5rYXIiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJkbWFydEB5b3BtYWlsLmNvbSIsImdpdmVuX25hbWUiOiJSYXZpIFNoYW5rYXIiLCJmYW1pbHlfbmFtZSI6IiIsImVtYWlsIjoiZG1hcnRAeW9wbWFpbC5jb20ifQ.K6eOOztvymq7W6yq7mjioJ76eZ7djtIjowqBlx9oCXIfbdt7W2HF6zX7FvkXFuta79ObDYeiqjt9Hy-9SWgS4-QGOFEM9pvT1aLC6gspeI2143P8ZPWWjHRuOH6Ht6TR8ML_X-DJ5n9hmoB9LDc8Vk39zTHhdmtSpu-yUrWHs2wFDmwO8yFdf9Em038WGxo4PYKzqzdEjsIVhSJy-BpkjoEluYxNkOGh3uQ4LZ7jbmXM83mwqEg8r-RwLljjqP3d2_7TSrNcO4Z8IVNslLv5wuSk9ZgCsPqE6poMjFLmrvOAcu2Rx6Em_me19RN1bTT2wrm_Joulzc02XcMyN9gDoA",
+    "expires_in": 21600,
+    "refresh_expires_in": 36000,
+    "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI5YmJiYTI4Ni1mYzI3LTRmMjItODg5Ny05MGU5NTMyNjE0NjkifQ.eyJqdGkiOiJhMzFlZWZkMS00MDNhLTQyZmYtODQ3Mi1hMjYzMjAwMjNmZjMiLCJleHAiOjE1OTU2MjQ0MjksIm5iZiI6MCwiaWF0IjoxNTk1NTg4NDI5LCJpc3MiOiJodHRwczovL3N0YWdpbmctaWFtLmlncmFudC5pby9hdXRoL3JlYWxtcy9pZ3JhbnQtdXNlcnMiLCJhdWQiOiJodHRwczovL3N0YWdpbmctaWFtLmlncmFudC5pby9hdXRoL3JlYWxtcy9pZ3JhbnQtdXNlcnMiLCJzdWIiOiI5ZDhjNGQ2OS05ZmIyLTQxMTUtYTRjMy01M2JjYmI4ZjJkN2YiLCJ0eXAiOiJSZWZyZXNoIiwiYXpwIjoiaWdyYW50LWlvcy1hcHAiLCJhdXRoX3RpbWUiOjAsInNlc3Npb25fc3RhdGUiOiIxMWQwYjg3OC0wMWNkLTQ1YmYtYTQxOC04Yzc0ZjkyNTE5NmUiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoicHJvZmlsZSBlbWFpbCJ9.DknM937PZWqwPiczJdNeIbEo0-R-09hBbOJiqRrDmqo",
+    "token_type": "bearer"
   }
 }
 ```
 
-<h3 id="post__organizations-responses">Responses</h3>
+<h3 id="login-as-user-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|New Organization added successfully.|[OrganizationObject](#schemaorganizationobject)|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns token and user details|Inline|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request|None|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Invalid user credentials|None|
 
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
+<h3 id="login-as-user-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» User|[User](#schemauser)|false|none|none|
+|»» ID|string|false|none|none|
+|»» Name|string|false|none|none|
+|»» IamID|string|false|none|none|
+|»» Email|string|false|none|none|
+|»» Phone|string|false|none|none|
+|»» ImageID|string|false|none|none|
+|»» ImageURL|string|false|none|none|
+|»» LastVisit|string(date-time)|false|none|none|
+|»» Client|object|false|none|none|
+|»»» Token|string|false|none|none|
+|»»» Type|integer|false|none|none|
+|»» Orgs|[object]|false|none|none|
+|»»» OrgID|string|false|none|none|
+|»»» Name|string|false|none|none|
+|»»» Location|string|false|none|none|
+|»»» Type|string|false|none|none|
+|»»» TypeID|string|false|none|none|
+|»»» EulaAccepted|boolean|false|none|none|
+|»» APIKey|string|false|none|none|
+|»» Roles|[object]|false|none|none|
+|»»» RoleID|integer|false|none|none|
+|»»» OrgID|string|false|none|none|
+|» Token|[Token](#schematoken)|false|none|none|
+|»» access_token|string|false|none|none|
+|»» expires_in|integer|false|none|none|
+|»» refresh_token|string|false|none|none|
+|»» refresh_expires_in|integer|false|none|none|
+|»» token_type|string|false|none|none|
+
+<aside class="success">
+This operation does not require authentication
 </aside>
 
-## View organizations
+## Login as user (old)
+
+<a id="opIdLogin as user (old)"></a>
 
 > Code samples
 
 ```shell
 # You can also use wget
-curl -X GET https://api.igrant.io/v1/organizations \
-  -H 'Accept: application/json' \
-  -H 'Authorization: Bearer API_KEY'
+curl -X POST https://api.igrant.io/v1/users/login \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json'
 
 ```
 
 ```http
-GET https://api.igrant.io/v1/organizations HTTP/1.1
+POST https://api.igrant.io/v1/users/login HTTP/1.1
+Host: api.igrant.io
+Content-Type: application/json
+Accept: application/json
+
+```
+
+```javascript
+const inputBody = '{
+  "username": "string",
+  "password": "pa$$word"
+}';
+const headers = {
+  'Content-Type':'application/json',
+  'Accept':'application/json'
+};
+
+fetch('https://api.igrant.io/v1/users/login',
+{
+  method: 'POST',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Content-Type' => 'application/json',
+  'Accept' => 'application/json'
+}
+
+result = RestClient.post 'https://api.igrant.io/v1/users/login',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json',
+  'Accept': 'application/json'
+}
+
+r = requests.post('https://api.igrant.io/v1/users/login', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Content-Type' => 'application/json',
+    'Accept' => 'application/json',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://api.igrant.io/v1/users/login', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/users/login");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Content-Type": []string{"application/json"},
+        "Accept": []string{"application/json"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/users/login", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /users/login`
+
+Login as user
+
+> Body parameter
+
+```json
+{
+  "username": "string",
+  "password": "pa$$word"
+}
+```
+
+<h3 id="login-as-user-(old)-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|body|body|object|false|Login credentials|
+|» username|body|string|true|none|
+|» password|body|string(password)|true|none|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJDeHhVYTVaQ2NnaENxQUxTZy1wbFVYUkJlNE1ERG9zamF0enNYa1lqMEtFIn0.eyJqdGkiOiIzZDM0NDk3Zi05NDYxLTQyZDItYjA0My01ZTU2MTVhOTg0ODYiLCJleHAiOjE1OTU2MTAwMjksIm5iZiI6MCwiaWF0IjoxNTk1NTg4NDI5LCJpc3MiOiJodHRwczovL3N0YWdpbmctaWFtLmlncmFudC5pby9hdXRoL3JlYWxtcy9pZ3JhbnQtdXNlcnMiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiOWQ4YzRkNjktOWZiMi00MTE1LWE0YzMtNTNiY2JiOGYyZDdmIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiaWdyYW50LWlvcy1hcHAiLCJhdXRoX3RpbWUiOjAsInNlc3Npb25fc3RhdGUiOiIxMWQwYjg3OC0wMWNkLTQ1YmYtYTQxOC04Yzc0ZjkyNTE5NmUiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsIm5hbWUiOiJSYXZpIFNoYW5rYXIiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJkbWFydEB5b3BtYWlsLmNvbSIsImdpdmVuX25hbWUiOiJSYXZpIFNoYW5rYXIiLCJmYW1pbHlfbmFtZSI6IiIsImVtYWlsIjoiZG1hcnRAeW9wbWFpbC5jb20ifQ.K6eOOztvymq7W6yq7mjioJ76eZ7djtIjowqBlx9oCXIfbdt7W2HF6zX7FvkXFuta79ObDYeiqjt9Hy-9SWgS4-QGOFEM9pvT1aLC6gspeI2143P8ZPWWjHRuOH6Ht6TR8ML_X-DJ5n9hmoB9LDc8Vk39zTHhdmtSpu-yUrWHs2wFDmwO8yFdf9Em038WGxo4PYKzqzdEjsIVhSJy-BpkjoEluYxNkOGh3uQ4LZ7jbmXM83mwqEg8r-RwLljjqP3d2_7TSrNcO4Z8IVNslLv5wuSk9ZgCsPqE6poMjFLmrvOAcu2Rx6Em_me19RN1bTT2wrm_Joulzc02XcMyN9gDoA",
+  "expires_in": 21600,
+  "refresh_expires_in": 36000,
+  "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI5YmJiYTI4Ni1mYzI3LTRmMjItODg5Ny05MGU5NTMyNjE0NjkifQ.eyJqdGkiOiJhMzFlZWZkMS00MDNhLTQyZmYtODQ3Mi1hMjYzMjAwMjNmZjMiLCJleHAiOjE1OTU2MjQ0MjksIm5iZiI6MCwiaWF0IjoxNTk1NTg4NDI5LCJpc3MiOiJodHRwczovL3N0YWdpbmctaWFtLmlncmFudC5pby9hdXRoL3JlYWxtcy9pZ3JhbnQtdXNlcnMiLCJhdWQiOiJodHRwczovL3N0YWdpbmctaWFtLmlncmFudC5pby9hdXRoL3JlYWxtcy9pZ3JhbnQtdXNlcnMiLCJzdWIiOiI5ZDhjNGQ2OS05ZmIyLTQxMTUtYTRjMy01M2JjYmI4ZjJkN2YiLCJ0eXAiOiJSZWZyZXNoIiwiYXpwIjoiaWdyYW50LWlvcy1hcHAiLCJhdXRoX3RpbWUiOjAsInNlc3Npb25fc3RhdGUiOiIxMWQwYjg3OC0wMWNkLTQ1YmYtYTQxOC04Yzc0ZjkyNTE5NmUiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoicHJvZmlsZSBlbWFpbCJ9.DknM937PZWqwPiczJdNeIbEo0-R-09hBbOJiqRrDmqo",
+  "token_type": "bearer"
+}
+```
+
+<h3 id="login-as-user-(old)-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns token|[Token](#schematoken)|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request|None|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Invalid user credentials|None|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## Login as organisation admin
+
+<a id="opIdLogin as organisation admin"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://api.igrant.io/v1/users/admin/login \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json'
+
+```
+
+```http
+POST https://api.igrant.io/v1/users/admin/login HTTP/1.1
+Host: api.igrant.io
+Content-Type: application/json
+Accept: application/json
+
+```
+
+```javascript
+const inputBody = '{
+  "username": "string",
+  "password": "pa$$word"
+}';
+const headers = {
+  'Content-Type':'application/json',
+  'Accept':'application/json'
+};
+
+fetch('https://api.igrant.io/v1/users/admin/login',
+{
+  method: 'POST',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Content-Type' => 'application/json',
+  'Accept' => 'application/json'
+}
+
+result = RestClient.post 'https://api.igrant.io/v1/users/admin/login',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json',
+  'Accept': 'application/json'
+}
+
+r = requests.post('https://api.igrant.io/v1/users/admin/login', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Content-Type' => 'application/json',
+    'Accept' => 'application/json',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://api.igrant.io/v1/users/admin/login', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/users/admin/login");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Content-Type": []string{"application/json"},
+        "Accept": []string{"application/json"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/users/admin/login", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /users/admin/login`
+
+Login as organisation admin
+
+> Body parameter
+
+```json
+{
+  "username": "string",
+  "password": "pa$$word"
+}
+```
+
+<h3 id="login-as-organisation-admin-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|body|body|object|true|Login credentials|
+|» username|body|string|true|none|
+|» password|body|string(password)|true|none|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "User": {
+    "ID": "5daf22cea531351111afc7c8",
+    "Name": "George Floyd",
+    "IamID": "9d8c4h69-9fb2-4115-a4c3-53bddb8f2d7f",
+    "Email": "dmart@yopmail.com",
+    "Phone": "+46 7252 98991",
+    "ImageID": "5f1458a5chaa930001e78f12",
+    "ImageURL": "https:/<server-url>/image/5f1458a5chaa930001e78f12",
+    "LastVisit": "2020-07-22T18:04:02Z",
+    "Client": {
+      "Token": "fEkxEwh4T2mr-B4yQoZ9TT:APA91bHibhwLXkc2l6LxWxHW5TrKBoLrXGCHDO6A9pXQ0ShvDYPfxXm57D8tIsR-fwybjs-_OFXCgCbBQpYVON2svUiooWgJBFETXg_jUGy0B9etUHFnyuCbXPihyoCuJc2Gn6s9XkN_",
+      "Type": 2
+    },
+    "Orgs": [
+      {
+        "OrgID": "5dae2a9fa1215e00012103e4",
+        "Name": "Nordea Bank AB",
+        "Location": "Stockholm, Sweden",
+        "Type": "Banking and Finance",
+        "TypeID": "5d95a566a67c8800012f27d1",
+        "EulaAccepted": false
+      }
+    ],
+    "APIKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI1ZGFmMjJjZWE1MzEzNTAwMDFhZmM3YzgiLCJleHAiOjE2MDQwNjMwNjV9.Irk0XgXfVhIdlgBNz6ggEXlvoIPtzUzJv4-x0VKYBGE",
+    "Roles": [
+      {
+        "RoleID": 1,
+        "OrgID": "5daf22d0a531350001afc7c9"
+      }
+    ]
+  },
+  "Token": {
+    "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJDeHhVYTVaQ2NnaENxQUxTZy1wbFVYUkJlNE1ERG9zamF0enNYa1lqMEtFIn0.eyJqdGkiOiIzZDM0NDk3Zi05NDYxLTQyZDItYjA0My01ZTU2MTVhOTg0ODYiLCJleHAiOjE1OTU2MTAwMjksIm5iZiI6MCwiaWF0IjoxNTk1NTg4NDI5LCJpc3MiOiJodHRwczovL3N0YWdpbmctaWFtLmlncmFudC5pby9hdXRoL3JlYWxtcy9pZ3JhbnQtdXNlcnMiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiOWQ4YzRkNjktOWZiMi00MTE1LWE0YzMtNTNiY2JiOGYyZDdmIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiaWdyYW50LWlvcy1hcHAiLCJhdXRoX3RpbWUiOjAsInNlc3Npb25fc3RhdGUiOiIxMWQwYjg3OC0wMWNkLTQ1YmYtYTQxOC04Yzc0ZjkyNTE5NmUiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsIm5hbWUiOiJSYXZpIFNoYW5rYXIiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJkbWFydEB5b3BtYWlsLmNvbSIsImdpdmVuX25hbWUiOiJSYXZpIFNoYW5rYXIiLCJmYW1pbHlfbmFtZSI6IiIsImVtYWlsIjoiZG1hcnRAeW9wbWFpbC5jb20ifQ.K6eOOztvymq7W6yq7mjioJ76eZ7djtIjowqBlx9oCXIfbdt7W2HF6zX7FvkXFuta79ObDYeiqjt9Hy-9SWgS4-QGOFEM9pvT1aLC6gspeI2143P8ZPWWjHRuOH6Ht6TR8ML_X-DJ5n9hmoB9LDc8Vk39zTHhdmtSpu-yUrWHs2wFDmwO8yFdf9Em038WGxo4PYKzqzdEjsIVhSJy-BpkjoEluYxNkOGh3uQ4LZ7jbmXM83mwqEg8r-RwLljjqP3d2_7TSrNcO4Z8IVNslLv5wuSk9ZgCsPqE6poMjFLmrvOAcu2Rx6Em_me19RN1bTT2wrm_Joulzc02XcMyN9gDoA",
+    "expires_in": 21600,
+    "refresh_expires_in": 36000,
+    "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI5YmJiYTI4Ni1mYzI3LTRmMjItODg5Ny05MGU5NTMyNjE0NjkifQ.eyJqdGkiOiJhMzFlZWZkMS00MDNhLTQyZmYtODQ3Mi1hMjYzMjAwMjNmZjMiLCJleHAiOjE1OTU2MjQ0MjksIm5iZiI6MCwiaWF0IjoxNTk1NTg4NDI5LCJpc3MiOiJodHRwczovL3N0YWdpbmctaWFtLmlncmFudC5pby9hdXRoL3JlYWxtcy9pZ3JhbnQtdXNlcnMiLCJhdWQiOiJodHRwczovL3N0YWdpbmctaWFtLmlncmFudC5pby9hdXRoL3JlYWxtcy9pZ3JhbnQtdXNlcnMiLCJzdWIiOiI5ZDhjNGQ2OS05ZmIyLTQxMTUtYTRjMy01M2JjYmI4ZjJkN2YiLCJ0eXAiOiJSZWZyZXNoIiwiYXpwIjoiaWdyYW50LWlvcy1hcHAiLCJhdXRoX3RpbWUiOjAsInNlc3Npb25fc3RhdGUiOiIxMWQwYjg3OC0wMWNkLTQ1YmYtYTQxOC04Yzc0ZjkyNTE5NmUiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoicHJvZmlsZSBlbWFpbCJ9.DknM937PZWqwPiczJdNeIbEo0-R-09hBbOJiqRrDmqo",
+    "token_type": "bearer"
+  }
+}
+```
+
+<h3 id="login-as-organisation-admin-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns token and user details|Inline|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request|None|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Invalid user credentials|None|
+
+<h3 id="login-as-organisation-admin-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» User|[User](#schemauser)|false|none|none|
+|»» ID|string|false|none|none|
+|»» Name|string|false|none|none|
+|»» IamID|string|false|none|none|
+|»» Email|string|false|none|none|
+|»» Phone|string|false|none|none|
+|»» ImageID|string|false|none|none|
+|»» ImageURL|string|false|none|none|
+|»» LastVisit|string(date-time)|false|none|none|
+|»» Client|object|false|none|none|
+|»»» Token|string|false|none|none|
+|»»» Type|integer|false|none|none|
+|»» Orgs|[object]|false|none|none|
+|»»» OrgID|string|false|none|none|
+|»»» Name|string|false|none|none|
+|»»» Location|string|false|none|none|
+|»»» Type|string|false|none|none|
+|»»» TypeID|string|false|none|none|
+|»»» EulaAccepted|boolean|false|none|none|
+|»» APIKey|string|false|none|none|
+|»» Roles|[object]|false|none|none|
+|»»» RoleID|integer|false|none|none|
+|»»» OrgID|string|false|none|none|
+|» Token|[Token](#schematoken)|false|none|none|
+|»» access_token|string|false|none|none|
+|»» expires_in|integer|false|none|none|
+|»» refresh_token|string|false|none|none|
+|»» refresh_expires_in|integer|false|none|none|
+|»» token_type|string|false|none|none|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## Logout user
+
+<a id="opIdLogout user"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://api.igrant.io/v1/users/logout \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+POST https://api.igrant.io/v1/users/logout HTTP/1.1
+Host: api.igrant.io
+Content-Type: application/json
+
+```
+
+```javascript
+const inputBody = '{
+  "refreshtoken": "string",
+  "clientid": "string"
+}';
+const headers = {
+  'Content-Type':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/users/logout',
+{
+  method: 'POST',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Content-Type' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.post 'https://api.igrant.io/v1/users/logout',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.post('https://api.igrant.io/v1/users/logout', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Content-Type' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://api.igrant.io/v1/users/logout', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/users/logout");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Content-Type": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/users/logout", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /users/logout`
+
+Logout user
+
+> Body parameter
+
+```json
+{
+  "refreshtoken": "string",
+  "clientid": "string"
+}
+```
+
+<h3 id="logout-user-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|body|body|object|true|Refresh token and clientid|
+|» refreshtoken|body|string|true|none|
+|» clientid|body|string|true|none|
+
+<h3 id="logout-user-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|204|[No Content](https://tools.ietf.org/html/rfc7231#section-6.3.5)|Logout successful|None|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request|None|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Refresh access token
+
+<a id="opIdRefresh access token"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://api.igrant.io/v1/users/token \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json'
+
+```
+
+```http
+POST https://api.igrant.io/v1/users/token HTTP/1.1
+Host: api.igrant.io
+Content-Type: application/json
+Accept: application/json
+
+```
+
+```javascript
+const inputBody = '{
+  "refreshtoken": "string",
+  "clientid": "string"
+}';
+const headers = {
+  'Content-Type':'application/json',
+  'Accept':'application/json'
+};
+
+fetch('https://api.igrant.io/v1/users/token',
+{
+  method: 'POST',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Content-Type' => 'application/json',
+  'Accept' => 'application/json'
+}
+
+result = RestClient.post 'https://api.igrant.io/v1/users/token',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json',
+  'Accept': 'application/json'
+}
+
+r = requests.post('https://api.igrant.io/v1/users/token', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Content-Type' => 'application/json',
+    'Accept' => 'application/json',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://api.igrant.io/v1/users/token', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/users/token");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Content-Type": []string{"application/json"},
+        "Accept": []string{"application/json"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/users/token", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /users/token`
+
+Refreshes an access token
+
+> Body parameter
+
+```json
+{
+  "refreshtoken": "string",
+  "clientid": "string"
+}
+```
+
+<h3 id="refresh-access-token-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|body|body|object|true|Refresh token and clientid|
+|» refreshtoken|body|string|true|none|
+|» clientid|body|string|true|none|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJDeHhVYTVaQ2NnaENxQUxTZy1wbFVYUkJlNE1ERG9zamF0enNYa1lqMEtFIn0.eyJqdGkiOiIzZDM0NDk3Zi05NDYxLTQyZDItYjA0My01ZTU2MTVhOTg0ODYiLCJleHAiOjE1OTU2MTAwMjksIm5iZiI6MCwiaWF0IjoxNTk1NTg4NDI5LCJpc3MiOiJodHRwczovL3N0YWdpbmctaWFtLmlncmFudC5pby9hdXRoL3JlYWxtcy9pZ3JhbnQtdXNlcnMiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiOWQ4YzRkNjktOWZiMi00MTE1LWE0YzMtNTNiY2JiOGYyZDdmIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiaWdyYW50LWlvcy1hcHAiLCJhdXRoX3RpbWUiOjAsInNlc3Npb25fc3RhdGUiOiIxMWQwYjg3OC0wMWNkLTQ1YmYtYTQxOC04Yzc0ZjkyNTE5NmUiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsIm5hbWUiOiJSYXZpIFNoYW5rYXIiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJkbWFydEB5b3BtYWlsLmNvbSIsImdpdmVuX25hbWUiOiJSYXZpIFNoYW5rYXIiLCJmYW1pbHlfbmFtZSI6IiIsImVtYWlsIjoiZG1hcnRAeW9wbWFpbC5jb20ifQ.K6eOOztvymq7W6yq7mjioJ76eZ7djtIjowqBlx9oCXIfbdt7W2HF6zX7FvkXFuta79ObDYeiqjt9Hy-9SWgS4-QGOFEM9pvT1aLC6gspeI2143P8ZPWWjHRuOH6Ht6TR8ML_X-DJ5n9hmoB9LDc8Vk39zTHhdmtSpu-yUrWHs2wFDmwO8yFdf9Em038WGxo4PYKzqzdEjsIVhSJy-BpkjoEluYxNkOGh3uQ4LZ7jbmXM83mwqEg8r-RwLljjqP3d2_7TSrNcO4Z8IVNslLv5wuSk9ZgCsPqE6poMjFLmrvOAcu2Rx6Em_me19RN1bTT2wrm_Joulzc02XcMyN9gDoA",
+  "expires_in": 21600,
+  "refresh_expires_in": 36000,
+  "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI5YmJiYTI4Ni1mYzI3LTRmMjItODg5Ny05MGU5NTMyNjE0NjkifQ.eyJqdGkiOiJhMzFlZWZkMS00MDNhLTQyZmYtODQ3Mi1hMjYzMjAwMjNmZjMiLCJleHAiOjE1OTU2MjQ0MjksIm5iZiI6MCwiaWF0IjoxNTk1NTg4NDI5LCJpc3MiOiJodHRwczovL3N0YWdpbmctaWFtLmlncmFudC5pby9hdXRoL3JlYWxtcy9pZ3JhbnQtdXNlcnMiLCJhdWQiOiJodHRwczovL3N0YWdpbmctaWFtLmlncmFudC5pby9hdXRoL3JlYWxtcy9pZ3JhbnQtdXNlcnMiLCJzdWIiOiI5ZDhjNGQ2OS05ZmIyLTQxMTUtYTRjMy01M2JjYmI4ZjJkN2YiLCJ0eXAiOiJSZWZyZXNoIiwiYXpwIjoiaWdyYW50LWlvcy1hcHAiLCJhdXRoX3RpbWUiOjAsInNlc3Npb25fc3RhdGUiOiIxMWQwYjg3OC0wMWNkLTQ1YmYtYTQxOC04Yzc0ZjkyNTE5NmUiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoicHJvZmlsZSBlbWFpbCJ9.DknM937PZWqwPiczJdNeIbEo0-R-09hBbOJiqRrDmqo",
+  "token_type": "bearer"
+}
+```
+
+<h3 id="refresh-access-token-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns refreshed token|[Token](#schematoken)|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request|None|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+<h1 id="introduction-to-igrant-io-apis-permissions-and-consents">Permissions and consents</h1>
+
+Permission management enables people to manage and have an overview of data transactions and connections and to execute their legal rights (for example, as per the GDPR Articles for ). Using iGrant.io services, organisations can manage consents from individuals throughout its lifecycle. It can be an active consenting where consent is given in real-time or passive consenting where consents can be given anytime. In either case, individuals can at any time use the service to re-evaluate their consents if the need arises.
+
+## Get consents for a user
+
+<a id="opIdGet consents for a user"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X GET https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+GET https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents HTTP/1.1
 Host: api.igrant.io
 Accept: application/json
 
 ```
 
 ```javascript
-var headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations',
-  method: 'get',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
 
 const headers = {
   'Accept':'application/json',
-  'Authorization':'API_KEY'
-
+  'Authorization':'Bearer {access-token}'
 };
 
-fetch('https://api.igrant.io/v1/organizations',
+fetch('https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents',
 {
   method: 'GET',
 
@@ -346,10 +1202,10 @@ require 'json'
 
 headers = {
   'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
+  'Authorization' => 'Bearer {access-token}'
 }
 
-result = RestClient.get 'https://api.igrant.io/v1/organizations',
+result = RestClient.get 'https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents',
   params: {
   }, headers: headers
 
@@ -361,19 +1217,49 @@ p JSON.parse(result)
 import requests
 headers = {
   'Accept': 'application/json',
-  'Authorization': 'API_KEY'
+  'Authorization': 'Bearer {access-token}'
 }
 
-r = requests.get('https://api.igrant.io/v1/organizations', params={
+r = requests.get('https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents', headers = headers)
 
-}, headers = headers)
+print(r.json())
 
-print r.json()
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
 
 ```
 
 ```java
-URL obj = new URL("https://api.igrant.io/v1/organizations");
+URL obj = new URL("https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("GET");
 int responseCode = con.getResponseCode();
@@ -401,12 +1287,11 @@ func main() {
 
     headers := map[string][]string{
         "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
+        "Authorization": []string{"Bearer {access-token}"},
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations", data)
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -416,9 +1301,16 @@ func main() {
 
 ```
 
-`GET /organizations`
+`GET /organizations/{orgID}/users/{userID}/consents`
 
-View all existing organizations whose consent data is managed.
+Get consents for a particular user. This will include all consents given  for the defined usage purposes and data attributes within the usage purpose.
+
+<h3 id="get-consents-for-a-user-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|orgID|path|string|true|Organization ID|
+|userID|path|string|true|User ID|
 
 > Example responses
 
@@ -426,117 +1318,110 @@ View all existing organizations whose consent data is managed.
 
 ```json
 {
-  "Organizations": [
+  "ID": "5e4e91036c7aa200012aa9da",
+  "OrgID": "5dae01aa267e930001609aa4",
+  "UserID": "5dbc02ecb99fd0000157547a",
+  "ConsentsAndPurposes": [
     {
-      "ID": "OrgID",
-      "Name": "TestOrg",
-      "CoverImageID": "ID",
-      "CoverImageurl": "url",
-      "LogoImageID": "ID",
-      "LogoImageURL": "url",
-      "Location": "Turku",
-      "Type": {
-        "ID": "ID",
-        "Type": "Retail",
-        "ImageID": "imageID",
-        "ImageURL": "url"
+      "Purpose": {
+        "ID": "5db0303ba531350001afc7e0",
+        "Name": "Marketing and campaign",
+        "Description": "For this purpose, following personal data attributes shown below are used. You may consent to share your data at attribute level.",
+        "LawfulUsage": false,
+        "PolicyURL": "https://orgname.com/policy_default.html"
       },
-      "Description": "Testorg stores and processes the following data of yours. For each of your personal data attributes, you can view what is used as contractual basis in order for us to carry out a business relation with you. You can view the current status for all your personal data attributes, the purpose in which they are used and provide you the choice to opt-in or opt-out. \\n\\nYes, We are GDPR compliant.",
-      "Enabled": true,
-      "Policyurl": "URL",
-      "EulaURL": "EulaURL",
-      "Templates": [
+      "Count": {
+        "Total": 4,
+        "Consented": 4
+      },
+      "Consents": [
         {
-          "ID": "TemplateID",
-          "Consent": "Spouse",
-          "PurposeIDs": [
-            "IDs.."
-          ]
+          "ID": "5dae01ee267e930001609aa8",
+          "Description": "Name",
+          "Value": "",
+          "Status": {
+            "Consent": "Allow",
+            "TimeStamp": "0001-01-01T00:00:00Z",
+            "Days": 0,
+            "Remaining": 0
+          }
         }
-      ],
-      "Purposes": [
-        {
-          "ID": "PurposeID",
-          "Description": "Contractual purpose",
-          "LawfulUsage": false,
-          "PolicyURL": "URL"
-        }
-      ],
-      "Admins": [
-        {
-          "UserID": "UserID",
-          "RoleID": 1
-        }
-      ],
-      "BillingInfo": {
-        "BillingRegistrationID": "",
-        "PlanType": ""
-      }
+      ]
     }
   ]
 }
 ```
 
-<h3 id="get__organizations-responses">Responses</h3>
+<h3 id="get-consents-for-a-user-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|List of available organizations.|[Organizations](#schemaorganizations)|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Return consents and purposes|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<h3 id="get-consents-for-a-user-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» ID|string|false|none|none|
+|» OrgID|string|false|none|none|
+|» UserID|string|false|none|none|
+|» ConsentsAndPurposes|[object]|false|none|none|
+|»» Purpose|[Purpose](#schemapurpose)|false|none|none|
+|»»» ID|string|false|none|none|
+|»»» Name|string|false|none|none|
+|»»» Description|string|false|none|none|
+|»»» LawfulUsage|boolean|false|none|none|
+|»»» PolicyURL|string|false|none|none|
+|»» Count|object|false|none|none|
+|»»» Total|integer|false|none|none|
+|»»» Consented|integer|false|none|none|
+|»» Consents|[[AttributeConsent](#schemaattributeconsent)]|false|none|none|
+|»»» ID|string|false|none|none|
+|»»» Description|string|false|none|none|
+|»»» Value|string|false|none|none|
+|»»» Status|object|false|none|none|
+|»»»» Consent|string|false|none|none|
+|»»»» TimeStamp|string(date-time)|false|none|none|
+|»»»» Days|integer|false|none|none|
+|»»»» Remaining|integer|false|none|none|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
-
-Bearer
+bearerAuth
 </aside>
 
-## View privacy dashboard status
+## Gets user consent
+
+<a id="opIdGets user consent"></a>
 
 > Code samples
 
 ```shell
 # You can also use wget
-curl -X GET https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards \
+curl -X GET https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID} \
   -H 'Accept: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer {access-token}'
 
 ```
 
 ```http
-GET https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards HTTP/1.1
+GET https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID} HTTP/1.1
 Host: api.igrant.io
 Accept: application/json
 
 ```
 
 ```javascript
-var headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards',
-  method: 'get',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
 
 const headers = {
   'Accept':'application/json',
-  'Authorization':'API_KEY'
-
+  'Authorization':'Bearer {access-token}'
 };
 
-fetch('https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards',
+fetch('https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}',
 {
   method: 'GET',
 
@@ -556,10 +1441,10 @@ require 'json'
 
 headers = {
   'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
+  'Authorization' => 'Bearer {access-token}'
 }
 
-result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards',
+result = RestClient.get 'https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}',
   params: {
   }, headers: headers
 
@@ -571,19 +1456,49 @@ p JSON.parse(result)
 import requests
 headers = {
   'Accept': 'application/json',
-  'Authorization': 'API_KEY'
+  'Authorization': 'Bearer {access-token}'
 }
 
-r = requests.get('https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards', params={
+r = requests.get('https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}', headers = headers)
 
-}, headers = headers)
+print(r.json())
 
-print r.json()
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
 
 ```
 
 ```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards");
+URL obj = new URL("https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("GET");
 int responseCode = con.getResponseCode();
@@ -611,12 +1526,11 @@ func main() {
 
     headers := map[string][]string{
         "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
+        "Authorization": []string{"Bearer {access-token}"},
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards", data)
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -626,15 +1540,17 @@ func main() {
 
 ```
 
-`GET /organizations/{organizationID}/privacy-dashboards`
+`GET /organizations/{orgID}/users/{userID}/consents/{consentID}`
 
-View privacy dashboard deployment status
+Get user consent by ID
 
-<h3 id="get__organizations_{organizationid}_privacy-dashboards-parameters">Parameters</h3>
+<h3 id="gets-user-consent-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|organizationID|path|string|true|ID of the organization|
+|orgID|path|string|true|Organization ID|
+|userID|path|string|true|User ID|
+|consentID|path|string|true|Consent ID|
 
 > Example responses
 
@@ -642,778 +1558,110 @@ View privacy dashboard deployment status
 
 ```json
 {
-  "HostName": "string",
-  "Version": "string",
-  "IPAddress": "string",
-  "Status": 0,
-  "StatusStr": "string"
-}
-```
-
-<h3 id="get__organizations_{organizationid}_privacy-dashboards-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[PrivacyDashboard](#schemaprivacydashboard)|
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
-</aside>
-
-## Update privacy dashboard status
-
-> Code samples
-
-```shell
-# You can also use wget
-curl -X POST https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards \
-  -H 'Content-Type: application/json' \
-  -H 'Accept: application/json' \
-  -H 'Authorization: API_KEY'
-
-```
-
-```http
-POST https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards HTTP/1.1
-Host: api.igrant.io
-Content-Type: application/json
-Accept: application/json
-
-```
-
-```javascript
-var headers = {
-  'Content-Type':'application/json',
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards',
-  method: 'post',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
-const inputBody = '{
-  "HostName": "string"
-}';
-const headers = {
-  'Content-Type':'application/json',
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-fetch('https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards',
-{
-  method: 'POST',
-  body: inputBody,
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Content-Type' => 'application/json',
-  'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
-}
-
-result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards',
-  params: {
-  }, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Content-Type': 'application/json',
-  'Accept': 'application/json',
-  'Authorization': 'API_KEY'
-}
-
-r = requests.post('https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards', params={
-
-}, headers = headers)
-
-print r.json()
-
-```
-
-```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("POST");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Content-Type": []string{"application/json"},
-        "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
+  "ID": "5e4e91036c7aa200012aa9da",
+  "OrgID": "5dae01aa267e930001609aa4",
+  "UserID": "5dbc02ecb99fd0000157547a",
+  "ConsentsAndPurposes": [
+    {
+      "Purpose": {
+        "ID": "5db0303ba531350001afc7e0",
+        "Name": "Marketing and campaign",
+        "Description": "For this purpose, following personal data attributes shown below are used. You may consent to share your data at attribute level.",
+        "LawfulUsage": false,
+        "PolicyURL": "https://orgname.com/policy_default.html"
+      },
+      "Count": {
+        "Total": 4,
+        "Consented": 4
+      },
+      "Consents": [
+        {
+          "ID": "5dae01ee267e930001609aa8",
+          "Description": "Name",
+          "Value": "",
+          "Status": {
+            "Consent": "Allow",
+            "TimeStamp": "0001-01-01T00:00:00Z",
+            "Days": 0,
+            "Remaining": 0
+          }
+        }
+      ]
     }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`POST /organizations/{organizationID}/privacy-dashboards`
-
-Update the privacy dashboard deployment status
-
-> Body parameter
-
-```json
-{
-  "HostName": "string"
+  ]
 }
 ```
 
-<h3 id="post__organizations_{organizationid}_privacy-dashboard-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|organizationID|path|string|true|Id of the organization|
-|body|body|[PrivacyDashboardReq](#schemaprivacydashboardreq)|true|none|
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "HostName": "string",
-  "Version": "string",
-  "IPAddress": "string",
-  "Status": 0,
-  "StatusStr": "string"
-}
-```
-
-<h3 id="post__organizations_{organizationid}_privacy-dashboard-responses">Responses</h3>
+<h3 id="gets-user-consent-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[PrivacyDashboard](#schemaprivacydashboard)|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Return consents and purposes|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<h3 id="gets-user-consent-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» ID|string|false|none|none|
+|» OrgID|string|false|none|none|
+|» UserID|string|false|none|none|
+|» ConsentsAndPurposes|[object]|false|none|none|
+|»» Purpose|[Purpose](#schemapurpose)|false|none|none|
+|»»» ID|string|false|none|none|
+|»»» Name|string|false|none|none|
+|»»» Description|string|false|none|none|
+|»»» LawfulUsage|boolean|false|none|none|
+|»»» PolicyURL|string|false|none|none|
+|»» Count|object|false|none|none|
+|»»» Total|integer|false|none|none|
+|»»» Consented|integer|false|none|none|
+|»» Consents|[[AttributeConsent](#schemaattributeconsent)]|false|none|none|
+|»»» ID|string|false|none|none|
+|»»» Description|string|false|none|none|
+|»»» Value|string|false|none|none|
+|»»» Status|object|false|none|none|
+|»»»» Consent|string|false|none|none|
+|»»»» TimeStamp|string(date-time)|false|none|none|
+|»»»» Days|integer|false|none|none|
+|»»»» Remaining|integer|false|none|none|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
+bearerAuth
 </aside>
 
-## Update privacy dashboard details
+## Get all purpose consents
+
+<a id="opIdGet all purpose consents"></a>
 
 > Code samples
 
 ```shell
 # You can also use wget
-curl -X PUT https://api.igrant.io/v1/admin/organizations/{organizationID}/privacy-dashboards \
-  -H 'Content-Type: application/json' \
+curl -X GET https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID} \
   -H 'Accept: application/json' \
-  -H 'Authorization: API_KEY'
+  -H 'Authorization: Bearer {access-token}'
 
 ```
 
 ```http
-PUT https://api.igrant.io/v1/admin/organizations/{organizationID}/privacy-dashboards HTTP/1.1
-Host: api.igrant.io
-Content-Type: application/json
-Accept: application/json
-
-```
-
-```javascript
-var headers = {
-  'Content-Type':'application/json',
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/admin/organizations/{organizationID}/privacy-dashboards',
-  method: 'put',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
-const inputBody = '{
-  "HostName": "string",
-  "Version": "string",
-  "IPAddress": "string",
-  "Status": 0,
-  "StatusStr": "string"
-}';
-const headers = {
-  'Content-Type':'application/json',
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-fetch('https://api.igrant.io/v1/admin/organizations/{organizationID}/privacy-dashboards',
-{
-  method: 'PUT',
-  body: inputBody,
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Content-Type' => 'application/json',
-  'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
-}
-
-result = RestClient.put 'https://api.igrant.io/v1/admin/organizations/{organizationID}/privacy-dashboards',
-  params: {
-  }, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Content-Type': 'application/json',
-  'Accept': 'application/json',
-  'Authorization': 'API_KEY'
-}
-
-r = requests.put('https://api.igrant.io/v1/admin/organizations/{organizationID}/privacy-dashboards', params={
-
-}, headers = headers)
-
-print r.json()
-
-```
-
-```java
-URL obj = new URL("https://api.igrant.io/v1/admin/organizations/{organizationID}/privacy-dashboards");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("PUT");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Content-Type": []string{"application/json"},
-        "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("PUT", "https://api.igrant.io/v1/admin/organizations/{organizationID}/privacy-dashboards", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`PUT /admin/organizations/{organizationID}/privacy-dashboards`
-
-Update the privacy dashboard deployment details by admin
-
-> Body parameter
-
-```json
-{
-  "HostName": "string",
-  "Version": "string",
-  "IPAddress": "string",
-  "Status": 0,
-  "StatusStr": "string"
-}
-```
-
-<h3 id="put__admin_organizations_{organizationid}_privacy-dashboards-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|organizationID|path|string|true|Id of the organization|
-|body|body|[PrivacyDashboard](#schemaprivacydashboard)|true|none|
-
-> Example responses
-
-```json
-{
-  "HostName": "string",
-  "Version": "string",
-  "IPAddress": "string",
-  "Status": 0,
-  "StatusStr": "string"
-}
-```
-
-<h3 id="put__admin_organizations_{organizationid}_privacy-dashboards-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[PrivacyDashboard](#schemaprivacydashboard)|
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
-</aside>
-
-## Generate QR code
-
-> Code samples
-
-```shell
-# You can also use wget
-curl -X POST https://api.igrant.io/v1/organizations/{organizationID}/qrcode \
-  -H 'Accept: application/json' \
-  -H 'Authorization: Bearer API_KEY'
-
-```
-
-```http
-POST https://api.igrant.io/v1/organizations/{organizationID}/qrcode HTTP/1.1
+GET https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID} HTTP/1.1
 Host: api.igrant.io
 Accept: application/json
 
 ```
 
 ```javascript
-var headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationID}/qrcode',
-  method: 'post',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
 
 const headers = {
   'Accept':'application/json',
-  'Authorization':'API_KEY'
-
+  'Authorization':'Bearer {access-token}'
 };
 
-fetch('https://api.igrant.io/v1/organizations/{organizationID}/qrcode',
-{
-  method: 'POST',
-
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
-}
-
-result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationID}/qrcode',
-  params: {
-  }, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Accept': 'application/json',
-  'Authorization': 'API_KEY'
-}
-
-r = requests.post('https://api.igrant.io/v1/organizations/{organizationID}/qrcode', params={
-
-}, headers = headers)
-
-print r.json()
-
-```
-
-```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/qrcode");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("POST");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationID}/qrcode", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`POST /organizations/{organizationID}/qrcode`
-
-Generate the QR code for a given purpose in an organization
-
-<h3 id="post__organizations_{organizationid}_qrcode-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|organizationID|path|string|true|ID of the organization|
-
-
-<h3 id="post__organizations_{organizationid}_qrcode-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|QR code generated|None|
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
-</aside>
-
-## View QR code
-
-> Code samples
-
-```shell
-# You can also use wget
-curl -X GET https://api.igrant.io/v1/organizations/{organizationID}/qrcode/web \
-  -H 'Accept: image/png' \
-  -H 'Authorization: Bearer API_KEY' >> OrgQRcode.png
-
-```
-
-```http
-GET https://api.igrant.io/v1/organizations/{organizationID}/qrcode/web HTTP/1.1
-Host: api.igrant.io
-Accept: image/png
-
-```
-
-```javascript
-var headers = {
-  'Accept':'image/png',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationID}/qrcode/web',
-  method: 'get',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
-
-const headers = {
-  'Accept':'image/png',
-  'Authorization':'API_KEY'
-
-};
-
-fetch('https://api.igrant.io/v1/organizations/{organizationID}/qrcode/web',
-{
-  method: 'GET',
-
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Accept' => 'image/png',
-  'Authorization' => 'API_KEY'
-}
-
-result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationID}/qrcode/web',
-  params: {
-  }, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Accept': 'image/png',
-  'Authorization': 'API_KEY'
-}
-
-r = requests.get('https://api.igrant.io/v1/organizations/{organizationID}/qrcode/web', params={
-
-}, headers = headers)
-
-print r.json()
-
-```
-
-```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/qrcode/web");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("GET");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Accept": []string{"image/png"},
-        "Authorization": []string{"API_KEY"},
-        
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationID}/qrcode/web", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`GET /organizations/{organizationID}/qrcode/web`
-
-Download the QR code of an organization as an image
-
-<h3 id="get__organizations_{organizationid}_qrcode_web-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|organizationID|path|string|true|ID of the organization|
-
-
-<h3 id="get__organizations_{organizationid}_qrcode_web-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|QR code Returned|None|
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
-</aside>
-
-
-## View an organization
-
-> Code samples
-
-```shell
-# You can also use wget
-curl -X GET https://api.igrant.io/v1/organizations/{organizationId} \
-  -H 'Accept: application/json' \
-  -H 'Authorization: Bearer API_KEY'
-
-```
-
-```http
-GET https://api.igrant.io/v1/organizations/{organizationId} HTTP/1.1
-Host: api.igrant.io
-Accept: application/json
-
-```
-
-```javascript
-var headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationId}',
-  method: 'get',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
-
-const headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-fetch('https://api.igrant.io/v1/organizations/{organizationId}',
+fetch('https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}',
 {
   method: 'GET',
 
@@ -1433,10 +1681,10 @@ require 'json'
 
 headers = {
   'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
+  'Authorization' => 'Bearer {access-token}'
 }
 
-result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationId}',
+result = RestClient.get 'https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}',
   params: {
   }, headers: headers
 
@@ -1448,19 +1696,49 @@ p JSON.parse(result)
 import requests
 headers = {
   'Accept': 'application/json',
-  'Authorization': 'API_KEY'
+  'Authorization': 'Bearer {access-token}'
 }
 
-r = requests.get('https://api.igrant.io/v1/organizations/{organizationId}', params={
+r = requests.get('https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}', headers = headers)
 
-}, headers = headers)
+print(r.json())
 
-print r.json()
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
 
 ```
 
 ```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}");
+URL obj = new URL("https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("GET");
 int responseCode = con.getResponseCode();
@@ -1488,12 +1766,11 @@ func main() {
 
     headers := map[string][]string{
         "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
+        "Authorization": []string{"Bearer {access-token}"},
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationId}", data)
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -1503,15 +1780,18 @@ func main() {
 
 ```
 
-`GET /organizations/{organizationId}`
+`GET /organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}`
 
-View an organization details using the organization ID.
+Gets all the consents for a given purpose by ID
 
-<h3 id="get__organizations_{organizationid}-parameters">Parameters</h3>
+<h3 id="get-all-purpose-consents-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|organizationId|path|string|true|ID of the organization|
+|orgID|path|string|true|Organization ID|
+|userID|path|string|true|User ID|
+|consentID|path|string|true|Consent ID|
+|purposeID|path|string|true|Purpose ID|
 
 > Example responses
 
@@ -1519,273 +1799,120 @@ View an organization details using the organization ID.
 
 ```json
 {
-  "Organization": {
-    "ID": "string",
-    "Name": "string",
-    "CoverImageID": "string",
-    "CoverImageurl": "string",
-    "LogoImageID": "string",
-    "LogoImageURL": "string",
-    "Location": "string",
-    "Type": {
-      "ID": "5bba67ba98135900010927a5",
-      "Type": "Retail",
-      "ImageID": "5bba67e798135900010927a7",
-      "ImageURL": "https://api.igrant.io/v1/organizations/types/5bba67ba98135900010927a5/image"
+  "ID": "5e4e91036c7aa200012aa9da",
+  "ConsentID": "5e4e91036c7aa200012aa9da",
+  "OrgID": "5dae01aa267e930001609aa4",
+  "UserID": "5dbc02ecb99fd0000157547a",
+  "Consents": {
+    "Purpose": {
+      "ID": "5db0303ba531350001afc7e0",
+      "Name": "Marketing and campaign",
+      "Description": "For this purpose, following personal data attributes shown below are used. You may consent to share your data at attribute level.",
+      "LawfulUsage": false,
+      "PolicyURL": "https://orgname.com/policy_default.html"
     },
-    "Description": "string",
-    "Enabled": true,
-    "Policyurl": "string",
-    "EulaURL": "string",
-    "Template": [
+    "Count": {
+      "Total": 4,
+      "Consented": 4
+    },
+    "Consents": [
       {
-        "ID": "5bba6a9998135900010927ba",
-        "Consent": "Spouse",
-        "PurposeIDs": [
-          "5bba69db98135900010927ac, 8bba69db98135900010927af"
-        ]
+        "ID": "5dae01ee267e930001609aa8",
+        "Description": "Name",
+        "Value": "",
+        "Status": {
+          "Consent": "Allow",
+          "TimeStamp": "0001-01-01T00:00:00Z",
+          "Days": 0,
+          "Remaining": 0
+        }
       }
-    ],
-    "Purposes": [
-      {
-        "ID": "string",
-        "Description": "string",
-        "LawfulUsage": true,
-        "PolicyURL": "string"
-      }
-    ],
-    "Admins": [
-      {
-        "userID": "string",
-        "roleID": 0
-      }
-    ],
-    "BillingInfo": {
-      "BillingRegistrationID": "string",
-      "PlanType": "string"
-    }
+    ]
   }
 }
 ```
 
-<h3 id="get__organizations_{organizationid}-responses">Responses</h3>
+<h3 id="get-all-purpose-consents-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful response|[OrganizationObject](#schemaorganizationobject)|
-|404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Organization id not found|None|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Return consents for a given purpose|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
 
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
-</aside>
+<h3 id="get-all-purpose-consents-responseschema">Response Schema</h3>
 
+Status Code **200**
 
-## Delete an organization
-
-> Code samples
-
-```shell
-# You can also use wget
-curl -X DELETE https://api.igrant.io/v1/organizations/{organizationId} \
-  -H 'Authorization: Bearer API_KEY'
-
-```
-
-```http
-DELETE https://api.igrant.io/v1/organizations/{organizationId} HTTP/1.1
-Host: api.igrant.io
-
-```
-
-```javascript
-var headers = {
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationId}',
-  method: 'delete',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
-
-const headers = {
-  'Authorization':'API_KEY'
-
-};
-
-fetch('https://api.igrant.io/v1/organizations/{organizationId}',
-{
-  method: 'DELETE',
-
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Authorization' => 'API_KEY'
-}
-
-result = RestClient.delete 'https://api.igrant.io/v1/organizations/{organizationId}',
-  params: {
-  }, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Authorization': 'API_KEY'
-}
-
-r = requests.delete('https://api.igrant.io/v1/organizations/{organizationId}', params={
-
-}, headers = headers)
-
-print r.json()
-
-```
-
-```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("DELETE");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Authorization": []string{"API_KEY"},
-        
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("DELETE", "https://api.igrant.io/v1/organizations/{organizationId}", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`DELETE /organizations/{organizationId}`
-
-Delete an organization using the organization ID.
-
-<h3 id="delete__organizations_{organizationid}-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
+|Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|organizationId|path|string|true|ID of the organization|
-
-<h3 id="delete__organizations_{organizationid}-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Deleted successfully.|None|
-|404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Organization ID not found.|None|
+|» ID|string|false|none|none|
+|» ConsentID|string|false|none|none|
+|» OrgID|string|false|none|none|
+|» UserID|string|false|none|none|
+|» Consents|object|false|none|none|
+|»» Purpose|[Purpose](#schemapurpose)|false|none|none|
+|»»» ID|string|false|none|none|
+|»»» Name|string|false|none|none|
+|»»» Description|string|false|none|none|
+|»»» LawfulUsage|boolean|false|none|none|
+|»»» PolicyURL|string|false|none|none|
+|»» Count|object|false|none|none|
+|»»» Total|integer|false|none|none|
+|»»» Consented|integer|false|none|none|
+|»» Consents|[[AttributeConsent](#schemaattributeconsent)]|false|none|none|
+|»»» ID|string|false|none|none|
+|»»» Description|string|false|none|none|
+|»»» Value|string|false|none|none|
+|»»» Status|object|false|none|none|
+|»»»» Consent|string|false|none|none|
+|»»»» TimeStamp|string(date-time)|false|none|none|
+|»»»» Days|integer|false|none|none|
+|»»»» Remaining|integer|false|none|none|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
+bearerAuth
 </aside>
 
+## Update consents for attribute
 
-## Update an organization
+<a id="opIdUpdate consents for attribute"></a>
 
 > Code samples
 
 ```shell
 # You can also use wget
-curl -X PATCH https://api.igrant.io/v1/organizations/{organizationId} \
+curl -X PATCH https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID} \
   -H 'Content-Type: application/json' \
-  -H 'Authorization: Bearer API_KEY'
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
 
 ```
 
 ```http
-PATCH https://api.igrant.io/v1/organizations/{organizationId} HTTP/1.1
+PATCH https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID} HTTP/1.1
 Host: api.igrant.io
 Content-Type: application/json
+Accept: application/json
 
 ```
 
 ```javascript
-var headers = {
-  'Content-Type':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationId}',
-  method: 'patch',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
 const inputBody = '{
-  "Location": "string",
-  "Description": "string",
-  "Policyurl": "string"
+  "consentattributes": [
+    {
+      "attributeid": "5dae01ee267e930001609aa8"
+    }
+  ],
+  "consented": "Allow"
 }';
 const headers = {
   'Content-Type':'application/json',
-  'Authorization':'API_KEY'
-
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
 };
 
-fetch('https://api.igrant.io/v1/organizations/{organizationId}',
+fetch('https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}',
 {
   method: 'PATCH',
   body: inputBody,
@@ -1805,10 +1932,11 @@ require 'json'
 
 headers = {
   'Content-Type' => 'application/json',
-  'Authorization' => 'API_KEY'
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
 }
 
-result = RestClient.patch 'https://api.igrant.io/v1/organizations/{organizationId}',
+result = RestClient.patch 'https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}',
   params: {
   }, headers: headers
 
@@ -1820,19 +1948,51 @@ p JSON.parse(result)
 import requests
 headers = {
   'Content-Type': 'application/json',
-  'Authorization': 'API_KEY'
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
 }
 
-r = requests.patch('https://api.igrant.io/v1/organizations/{organizationId}', params={
+r = requests.patch('https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}', headers = headers)
 
-}, headers = headers)
+print(r.json())
 
-print r.json()
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Content-Type' => 'application/json',
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('PATCH','https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
 
 ```
 
 ```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}");
+URL obj = new URL("https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("PATCH");
 int responseCode = con.getResponseCode();
@@ -1860,12 +2020,12 @@ func main() {
 
     headers := map[string][]string{
         "Content-Type": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("PATCH", "https://api.igrant.io/v1/organizations/{organizationId}", data)
+    req, err := http.NewRequest("PATCH", "https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -1875,51 +2035,2884 @@ func main() {
 
 ```
 
-`PATCH /organizations/{organizationId}`
+`PATCH /organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}`
 
-Update basic organization details using organization ID.
+Update attribute consent for a given purpose
 
 > Body parameter
 
 ```json
 {
-  "Location": "string",
-  "Description": "string",
-  "Policyurl": "string"
+  "consentattributes": [
+    {
+      "attributeid": "5dae01ee267e930001609aa8"
+    }
+  ],
+  "consented": "Allow"
 }
 ```
 
-<h3 id="patch__organizations_{organizationid}-parameters">Parameters</h3>
+<h3 id="update-consents-for-attribute-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|organizationId|path|string|true|ID of the organization|
-|body|body|object|false|none|
-|Location|body|string|false|location of the organization|
-|Description|body|string|false|description of the organization|
-|Policyurl|body|string|false|Organization's policyURL|
+|orgID|path|string|true|Organization ID|
+|userID|path|string|true|User ID|
+|consentID|path|string|true|Consent ID|
+|purposeID|path|string|true|Purpose ID|
+|body|body|object|true|none|
+|» consentattributes|body|[object]|true|none|
+|»» attributeid|body|string|true|none|
+|» consented|body|string|true|none|
 
-<h3 id="patch__organizations_{organizationid}-responses">Responses</h3>
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "ID": "5e4e91036c7aa200012aa9da",
+  "OrgID": "5dae01aa267e930001609aa4",
+  "UserID": "5dbc02ecb99fd0000157547a",
+  "Purposes": [
+    {
+      "ID": "5dae1058a1215e00012103d8",
+      "AllowAll": false,
+      "Consents": [
+        {
+          "Status": {
+            "Consented": "Allow",
+            "TimeStamp": "0001-01-01T00:00:00Z",
+            "Days": 0
+          },
+          "Value": "",
+          "TemplateID": "5dae01f4267e930001609aa9"
+        }
+      ]
+    }
+  ]
+}
+```
+
+<h3 id="update-consents-for-attribute-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|202|[Accepted](https://tools.ietf.org/html/rfc7231#section-6.3.3)|Updated organization data successfully.|None|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns consents for the purpose|Inline|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Invalid request payload|None|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+|404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Not found|None|
+
+<h3 id="update-consents-for-attribute-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» ID|string|false|none|none|
+|» OrgID|string|false|none|none|
+|» UserID|string|false|none|none|
+|» Purposes|[object]|false|none|none|
+|»» ID|string|false|none|none|
+|»» AllowAll|boolean|false|none|none|
+|»» Consents|[object]|false|none|none|
+|»»» Status|object|false|none|none|
+|»»»» Consented|string|false|none|none|
+|»»»» TimeStamp|string(date-time)|false|none|none|
+|»»»» Days|integer|false|none|none|
+|»»» Value|string|false|none|none|
+|»»» TemplateID|string|false|none|none|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
+bearerAuth
 </aside>
 
+## Get all consents
 
-## View user roles
+<a id="opIdGet all consents"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X GET https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}/status \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+GET https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}/status HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}/status',
+{
+  method: 'GET',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.get 'https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}/status',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.get('https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}/status', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}/status', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}/status");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}/status", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`GET /organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}/status`
+
+Gets all consent attributes status for a given usage purpose
+
+<h3 id="get-all-consents-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|orgID|path|string|true|Organization ID|
+|userID|path|string|true|User ID|
+|consentID|path|string|true|Consent ID|
+|purposeID|path|string|true|Purpose ID|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "Consented": "Disallow"
+}
+```
+
+<h3 id="get-all-consents-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Return all consent attributes status for a given usage purpose|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<h3 id="get-all-consents-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» Consented|string|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Updates attribute consents for purpose
+
+<a id="opIdUpdates attribute consents for purpose"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}/status \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+POST https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}/status HTTP/1.1
+Host: api.igrant.io
+Content-Type: application/json
+Accept: application/json
+
+```
+
+```javascript
+const inputBody = '{
+  "consented": "Allow"
+}';
+const headers = {
+  'Content-Type':'application/json',
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}/status',
+{
+  method: 'POST',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Content-Type' => 'application/json',
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.post 'https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}/status',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json',
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.post('https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}/status', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Content-Type' => 'application/json',
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}/status', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}/status");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Content-Type": []string{"application/json"},
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}/status", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}/status`
+
+Updates all attribute consents of a given purpose
+
+> Body parameter
+
+```json
+{
+  "consented": "Allow"
+}
+```
+
+<h3 id="updates-attribute-consents-for-purpose-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|orgID|path|string|true|Organization ID|
+|userID|path|string|true|User ID|
+|consentID|path|string|true|Consent ID|
+|purposeID|path|string|true|Purpose ID|
+|body|body|object|true|none|
+|» consented|body|string|true|none|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "ID": "5e4e91036c7aa200012aa9da",
+  "OrgID": "5dae01aa267e930001609aa4",
+  "UserID": "5dbc02ecb99fd0000157547a",
+  "ConsentsAndPurposes": [
+    {
+      "Purpose": {
+        "ID": "5db0303ba531350001afc7e0",
+        "Name": "Marketing and campaign",
+        "Description": "For this purpose, following personal data attributes shown below are used. You may consent to share your data at attribute level.",
+        "LawfulUsage": false,
+        "PolicyURL": "https://orgname.com/policy_default.html"
+      },
+      "Count": {
+        "Total": 4,
+        "Consented": 4
+      },
+      "Consents": [
+        {
+          "ID": "5dae01ee267e930001609aa8",
+          "Description": "Name",
+          "Value": "",
+          "Status": {
+            "Consent": "Allow",
+            "TimeStamp": "0001-01-01T00:00:00Z",
+            "Days": 0,
+            "Remaining": 0
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+
+<h3 id="updates-attribute-consents-for-purpose-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Return consents and purposes|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<h3 id="updates-attribute-consents-for-purpose-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» ID|string|false|none|none|
+|» OrgID|string|false|none|none|
+|» UserID|string|false|none|none|
+|» ConsentsAndPurposes|[object]|false|none|none|
+|»» Purpose|[Purpose](#schemapurpose)|false|none|none|
+|»»» ID|string|false|none|none|
+|»»» Name|string|false|none|none|
+|»»» Description|string|false|none|none|
+|»»» LawfulUsage|boolean|false|none|none|
+|»»» PolicyURL|string|false|none|none|
+|»» Count|object|false|none|none|
+|»»» Total|integer|false|none|none|
+|»»» Consented|integer|false|none|none|
+|»» Consents|[[AttributeConsent](#schemaattributeconsent)]|false|none|none|
+|»»» ID|string|false|none|none|
+|»»» Description|string|false|none|none|
+|»»» Value|string|false|none|none|
+|»»» Status|object|false|none|none|
+|»»»» Consent|string|false|none|none|
+|»»»» TimeStamp|string(date-time)|false|none|none|
+|»»»» Days|integer|false|none|none|
+|»»»» Remaining|integer|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Update an attribute consent
+
+<a id="opIdUpdate an attribute consent"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X PATCH https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}/attributes/{attributeID} \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+PATCH https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}/attributes/{attributeID} HTTP/1.1
+Host: api.igrant.io
+Content-Type: application/json
+Accept: application/json
+
+```
+
+```javascript
+const inputBody = '{
+  "consented": "Allow",
+  "days": 0
+}';
+const headers = {
+  'Content-Type':'application/json',
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}/attributes/{attributeID}',
+{
+  method: 'PATCH',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Content-Type' => 'application/json',
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.patch 'https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}/attributes/{attributeID}',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json',
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.patch('https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}/attributes/{attributeID}', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Content-Type' => 'application/json',
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('PATCH','https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}/attributes/{attributeID}', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}/attributes/{attributeID}");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("PATCH");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Content-Type": []string{"application/json"},
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("PATCH", "https://api.igrant.io/v1/organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}/attributes/{attributeID}", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`PATCH /organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}/attributes/{attributeID}`
+
+Updates a single attribute consent for a usage purpose
+
+> Body parameter
+
+```json
+{
+  "consented": "Allow",
+  "days": 0
+}
+```
+
+<h3 id="update-an-attribute-consent-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|orgID|path|string|true|Organization ID|
+|userID|path|string|true|User ID|
+|consentID|path|string|true|Consent ID|
+|purposeID|path|string|true|Purpose ID|
+|attributeID|path|string|true|Attribute ID|
+|body|body|object|true|none|
+|» consented|body|string|true|none|
+|» days|body|integer|true|none|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "Msg": "Consent updated successfully",
+  "Status": 200
+}
+```
+
+<h3 id="update-an-attribute-consent-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Consent updated successfully|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<h3 id="update-an-attribute-consent-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» Msg|string|false|none|none|
+|» Status|integer|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Notify consent requests
+
+<a id="opIdNotify consent requests"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/attributes/consent \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+POST https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/attributes/consent HTTP/1.1
+Host: api.igrant.io
+Content-Type: application/json
+
+```
+
+```javascript
+const inputBody = '{
+  "attributeids": [
+    "5f1df5c84e26ea0001b9f3a7"
+  ]
+}';
+const headers = {
+  'Content-Type':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/attributes/consent',
+{
+  method: 'POST',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Content-Type' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.post 'https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/attributes/consent',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.post('https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/attributes/consent', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Content-Type' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/attributes/consent', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/attributes/consent");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Content-Type": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/attributes/consent", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /organizations/{orgID}/purposes/{purposeID}/attributes/consent`
+
+Make special request for consent for an attribute for all users in this organization. A notification is sent if the user consent is not present for the given attribute i.e. it is Disallow (as a notification to mobile app)
+
+> Body parameter
+
+```json
+{
+  "attributeids": [
+    "5f1df5c84e26ea0001b9f3a7"
+  ]
+}
+```
+
+<h3 id="notify-consent-requests-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|orgID|path|string|true|Organization ID|
+|purposeID|path|string|true|Purpose ID|
+|body|body|object|false|none|
+|» attributeids|body|[string]|false|none|
+
+<h3 id="notify-consent-requests-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|202|[Accepted](https://tools.ietf.org/html/rfc7231#section-6.3.3)|Notification requesting attribute consent is sent to user devices|None|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Get all consented users (Attribute)
+
+<a id="opIdGet all consented users (Attribute)"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X GET https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/attributes/{attributeID}/consented/users \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+GET https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/attributes/{attributeID}/consented/users HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/attributes/{attributeID}/consented/users',
+{
+  method: 'GET',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.get 'https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/attributes/{attributeID}/consented/users',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.get('https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/attributes/{attributeID}/consented/users', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/attributes/{attributeID}/consented/users', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/attributes/{attributeID}/consented/users");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/attributes/{attributeID}/consented/users", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`GET /organizations/{orgID}/purposes/{purposeID}/attributes/{attributeID}/consented/users`
+
+Gets all users who consented to a given attribute for an usage purpose
+
+<h3 id="get-all-consented-users-(attribute)-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|orgID|path|string|true|Organization ID|
+|purposeID|path|string|true|Purpose ID|
+|attributeID|path|string|true|Attribute ID|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "Users": [
+    {
+      "ID": "5dbc02ecb99fd0000157547a",
+      "Name": "Donny Yang",
+      "Phone": "+44 7744 156699",
+      "Email": "donny@yopmail.com"
+    }
+  ],
+  "Links": {
+    "Self": "https://<server-url>/5dae01aa267e930001609aa4/purposes/5dae1058a1215e00012103d8/attributes/5dae106ba1215e00012103d9/consented/users?limit=50",
+    "Next": "https://<server-url>/5dae01aa267e930001609aa4/purposes/5dae1058a1215e00012103d8/attributes/5dae106ba1215e00012103d9/consented/users?limit=50&startid=5dbc02ecb99fd0000157547a"
+  }
+}
+```
+
+<h3 id="get-all-consented-users-(attribute)-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns users|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<h3 id="get-all-consented-users-(attribute)-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» Users|[object]|false|none|none|
+|»» ID|string|false|none|none|
+|»» Name|string|false|none|none|
+|»» Phone|string|false|none|none|
+|»» Email|string|false|none|none|
+|» Links|object|false|none|none|
+|»» Self|string|false|none|none|
+|»» Next|string|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Get all consented users (Purpose)
+
+<a id="opIdGet all consented users (Purpose)"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X GET https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/consented/users \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+GET https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/consented/users HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/consented/users',
+{
+  method: 'GET',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.get 'https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/consented/users',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.get('https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/consented/users', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/consented/users', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/consented/users");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/consented/users", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`GET /organizations/{orgID}/purposes/{purposeID}/consented/users`
+
+Gets all users who consented to a given usage purpose
+
+<h3 id="get-all-consented-users-(purpose)-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|orgID|path|string|true|Organization ID|
+|purposeID|path|string|true|Purpose ID|
+|limit|query|integer|false|Pagination limit|
+|startid|query|string|false|Pagination start ID (for e.g. action log ID)|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "Users": [
+    {
+      "ID": "5dbc02ecb99fd0000157547a",
+      "Name": "Donny Yang",
+      "Phone": "+44 7744 156699",
+      "Email": "donny@yopmail.com"
+    }
+  ],
+  "Links": {
+    "Self": "https://<server-url>/5dae01aa267e930001609aa4/purposes/5dae1058a1215e00012103d8/consented/users?limit=50",
+    "Next": "https://<server-url>/5dae01aa267e930001609aa4/purposes/5dae1058a1215e00012103d8/consented/users?limit=50&startid=5db0181fa531350001afc7d5"
+  }
+}
+```
+
+<h3 id="get-all-consented-users-(purpose)-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns users|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<h3 id="get-all-consented-users-(purpose)-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» Users|[object]|false|none|none|
+|»» ID|string|false|none|none|
+|»» Name|string|false|none|none|
+|»» Phone|string|false|none|none|
+|»» Email|string|false|none|none|
+|» Links|object|false|none|none|
+|»» Self|string|false|none|none|
+|»» Next|string|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+<h1 id="introduction-to-igrant-io-apis-service-management-user-">Service management (User)</h1>
+
+iGrant.io enables a multi-operator environment via a distributed service registry. The service management functions are at two levels: one at the individual level and the other at the organisational level. This section lists all service management functions towards individuals. This includes functions like registrations, user progile management, subscription to a specific organisatione etc.
+
+## Reset user password
+
+<a id="opIdReset user password"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://api.igrant.io/v1/user/password/reset \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+POST https://api.igrant.io/v1/user/password/reset HTTP/1.1
+Host: api.igrant.io
+Content-Type: application/json
+
+```
+
+```javascript
+const inputBody = '{
+  "password": "qwerty123"
+}';
+const headers = {
+  'Content-Type':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/user/password/reset',
+{
+  method: 'POST',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Content-Type' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.post 'https://api.igrant.io/v1/user/password/reset',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.post('https://api.igrant.io/v1/user/password/reset', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Content-Type' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://api.igrant.io/v1/user/password/reset', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/user/password/reset");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Content-Type": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/user/password/reset", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /user/password/reset`
+
+Resets a user password using the current password.
+
+> Body parameter
+
+```json
+{
+  "password": "qwerty123"
+}
+```
+
+<h3 id="reset-user-password-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|body|body|object|true|Current password|
+|» password|body|string|true|none|
+
+<h3 id="reset-user-password-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|User password resetted successfully|None|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request|None|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Forgot user password
+
+<a id="opIdForgot user password"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X PUT https://api.igrant.io/v1/user/password/forgot \
+  -H 'Content-Type: application/json'
+
+```
+
+```http
+PUT https://api.igrant.io/v1/user/password/forgot HTTP/1.1
+Host: api.igrant.io
+Content-Type: application/json
+
+```
+
+```javascript
+const inputBody = '{
+  "username": "admin@abc.com"
+}';
+const headers = {
+  'Content-Type':'application/json'
+};
+
+fetch('https://api.igrant.io/v1/user/password/forgot',
+{
+  method: 'PUT',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Content-Type' => 'application/json'
+}
+
+result = RestClient.put 'https://api.igrant.io/v1/user/password/forgot',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json'
+}
+
+r = requests.put('https://api.igrant.io/v1/user/password/forgot', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Content-Type' => 'application/json',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('PUT','https://api.igrant.io/v1/user/password/forgot', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/user/password/forgot");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("PUT");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Content-Type": []string{"application/json"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("PUT", "https://api.igrant.io/v1/user/password/forgot", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`PUT /user/password/forgot`
+
+Forgot user password is used to request a password reset. A notification is sent to the user reset the password to the registered email ID.
+
+> Body parameter
+
+```json
+{
+  "username": "admin@abc.com"
+}
+```
+
+<h3 id="forgot-user-password-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|body|body|object|true|Username|
+|» username|body|string|false|none|
+
+<h3 id="forgot-user-password-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|User forgot password action handled successfully|None|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request|None|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## Register new user
+
+<a id="opIdRegister new user"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://api.igrant.io/v1/users/register \
+  -H 'Content-Type: application/json'
+
+```
+
+```http
+POST https://api.igrant.io/v1/users/register HTTP/1.1
+Host: api.igrant.io
+Content-Type: application/json
+
+```
+
+```javascript
+const inputBody = '{
+  "username": "string",
+  "name": "string",
+  "password": "pa$$word",
+  "phone": "string",
+  "isadmin": true
+}';
+const headers = {
+  'Content-Type':'application/json'
+};
+
+fetch('https://api.igrant.io/v1/users/register',
+{
+  method: 'POST',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Content-Type' => 'application/json'
+}
+
+result = RestClient.post 'https://api.igrant.io/v1/users/register',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json'
+}
+
+r = requests.post('https://api.igrant.io/v1/users/register', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Content-Type' => 'application/json',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://api.igrant.io/v1/users/register', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/users/register");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Content-Type": []string{"application/json"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/users/register", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /users/register`
+
+Registers a new user to the system
+
+> Body parameter
+
+```json
+{
+  "username": "string",
+  "name": "string",
+  "password": "pa$$word",
+  "phone": "string",
+  "isadmin": true
+}
+```
+
+<h3 id="register-new-user-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|body|body|object|true|User details|
+|» username|body|string|true|none|
+|» name|body|string|false|none|
+|» password|body|string(password)|true|none|
+|» phone|body|string|true|none|
+|» isadmin|body|boolean|false|none|
+
+<h3 id="register-new-user-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|User created successfully|None|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request|None|
+|409|[Conflict](https://tools.ietf.org/html/rfc7231#section-6.5.8)|User exists with same username|None|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## Get user image
+
+<a id="opIdGet user image"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X GET https://api.igrant.io/v1/users/{userID}/image/{imageID} \
+  -H 'Accept: image/jpeg' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+GET https://api.igrant.io/v1/users/{userID}/image/{imageID} HTTP/1.1
+Host: api.igrant.io
+Accept: image/jpeg
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'image/jpeg',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/users/{userID}/image/{imageID}',
+{
+  method: 'GET',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'image/jpeg',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.get 'https://api.igrant.io/v1/users/{userID}/image/{imageID}',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'image/jpeg',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.get('https://api.igrant.io/v1/users/{userID}/image/{imageID}', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'image/jpeg',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/users/{userID}/image/{imageID}', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/users/{userID}/image/{imageID}");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"image/jpeg"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/users/{userID}/image/{imageID}", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`GET /users/{userID}/image/{imageID}`
+
+Get the image for a particular user
+
+<h3 id="get-user-image-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|userID|path|string|true|User ID|
+|imageID|path|string|true|Image ID|
+
+> Example responses
+
+> 200 Response
+
+<h3 id="get-user-image-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns user image|string|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+|404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|404 not found|None|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Update users image
+
+<a id="opIdUpdate users image"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://api.igrant.io/v1/users/{userID}/image \
+  -H 'Content-Type: multipart/form-data' \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+POST https://api.igrant.io/v1/users/{userID}/image HTTP/1.1
+Host: api.igrant.io
+Content-Type: multipart/form-data
+Accept: application/json
+
+```
+
+```javascript
+const inputBody = '{
+  "userimage": "string"
+}';
+const headers = {
+  'Content-Type':'multipart/form-data',
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/users/{userID}/image',
+{
+  method: 'POST',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Content-Type' => 'multipart/form-data',
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.post 'https://api.igrant.io/v1/users/{userID}/image',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Content-Type': 'multipart/form-data',
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.post('https://api.igrant.io/v1/users/{userID}/image', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Content-Type' => 'multipart/form-data',
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://api.igrant.io/v1/users/{userID}/image', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/users/{userID}/image");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Content-Type": []string{"multipart/form-data"},
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/users/{userID}/image", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /users/{userID}/image`
+
+Updates the image of a particular user
+
+> Body parameter
+
+```yaml
+userimage: string
+
+```
+
+<h3 id="update-users-image-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|userID|path|string|true|User ID|
+|body|body|object|true|none|
+|» userimage|body|string(binary)|true|none|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "User": {
+    "ID": "5daf22cea531351111afc7c8",
+    "Name": "George Floyd",
+    "IamID": "9d8c4h69-9fb2-4115-a4c3-53bddb8f2d7f",
+    "Email": "dmart@yopmail.com",
+    "Phone": "+46 7252 98991",
+    "ImageID": "5f1458a5chaa930001e78f12",
+    "ImageURL": "https:/<server-url>/image/5f1458a5chaa930001e78f12",
+    "LastVisit": "2020-07-22T18:04:02Z",
+    "Client": {
+      "Token": "fEkxEwh4T2mr-B4yQoZ9TT:APA91bHibhwLXkc2l6LxWxHW5TrKBoLrXGCHDO6A9pXQ0ShvDYPfxXm57D8tIsR-fwybjs-_OFXCgCbBQpYVON2svUiooWgJBFETXg_jUGy0B9etUHFnyuCbXPihyoCuJc2Gn6s9XkN_",
+      "Type": 2
+    },
+    "Orgs": [
+      {
+        "OrgID": "5dae2a9fa1215e00012103e4",
+        "Name": "Nordea Bank AB",
+        "Location": "Stockholm, Sweden",
+        "Type": "Banking and Finance",
+        "TypeID": "5d95a566a67c8800012f27d1",
+        "EulaAccepted": false
+      }
+    ],
+    "APIKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI1ZGFmMjJjZWE1MzEzNTAwMDFhZmM3YzgiLCJleHAiOjE2MDQwNjMwNjV9.Irk0XgXfVhIdlgBNz6ggEXlvoIPtzUzJv4-x0VKYBGE",
+    "Roles": [
+      {
+        "RoleID": 1,
+        "OrgID": "5daf22d0a531350001afc7c9"
+      }
+    ]
+  }
+}
+```
+
+<h3 id="update-users-image-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns user|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Invalid user image provided|None|
+
+<h3 id="update-users-image-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» User|[User](#schemauser)|false|none|none|
+|»» ID|string|false|none|none|
+|»» Name|string|false|none|none|
+|»» IamID|string|false|none|none|
+|»» Email|string|false|none|none|
+|»» Phone|string|false|none|none|
+|»» ImageID|string|false|none|none|
+|»» ImageURL|string|false|none|none|
+|»» LastVisit|string(date-time)|false|none|none|
+|»» Client|object|false|none|none|
+|»»» Token|string|false|none|none|
+|»»» Type|integer|false|none|none|
+|»» Orgs|[object]|false|none|none|
+|»»» OrgID|string|false|none|none|
+|»»» Name|string|false|none|none|
+|»»» Location|string|false|none|none|
+|»»» Type|string|false|none|none|
+|»»» TypeID|string|false|none|none|
+|»»» EulaAccepted|boolean|false|none|none|
+|»» APIKey|string|false|none|none|
+|»» Roles|[object]|false|none|none|
+|»»» RoleID|integer|false|none|none|
+|»»» OrgID|string|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Delete user image
+
+<a id="opIdDelete user image"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X DELETE https://api.igrant.io/v1/users/{userID}/image \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+DELETE https://api.igrant.io/v1/users/{userID}/image HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/users/{userID}/image',
+{
+  method: 'DELETE',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.delete 'https://api.igrant.io/v1/users/{userID}/image',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.delete('https://api.igrant.io/v1/users/{userID}/image', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('DELETE','https://api.igrant.io/v1/users/{userID}/image', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/users/{userID}/image");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("DELETE");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("DELETE", "https://api.igrant.io/v1/users/{userID}/image", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`DELETE /users/{userID}/image`
+
+Deletes a particular user image
+
+<h3 id="delete-user-image-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|userID|path|string|true|User ID|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "User": {
+    "ID": "5daf22cea531351111afc7c8",
+    "Name": "George Floyd",
+    "IamID": "9d8c4h69-9fb2-4115-a4c3-53bddb8f2d7f",
+    "Email": "dmart@yopmail.com",
+    "Phone": "+46 7252 98991",
+    "ImageID": "5f1458a5chaa930001e78f12",
+    "ImageURL": "https:/<server-url>/image/5f1458a5chaa930001e78f12",
+    "LastVisit": "2020-07-22T18:04:02Z",
+    "Client": {
+      "Token": "fEkxEwh4T2mr-B4yQoZ9TT:APA91bHibhwLXkc2l6LxWxHW5TrKBoLrXGCHDO6A9pXQ0ShvDYPfxXm57D8tIsR-fwybjs-_OFXCgCbBQpYVON2svUiooWgJBFETXg_jUGy0B9etUHFnyuCbXPihyoCuJc2Gn6s9XkN_",
+      "Type": 2
+    },
+    "Orgs": [
+      {
+        "OrgID": "5dae2a9fa1215e00012103e4",
+        "Name": "Nordea Bank AB",
+        "Location": "Stockholm, Sweden",
+        "Type": "Banking and Finance",
+        "TypeID": "5d95a566a67c8800012f27d1",
+        "EulaAccepted": false
+      }
+    ],
+    "APIKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI1ZGFmMjJjZWE1MzEzNTAwMDFhZmM3YzgiLCJleHAiOjE2MDQwNjMwNjV9.Irk0XgXfVhIdlgBNz6ggEXlvoIPtzUzJv4-x0VKYBGE",
+    "Roles": [
+      {
+        "RoleID": 1,
+        "OrgID": "5daf22d0a531350001afc7c9"
+      }
+    ]
+  }
+}
+```
+
+<h3 id="delete-user-image-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns user|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<h3 id="delete-user-image-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» User|[User](#schemauser)|false|none|none|
+|»» ID|string|false|none|none|
+|»» Name|string|false|none|none|
+|»» IamID|string|false|none|none|
+|»» Email|string|false|none|none|
+|»» Phone|string|false|none|none|
+|»» ImageID|string|false|none|none|
+|»» ImageURL|string|false|none|none|
+|»» LastVisit|string(date-time)|false|none|none|
+|»» Client|object|false|none|none|
+|»»» Token|string|false|none|none|
+|»»» Type|integer|false|none|none|
+|»» Orgs|[object]|false|none|none|
+|»»» OrgID|string|false|none|none|
+|»»» Name|string|false|none|none|
+|»»» Location|string|false|none|none|
+|»»» Type|string|false|none|none|
+|»»» TypeID|string|false|none|none|
+|»»» EulaAccepted|boolean|false|none|none|
+|»» APIKey|string|false|none|none|
+|»» Roles|[object]|false|none|none|
+|»»» RoleID|integer|false|none|none|
+|»»» OrgID|string|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+<h1 id="introduction-to-igrant-io-apis-service-management-organization-">Service management (Organization)</h1>
+
+iGrant.io enables a multi-operator environment via a distributed service registry. The service management functions are at two levels: one at the individual level and the other at the organisational level. This section lists all service management functions towards organisations. This includes functions like organisation onboarding/provisioning, managing organisation users, adding end users or consumers to organisation, agreement handling between a organisations for data exchange etc.
+
+## Register an organisation
+
+<a id="opIdRegister an organisation"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://api.igrant.io/v1/organizations \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+POST https://api.igrant.io/v1/organizations HTTP/1.1
+Host: api.igrant.io
+Content-Type: application/json
+Accept: application/json
+
+```
+
+```javascript
+const inputBody = '{
+  "name": "Delphyx LLP",
+  "location": "London, GB",
+  "typeid": "5f0570c04a05b00001a05cc2"
+}';
+const headers = {
+  'Content-Type':'application/json',
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations',
+{
+  method: 'POST',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Content-Type' => 'application/json',
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.post 'https://api.igrant.io/v1/organizations',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json',
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.post('https://api.igrant.io/v1/organizations', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Content-Type' => 'application/json',
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://api.igrant.io/v1/organizations', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Content-Type": []string{"application/json"},
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /organizations`
+
+Registers an organisation to the system
+
+> Body parameter
+
+```json
+{
+  "name": "Delphyx LLP",
+  "location": "London, GB",
+  "typeid": "5f0570c04a05b00001a05cc2"
+}
+```
+
+<h3 id="register-an-organisation-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|body|body|object|true|none|
+|» name|body|string|true|none|
+|» location|body|string|true|none|
+|» typeid|body|string|true|none|
+|» eulaurl|body|string|false|none|
+|» hlcsupport|body|boolean|false|none|
+|» description|body|string|false|none|
+
+> Example responses
+
+> 201 Response
+
+```json
+{
+  "ID": "5daf22d0a531350001afc7c9",
+  "Name": "DMart Retail Chain",
+  "CoverImageID": "",
+  "CoverImageURL": "",
+  "LogoImageID": "5ecf5f979a273200016a13ef",
+  "LogoImageURL": "https://<server-url>/5daf22d0a531350001afc7c9/image/5ecf5f979a273200016a13ef",
+  "Location": "Stockholm, Sweden",
+  "Type": {
+    "ID": "5d17cc114dacb40001b29094",
+    "Type": "Retail",
+    "ImageID": "5d17cc7f4dacb40001b29095",
+    "ImageURL": "https://staging-api.igrant.io/v1/organizations/types/5d17cc114dacb40001b29094/image"
+  },
+  "Description": "",
+  "Enabled": true,
+  "PolicyURL": "",
+  "EulaURL": "",
+  "Templates": [
+    {
+      "ID": "5f187f9efd59960001434c2e",
+      "Consent": "Age",
+      "PurposeIDs": [
+        "5db0303ba531350001afc7e0",
+        "5db03048a531350001afc7e1"
+      ]
+    }
+  ],
+  "Purposes": [
+    {
+      "ID": "5db0303ba531350001afc7e0",
+      "Name": "Marketing and campaign",
+      "Description": "For this purpose, following personal data attributes shown below are used. You may consent to share your data at attribute level.",
+      "LawfulUsage": false,
+      "PolicyURL": "https://orgname.com/policy_default.html"
+    }
+  ],
+  "Admins": [
+    {
+      "UserID": "5daf22cea531350001afc7c8",
+      "RoleID": 1
+    }
+  ],
+  "BillingInfo": {
+    "BillingRegistrationID": "cus_G2URbi8W6DT7hh",
+    "MaxUserCounter": 4,
+    "DefaultChargeNotified": false,
+    "CurrentPeriodEnd": 0,
+    "PrevMonthUsers": 1,
+    "PayPerUserInfo": {
+      "UserCommitment": 0,
+      "TimeCommitment": "",
+      "CancelOnCommitmentEnd": false,
+      "CommitmentPeriodRemaining": 0
+    },
+    "DefaultPaymentSource": {
+      "Brand": "Visa",
+      "ExpiryMonth": 4,
+      "ExpiryYear": 2024,
+      "Last4Digits": "4242"
+    },
+    "Address": {
+      "Name": "George Floyd",
+      "City": "Stockholm",
+      "Country": "Sweden",
+      "Line1": "",
+      "Line2": "",
+      "PostalCode": "",
+      "State": ""
+    },
+    "ServiceAgreementVersion": "v2.0",
+    "FreeTrialExpired": true
+  },
+  "Subs": {
+    "Method": 0,
+    "Key": ""
+  },
+  "HlcSupport": false,
+  "PrivacyDashboard": {
+    "HostName": "dmart.igrant.io",
+    "Version": "v1.1.7",
+    "Status": 2,
+    "Delete": false
+  }
+}
+```
+
+<h3 id="register-an-organisation-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|Returns created organisation|[Organisation](#schemaorganisation)|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Get org user roles
+
+<a id="opIdGet org user roles"></a>
 
 > Code samples
 
 ```shell
 # You can also use wget
 curl -X GET https://api.igrant.io/v1/organizations/roles \
-  -H 'Accept: application/json' \
-  -H 'Authorization: Bearer API_KEY'
+  -H 'Accept: application/json'
 
 ```
 
@@ -1931,31 +4924,9 @@ Accept: application/json
 ```
 
 ```javascript
-var headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/roles',
-  method: 'get',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
 
 const headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
+  'Accept':'application/json'
 };
 
 fetch('https://api.igrant.io/v1/organizations/roles',
@@ -1977,8 +4948,7 @@ require 'rest-client'
 require 'json'
 
 headers = {
-  'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
+  'Accept' => 'application/json'
 }
 
 result = RestClient.get 'https://api.igrant.io/v1/organizations/roles',
@@ -1992,15 +4962,43 @@ p JSON.parse(result)
 ```python
 import requests
 headers = {
-  'Accept': 'application/json',
-  'Authorization': 'API_KEY'
+  'Accept': 'application/json'
 }
 
-r = requests.get('https://api.igrant.io/v1/organizations/roles', params={
+r = requests.get('https://api.igrant.io/v1/organizations/roles', headers = headers)
 
-}, headers = headers)
+print(r.json())
 
-print r.json()
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/organizations/roles', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
 
 ```
 
@@ -2033,8 +5031,6 @@ func main() {
 
     headers := map[string][]string{
         "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
@@ -2050,7 +5046,1489 @@ func main() {
 
 `GET /organizations/roles`
 
-View available user roles possible within an organisation.
+Get the list of organisational user roles
+
+> Example responses
+
+> 200 Response
+
+```json
+[
+  {
+    "ID": 1,
+    "Role": "Admin"
+  },
+  {
+    "ID": 2,
+    "Role": "Dpo"
+  },
+  {
+    "ID": 3,
+    "Role": "Developer"
+  }
+]
+```
+
+<h3 id="get-org-user-roles-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns the list of organisation roles|Inline|
+
+<h3 id="get-org-user-roles-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» ID|integer|false|none|none|
+|» Role|string|false|none|none|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## Get subscription methods
+
+<a id="opIdGet subscription methods"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X GET https://api.igrant.io/v1/organizations/subscribe-methods \
+  -H 'Accept: application/json'
+
+```
+
+```http
+GET https://api.igrant.io/v1/organizations/subscribe-methods HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'application/json'
+};
+
+fetch('https://api.igrant.io/v1/organizations/subscribe-methods',
+{
+  method: 'GET',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json'
+}
+
+result = RestClient.get 'https://api.igrant.io/v1/organizations/subscribe-methods',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json'
+}
+
+r = requests.get('https://api.igrant.io/v1/organizations/subscribe-methods', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/organizations/subscribe-methods', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/subscribe-methods");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/subscribe-methods", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`GET /organizations/subscribe-methods`
+
+Gets all organisation subscription methods configured in the system
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "Methods": [
+    {
+      "ID": 1,
+      "Method": "Key-Based"
+    }
+  ]
+}
+```
+
+<h3 id="get-subscription-methods-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns all organisation subscription methods|Inline|
+
+<h3 id="get-subscription-methods-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» Methods|[object]|false|none|none|
+|»» ID|integer|false|none|none|
+|»» Method|string|false|none|none|
+
+<aside class="success">
+This operation does not require authentication
+</aside>
+
+## Gets organization type
+
+<a id="opIdGets organization type"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X GET https://api.igrant.io/v1/organizations/types/{typeID} \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+GET https://api.igrant.io/v1/organizations/types/{typeID} HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/types/{typeID}',
+{
+  method: 'GET',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.get 'https://api.igrant.io/v1/organizations/types/{typeID}',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.get('https://api.igrant.io/v1/organizations/types/{typeID}', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/organizations/types/{typeID}', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/types/{typeID}");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/types/{typeID}", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`GET /organizations/types/{typeID}`
+
+Gets organization catogory type by given ID
+
+<h3 id="gets-organization-type-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|typeID|path|string|true|Organisation type ID|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "ID": "5d17cc114dacb40001b29094",
+  "Type": "Retail",
+  "ImageID": "5d17cc7f4dacb40001b29095",
+  "ImageURL": "https://staging-api.igrant.io/v1/organizations/types/5d17cc114dacb40001b29094/image"
+}
+```
+
+<h3 id="gets-organization-type-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns the organization type|[OrganisationType](#schemaorganisationtype)|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Get organization
+
+<a id="opIdGet organization"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X GET https://api.igrant.io/v1/organizations/{organizationID} \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+GET https://api.igrant.io/v1/organizations/{organizationID} HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}',
+{
+  method: 'GET',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationID}',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.get('https://api.igrant.io/v1/organizations/{organizationID}', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/organizations/{organizationID}', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationID}", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`GET /organizations/{organizationID}`
+
+Get organization by ID
+
+<h3 id="get-organization-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organisation ID|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "Organization": {
+    "ID": "5daf22d0a531350001afc7c9",
+    "Name": "DMart Retail Chain",
+    "CoverImageID": "",
+    "CoverImageURL": "",
+    "LogoImageID": "5ecf5f979a273200016a13ef",
+    "LogoImageURL": "https://<server-url>/5daf22d0a531350001afc7c9/image/5ecf5f979a273200016a13ef",
+    "Location": "Stockholm, Sweden",
+    "Type": {
+      "ID": "5d17cc114dacb40001b29094",
+      "Type": "Retail",
+      "ImageID": "5d17cc7f4dacb40001b29095",
+      "ImageURL": "https://staging-api.igrant.io/v1/organizations/types/5d17cc114dacb40001b29094/image"
+    },
+    "Description": "",
+    "Enabled": true,
+    "PolicyURL": "",
+    "EulaURL": "",
+    "Templates": [
+      {
+        "ID": "5f187f9efd59960001434c2e",
+        "Consent": "Age",
+        "PurposeIDs": [
+          "5db0303ba531350001afc7e0",
+          "5db03048a531350001afc7e1"
+        ]
+      }
+    ],
+    "Purposes": [
+      {
+        "ID": "5db0303ba531350001afc7e0",
+        "Name": "Marketing and campaign",
+        "Description": "For this purpose, following personal data attributes shown below are used. You may consent to share your data at attribute level.",
+        "LawfulUsage": false,
+        "PolicyURL": "https://orgname.com/policy_default.html"
+      }
+    ],
+    "Admins": [
+      {
+        "UserID": "5daf22cea531350001afc7c8",
+        "RoleID": 1
+      }
+    ],
+    "BillingInfo": {
+      "BillingRegistrationID": "cus_G2URbi8W6DT7hh",
+      "MaxUserCounter": 4,
+      "DefaultChargeNotified": false,
+      "CurrentPeriodEnd": 0,
+      "PrevMonthUsers": 1,
+      "PayPerUserInfo": {
+        "UserCommitment": 0,
+        "TimeCommitment": "",
+        "CancelOnCommitmentEnd": false,
+        "CommitmentPeriodRemaining": 0
+      },
+      "DefaultPaymentSource": {
+        "Brand": "Visa",
+        "ExpiryMonth": 4,
+        "ExpiryYear": 2024,
+        "Last4Digits": "4242"
+      },
+      "Address": {
+        "Name": "George Floyd",
+        "City": "Stockholm",
+        "Country": "Sweden",
+        "Line1": "",
+        "Line2": "",
+        "PostalCode": "",
+        "State": ""
+      },
+      "ServiceAgreementVersion": "v2.0",
+      "FreeTrialExpired": true
+    },
+    "Subs": {
+      "Method": 0,
+      "Key": ""
+    },
+    "HlcSupport": false,
+    "PrivacyDashboard": {
+      "HostName": "dmart.igrant.io",
+      "Version": "v1.1.7",
+      "Status": 2,
+      "Delete": false
+    }
+  }
+}
+```
+
+<h3 id="get-organization-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns organization|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+|404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|404 not found|None|
+
+<h3 id="get-organization-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» Organization|[Organisation](#schemaorganisation)|false|none|none|
+|»» ID|string|false|none|none|
+|»» Name|string|false|none|none|
+|»» CoverImageID|string|false|none|none|
+|»» CoverImageURL|string|false|none|none|
+|»» LogoImageID|string|false|none|none|
+|»» LogoImageURL|string|false|none|none|
+|»» Location|string|false|none|none|
+|»» Type|[OrganisationType](#schemaorganisationtype)|false|none|none|
+|»»» ID|string|false|none|none|
+|»»» Type|string|false|none|none|
+|»»» ImageID|string|false|none|none|
+|»»» ImageURL|string|false|none|none|
+|»» Description|string|false|none|none|
+|»» Enabled|boolean|false|none|none|
+|»» PolicyURL|string|false|none|none|
+|»» EulaURL|string|false|none|none|
+|»» Templates|[allOf]|false|none|none|
+
+*allOf*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»»» *anonymous*|[Template](#schematemplate)|false|none|none|
+|»»»» ID|string|false|none|none|
+|»»»» Consent|string|false|none|none|
+
+*and*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»»» *anonymous*|object|false|none|none|
+|»»»» PurposeIDs|[string]|false|none|none|
+
+*continued*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»» Purposes|[[Purpose](#schemapurpose)]|false|none|none|
+|»»» ID|string|false|none|none|
+|»»» Name|string|false|none|none|
+|»»» Description|string|false|none|none|
+|»»» LawfulUsage|boolean|false|none|none|
+|»»» PolicyURL|string|false|none|none|
+|»» Admins|[object]|false|none|none|
+|»»» UserID|string|false|none|none|
+|»»» RoleID|string|false|none|none|
+|»» BillingInfo|[OrganisationBillingInfo](#schemaorganisationbillinginfo)|false|none|none|
+|»»» BillingRegistrationID|string|false|none|none|
+|»»» MaxUserCounter|integer|false|none|none|
+|»»» DefaultChargeNotified|boolean|false|none|none|
+|»»» CurrentPeriodEnd|integer|false|none|none|
+|»»» PrevMonthUsers|integer|false|none|none|
+|»»» PayPerUserInfo|object|false|none|none|
+|»»»» UserCommitment|integer|false|none|none|
+|»»»» TimeCommitment|string|false|none|none|
+|»»»» CancelOnCommitmentEnd|boolean|false|none|none|
+|»»»» CommitmentPeriodRemaining|integer|false|none|none|
+|»»» DefaultPaymentSource|object|false|none|none|
+|»»»» Brand|string|false|none|none|
+|»»»» ExpiryMonth|integer|false|none|none|
+|»»»» ExpiryYear|integer|false|none|none|
+|»»»» Last4Digits|string|false|none|none|
+|»»» Address|object|false|none|none|
+|»»»» Name|string|false|none|none|
+|»»»» City|string|false|none|none|
+|»»»» Country|string|false|none|none|
+|»»»» Line1|string|false|none|none|
+|»»»» Line2|string|false|none|none|
+|»»»» PostalCode|string|false|none|none|
+|»»»» State|string|false|none|none|
+|»»» ServiceAgreementVersion|string|false|none|none|
+|»»» FreeTrialExpired|boolean|false|none|none|
+|»» Subs|object|false|none|none|
+|»»» Method|integer|false|none|none|
+|»»» Key|string|false|none|none|
+|»» HlcSupport|boolean|false|none|none|
+|»» PrivacyDashboard|[OrganisationPrivacyBoard](#schemaorganisationprivacyboard)|false|none|none|
+|»»» HostName|string|false|none|none|
+|»»» Version|string|false|none|none|
+|»»» Status|integer|false|none|none|
+|»»» Delete|boolean|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Update an organization
+
+<a id="opIdUpdate an organization"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X PATCH https://api.igrant.io/v1/organizations/{organizationID} \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+PATCH https://api.igrant.io/v1/organizations/{organizationID} HTTP/1.1
+Host: api.igrant.io
+Content-Type: application/json
+
+```
+
+```javascript
+const inputBody = '{
+  "name": "string",
+  "location": "string",
+  "description": "string",
+  "policyurl": "string"
+}';
+const headers = {
+  'Content-Type':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}',
+{
+  method: 'PATCH',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Content-Type' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.patch 'https://api.igrant.io/v1/organizations/{organizationID}',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.patch('https://api.igrant.io/v1/organizations/{organizationID}', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Content-Type' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('PATCH','https://api.igrant.io/v1/organizations/{organizationID}', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("PATCH");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Content-Type": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("PATCH", "https://api.igrant.io/v1/organizations/{organizationID}", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`PATCH /organizations/{organizationID}`
+
+Updates an organization
+
+> Body parameter
+
+```json
+{
+  "name": "string",
+  "location": "string",
+  "description": "string",
+  "policyurl": "string"
+}
+```
+
+<h3 id="update-an-organization-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organisation ID|
+|body|body|object|false|none|
+|» name|body|string|false|none|
+|» location|body|string|false|none|
+|» description|body|string|false|none|
+|» policyurl|body|string|false|none|
+
+<h3 id="update-an-organization-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|202|[Accepted](https://tools.ietf.org/html/rfc7231#section-6.3.3)|Updated organization|None|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+|404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|404 not found|None|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Get subscription key
+
+<a id="opIdGet subscription key"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X GET https://api.igrant.io/v1/organizations/{organizationID}/subscribe-key \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+GET https://api.igrant.io/v1/organizations/{organizationID}/subscribe-key HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/subscribe-key',
+{
+  method: 'GET',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationID}/subscribe-key',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.get('https://api.igrant.io/v1/organizations/{organizationID}/subscribe-key', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/organizations/{organizationID}/subscribe-key', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/subscribe-key");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationID}/subscribe-key", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`GET /organizations/{organizationID}/subscribe-key`
+
+Gets subscription key if the subscription method is key based
+
+<h3 id="get-subscription-key-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organisation ID|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "SubscribeKey": "IT43-YO37-I6GG",
+  "SubscribeMethod": "Key-Based"
+}
+```
+
+<h3 id="get-subscription-key-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns the subscription key and method|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<h3 id="get-subscription-key-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» SubscribeKey|string|false|none|none|
+|» SubscribeMethod|string|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Renew the subscription key
+
+<a id="opIdRenew the subscription key"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://api.igrant.io/v1/organizations/{organizationID}/subscribe-key/renew \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+POST https://api.igrant.io/v1/organizations/{organizationID}/subscribe-key/renew HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/subscribe-key/renew',
+{
+  method: 'POST',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationID}/subscribe-key/renew',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.post('https://api.igrant.io/v1/organizations/{organizationID}/subscribe-key/renew', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://api.igrant.io/v1/organizations/{organizationID}/subscribe-key/renew', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/subscribe-key/renew");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationID}/subscribe-key/renew", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /organizations/{organizationID}/subscribe-key/renew`
+
+Renew the subscription key if the subscription method is key based
+
+<h3 id="renew-the-subscription-key-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organisation ID|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "SubscribeKey": "69H7-RWT4-CHQJ",
+  "SubscribeMethod": "Key-Based"
+}
+```
+
+<h3 id="renew-the-subscription-key-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns the renewed subscription key|Inline|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Unable to renew since, existing subscription method is not key based|None|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<h3 id="renew-the-subscription-key-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» SubscribeKey|string|false|none|none|
+|» SubscribeMethod|string|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Get subscription method
+
+<a id="opIdGet subscription method"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X GET https://api.igrant.io/v1/organizations/{organizationID}/subscribe-method \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+GET https://api.igrant.io/v1/organizations/{organizationID}/subscribe-method HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/subscribe-method',
+{
+  method: 'GET',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationID}/subscribe-method',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.get('https://api.igrant.io/v1/organizations/{organizationID}/subscribe-method', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/organizations/{organizationID}/subscribe-method', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/subscribe-method");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationID}/subscribe-method", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`GET /organizations/{organizationID}/subscribe-method`
+
+Get the existing subscription method for an organization
+
+<h3 id="get-subscription-method-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organisation ID|
 
 > Example responses
 
@@ -2059,78 +6537,62 @@ View available user roles possible within an organisation.
 ```json
 {
   "ID": 1,
-  "Role": "Admin"
+  "Method": "Key-Based"
 }
 ```
 
-<h3 id="get__organizations_roles-responses">Responses</h3>
+<h3 id="get-subscription-method-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|List of available roles.|[Roles](#schemaroles)|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns subscription method|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<h3 id="get-subscription-method-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» ID|integer|false|none|none|
+|» Method|string|false|none|none|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
+bearerAuth
 </aside>
 
+## Set subscription method
 
-
-## Create subscription token
+<a id="opIdSet subscription method"></a>
 
 > Code samples
 
 ```shell
 # You can also use wget
-curl -X POST https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token \
+curl -X POST https://api.igrant.io/v1/organizations/{organizationID}/subscribe-method \
   -H 'Content-Type: application/json' \
-  -H 'Accept: application/json' \
-  -H 'Authorization: Bearer API_KEY'
+  -H 'Authorization: Bearer {access-token}'
 
 ```
 
 ```http
-POST https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token HTTP/1.1
+POST https://api.igrant.io/v1/organizations/{organizationID}/subscribe-method HTTP/1.1
 Host: api.igrant.io
 Content-Type: application/json
-Accept: application/json
 
 ```
 
 ```javascript
-var headers = {
-  'Content-Type':'application/json',
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token',
-  method: 'post',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
 const inputBody = '{
-  "SubscribeToken": "string",
-  "SubscribeMethod": "string"
+  "subscribemethodid": 1
 }';
 const headers = {
   'Content-Type':'application/json',
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
+  'Authorization':'Bearer {access-token}'
 };
 
-fetch('https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token',
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/subscribe-method',
 {
   method: 'POST',
   body: inputBody,
@@ -2150,11 +6612,10 @@ require 'json'
 
 headers = {
   'Content-Type' => 'application/json',
-  'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
+  'Authorization' => 'Bearer {access-token}'
 }
 
-result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token',
+result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationID}/subscribe-method',
   params: {
   }, headers: headers
 
@@ -2166,20 +6627,49 @@ p JSON.parse(result)
 import requests
 headers = {
   'Content-Type': 'application/json',
-  'Accept': 'application/json',
-  'Authorization': 'API_KEY'
+  'Authorization': 'Bearer {access-token}'
 }
 
-r = requests.post('https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token', params={
+r = requests.post('https://api.igrant.io/v1/organizations/{organizationID}/subscribe-method', headers = headers)
 
-}, headers = headers)
+print(r.json())
 
-print r.json()
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Content-Type' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://api.igrant.io/v1/organizations/{organizationID}/subscribe-method', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
 
 ```
 
 ```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token");
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/subscribe-method");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("POST");
 int responseCode = con.getResponseCode();
@@ -2207,13 +6697,11 @@ func main() {
 
     headers := map[string][]string{
         "Content-Type": []string{"application/json"},
-        "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
+        "Authorization": []string{"Bearer {access-token}"},
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token", data)
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationID}/subscribe-method", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -2223,97 +6711,67 @@ func main() {
 
 ```
 
-`POST /organizations/{organizationID}/subscribe-token`
+`POST /organizations/{organizationID}/subscribe-method`
 
-Create subscription token if the organisation subsciption is key based.
+Sets how users can subscribe to an organization
 
 > Body parameter
 
 ```json
 {
-  "SubscribeToken": "string",
-  "SubscribeMethod": "string"
+  "subscribemethodid": 1
 }
 ```
 
-<h3 id="post__organizations_{organizationid}_subscribe-token-parameters">Parameters</h3>
+<h3 id="set-subscription-method-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|organizationID|path|string|true|id of the organization|
-|body|body|[SubscribeToken](#schemasubscribetoken)|true|none|
+|organizationID|path|string|true|Organization ID|
+|body|body|object|true|none|
+|» subscribemethodid|body|integer|true|none|
 
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "SubscribeToken": "string",
-  "SubscribeMethod": "string"
-}
-```
-
-<h3 id="post__organizations_{organizationid}_subscribe-token-responses">Responses</h3>
+<h3 id="set-subscription-method-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[SubscribeToken](#schemasubscribetoken)|
+|204|[No Content](https://tools.ietf.org/html/rfc7231#section-6.3.5)|Updated subscription method|None|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
+bearerAuth
 </aside>
 
+## Get subscription status
 
-## View subscription token
+<a id="opIdGet subscription status"></a>
 
 > Code samples
 
 ```shell
 # You can also use wget
-curl -X GET https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token \
+curl -X GET https://api.igrant.io/v1/organizations/{organizationID}/subscription \
   -H 'Accept: application/json' \
-  -H 'Authorization: Bearer API_KEY'
+  -H 'Authorization: Bearer {access-token}'
 
 ```
 
 ```http
-GET https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token HTTP/1.1
+GET https://api.igrant.io/v1/organizations/{organizationID}/subscription HTTP/1.1
 Host: api.igrant.io
 Accept: application/json
 
 ```
 
 ```javascript
-var headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token',
-  method: 'get',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
 
 const headers = {
   'Accept':'application/json',
-  'Authorization':'API_KEY'
-
+  'Authorization':'Bearer {access-token}'
 };
 
-fetch('https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token',
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/subscription',
 {
   method: 'GET',
 
@@ -2333,10 +6791,10 @@ require 'json'
 
 headers = {
   'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
+  'Authorization' => 'Bearer {access-token}'
 }
 
-result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token',
+result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationID}/subscription',
   params: {
   }, headers: headers
 
@@ -2348,19 +6806,49 @@ p JSON.parse(result)
 import requests
 headers = {
   'Accept': 'application/json',
-  'Authorization': 'API_KEY'
+  'Authorization': 'Bearer {access-token}'
 }
 
-r = requests.get('https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token', params={
+r = requests.get('https://api.igrant.io/v1/organizations/{organizationID}/subscription', headers = headers)
 
-}, headers = headers)
+print(r.json())
 
-print r.json()
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/organizations/{organizationID}/subscription', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
 
 ```
 
 ```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token");
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/subscription");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("GET");
 int responseCode = con.getResponseCode();
@@ -2388,12 +6876,11 @@ func main() {
 
     headers := map[string][]string{
         "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
+        "Authorization": []string{"Bearer {access-token}"},
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token", data)
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationID}/subscription", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -2403,15 +6890,15 @@ func main() {
 
 ```
 
-`GET /organizations/{organizationID}/subscribe-token`
+`GET /organizations/{organizationID}/subscription`
 
-View the subscription method for an organisation. If its key based, it will also return the subscription key that will be used by the user to subscribe to the organisation.
+Gets the subscription status of an organisation towards users. Used for troubleshooting purposes or used by Enterprise Dashboards.
 
-<h3 id="get__organizations_{organizationid}_subscribe-token-parameters">Parameters</h3>
+<h3 id="get-subscription-status-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|organizationID|path|string|true|id of the organization|
+|organizationID|path|string|true|Organisation ID|
 
 > Example responses
 
@@ -2419,68 +6906,942 @@ View the subscription method for an organisation. If its key based, it will also
 
 ```json
 {
-  "SubscribeToken": "string",
-  "SubscribeMethod": "string"
+  "Enabled": true
 }
 ```
 
-<h3 id="get__organizations_{organizationid}_subscribe-token-responses">Responses</h3>
+<h3 id="get-subscription-status-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[SubscribeToken](#schemasubscribetoken)|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns subscription status|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<h3 id="get-subscription-status-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» Enabled|boolean|false|none|none|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
+bearerAuth
 </aside>
 
+## Enable organization
 
-
-## Delete subscription token
+<a id="opIdEnable organization"></a>
 
 > Code samples
 
 ```shell
 # You can also use wget
-curl -X DELETE https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token \
-  -H 'Authorization: Bearer API_KEY'
+curl -X POST https://api.igrant.io/v1/organizations/{organizationID}/subscription/enable \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
 
 ```
 
 ```http
-DELETE https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token HTTP/1.1
+POST https://api.igrant.io/v1/organizations/{organizationID}/subscription/enable HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/subscription/enable',
+{
+  method: 'POST',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationID}/subscription/enable',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.post('https://api.igrant.io/v1/organizations/{organizationID}/subscription/enable', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://api.igrant.io/v1/organizations/{organizationID}/subscription/enable', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/subscription/enable");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationID}/subscription/enable", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /organizations/{organizationID}/subscription/enable`
+
+Enable organization for subscription towards users. This is performed once the data model is all uploaded and the organisation is ready for consent management and data exchange. 
+
+<h3 id="enable-organization-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organisation ID|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "Organization": {
+    "ID": "5daf22d0a531350001afc7c9",
+    "Name": "DMart Retail Chain",
+    "CoverImageID": "",
+    "CoverImageURL": "",
+    "LogoImageID": "5ecf5f979a273200016a13ef",
+    "LogoImageURL": "https://<server-url>/5daf22d0a531350001afc7c9/image/5ecf5f979a273200016a13ef",
+    "Location": "Stockholm, Sweden",
+    "Type": {
+      "ID": "5d17cc114dacb40001b29094",
+      "Type": "Retail",
+      "ImageID": "5d17cc7f4dacb40001b29095",
+      "ImageURL": "https://staging-api.igrant.io/v1/organizations/types/5d17cc114dacb40001b29094/image"
+    },
+    "Description": "",
+    "Enabled": true,
+    "PolicyURL": "",
+    "EulaURL": "",
+    "Templates": [
+      {
+        "ID": "5f187f9efd59960001434c2e",
+        "Consent": "Age",
+        "PurposeIDs": [
+          "5db0303ba531350001afc7e0",
+          "5db03048a531350001afc7e1"
+        ]
+      }
+    ],
+    "Purposes": [
+      {
+        "ID": "5db0303ba531350001afc7e0",
+        "Name": "Marketing and campaign",
+        "Description": "For this purpose, following personal data attributes shown below are used. You may consent to share your data at attribute level.",
+        "LawfulUsage": false,
+        "PolicyURL": "https://orgname.com/policy_default.html"
+      }
+    ],
+    "Admins": [
+      {
+        "UserID": "5daf22cea531350001afc7c8",
+        "RoleID": 1
+      }
+    ],
+    "BillingInfo": {
+      "BillingRegistrationID": "cus_G2URbi8W6DT7hh",
+      "MaxUserCounter": 4,
+      "DefaultChargeNotified": false,
+      "CurrentPeriodEnd": 0,
+      "PrevMonthUsers": 1,
+      "PayPerUserInfo": {
+        "UserCommitment": 0,
+        "TimeCommitment": "",
+        "CancelOnCommitmentEnd": false,
+        "CommitmentPeriodRemaining": 0
+      },
+      "DefaultPaymentSource": {
+        "Brand": "Visa",
+        "ExpiryMonth": 4,
+        "ExpiryYear": 2024,
+        "Last4Digits": "4242"
+      },
+      "Address": {
+        "Name": "George Floyd",
+        "City": "Stockholm",
+        "Country": "Sweden",
+        "Line1": "",
+        "Line2": "",
+        "PostalCode": "",
+        "State": ""
+      },
+      "ServiceAgreementVersion": "v2.0",
+      "FreeTrialExpired": true
+    },
+    "Subs": {
+      "Method": 0,
+      "Key": ""
+    },
+    "HlcSupport": false,
+    "PrivacyDashboard": {
+      "HostName": "dmart.igrant.io",
+      "Version": "v1.1.7",
+      "Status": 2,
+      "Delete": false
+    }
+  }
+}
+```
+
+<h3 id="enable-organization-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Enabled organisation for subscription|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<h3 id="enable-organization-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» Organization|[Organisation](#schemaorganisation)|false|none|none|
+|»» ID|string|false|none|none|
+|»» Name|string|false|none|none|
+|»» CoverImageID|string|false|none|none|
+|»» CoverImageURL|string|false|none|none|
+|»» LogoImageID|string|false|none|none|
+|»» LogoImageURL|string|false|none|none|
+|»» Location|string|false|none|none|
+|»» Type|[OrganisationType](#schemaorganisationtype)|false|none|none|
+|»»» ID|string|false|none|none|
+|»»» Type|string|false|none|none|
+|»»» ImageID|string|false|none|none|
+|»»» ImageURL|string|false|none|none|
+|»» Description|string|false|none|none|
+|»» Enabled|boolean|false|none|none|
+|»» PolicyURL|string|false|none|none|
+|»» EulaURL|string|false|none|none|
+|»» Templates|[allOf]|false|none|none|
+
+*allOf*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»»» *anonymous*|[Template](#schematemplate)|false|none|none|
+|»»»» ID|string|false|none|none|
+|»»»» Consent|string|false|none|none|
+
+*and*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»»» *anonymous*|object|false|none|none|
+|»»»» PurposeIDs|[string]|false|none|none|
+
+*continued*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»» Purposes|[[Purpose](#schemapurpose)]|false|none|none|
+|»»» ID|string|false|none|none|
+|»»» Name|string|false|none|none|
+|»»» Description|string|false|none|none|
+|»»» LawfulUsage|boolean|false|none|none|
+|»»» PolicyURL|string|false|none|none|
+|»» Admins|[object]|false|none|none|
+|»»» UserID|string|false|none|none|
+|»»» RoleID|string|false|none|none|
+|»» BillingInfo|[OrganisationBillingInfo](#schemaorganisationbillinginfo)|false|none|none|
+|»»» BillingRegistrationID|string|false|none|none|
+|»»» MaxUserCounter|integer|false|none|none|
+|»»» DefaultChargeNotified|boolean|false|none|none|
+|»»» CurrentPeriodEnd|integer|false|none|none|
+|»»» PrevMonthUsers|integer|false|none|none|
+|»»» PayPerUserInfo|object|false|none|none|
+|»»»» UserCommitment|integer|false|none|none|
+|»»»» TimeCommitment|string|false|none|none|
+|»»»» CancelOnCommitmentEnd|boolean|false|none|none|
+|»»»» CommitmentPeriodRemaining|integer|false|none|none|
+|»»» DefaultPaymentSource|object|false|none|none|
+|»»»» Brand|string|false|none|none|
+|»»»» ExpiryMonth|integer|false|none|none|
+|»»»» ExpiryYear|integer|false|none|none|
+|»»»» Last4Digits|string|false|none|none|
+|»»» Address|object|false|none|none|
+|»»»» Name|string|false|none|none|
+|»»»» City|string|false|none|none|
+|»»»» Country|string|false|none|none|
+|»»»» Line1|string|false|none|none|
+|»»»» Line2|string|false|none|none|
+|»»»» PostalCode|string|false|none|none|
+|»»»» State|string|false|none|none|
+|»»» ServiceAgreementVersion|string|false|none|none|
+|»»» FreeTrialExpired|boolean|false|none|none|
+|»» Subs|object|false|none|none|
+|»»» Method|integer|false|none|none|
+|»»» Key|string|false|none|none|
+|»» HlcSupport|boolean|false|none|none|
+|»» PrivacyDashboard|[OrganisationPrivacyBoard](#schemaorganisationprivacyboard)|false|none|none|
+|»»» HostName|string|false|none|none|
+|»»» Version|string|false|none|none|
+|»»» Status|integer|false|none|none|
+|»»» Delete|boolean|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Disable organization
+
+<a id="opIdDisable organization"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://api.igrant.io/v1/organizations/{organizationID}/subscription/disable \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+POST https://api.igrant.io/v1/organizations/{organizationID}/subscription/disable HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/subscription/disable',
+{
+  method: 'POST',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationID}/subscription/disable',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.post('https://api.igrant.io/v1/organizations/{organizationID}/subscription/disable', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://api.igrant.io/v1/organizations/{organizationID}/subscription/disable', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/subscription/disable");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationID}/subscription/disable", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /organizations/{organizationID}/subscription/disable`
+
+Disables an organisation towards users. This can be manually triggered by the organisation as part of maintainenace or can be forced by a super admin, example if the license conditions fail
+
+<h3 id="disable-organization-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organisation ID|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "Organization": {
+    "ID": "5daf22d0a531350001afc7c9",
+    "Name": "DMart Retail Chain",
+    "CoverImageID": "",
+    "CoverImageURL": "",
+    "LogoImageID": "5ecf5f979a273200016a13ef",
+    "LogoImageURL": "https://<server-url>/5daf22d0a531350001afc7c9/image/5ecf5f979a273200016a13ef",
+    "Location": "Stockholm, Sweden",
+    "Type": {
+      "ID": "5d17cc114dacb40001b29094",
+      "Type": "Retail",
+      "ImageID": "5d17cc7f4dacb40001b29095",
+      "ImageURL": "https://staging-api.igrant.io/v1/organizations/types/5d17cc114dacb40001b29094/image"
+    },
+    "Description": "",
+    "Enabled": true,
+    "PolicyURL": "",
+    "EulaURL": "",
+    "Templates": [
+      {
+        "ID": "5f187f9efd59960001434c2e",
+        "Consent": "Age",
+        "PurposeIDs": [
+          "5db0303ba531350001afc7e0",
+          "5db03048a531350001afc7e1"
+        ]
+      }
+    ],
+    "Purposes": [
+      {
+        "ID": "5db0303ba531350001afc7e0",
+        "Name": "Marketing and campaign",
+        "Description": "For this purpose, following personal data attributes shown below are used. You may consent to share your data at attribute level.",
+        "LawfulUsage": false,
+        "PolicyURL": "https://orgname.com/policy_default.html"
+      }
+    ],
+    "Admins": [
+      {
+        "UserID": "5daf22cea531350001afc7c8",
+        "RoleID": 1
+      }
+    ],
+    "BillingInfo": {
+      "BillingRegistrationID": "cus_G2URbi8W6DT7hh",
+      "MaxUserCounter": 4,
+      "DefaultChargeNotified": false,
+      "CurrentPeriodEnd": 0,
+      "PrevMonthUsers": 1,
+      "PayPerUserInfo": {
+        "UserCommitment": 0,
+        "TimeCommitment": "",
+        "CancelOnCommitmentEnd": false,
+        "CommitmentPeriodRemaining": 0
+      },
+      "DefaultPaymentSource": {
+        "Brand": "Visa",
+        "ExpiryMonth": 4,
+        "ExpiryYear": 2024,
+        "Last4Digits": "4242"
+      },
+      "Address": {
+        "Name": "George Floyd",
+        "City": "Stockholm",
+        "Country": "Sweden",
+        "Line1": "",
+        "Line2": "",
+        "PostalCode": "",
+        "State": ""
+      },
+      "ServiceAgreementVersion": "v2.0",
+      "FreeTrialExpired": true
+    },
+    "Subs": {
+      "Method": 0,
+      "Key": ""
+    },
+    "HlcSupport": false,
+    "PrivacyDashboard": {
+      "HostName": "dmart.igrant.io",
+      "Version": "v1.1.7",
+      "Status": 2,
+      "Delete": false
+    }
+  }
+}
+```
+
+<h3 id="disable-organization-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Disabled organisation for subscription|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<h3 id="disable-organization-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» Organization|[Organisation](#schemaorganisation)|false|none|none|
+|»» ID|string|false|none|none|
+|»» Name|string|false|none|none|
+|»» CoverImageID|string|false|none|none|
+|»» CoverImageURL|string|false|none|none|
+|»» LogoImageID|string|false|none|none|
+|»» LogoImageURL|string|false|none|none|
+|»» Location|string|false|none|none|
+|»» Type|[OrganisationType](#schemaorganisationtype)|false|none|none|
+|»»» ID|string|false|none|none|
+|»»» Type|string|false|none|none|
+|»»» ImageID|string|false|none|none|
+|»»» ImageURL|string|false|none|none|
+|»» Description|string|false|none|none|
+|»» Enabled|boolean|false|none|none|
+|»» PolicyURL|string|false|none|none|
+|»» EulaURL|string|false|none|none|
+|»» Templates|[allOf]|false|none|none|
+
+*allOf*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»»» *anonymous*|[Template](#schematemplate)|false|none|none|
+|»»»» ID|string|false|none|none|
+|»»»» Consent|string|false|none|none|
+
+*and*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»»» *anonymous*|object|false|none|none|
+|»»»» PurposeIDs|[string]|false|none|none|
+
+*continued*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»» Purposes|[[Purpose](#schemapurpose)]|false|none|none|
+|»»» ID|string|false|none|none|
+|»»» Name|string|false|none|none|
+|»»» Description|string|false|none|none|
+|»»» LawfulUsage|boolean|false|none|none|
+|»»» PolicyURL|string|false|none|none|
+|»» Admins|[object]|false|none|none|
+|»»» UserID|string|false|none|none|
+|»»» RoleID|string|false|none|none|
+|»» BillingInfo|[OrganisationBillingInfo](#schemaorganisationbillinginfo)|false|none|none|
+|»»» BillingRegistrationID|string|false|none|none|
+|»»» MaxUserCounter|integer|false|none|none|
+|»»» DefaultChargeNotified|boolean|false|none|none|
+|»»» CurrentPeriodEnd|integer|false|none|none|
+|»»» PrevMonthUsers|integer|false|none|none|
+|»»» PayPerUserInfo|object|false|none|none|
+|»»»» UserCommitment|integer|false|none|none|
+|»»»» TimeCommitment|string|false|none|none|
+|»»»» CancelOnCommitmentEnd|boolean|false|none|none|
+|»»»» CommitmentPeriodRemaining|integer|false|none|none|
+|»»» DefaultPaymentSource|object|false|none|none|
+|»»»» Brand|string|false|none|none|
+|»»»» ExpiryMonth|integer|false|none|none|
+|»»»» ExpiryYear|integer|false|none|none|
+|»»»» Last4Digits|string|false|none|none|
+|»»» Address|object|false|none|none|
+|»»»» Name|string|false|none|none|
+|»»»» City|string|false|none|none|
+|»»»» Country|string|false|none|none|
+|»»»» Line1|string|false|none|none|
+|»»»» Line2|string|false|none|none|
+|»»»» PostalCode|string|false|none|none|
+|»»»» State|string|false|none|none|
+|»»» ServiceAgreementVersion|string|false|none|none|
+|»»» FreeTrialExpired|boolean|false|none|none|
+|»» Subs|object|false|none|none|
+|»»» Method|integer|false|none|none|
+|»»» Key|string|false|none|none|
+|»» HlcSupport|boolean|false|none|none|
+|»» PrivacyDashboard|[OrganisationPrivacyBoard](#schemaorganisationprivacyboard)|false|none|none|
+|»»» HostName|string|false|none|none|
+|»»» Version|string|false|none|none|
+|»»» Status|integer|false|none|none|
+|»»» Delete|boolean|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Update EULA URL
+
+<a id="opIdUpdate EULA URL"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://api.igrant.io/v1/organizations/{organizationID}/eulaURL \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+POST https://api.igrant.io/v1/organizations/{organizationID}/eulaURL HTTP/1.1
+Host: api.igrant.io
+Content-Type: application/json
+
+```
+
+```javascript
+const inputBody = '{
+  "eulaurl": "https://igrant.io/eula.html"
+}';
+const headers = {
+  'Content-Type':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/eulaURL',
+{
+  method: 'POST',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Content-Type' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationID}/eulaURL',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.post('https://api.igrant.io/v1/organizations/{organizationID}/eulaURL', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Content-Type' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://api.igrant.io/v1/organizations/{organizationID}/eulaURL', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/eulaURL");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Content-Type": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationID}/eulaURL", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /organizations/{organizationID}/eulaURL`
+
+Updates an organization's EULA URL. This is used if the organisation wishes to notify users if there are any updates to its EULA agrements.
+
+> Body parameter
+
+```json
+{
+  "eulaurl": "https://igrant.io/eula.html"
+}
+```
+
+<h3 id="update-eula-url-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organisation ID|
+|body|body|object|true|none|
+|» eulaurl|body|string|true|none|
+
+<h3 id="update-eula-url-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|202|[Accepted](https://tools.ietf.org/html/rfc7231#section-6.3.3)|Updated EULA URL for an organization|None|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Invalid EULA URL provided|None|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Delete aorganization EULA url
+
+<a id="opIdDelete aorganization EULA url"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X DELETE https://api.igrant.io/v1/organizations/{organizationID}/eulaURL \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+DELETE https://api.igrant.io/v1/organizations/{organizationID}/eulaURL HTTP/1.1
 Host: api.igrant.io
 
 ```
 
 ```javascript
-var headers = {
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token',
-  method: 'delete',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
 
 const headers = {
-  'Authorization':'API_KEY'
-
+  'Authorization':'Bearer {access-token}'
 };
 
-fetch('https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token',
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/eulaURL',
 {
   method: 'DELETE',
 
@@ -2499,10 +7860,10 @@ require 'rest-client'
 require 'json'
 
 headers = {
-  'Authorization' => 'API_KEY'
+  'Authorization' => 'Bearer {access-token}'
 }
 
-result = RestClient.delete 'https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token',
+result = RestClient.delete 'https://api.igrant.io/v1/organizations/{organizationID}/eulaURL',
   params: {
   }, headers: headers
 
@@ -2513,19 +7874,48 @@ p JSON.parse(result)
 ```python
 import requests
 headers = {
-  'Authorization': 'API_KEY'
+  'Authorization': 'Bearer {access-token}'
 }
 
-r = requests.delete('https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token', params={
+r = requests.delete('https://api.igrant.io/v1/organizations/{organizationID}/eulaURL', headers = headers)
 
-}, headers = headers)
+print(r.json())
 
-print r.json()
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('DELETE','https://api.igrant.io/v1/organizations/{organizationID}/eulaURL', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
 
 ```
 
 ```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token");
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/eulaURL");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("DELETE");
 int responseCode = con.getResponseCode();
@@ -2552,12 +7942,11 @@ import (
 func main() {
 
     headers := map[string][]string{
-        "Authorization": []string{"API_KEY"},
-        
+        "Authorization": []string{"Bearer {access-token}"},
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("DELETE", "https://api.igrant.io/v1/organizations/{organizationID}/subscribe-token", data)
+    req, err := http.NewRequest("DELETE", "https://api.igrant.io/v1/organizations/{organizationID}/eulaURL", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -2567,1907 +7956,61 @@ func main() {
 
 ```
 
-`DELETE /organizations/{organizationID}/subscribe-token`
+`DELETE /organizations/{organizationID}/eulaURL`
 
-Deletes the subscription token for an organisation. This is usually called when the organisation disables a key-based subscription method or when the subscription method is changed to other forms. e.g. using organization IDAM.
+Deletes an organization EULA URL
 
-<h3 id="delete__organizations_{organizationid}_subscribe-token-parameters">Parameters</h3>
+<h3 id="delete-aorganization-eula-url-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|organizationID|path|string|true|id of the organization|
+|organizationID|path|string|true|Organisation ID|
 
-<h3 id="delete__organizations_{organizationid}_subscribe-token-responses">Responses</h3>
+<h3 id="delete-aorganization-eula-url-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|204|[No Content](https://tools.ietf.org/html/rfc7231#section-6.3.5)|No content|None|
+|202|[Accepted](https://tools.ietf.org/html/rfc7231#section-6.3.3)|Deleted EULA URL for an organization|None|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Invalid EULA URL provided|None|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
+bearerAuth
 </aside>
 
-## Enable an organization
+## Delete admin user
+
+<a id="opIdDelete admin user"></a>
 
 > Code samples
 
 ```shell
 # You can also use wget
-curl -X POST https://api.igrant.io/v1/organizations/{organizationId}/subscription/enable \
+curl -X DELETE https://api.igrant.io/v1/organizations/{organizationID}/admins \
   -H 'Accept: application/json' \
-  -H 'Authorization: Bearer API_KEY'
+  -H 'Authorization: Bearer {access-token}'
 
 ```
 
 ```http
-POST https://api.igrant.io/v1/organizations/{organizationId}/subscription/enable HTTP/1.1
+DELETE https://api.igrant.io/v1/organizations/{organizationID}/admins HTTP/1.1
 Host: api.igrant.io
 Accept: application/json
 
 ```
 
 ```javascript
-var headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationId}/subscription/enable',
-  method: 'post',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
 
 const headers = {
   'Accept':'application/json',
-  'Authorization':'API_KEY'
-
+  'Authorization':'Bearer {access-token}'
 };
 
-fetch('https://api.igrant.io/v1/organizations/{organizationId}/subscription/enable',
-{
-  method: 'POST',
-
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
-}
-
-result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationId}/subscription/enable',
-  params: {
-  }, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Accept': 'application/json',
-  'Authorization': 'API_KEY'
-}
-
-r = requests.post('https://api.igrant.io/v1/organizations/{organizationId}/subscription/enable', params={
-
-}, headers = headers)
-
-print r.json()
-
-```
-
-```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/subscription/enable");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("POST");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationId}/subscription/enable", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`POST /organizations/{organizationId}/enable`
-
-Enables an organization. This is needed to publish the organization towards users.
-
-<h3 id="post__organizations_{organizationid}_enable-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|organizationId|path|string|true|id of the organization|
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "Organization": {
-    "ID": "string",
-    "Name": "string",
-    "CoverImageID": "string",
-    "CoverImageurl": "string",
-    "LogoImageID": "string",
-    "LogoImageURL": "string",
-    "Location": "string",
-    "Type": {
-      "ID": "5bba67ba98135900010927a5",
-      "Type": "Retail",
-      "ImageID": "5bba67e798135900010927a7",
-      "ImageURL": "https://api.igrant.io/v1/organizations/types/5bba67ba98135900010927a5/image"
-    },
-    "Description": "string",
-    "Enabled": true,
-    "Policyurl": "string",
-    "EulaURL": "string",
-    "Template": [
-      {
-        "ID": "5bba6a9998135900010927ba",
-        "Consent": "Spouse",
-        "PurposeIDs": [
-          "5bba69db98135900010927ac, 8bba69db98135900010927af"
-        ]
-      }
-    ],
-    "Purposes": [
-      {
-        "ID": "string",
-        "Description": "string",
-        "LawfulUsage": true,
-        "PolicyURL": "string"
-      }
-    ],
-    "Admins": [
-      {
-        "userID": "string",
-        "roleID": 0
-      }
-    ],
-    "BillingInfo": {
-      "BillingRegistrationID": "string",
-      "PlanType": "string"
-    }
-  }
-}
-```
-
-<h3 id="post__organizations_{organizationid}_enable-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[OrganizationObject](#schemaorganizationobject)|
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
-</aside>
-
-## View subscription status
-
-> Code samples
-
-```shell
-# You can also use wget
-curl -X GET https://api.igrant.io/v1/organizations/{organizationId}/subscription \
-  -H 'Accept: application/json' \
-  -H 'Authorization: API_KEY'
-
-```
-
-```http
-GET https://api.igrant.io/v1/organizations/{organizationId}/subscription HTTP/1.1
-Host: api.igrant.io
-Accept: application/json
-
-```
-
-```javascript
-var headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationId}/subscription',
-  method: 'get',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
-
-const headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-fetch('https://api.igrant.io/v1/organizations/{organizationId}/subscription',
-{
-  method: ' GET ',
-
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
-}
-
-result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationId}/subscription',
-  params: {
-  }, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Accept': 'application/json',
-  'Authorization': 'API_KEY'
-}
-
-r = requests.get('https://api.igrant.io/v1/organizations/{organizationId}/subscription', params={
-
-}, headers = headers)
-
-print r.json()
-
-```
-
-```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/subscription");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("GET");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationId}/subscription", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`GET /organizations/{organizationId}/subscription`
-
-
-View the organization subscription status if its enabled or disabled towards users.
-
-<h3 id="post__organizations_{organizationid}_subscription-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|organizationId|path|string|true|ID of the organization|
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "Enabled": boolean
-}
-```
-
-<h3 id="post__organizations_{organizationid}_subscription-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[SubscriptionStatus](#schemasubscriptionstatus)|
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
-</aside>
-
-## Disable an organization
-
-> Code samples
-
-```shell
-# You can also use wget
-curl -X POST https://api.igrant.io/v1/organizations/{organizationId}/subscription/disable \
-  -H 'Accept: application/json' \
-  -H 'Authorization: Bearer API_KEY'
-
-```
-
-```http
-POST https://api.igrant.io/v1/organizations/{organizationId}/subscription/disable HTTP/1.1
-Host: api.igrant.io
-Accept: application/json
-
-```
-
-```javascript
-var headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationId}/subscription/disable',
-  method: 'post',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
-
-const headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-fetch('https://api.igrant.io/v1/organizations/{organizationId}/subscription/disable',
-{
-  method: 'POST',
-
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
-}
-
-result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationId}/subscription/disable',
-  params: {
-  }, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Accept': 'application/json',
-  'Authorization': 'API_KEY'
-}
-
-r = requests.post('https://api.igrant.io/v1/organizations/{organizationId}/subscription/disable', params={
-
-}, headers = headers)
-
-print r.json()
-
-```
-
-```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/subscription/disable");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("DELETE");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationId}/subscription/disable", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`POST /organizations/{organizationId}/disable`
-
-Disables an organisation. This is needed to unpublish the organization towards the users.
-
-<h3 id="delete__organizations_{organizationid}_enable-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|organizationId|path|string|true|id of the organization|
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "Organization": {
-    "ID": "string",
-    "Name": "string",
-    "CoverImageID": "string",
-    "CoverImageurl": "string",
-    "LogoImageID": "string",
-    "LogoImageURL": "string",
-    "Location": "string",
-    "Type": {
-      "ID": "5bba67ba98135900010927a5",
-      "Type": "Retail",
-      "ImageID": "5bba67e798135900010927a7",
-      "ImageURL": "https://api.igrant.io/v1/organizations/types/5bba67ba98135900010927a5/image"
-    },
-    "Description": "string",
-    "Enabled": false,
-    "Policyurl": "string",
-    "EulaURL": "string",
-    "Template": [
-      {
-        "ID": "5bba6a9998135900010927ba",
-        "Consent": "Spouse",
-        "PurposeIDs": [
-          "5bba69db98135900010927ac, 8bba69db98135900010927af"
-        ]
-      }
-    ],
-    "Purposes": [
-      {
-        "ID": "string",
-        "Description": "string",
-        "LawfulUsage": true,
-        "PolicyURL": "string"
-      }
-    ],
-    "Admins": [
-      {
-        "userID": "string",
-        "roleID": 0
-      }
-    ],
-    "BillingInfo": {
-      "BillingRegistrationID": "string",
-      "PlanType": "string"
-    }
-  }
-}
-```
-
-<h3 id="delete__organizations_{organizationid}_enable-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|[OrganizationObject](#schemaorganizationobject)|
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
-</aside>
-
-## Notify end users - EULA updates
-
-> Code samples
-
-```shell
-# You can also use wget
-curl -X POST https://api.igrant.io/v1/organizations/{organizationId}/eulaURL \
-  -H 'Content-Type: application/json' \
-  -H 'Authorization: Bearer API_KEY'
-
-```
-
-```http
-POST https://api.igrant.io/v1/organizations/{organizationId}/eulaURL HTTP/1.1
-Host: api.igrant.io
-Content-Type: application/json
-
-```
-
-```javascript
-var headers = {
-  'Content-Type':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationId}/eulaURL',
-  method: 'post',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
-const inputBody = '{
-  "eulaURL": "string"
-}';
-const headers = {
-  'Content-Type':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-fetch('https://api.igrant.io/v1/organizations/{organizationId}/eulaURL',
-{
-  method: 'POST',
-  body: inputBody,
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Content-Type' => 'application/json',
-  'Authorization' => 'API_KEY'
-}
-
-result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationId}/eulaURL',
-  params: {
-  }, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Content-Type': 'application/json',
-  'Authorization': 'API_KEY'
-}
-
-r = requests.post('https://api.igrant.io/v1/organizations/{organizationId}/eulaURL', params={
-
-}, headers = headers)
-
-print r.json()
-
-```
-
-```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/eulaURL");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("POST");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Content-Type": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationId}/eulaURL", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`POST /organizations/{organizationId}/eulaURL`
-
-Updates the EULA url for an organization.
-
-> Body parameter
-
-```json
-{
-  "eulaURL": "string"
-}
-```
-
-<h3 id="post__organizations_{organizationid}_eulaurl-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|organizationId|path|string|true|ID of the organizaton|
-|body|body|object|true|none|
-|eulaURL|body|string|false|URL|
-
-<h3 id="post__organizations_{organizationid}_eulaurl-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|202|[Accepted](https://tools.ietf.org/html/rfc7231#section-6.3.3)|Accepted|None|
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
-</aside>
-
-
-## Notify end users - data breach
-
-> Code samples
-
-```shell
-# You can also use wget
-curl -X POST https://api.igrant.io/v1/organizations/{organizationId}/notify-data-breach \
-  -H 'Content-Type: application/json' \
-  -H 'Accept: application/json' \
-  -H 'Authorization: Bearer API_KEY'
-
-```
-
-```http
-POST https://api.igrant.io/v1/organizations/{organizationId}/notify-data-breach HTTP/1.1
-Host: api.igrant.io
-Content-Type: application/json
-Accept: application/json
-
-```
-
-```javascript
-var headers = {
-  'Content-Type':'application/json',
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationId}/notify-data-breach',
-  method: 'post',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
-const inputBody = '{
-  "headline": "string",
-  "userscount": 0,
-  "dpoemail": "string",
-  "consequence": "string",
-  "measures": "string"
-}';
-const headers = {
-  'Content-Type':'application/json',
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-fetch('https://api.igrant.io/v1/organizations/{organizationId}/notify-data-breach',
-{
-  method: 'POST',
-  body: inputBody,
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Content-Type' => 'application/json',
-  'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
-}
-
-result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationId}/notify-data-breach',
-  params: {
-  }, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Content-Type': 'application/json',
-  'Accept': 'application/json',
-  'Authorization': 'API_KEY'
-}
-
-r = requests.post('https://api.igrant.io/v1/organizations/{organizationId}/notify-data-breach', params={
-
-}, headers = headers)
-
-print r.json()
-
-```
-
-```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/notify-data-breach");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("POST");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Content-Type": []string{"application/json"},
-        "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationId}/notify-data-breach", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`POST /organizations/{organizationId}/notify-data-breach`
-
-Raise notifications towards subscribed users to your organisation
-
-> Body parameter
-
-```json
-{
-  "headline": "string",
-  "userscount": 0,
-  "dpoemail": "string",
-  "consequence": "string",
-  "measures": "string"
-}
-```
-
-<h3 id="post__organizations_{organizationid}_notify-data-breach-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|organizationId|path|string|true|ID of the organization|
-|body|body|[Databreach](#schemadatabreach)|true|none|
-
-> Example responses
-
-<h3 id="post__organizations_{organizationid}_notify-data-breach-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Notified data breach|None|
-
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
-</aside>
-
-
-## Notify end users - events
-
-> Code samples
-
-```shell
-# You can also use wget
-curl -X POST https://api.igrant.io/v1/organizations/{organizationId}/notify-events \
-  -H 'Content-Type: application/json' \
-  -H 'Accept: application/json' \
-  -H 'Authorization: Bearer API_KEY'
-
-```
-
-```http
-POST https://api.igrant.io/v1/organizations/{organizationId}/notify-events HTTP/1.1
-Host: api.igrant.io
-Content-Type: application/json
-Accept: application/json
-
-```
-
-```javascript
-var headers = {
-  'Content-Type':'application/json',
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationId}/notify-events',
-  method: 'post',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
-const inputBody = '{
-  "details": "string"
-}';
-const headers = {
-  'Content-Type':'application/json',
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-fetch('https://api.igrant.io/v1/organizations/{organizationId}/notify-events',
-{
-  method: 'POST',
-  body: inputBody,
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Content-Type' => 'application/json',
-  'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
-}
-
-result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationId}/notify-events',
-  params: {
-  }, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Content-Type': 'application/json',
-  'Accept': 'application/json',
-  'Authorization': 'API_KEY'
-}
-
-r = requests.post('https://api.igrant.io/v1/organizations/{organizationId}/notify-events', params={
-
-}, headers = headers)
-
-print r.json()
-
-```
-
-```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/notify-events");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("POST");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Content-Type": []string{"application/json"},
-        "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationId}/notify-events", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`POST /organizations/{organizationId}/notify-events`
-
-Raise notifications towards subscribed users to your organisation
-
-> Body parameter
-
-```json
-{
-  "details": "string"
-}
-```
-
-<h3 id="post__organizations_{organizationid}_notify-events-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|organizationId|path|string|true|ID of the organization|
-|details|body|string|true|Event details|
-
-> Example responses
-
-<h3 id="post__organizations_{organizationid}_notify-events-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Event Notified|None|
-
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
-</aside>
-
-## Update logo
-
-> Code samples
-
-```shell
-
-
-# You can also use wget
-curl -H 'Authorization: Bearer API_KEY' \
-  https://api.igrant.io/v1/organizations/{organizationId}/logoimage \
-  -F "orgimage={pathToImage}"
-
-
-
-
-```
-
-```http
-POST https://api.igrant.io/v1/organizations/{organizationId}/logoimage HTTP/1.1
-Host: api.igrant.io
-Content-Type: application/json
-Accept: application/json
-
-```
-
-```javascript
-var headers = {
-  'Content-Type':'application/json',
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationId}/logoimage',
-  method: 'post',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
-const inputBody = '{
-  "orgimage": "string"
-}';
-const headers = {
-  'Content-Type':'application/json',
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-fetch('https://api.igrant.io/v1/organizations/{organizationId}/logoimage',
-{
-  method: 'POST',
-  body: inputBody,
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Content-Type' => 'application/json',
-  'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
-}
-
-result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationId}/logoimage',
-  params: {
-  }, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Content-Type': 'application/json',
-  'Accept': 'application/json',
-  'Authorization': 'API_KEY'
-}
-
-r = requests.post('https://api.igrant.io/v1/organizations/{organizationId}/logoimage', params={
-
-}, headers = headers)
-
-print r.json()
-
-```
-
-```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/logoimage");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("POST");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Content-Type": []string{"application/json"},
-        "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationId}/logoimage", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`POST /organizations/{organizationId}/logoimage`
-
-Updates the logo image for an org. The recommended image size is 400x400 px and in JPG format.
-
-<h3 id="post__organizations_{organizationid}_logoimage-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|organizationId|path|string|true|ID of the organizaton|
-|orgimage|body|string|true|link to logo|
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "Organization": {
-    "ID": "string",
-    "Name": "string",
-    "CoverImageID": "string",
-    "CoverImageurl": "string",
-    "LogoImageID": "string",
-    "LogoImageURL": "string",
-    "Location": "string",
-    "Type": {
-      "ID": "5bba67ba98135900010927a5",
-      "Type": "Retail",
-      "ImageID": "5bba67e798135900010927a7",
-      "ImageURL": "https://api.igrant.io/v1/organizations/types/5bba67ba98135900010927a5/image"
-    },
-    "Description": "string",
-    "Enabled": true,
-    "Policyurl": "string",
-    "EulaURL": "string",
-    "Template": [
-      {
-        "ID": "5bba6a9998135900010927ba",
-        "Consent": "Spouse",
-        "PurposeIDs": [
-          "5bba69db98135900010927ac, 8bba69db98135900010927af"
-        ]
-      }
-    ],
-    "Purposes": [
-      {
-        "ID": "string",
-        "Description": "string",
-        "LawfulUsage": true,
-        "PolicyURL": "string"
-      }
-    ],
-    "Admins": [
-      {
-        "userID": "string",
-        "roleID": 0
-      }
-    ],
-    "BillingInfo": {
-      "BillingRegistrationID": "string",
-      "PlanType": "string"
-    }
-  }
-}
-```
-
-<h3 id="post__organizations_{organizationid}_logoimage-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Updated logo image|[OrganizationObject](#schemaorganizationobject)|
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
-</aside>
-
-## Update cover image
-
-> Code samples
-
-```shell
-
-
-# You can also use wget
-curl -H 'Authorization: Bearer API_KEY' \
-  https://api.igrant.io/v1/organizations/{organizationId}/coverimage \
-  -F "orgimage={pathToImage}"
-
-
-
-
-```
-
-```http
-POST https://api.igrant.io/v1/organizations/{organizationId}/coverimage HTTP/1.1
-Host: api.igrant.io
-Content-Type: application/json
-Accept: application/json
-
-```
-
-```javascript
-var headers = {
-  'Content-Type':'application/json',
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationId}/coverimage',
-  method: 'post',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
-const inputBody = '{
-  "orgimage": "string"
-}';
-const headers = {
-  'Content-Type':'application/json',
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-fetch('https://api.igrant.io/v1/organizations/{organizationId}/coverimage',
-{
-  method: 'POST',
-  body: inputBody,
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Content-Type' => 'application/json',
-  'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
-}
-
-result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationId}/coverimage',
-  params: {
-  }, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Content-Type': 'application/json',
-  'Accept': 'application/json',
-  'Authorization': 'API_KEY'
-}
-
-r = requests.post('https://api.igrant.io/v1/organizations/{organizationId}/coverimage', params={
-
-}, headers = headers)
-
-print r.json()
-
-```
-
-```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/coverimage");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("POST");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Content-Type": []string{"application/json"},
-        "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationId}/coverimage", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`POST /organizations/{organizationId}/coverimage`
-
-Updates the cover image for an org. The recommended image size is 1500x500 px and in JPG format.
-
-
-<h3 id="post__organizations_{organizationid}_coverimage-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|organizationId|path|string|true|ID of the organizaton|
-|orgimage|body|string|true|link to image|
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "Organization": {
-    "ID": "string",
-    "Name": "string",
-    "CoverImageID": "string",
-    "CoverImageurl": "string",
-    "LogoImageID": "string",
-    "LogoImageURL": "string",
-    "Location": "string",
-    "Type": {
-      "ID": "5bba67ba98135900010927a5",
-      "Type": "Retail",
-      "ImageID": "5bba67e798135900010927a7",
-      "ImageURL": "https://api.igrant.io/v1/organizations/types/5bba67ba98135900010927a5/image"
-    },
-    "Description": "string",
-    "Enabled": true,
-    "Policyurl": "string",
-    "EulaURL": "string",
-    "Template": [
-      {
-        "ID": "5bba6a9998135900010927ba",
-        "Consent": "Spouse",
-        "PurposeIDs": [
-          "5bba69db98135900010927ac, 8bba69db98135900010927af"
-        ]
-      }
-    ],
-    "Purposes": [
-      {
-        "ID": "string",
-        "Description": "string",
-        "LawfulUsage": true,
-        "PolicyURL": "string"
-      }
-    ],
-    "Admins": [
-      {
-        "userID": "string",
-        "roleID": 0
-      }
-    ],
-    "BillingInfo": {
-      "BillingRegistrationID": "string",
-      "PlanType": "string"
-    }
-  }
-}
-```
-
-<h3 id="post__organizations_{organizationid}_coverimage-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Updated cover image|[OrganizationObject](#schemaorganizationobject)|
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
-</aside>
-
-## Add admin to an organization
-
-> Code samples
-
-```shell
-# You can also use wget
-curl -X POST https://api.igrant.io/v1/organizations/{organizationId}/admins \
-  -H 'Content-Type: application/json' \
-  -H 'Accept: application/json' \
-  -H 'Authorization: Bearer API_KEY'
-
-```
-
-```http
-POST https://api.igrant.io/v1/organizations/{organizationId}/admins HTTP/1.1
-Host: api.igrant.io
-Content-Type: application/json
-Accept: application/json
-
-```
-
-```javascript
-var headers = {
-  'Content-Type':'application/json',
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationId}/admins',
-  method: 'post',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
-const inputBody = '{
-  "userID": "string",
-  "roleID": 0
-}';
-const headers = {
-  'Content-Type':'application/json',
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-fetch('https://api.igrant.io/v1/organizations/{organizationId}/admins',
-{
-  method: 'POST',
-  body: inputBody,
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Content-Type' => 'application/json',
-  'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
-}
-
-result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationId}/admins',
-  params: {
-  }, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Content-Type': 'application/json',
-  'Accept': 'application/json',
-  'Authorization': 'API_KEY'
-}
-
-r = requests.post('https://api.igrant.io/v1/organizations/{organizationId}/admins', params={
-
-}, headers = headers)
-
-print r.json()
-
-```
-
-```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/admins");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("POST");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Content-Type": []string{"application/json"},
-        "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationId}/admins", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`POST /organizations/{organizationId}/admins`
-
-Add a user as an admin to an organization.
-
-> Body parameter
-
-```json
-{
-  "userID": "string",
-  "roleID": 1
-}
-```
-
-<h3 id="post__organizations_{organizationid}_admins-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|organizationId|path|string|true|Id of the organization to which add a user|
-|body|body|[userDataAdmin](#schemauserdataadmin)|true|none|
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "Organization": {
-    "ID": "string",
-    "Name": "string",
-    "CoverImageID": "string",
-    "CoverImageurl": "string",
-    "LogoImageID": "string",
-    "LogoImageURL": "string",
-    "Location": "string",
-    "Type": {
-      "ID": "5bba67ba98135900010927a5",
-      "Type": "Retail",
-      "ImageID": "5bba67e798135900010927a7",
-      "ImageURL": "https://api.igrant.io/v1/organizations/types/5bba67ba98135900010927a5/image"
-    },
-    "Description": "string",
-    "Enabled": true,
-    "Policyurl": "string",
-    "EulaURL": "string",
-    "Template": [
-      {
-        "ID": "5bba6a9998135900010927ba",
-        "Consent": "Spouse",
-        "PurposeIDs": [
-          "5bba69db98135900010927ac, 8bba69db98135900010927af"
-        ]
-      }
-    ],
-    "Purposes": [
-      {
-        "ID": "string",
-        "Description": "string",
-        "LawfulUsage": true,
-        "PolicyURL": "string"
-      }
-    ],
-    "Admins": [
-      {
-        "userID": "string",
-        "roleID": 0
-      }
-    ],
-    "BillingInfo": {
-      "BillingRegistrationID": "string",
-      "PlanType": "string"
-    }
-  }
-}
-```
-
-<h3 id="post__organizations_{organizationid}_admins-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Success; returns organization details|[OrganizationObject](#schemaorganizationobject)|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Failed to add admin user to organization|None|
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
-</aside>
-
-## Delete admin
-
-> Code samples
-
-```shell
-# You can also use wget
-curl -X DELETE https://api.igrant.io/v1/organizations/{organizationId}/admins \
-  -H 'Content-Type: application/json' \
-  -H 'Accept: application/json' \
-  -H 'Authorization: Bearer API_KEY'
-
-```
-
-```http
-DELETE https://api.igrant.io/v1/organizations/{organizationId}/admins HTTP/1.1
-Host: api.igrant.io
-Content-Type: application/json
-Accept: application/json
-
-```
-
-```javascript
-var headers = {
-  'Content-Type':'application/json',
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationId}/admins',
-  method: 'delete',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
-const inputBody = '{
-  "userID": "string",
-  "roleID": 0
-}';
-const headers = {
-  'Content-Type':'application/json',
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-fetch('https://api.igrant.io/v1/organizations/{organizationId}/admins',
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/admins',
 {
   method: 'DELETE',
-  body: inputBody,
+
   headers: headers
 })
 .then(function(res) {
@@ -4483,12 +8026,11 @@ require 'rest-client'
 require 'json'
 
 headers = {
-  'Content-Type' => 'application/json',
   'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
+  'Authorization' => 'Bearer {access-token}'
 }
 
-result = RestClient.delete 'https://api.igrant.io/v1/organizations/{organizationId}/admins',
+result = RestClient.delete 'https://api.igrant.io/v1/organizations/{organizationID}/admins',
   params: {
   }, headers: headers
 
@@ -4499,21 +8041,50 @@ p JSON.parse(result)
 ```python
 import requests
 headers = {
-  'Content-Type': 'application/json',
   'Accept': 'application/json',
-  'Authorization': 'API_KEY'
+  'Authorization': 'Bearer {access-token}'
 }
 
-r = requests.delete('https://api.igrant.io/v1/organizations/{organizationId}/admins', params={
+r = requests.delete('https://api.igrant.io/v1/organizations/{organizationID}/admins', headers = headers)
 
-}, headers = headers)
+print(r.json())
 
-print r.json()
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('DELETE','https://api.igrant.io/v1/organizations/{organizationID}/admins', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
 
 ```
 
 ```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/admins");
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/admins");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("DELETE");
 int responseCode = con.getResponseCode();
@@ -4540,14 +8111,12 @@ import (
 func main() {
 
     headers := map[string][]string{
-        "Content-Type": []string{"application/json"},
         "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
+        "Authorization": []string{"Bearer {access-token}"},
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("DELETE", "https://api.igrant.io/v1/organizations/{organizationId}/admins", data)
+    req, err := http.NewRequest("DELETE", "https://api.igrant.io/v1/organizations/{organizationID}/admins", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -4557,25 +8126,15 @@ func main() {
 
 ```
 
-`DELETE /organizations/{organizationId}/admins`
+`DELETE /organizations/{organizationID}/admins`
 
-Delete an admin user from an organization.
+Deletes an admin user from an organization
 
-> Body parameter
-
-```json
-{
-  "userID": "string",
-  "roleID": 0
-}
-```
-
-<h3 id="delete__organizations_{organizationid}_admins-parameters">Parameters</h3>
+<h3 id="delete-admin-user-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|organizationId|path|string|true|Id of the organization for which a user shall be deleted|
-|body|body|[userDataAdmin](#schemauserdataadmin)|true|none|
+|organizationID|path|string|true|Organisation ID|
 
 > Example responses
 
@@ -4584,114 +8143,1138 @@ Delete an admin user from an organization.
 ```json
 {
   "Organization": {
-    "ID": "string",
-    "Name": "string",
-    "CoverImageID": "string",
-    "CoverImageurl": "string",
-    "LogoImageID": "string",
-    "LogoImageURL": "string",
-    "Location": "string",
+    "ID": "5daf22d0a531350001afc7c9",
+    "Name": "DMart Retail Chain",
+    "CoverImageID": "",
+    "CoverImageURL": "",
+    "LogoImageID": "5ecf5f979a273200016a13ef",
+    "LogoImageURL": "https://<server-url>/5daf22d0a531350001afc7c9/image/5ecf5f979a273200016a13ef",
+    "Location": "Stockholm, Sweden",
     "Type": {
-      "ID": "5bba67ba98135900010927a5",
+      "ID": "5d17cc114dacb40001b29094",
       "Type": "Retail",
-      "ImageID": "5bba67e798135900010927a7",
-      "ImageURL": "https://api.igrant.io/v1/organizations/types/5bba67ba98135900010927a5/image"
+      "ImageID": "5d17cc7f4dacb40001b29095",
+      "ImageURL": "https://staging-api.igrant.io/v1/organizations/types/5d17cc114dacb40001b29094/image"
     },
-    "Description": "string",
+    "Description": "",
     "Enabled": true,
-    "Policyurl": "string",
-    "EulaURL": "string",
-    "Template": [
+    "PolicyURL": "",
+    "EulaURL": "",
+    "Templates": [
       {
-        "ID": "5bba6a9998135900010927ba",
-        "Consent": "Spouse",
+        "ID": "5f187f9efd59960001434c2e",
+        "Consent": "Age",
         "PurposeIDs": [
-          "5bba69db98135900010927ac, 8bba69db98135900010927af"
+          "5db0303ba531350001afc7e0",
+          "5db03048a531350001afc7e1"
         ]
       }
     ],
     "Purposes": [
       {
-        "ID": "string",
-        "Description": "string",
-        "LawfulUsage": true,
-        "PolicyURL": "string"
+        "ID": "5db0303ba531350001afc7e0",
+        "Name": "Marketing and campaign",
+        "Description": "For this purpose, following personal data attributes shown below are used. You may consent to share your data at attribute level.",
+        "LawfulUsage": false,
+        "PolicyURL": "https://orgname.com/policy_default.html"
       }
     ],
     "Admins": [
       {
-        "userID": "string",
-        "roleID": 0
+        "UserID": "5daf22cea531350001afc7c8",
+        "RoleID": 1
       }
     ],
     "BillingInfo": {
-      "BillingRegistrationID": "string",
-      "PlanType": "string"
+      "BillingRegistrationID": "cus_G2URbi8W6DT7hh",
+      "MaxUserCounter": 4,
+      "DefaultChargeNotified": false,
+      "CurrentPeriodEnd": 0,
+      "PrevMonthUsers": 1,
+      "PayPerUserInfo": {
+        "UserCommitment": 0,
+        "TimeCommitment": "",
+        "CancelOnCommitmentEnd": false,
+        "CommitmentPeriodRemaining": 0
+      },
+      "DefaultPaymentSource": {
+        "Brand": "Visa",
+        "ExpiryMonth": 4,
+        "ExpiryYear": 2024,
+        "Last4Digits": "4242"
+      },
+      "Address": {
+        "Name": "George Floyd",
+        "City": "Stockholm",
+        "Country": "Sweden",
+        "Line1": "",
+        "Line2": "",
+        "PostalCode": "",
+        "State": ""
+      },
+      "ServiceAgreementVersion": "v2.0",
+      "FreeTrialExpired": true
+    },
+    "Subs": {
+      "Method": 0,
+      "Key": ""
+    },
+    "HlcSupport": false,
+    "PrivacyDashboard": {
+      "HostName": "dmart.igrant.io",
+      "Version": "v1.1.7",
+      "Status": 2,
+      "Delete": false
     }
   }
 }
 ```
 
-<h3 id="delete__organizations_{organizationid}_admins-responses">Responses</h3>
+<h3 id="delete-admin-user-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Success; Organization details with deleted admin|[OrganizationObject](#schemaorganizationobject)|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Failed to delete admin user to organization|None|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns organisation|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<h3 id="delete-admin-user-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» Organization|[Organisation](#schemaorganisation)|false|none|none|
+|»» ID|string|false|none|none|
+|»» Name|string|false|none|none|
+|»» CoverImageID|string|false|none|none|
+|»» CoverImageURL|string|false|none|none|
+|»» LogoImageID|string|false|none|none|
+|»» LogoImageURL|string|false|none|none|
+|»» Location|string|false|none|none|
+|»» Type|[OrganisationType](#schemaorganisationtype)|false|none|none|
+|»»» ID|string|false|none|none|
+|»»» Type|string|false|none|none|
+|»»» ImageID|string|false|none|none|
+|»»» ImageURL|string|false|none|none|
+|»» Description|string|false|none|none|
+|»» Enabled|boolean|false|none|none|
+|»» PolicyURL|string|false|none|none|
+|»» EulaURL|string|false|none|none|
+|»» Templates|[allOf]|false|none|none|
+
+*allOf*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»»» *anonymous*|[Template](#schematemplate)|false|none|none|
+|»»»» ID|string|false|none|none|
+|»»»» Consent|string|false|none|none|
+
+*and*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»»» *anonymous*|object|false|none|none|
+|»»»» PurposeIDs|[string]|false|none|none|
+
+*continued*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»» Purposes|[[Purpose](#schemapurpose)]|false|none|none|
+|»»» ID|string|false|none|none|
+|»»» Name|string|false|none|none|
+|»»» Description|string|false|none|none|
+|»»» LawfulUsage|boolean|false|none|none|
+|»»» PolicyURL|string|false|none|none|
+|»» Admins|[object]|false|none|none|
+|»»» UserID|string|false|none|none|
+|»»» RoleID|string|false|none|none|
+|»» BillingInfo|[OrganisationBillingInfo](#schemaorganisationbillinginfo)|false|none|none|
+|»»» BillingRegistrationID|string|false|none|none|
+|»»» MaxUserCounter|integer|false|none|none|
+|»»» DefaultChargeNotified|boolean|false|none|none|
+|»»» CurrentPeriodEnd|integer|false|none|none|
+|»»» PrevMonthUsers|integer|false|none|none|
+|»»» PayPerUserInfo|object|false|none|none|
+|»»»» UserCommitment|integer|false|none|none|
+|»»»» TimeCommitment|string|false|none|none|
+|»»»» CancelOnCommitmentEnd|boolean|false|none|none|
+|»»»» CommitmentPeriodRemaining|integer|false|none|none|
+|»»» DefaultPaymentSource|object|false|none|none|
+|»»»» Brand|string|false|none|none|
+|»»»» ExpiryMonth|integer|false|none|none|
+|»»»» ExpiryYear|integer|false|none|none|
+|»»»» Last4Digits|string|false|none|none|
+|»»» Address|object|false|none|none|
+|»»»» Name|string|false|none|none|
+|»»»» City|string|false|none|none|
+|»»»» Country|string|false|none|none|
+|»»»» Line1|string|false|none|none|
+|»»»» Line2|string|false|none|none|
+|»»»» PostalCode|string|false|none|none|
+|»»»» State|string|false|none|none|
+|»»» ServiceAgreementVersion|string|false|none|none|
+|»»» FreeTrialExpired|boolean|false|none|none|
+|»» Subs|object|false|none|none|
+|»»» Method|integer|false|none|none|
+|»»» Key|string|false|none|none|
+|»» HlcSupport|boolean|false|none|none|
+|»» PrivacyDashboard|[OrganisationPrivacyBoard](#schemaorganisationprivacyboard)|false|none|none|
+|»»» HostName|string|false|none|none|
+|»»» Version|string|false|none|none|
+|»»» Status|integer|false|none|none|
+|»»» Delete|boolean|false|none|none|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
+bearerAuth
 </aside>
 
-## View users
+## Update org cover image
+
+<a id="opIdUpdate org cover image"></a>
 
 > Code samples
 
 ```shell
 # You can also use wget
-curl -X GET https://api.igrant.io/v1/organizations/{organizationId}/users \
+curl -X POST https://api.igrant.io/v1/organizations/{organizationID}/coverimage \
+  -H 'Content-Type: multipart/form-data' \
   -H 'Accept: application/json' \
-  -H 'Authorization: Bearer API_KEY'
+  -H 'Authorization: Bearer {access-token}'
 
 ```
 
 ```http
-GET https://api.igrant.io/v1/organizations/{organizationId}/users HTTP/1.1
+POST https://api.igrant.io/v1/organizations/{organizationID}/coverimage HTTP/1.1
+Host: api.igrant.io
+Content-Type: multipart/form-data
+Accept: application/json
+
+```
+
+```javascript
+const inputBody = '{
+  "orgimage": "string"
+}';
+const headers = {
+  'Content-Type':'multipart/form-data',
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/coverimage',
+{
+  method: 'POST',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Content-Type' => 'multipart/form-data',
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationID}/coverimage',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Content-Type': 'multipart/form-data',
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.post('https://api.igrant.io/v1/organizations/{organizationID}/coverimage', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Content-Type' => 'multipart/form-data',
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://api.igrant.io/v1/organizations/{organizationID}/coverimage', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/coverimage");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Content-Type": []string{"multipart/form-data"},
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationID}/coverimage", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /organizations/{organizationID}/coverimage`
+
+Updates an organizations cover image. This images are seen by the users in their app, portal etc.
+
+> Body parameter
+
+```yaml
+orgimage: string
+
+```
+
+<h3 id="update-org-cover-image-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organisation ID|
+|body|body|object|true|none|
+|» orgimage|body|string(binary)|true|none|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "Organization": {
+    "ID": "5daf22d0a531350001afc7c9",
+    "Name": "DMart Retail Chain",
+    "CoverImageID": "",
+    "CoverImageURL": "",
+    "LogoImageID": "5ecf5f979a273200016a13ef",
+    "LogoImageURL": "https://<server-url>/5daf22d0a531350001afc7c9/image/5ecf5f979a273200016a13ef",
+    "Location": "Stockholm, Sweden",
+    "Type": {
+      "ID": "5d17cc114dacb40001b29094",
+      "Type": "Retail",
+      "ImageID": "5d17cc7f4dacb40001b29095",
+      "ImageURL": "https://staging-api.igrant.io/v1/organizations/types/5d17cc114dacb40001b29094/image"
+    },
+    "Description": "",
+    "Enabled": true,
+    "PolicyURL": "",
+    "EulaURL": "",
+    "Templates": [
+      {
+        "ID": "5f187f9efd59960001434c2e",
+        "Consent": "Age",
+        "PurposeIDs": [
+          "5db0303ba531350001afc7e0",
+          "5db03048a531350001afc7e1"
+        ]
+      }
+    ],
+    "Purposes": [
+      {
+        "ID": "5db0303ba531350001afc7e0",
+        "Name": "Marketing and campaign",
+        "Description": "For this purpose, following personal data attributes shown below are used. You may consent to share your data at attribute level.",
+        "LawfulUsage": false,
+        "PolicyURL": "https://orgname.com/policy_default.html"
+      }
+    ],
+    "Admins": [
+      {
+        "UserID": "5daf22cea531350001afc7c8",
+        "RoleID": 1
+      }
+    ],
+    "BillingInfo": {
+      "BillingRegistrationID": "cus_G2URbi8W6DT7hh",
+      "MaxUserCounter": 4,
+      "DefaultChargeNotified": false,
+      "CurrentPeriodEnd": 0,
+      "PrevMonthUsers": 1,
+      "PayPerUserInfo": {
+        "UserCommitment": 0,
+        "TimeCommitment": "",
+        "CancelOnCommitmentEnd": false,
+        "CommitmentPeriodRemaining": 0
+      },
+      "DefaultPaymentSource": {
+        "Brand": "Visa",
+        "ExpiryMonth": 4,
+        "ExpiryYear": 2024,
+        "Last4Digits": "4242"
+      },
+      "Address": {
+        "Name": "George Floyd",
+        "City": "Stockholm",
+        "Country": "Sweden",
+        "Line1": "",
+        "Line2": "",
+        "PostalCode": "",
+        "State": ""
+      },
+      "ServiceAgreementVersion": "v2.0",
+      "FreeTrialExpired": true
+    },
+    "Subs": {
+      "Method": 0,
+      "Key": ""
+    },
+    "HlcSupport": false,
+    "PrivacyDashboard": {
+      "HostName": "dmart.igrant.io",
+      "Version": "v1.1.7",
+      "Status": 2,
+      "Delete": false
+    }
+  }
+}
+```
+
+<h3 id="update-org-cover-image-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns organisation|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<h3 id="update-org-cover-image-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» Organization|[Organisation](#schemaorganisation)|false|none|none|
+|»» ID|string|false|none|none|
+|»» Name|string|false|none|none|
+|»» CoverImageID|string|false|none|none|
+|»» CoverImageURL|string|false|none|none|
+|»» LogoImageID|string|false|none|none|
+|»» LogoImageURL|string|false|none|none|
+|»» Location|string|false|none|none|
+|»» Type|[OrganisationType](#schemaorganisationtype)|false|none|none|
+|»»» ID|string|false|none|none|
+|»»» Type|string|false|none|none|
+|»»» ImageID|string|false|none|none|
+|»»» ImageURL|string|false|none|none|
+|»» Description|string|false|none|none|
+|»» Enabled|boolean|false|none|none|
+|»» PolicyURL|string|false|none|none|
+|»» EulaURL|string|false|none|none|
+|»» Templates|[allOf]|false|none|none|
+
+*allOf*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»»» *anonymous*|[Template](#schematemplate)|false|none|none|
+|»»»» ID|string|false|none|none|
+|»»»» Consent|string|false|none|none|
+
+*and*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»»» *anonymous*|object|false|none|none|
+|»»»» PurposeIDs|[string]|false|none|none|
+
+*continued*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»» Purposes|[[Purpose](#schemapurpose)]|false|none|none|
+|»»» ID|string|false|none|none|
+|»»» Name|string|false|none|none|
+|»»» Description|string|false|none|none|
+|»»» LawfulUsage|boolean|false|none|none|
+|»»» PolicyURL|string|false|none|none|
+|»» Admins|[object]|false|none|none|
+|»»» UserID|string|false|none|none|
+|»»» RoleID|string|false|none|none|
+|»» BillingInfo|[OrganisationBillingInfo](#schemaorganisationbillinginfo)|false|none|none|
+|»»» BillingRegistrationID|string|false|none|none|
+|»»» MaxUserCounter|integer|false|none|none|
+|»»» DefaultChargeNotified|boolean|false|none|none|
+|»»» CurrentPeriodEnd|integer|false|none|none|
+|»»» PrevMonthUsers|integer|false|none|none|
+|»»» PayPerUserInfo|object|false|none|none|
+|»»»» UserCommitment|integer|false|none|none|
+|»»»» TimeCommitment|string|false|none|none|
+|»»»» CancelOnCommitmentEnd|boolean|false|none|none|
+|»»»» CommitmentPeriodRemaining|integer|false|none|none|
+|»»» DefaultPaymentSource|object|false|none|none|
+|»»»» Brand|string|false|none|none|
+|»»»» ExpiryMonth|integer|false|none|none|
+|»»»» ExpiryYear|integer|false|none|none|
+|»»»» Last4Digits|string|false|none|none|
+|»»» Address|object|false|none|none|
+|»»»» Name|string|false|none|none|
+|»»»» City|string|false|none|none|
+|»»»» Country|string|false|none|none|
+|»»»» Line1|string|false|none|none|
+|»»»» Line2|string|false|none|none|
+|»»»» PostalCode|string|false|none|none|
+|»»»» State|string|false|none|none|
+|»»» ServiceAgreementVersion|string|false|none|none|
+|»»» FreeTrialExpired|boolean|false|none|none|
+|»» Subs|object|false|none|none|
+|»»» Method|integer|false|none|none|
+|»»» Key|string|false|none|none|
+|»» HlcSupport|boolean|false|none|none|
+|»» PrivacyDashboard|[OrganisationPrivacyBoard](#schemaorganisationprivacyboard)|false|none|none|
+|»»» HostName|string|false|none|none|
+|»»» Version|string|false|none|none|
+|»»» Status|integer|false|none|none|
+|»»» Delete|boolean|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Get org image
+
+<a id="opIdGet org image"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X GET https://api.igrant.io/v1/organizations/{organizationID}/image/{imageID} \
+  -H 'Accept: image/jpeg' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+GET https://api.igrant.io/v1/organizations/{organizationID}/image/{imageID} HTTP/1.1
+Host: api.igrant.io
+Accept: image/jpeg
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'image/jpeg',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/image/{imageID}',
+{
+  method: 'GET',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'image/jpeg',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationID}/image/{imageID}',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'image/jpeg',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.get('https://api.igrant.io/v1/organizations/{organizationID}/image/{imageID}', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'image/jpeg',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/organizations/{organizationID}/image/{imageID}', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/image/{imageID}");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"image/jpeg"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationID}/image/{imageID}", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`GET /organizations/{organizationID}/image/{imageID}`
+
+Gets the organization image with the image ID
+
+<h3 id="get-org-image-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organisation ID|
+|imageID|path|string|true|Image ID|
+
+> Example responses
+
+> 200 Response
+
+<h3 id="get-org-image-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns organization image|string|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+|404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|404 not found|None|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Updates logo image
+
+<a id="opIdUpdates logo image"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://api.igrant.io/v1/organizations/{organizationID}/logoimage \
+  -H 'Content-Type: multipart/form-data' \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+POST https://api.igrant.io/v1/organizations/{organizationID}/logoimage HTTP/1.1
+Host: api.igrant.io
+Content-Type: multipart/form-data
+Accept: application/json
+
+```
+
+```javascript
+const inputBody = '{
+  "orgimage": "string"
+}';
+const headers = {
+  'Content-Type':'multipart/form-data',
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/logoimage',
+{
+  method: 'POST',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Content-Type' => 'multipart/form-data',
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationID}/logoimage',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Content-Type': 'multipart/form-data',
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.post('https://api.igrant.io/v1/organizations/{organizationID}/logoimage', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Content-Type' => 'multipart/form-data',
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://api.igrant.io/v1/organizations/{organizationID}/logoimage', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/logoimage");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Content-Type": []string{"multipart/form-data"},
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationID}/logoimage", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /organizations/{organizationID}/logoimage`
+
+Updates an organization logo image
+
+> Body parameter
+
+```yaml
+orgimage: string
+
+```
+
+<h3 id="updates-logo-image-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organisation ID|
+|body|body|object|true|none|
+|» orgimage|body|string(binary)|true|none|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "Organization": {
+    "ID": "5daf22d0a531350001afc7c9",
+    "Name": "DMart Retail Chain",
+    "CoverImageID": "",
+    "CoverImageURL": "",
+    "LogoImageID": "5ecf5f979a273200016a13ef",
+    "LogoImageURL": "https://<server-url>/5daf22d0a531350001afc7c9/image/5ecf5f979a273200016a13ef",
+    "Location": "Stockholm, Sweden",
+    "Type": {
+      "ID": "5d17cc114dacb40001b29094",
+      "Type": "Retail",
+      "ImageID": "5d17cc7f4dacb40001b29095",
+      "ImageURL": "https://staging-api.igrant.io/v1/organizations/types/5d17cc114dacb40001b29094/image"
+    },
+    "Description": "",
+    "Enabled": true,
+    "PolicyURL": "",
+    "EulaURL": "",
+    "Templates": [
+      {
+        "ID": "5f187f9efd59960001434c2e",
+        "Consent": "Age",
+        "PurposeIDs": [
+          "5db0303ba531350001afc7e0",
+          "5db03048a531350001afc7e1"
+        ]
+      }
+    ],
+    "Purposes": [
+      {
+        "ID": "5db0303ba531350001afc7e0",
+        "Name": "Marketing and campaign",
+        "Description": "For this purpose, following personal data attributes shown below are used. You may consent to share your data at attribute level.",
+        "LawfulUsage": false,
+        "PolicyURL": "https://orgname.com/policy_default.html"
+      }
+    ],
+    "Admins": [
+      {
+        "UserID": "5daf22cea531350001afc7c8",
+        "RoleID": 1
+      }
+    ],
+    "BillingInfo": {
+      "BillingRegistrationID": "cus_G2URbi8W6DT7hh",
+      "MaxUserCounter": 4,
+      "DefaultChargeNotified": false,
+      "CurrentPeriodEnd": 0,
+      "PrevMonthUsers": 1,
+      "PayPerUserInfo": {
+        "UserCommitment": 0,
+        "TimeCommitment": "",
+        "CancelOnCommitmentEnd": false,
+        "CommitmentPeriodRemaining": 0
+      },
+      "DefaultPaymentSource": {
+        "Brand": "Visa",
+        "ExpiryMonth": 4,
+        "ExpiryYear": 2024,
+        "Last4Digits": "4242"
+      },
+      "Address": {
+        "Name": "George Floyd",
+        "City": "Stockholm",
+        "Country": "Sweden",
+        "Line1": "",
+        "Line2": "",
+        "PostalCode": "",
+        "State": ""
+      },
+      "ServiceAgreementVersion": "v2.0",
+      "FreeTrialExpired": true
+    },
+    "Subs": {
+      "Method": 0,
+      "Key": ""
+    },
+    "HlcSupport": false,
+    "PrivacyDashboard": {
+      "HostName": "dmart.igrant.io",
+      "Version": "v1.1.7",
+      "Status": 2,
+      "Delete": false
+    }
+  }
+}
+```
+
+<h3 id="updates-logo-image-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns organisation|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<h3 id="updates-logo-image-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» Organization|[Organisation](#schemaorganisation)|false|none|none|
+|»» ID|string|false|none|none|
+|»» Name|string|false|none|none|
+|»» CoverImageID|string|false|none|none|
+|»» CoverImageURL|string|false|none|none|
+|»» LogoImageID|string|false|none|none|
+|»» LogoImageURL|string|false|none|none|
+|»» Location|string|false|none|none|
+|»» Type|[OrganisationType](#schemaorganisationtype)|false|none|none|
+|»»» ID|string|false|none|none|
+|»»» Type|string|false|none|none|
+|»»» ImageID|string|false|none|none|
+|»»» ImageURL|string|false|none|none|
+|»» Description|string|false|none|none|
+|»» Enabled|boolean|false|none|none|
+|»» PolicyURL|string|false|none|none|
+|»» EulaURL|string|false|none|none|
+|»» Templates|[allOf]|false|none|none|
+
+*allOf*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»»» *anonymous*|[Template](#schematemplate)|false|none|none|
+|»»»» ID|string|false|none|none|
+|»»»» Consent|string|false|none|none|
+
+*and*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»»» *anonymous*|object|false|none|none|
+|»»»» PurposeIDs|[string]|false|none|none|
+
+*continued*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»» Purposes|[[Purpose](#schemapurpose)]|false|none|none|
+|»»» ID|string|false|none|none|
+|»»» Name|string|false|none|none|
+|»»» Description|string|false|none|none|
+|»»» LawfulUsage|boolean|false|none|none|
+|»»» PolicyURL|string|false|none|none|
+|»» Admins|[object]|false|none|none|
+|»»» UserID|string|false|none|none|
+|»»» RoleID|string|false|none|none|
+|»» BillingInfo|[OrganisationBillingInfo](#schemaorganisationbillinginfo)|false|none|none|
+|»»» BillingRegistrationID|string|false|none|none|
+|»»» MaxUserCounter|integer|false|none|none|
+|»»» DefaultChargeNotified|boolean|false|none|none|
+|»»» CurrentPeriodEnd|integer|false|none|none|
+|»»» PrevMonthUsers|integer|false|none|none|
+|»»» PayPerUserInfo|object|false|none|none|
+|»»»» UserCommitment|integer|false|none|none|
+|»»»» TimeCommitment|string|false|none|none|
+|»»»» CancelOnCommitmentEnd|boolean|false|none|none|
+|»»»» CommitmentPeriodRemaining|integer|false|none|none|
+|»»» DefaultPaymentSource|object|false|none|none|
+|»»»» Brand|string|false|none|none|
+|»»»» ExpiryMonth|integer|false|none|none|
+|»»»» ExpiryYear|integer|false|none|none|
+|»»»» Last4Digits|string|false|none|none|
+|»»» Address|object|false|none|none|
+|»»»» Name|string|false|none|none|
+|»»»» City|string|false|none|none|
+|»»»» Country|string|false|none|none|
+|»»»» Line1|string|false|none|none|
+|»»»» Line2|string|false|none|none|
+|»»»» PostalCode|string|false|none|none|
+|»»»» State|string|false|none|none|
+|»»» ServiceAgreementVersion|string|false|none|none|
+|»»» FreeTrialExpired|boolean|false|none|none|
+|»» Subs|object|false|none|none|
+|»»» Method|integer|false|none|none|
+|»»» Key|string|false|none|none|
+|»» HlcSupport|boolean|false|none|none|
+|»» PrivacyDashboard|[OrganisationPrivacyBoard](#schemaorganisationprivacyboard)|false|none|none|
+|»»» HostName|string|false|none|none|
+|»»» Version|string|false|none|none|
+|»»» Status|integer|false|none|none|
+|»»» Delete|boolean|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Get subscribed users
+
+<a id="opIdGet subscribed users"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X GET https://api.igrant.io/v1/organizations/{organizationID}/users \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+GET https://api.igrant.io/v1/organizations/{organizationID}/users HTTP/1.1
 Host: api.igrant.io
 Accept: application/json
 
 ```
 
 ```javascript
-var headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationId}/users',
-  method: 'get',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
 
 const headers = {
   'Accept':'application/json',
-  'Authorization':'API_KEY'
-
+  'Authorization':'Bearer {access-token}'
 };
 
-fetch('https://api.igrant.io/v1/organizations/{organizationId}/users',
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/users',
 {
   method: 'GET',
 
@@ -4711,10 +9294,10 @@ require 'json'
 
 headers = {
   'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
+  'Authorization' => 'Bearer {access-token}'
 }
 
-result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationId}/users',
+result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationID}/users',
   params: {
   }, headers: headers
 
@@ -4726,19 +9309,49 @@ p JSON.parse(result)
 import requests
 headers = {
   'Accept': 'application/json',
-  'Authorization': 'API_KEY'
+  'Authorization': 'Bearer {access-token}'
 }
 
-r = requests.get('https://api.igrant.io/v1/organizations/{organizationId}/users', params={
+r = requests.get('https://api.igrant.io/v1/organizations/{organizationID}/users', headers = headers)
 
-}, headers = headers)
+print(r.json())
 
-print r.json()
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/organizations/{organizationID}/users', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
 
 ```
 
 ```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/users");
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/users");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("GET");
 int responseCode = con.getResponseCode();
@@ -4766,12 +9379,11 @@ func main() {
 
     headers := map[string][]string{
         "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
+        "Authorization": []string{"Bearer {access-token}"},
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationId}/users", data)
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationID}/users", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -4781,15 +9393,17 @@ func main() {
 
 ```
 
-`GET /organizations/{organizationId}/users`
+`GET /organizations/{organizationID}/users`
 
-View all users associated with an organization.
+Gets the list of users who are subscribed or registerd with an organisation
 
-<h3 id="get__organizations_{organizationid}_users-parameters">Parameters</h3>
+<h3 id="get-subscribed-users-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|organizationId|path|string|true|ID of the organization|
+|organizationID|path|string|true|Organisation ID|
+|limit|query|integer|false|Pagination limit (No of results)|
+|startid|query|string|false|Pagination start offset (ID of the result object for e.g. user ID, organisation ID e.t.c.)|
 
 > Example responses
 
@@ -4797,59 +9411,65 @@ View all users associated with an organization.
 
 ```json
 {
-  "User": {
-    "ID": "5b9025defef8d50001ebb6f2",
-    "Name": "Test production",
-    "IamID": "7c7591e507",
-    "Email": "p@p.io",
-    "Phone": "+358 549 45043",
-    "ImageID": "423049",
-    "ImageURL": "imageurl.fi",
-    "LastVisit": "2018-09-05 18:55:21",
-    "Client": {
-      "Token": 34234234,
-      "Type": 0
-    },
-    "Orgs": [
-      {
-        "OrgID": "5b4ab3f926eddc0001ad3885",
-        "Name": "iGrant.io",
-        "Location": "Stockholm, Sweden",
-        "Type": "RegTech",
-        "TypeID\"": "b4ab3bf26eddc0001ad3883"
-      }
-    ]
+  "Users": [
+    {
+      "ID": "5e8468d19380c40001f3ef69",
+      "Name": "Joseph George",
+      "Phone": "+467252844669",
+      "Email": "george@orgmail.com"
+    }
+  ],
+  "Links": {
+    "Self": "https://<image-server>/5dae01aa267e930001609aa4/users?limit=20",
+    "Next": "https://<image-server>/5dae01aa267e930001609aa4/users?limit=1&startid=5e833b4d9380c40001f3ef65"
   }
 }
 ```
 
-<h3 id="get__organizations_{organizationid}_users-responses">Responses</h3>
+<h3 id="get-subscribed-users-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful response|[User](#schemauser)|
-|404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Organization id not found|None|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns organization users|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<h3 id="get-subscribed-users-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» Users|[object]|false|none|none|
+|»» ID|string|false|none|none|
+|»» Name|string|false|none|none|
+|»» Phone|string|false|none|none|
+|»» Email|string|false|none|none|
+|» Links|object|false|none|none|
+|»» Self|string|false|none|none|
+|»» Next|string|false|none|none|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
+bearerAuth
 </aside>
 
-## Subscribe user
+## Add user to organization
+
+<a id="opIdAdd user to organization"></a>
 
 > Code samples
 
 ```shell
 # You can also use wget
-curl -X POST https://api.igrant.io/v1/organizations/{organizationId}/users \
+curl -X POST https://api.igrant.io/v1/organizations/{organizationID}/users \
   -H 'Content-Type: application/json' \
   -H 'Accept: application/json' \
-  -H 'Authorization: Bearer API_KEY'
+  -H 'Authorization: Bearer {access-token}'
 
 ```
 
 ```http
-POST https://api.igrant.io/v1/organizations/{organizationId}/users HTTP/1.1
+POST https://api.igrant.io/v1/organizations/{organizationID}/users HTTP/1.1
 Host: api.igrant.io
 Content-Type: application/json
 Accept: application/json
@@ -4857,38 +9477,17 @@ Accept: application/json
 ```
 
 ```javascript
-var headers = {
-  'Content-Type':'application/json',
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationId}/users',
-  method: 'post',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
 const inputBody = '{
-  "userId": "string"
+  "userid": "5f0c2ec1d6f0970001fae263",
+  "subscribekey": "GBDL-SQPR-QN1O"
 }';
 const headers = {
   'Content-Type':'application/json',
   'Accept':'application/json',
-  'Authorization':'API_KEY'
-
+  'Authorization':'Bearer {access-token}'
 };
 
-fetch('https://api.igrant.io/v1/organizations/{organizationId}/users',
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/users',
 {
   method: 'POST',
   body: inputBody,
@@ -4909,10 +9508,10 @@ require 'json'
 headers = {
   'Content-Type' => 'application/json',
   'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
+  'Authorization' => 'Bearer {access-token}'
 }
 
-result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationId}/users',
+result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationID}/users',
   params: {
   }, headers: headers
 
@@ -4925,19 +9524,50 @@ import requests
 headers = {
   'Content-Type': 'application/json',
   'Accept': 'application/json',
-  'Authorization': 'API_KEY'
+  'Authorization': 'Bearer {access-token}'
 }
 
-r = requests.post('https://api.igrant.io/v1/organizations/{organizationId}/users', params={
+r = requests.post('https://api.igrant.io/v1/organizations/{organizationID}/users', headers = headers)
 
-}, headers = headers)
+print(r.json())
 
-print r.json()
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Content-Type' => 'application/json',
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://api.igrant.io/v1/organizations/{organizationID}/users', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
 
 ```
 
 ```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/users");
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/users");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("POST");
 int responseCode = con.getResponseCode();
@@ -4966,12 +9596,11 @@ func main() {
     headers := map[string][]string{
         "Content-Type": []string{"application/json"},
         "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
+        "Authorization": []string{"Bearer {access-token}"},
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationId}/users", data)
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationID}/users", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -4981,25 +9610,27 @@ func main() {
 
 ```
 
-`POST /organizations/{organizationId}/users`
+`POST /organizations/{organizationID}/users`
 
-Subscribe a user to an organization.
+Provisions individual users to organisations. This is used when organisation onboards their users or when users subscribe to organisations, for example in a data wallet.
 
 > Body parameter
 
 ```json
 {
-  "userId": "string"
+  "userid": "5f0c2ec1d6f0970001fae263",
+  "subscribekey": "GBDL-SQPR-QN1O"
 }
 ```
 
-<h3 id="post__organizations_{organizationid}_users-parameters">Parameters</h3>
+<h3 id="add-user-to-organization-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|organizationId|path|string|true|ID of the organization to which a user shall be added|
-|body|body|object|true|none|
-|userId|body|string|false|none|
+|organizationID|path|string|true|Organisation ID|
+|body|body|object|false|none|
+|» userid|body|string|false|none|
+|» subscribekey|body|string|false|none|
 
 > Example responses
 
@@ -5008,91 +9639,111 @@ Subscribe a user to an organization.
 ```json
 {
   "User": {
-    "ID": "5b9025defef8d50001ebb6f2",
-    "Name": "Test production",
-    "IamID": "7c7591e507",
-    "Email": "p@p.io",
-    "Phone": "+358 549 45043",
-    "ImageID": "423049",
-    "ImageURL": "imageurl.fi",
-    "LastVisit": "2018-09-05 18:55:21",
+    "ID": "5daf22cea531351111afc7c8",
+    "Name": "George Floyd",
+    "IamID": "9d8c4h69-9fb2-4115-a4c3-53bddb8f2d7f",
+    "Email": "dmart@yopmail.com",
+    "Phone": "+46 7252 98991",
+    "ImageID": "5f1458a5chaa930001e78f12",
+    "ImageURL": "https:/<server-url>/image/5f1458a5chaa930001e78f12",
+    "LastVisit": "2020-07-22T18:04:02Z",
     "Client": {
-      "Token": 34234234,
-      "Type": 0
+      "Token": "fEkxEwh4T2mr-B4yQoZ9TT:APA91bHibhwLXkc2l6LxWxHW5TrKBoLrXGCHDO6A9pXQ0ShvDYPfxXm57D8tIsR-fwybjs-_OFXCgCbBQpYVON2svUiooWgJBFETXg_jUGy0B9etUHFnyuCbXPihyoCuJc2Gn6s9XkN_",
+      "Type": 2
     },
     "Orgs": [
       {
-        "OrgID": "5b4ab3f926eddc0001ad3885",
-        "Name": "iGrant.io",
+        "OrgID": "5dae2a9fa1215e00012103e4",
+        "Name": "Nordea Bank AB",
         "Location": "Stockholm, Sweden",
-        "Type": "RegTech",
-        "TypeID\"": "b4ab3bf26eddc0001ad3883"
+        "Type": "Banking and Finance",
+        "TypeID": "5d95a566a67c8800012f27d1",
+        "EulaAccepted": false
+      }
+    ],
+    "APIKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI1ZGFmMjJjZWE1MzEzNTAwMDFhZmM3YzgiLCJleHAiOjE2MDQwNjMwNjV9.Irk0XgXfVhIdlgBNz6ggEXlvoIPtzUzJv4-x0VKYBGE",
+    "Roles": [
+      {
+        "RoleID": 1,
+        "OrgID": "5daf22d0a531350001afc7c9"
       }
     ]
   }
 }
 ```
 
-<h3 id="post__organizations_{organizationid}_users-responses">Responses</h3>
+<h3 id="add-user-to-organization-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|success, returns the user details|[User](#schemauser)|
-|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Failure, cannot subscribe to disabled organization|None|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns the added user|Inline|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Invalid subscription token|None|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<h3 id="add-user-to-organization-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» User|[User](#schemauser)|false|none|none|
+|»» ID|string|false|none|none|
+|»» Name|string|false|none|none|
+|»» IamID|string|false|none|none|
+|»» Email|string|false|none|none|
+|»» Phone|string|false|none|none|
+|»» ImageID|string|false|none|none|
+|»» ImageURL|string|false|none|none|
+|»» LastVisit|string(date-time)|false|none|none|
+|»» Client|object|false|none|none|
+|»»» Token|string|false|none|none|
+|»»» Type|integer|false|none|none|
+|»» Orgs|[object]|false|none|none|
+|»»» OrgID|string|false|none|none|
+|»»» Name|string|false|none|none|
+|»»» Location|string|false|none|none|
+|»»» Type|string|false|none|none|
+|»»» TypeID|string|false|none|none|
+|»»» EulaAccepted|boolean|false|none|none|
+|»» APIKey|string|false|none|none|
+|»» Roles|[object]|false|none|none|
+|»»» RoleID|integer|false|none|none|
+|»»» OrgID|string|false|none|none|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
+bearerAuth
 </aside>
 
-## View subscribed users count
+## Get total subscribed users
+
+<a id="opIdGet total subscribed users"></a>
 
 > Code samples
 
 ```shell
 # You can also use wget
-curl -X GET https://api.igrant.io/v1/organizations/{organizationId}/users/count \
+curl -X GET https://api.igrant.io/v1/organizations/{organizationID}/users/count \
   -H 'Accept: application/json' \
-  -H 'Authorization: Bearer API_KEY'
+  -H 'Authorization: Bearer {access-token}'
 
 ```
 
 ```http
-GET https://api.igrant.io/v1/organizations/{organizationId}/users/count HTTP/1.1
+GET https://api.igrant.io/v1/organizations/{organizationID}/users/count HTTP/1.1
 Host: api.igrant.io
 Accept: application/json
 
 ```
 
 ```javascript
-var headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationId}/users/count',
-  method: 'get',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
 
 const headers = {
   'Accept':'application/json',
-  'Authorization':'API_KEY'
-
+  'Authorization':'Bearer {access-token}'
 };
 
-fetch('https://api.igrant.io/v1/organizations/{organizationId}/users/count',
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/users/count',
 {
   method: 'GET',
 
@@ -5112,10 +9763,10 @@ require 'json'
 
 headers = {
   'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
+  'Authorization' => 'Bearer {access-token}'
 }
 
-result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationId}/users/count',
+result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationID}/users/count',
   params: {
   }, headers: headers
 
@@ -5127,19 +9778,49 @@ p JSON.parse(result)
 import requests
 headers = {
   'Accept': 'application/json',
-  'Authorization': 'API_KEY'
+  'Authorization': 'Bearer {access-token}'
 }
 
-r = requests.get('https://api.igrant.io/v1/organizations/{organizationId}/users/count', params={
+r = requests.get('https://api.igrant.io/v1/organizations/{organizationID}/users/count', headers = headers)
 
-}, headers = headers)
+print(r.json())
 
-print r.json()
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/organizations/{organizationID}/users/count', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
 
 ```
 
 ```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/users/count");
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/users/count");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("GET");
 int responseCode = con.getResponseCode();
@@ -5167,12 +9848,11 @@ func main() {
 
     headers := map[string][]string{
         "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
+        "Authorization": []string{"Bearer {access-token}"},
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationId}/users/count", data)
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationID}/users/count", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -5182,15 +9862,15 @@ func main() {
 
 ```
 
-`GET /organizations/{organizationId}/users/count`
+`GET /organizations/{organizationID}/users/count`
 
-View the number of users subscribed to an organization.
+Gets the total number of users subscribed to an organisation
 
-<h3 id="get__organizations_{organizationid}_users_count-parameters">Parameters</h3>
+<h3 id="get-total-subscribed-users-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|organizationId|path|string|true|ID of the organization|
+|organizationID|path|string|true|Organisation ID|
 
 > Example responses
 
@@ -5202,1858 +9882,301 @@ View the number of users subscribed to an organization.
 }
 ```
 
-<h3 id="get__organizations_{organizationid}_users_count-responses">Responses</h3>
+<h3 id="get-total-subscribed-users-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns SubscribeUserCount|[SubscribeUserCount](#schemasubscribeusercount)|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns subscribed users count|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
 
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
-</aside>
-
-## View subscribed user details
-
-> Code samples
-
-```shell
-# You can also use wget
-curl -X GET https://api.igrant.io/v1/organizations/{organizationId}/users/{userId} \
-  -H 'Accept: application/json' \
-  -H 'Authorization: Bearer API_KEY'
-
-```
-
-```http
-GET https://api.igrant.io/v1/organizations/{organizationId}/users/{userId} HTTP/1.1
-Host: api.igrant.io
-Accept: application/json
-
-```
-
-```javascript
-var headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}',
-  method: 'get',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
-
-const headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-fetch('https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}',
-{
-  method: 'GET',
-
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
-}
-
-result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}',
-  params: {
-  }, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Accept': 'application/json',
-  'Authorization': 'API_KEY'
-}
-
-r = requests.get('https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}', params={
-
-}, headers = headers)
-
-print r.json()
-
-```
-
-```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("GET");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`GET /organizations/{organizationId}/users/{userId}`
-
-View the details of a user in an organization.
-
-<h3 id="get__organizations_{organizationid}_users_{userid}-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|organizationId|path|string|true|ID of the organization|
-|userId|path|string|true|ID of the user|
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "User": {
-    "ID": "5b9025defef8d50001ebb6f2",
-    "Name": "Test production",
-    "IamID": "7c7591e507",
-    "Email": "p@p.io",
-    "Phone": "+358 549 45043",
-    "ImageID": "423049",
-    "ImageURL": "imageurl.fi",
-    "LastVisit": "2018-09-05 18:55:21",
-    "Client": {
-      "Token": 34234234,
-      "Type": 0
-    },
-    "Orgs": [
-      {
-        "OrgID": "5b4ab3f926eddc0001ad3885",
-        "Name": "iGrant.io",
-        "Location": "Stockholm, Sweden",
-        "Type": "RegTech",
-        "TypeID\"": "b4ab3bf26eddc0001ad3883"
-      }
-    ]
-  }
-}
-```
-
-<h3 id="get__organizations_{organizationid}_users_{userid}-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful response|[User](#schemauser)|
-|404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Organization id or User id not found|None|
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
-</aside>
-
-## Delete subscribed user
-
-> Code samples
-
-```shell
-# You can also use wget
-curl -X DELETE https://api.igrant.io/v1/organizations/{organizationId}/users/{userId} \
-  -H 'Accept: application/json' \
-  -H 'Authorization: Bearer API_KEY'
-
-```
-
-```http
-DELETE https://api.igrant.io/v1/organizations/{organizationId}/users/{userId} HTTP/1.1
-Host: api.igrant.io
-Accept: application/json
-
-```
-
-```javascript
-var headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}',
-  method: 'delete',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
-
-const headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-fetch('https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}',
-{
-  method: 'DELETE',
-
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
-}
-
-result = RestClient.delete 'https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}',
-  params: {
-  }, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Accept': 'application/json',
-  'Authorization': 'API_KEY'
-}
-
-r = requests.delete('https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}', params={
-
-}, headers = headers)
-
-print r.json()
-
-```
-
-```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("DELETE");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("DELETE", "https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`DELETE /organizations/{organizationId}/users/{userId}`
-
-Delete a user from the organization using user ID.
-
-<h3 id="delete__organizations_{organizationid}_users_{userid}-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|organizationId|path|string|true|ID of the organization|
-|userId|path|string|true|ID of the user|
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "User": {
-    "ID": "5b9025defef8d50001ebb6f2",
-    "Name": "Test production",
-    "IamID": "7c7591e507",
-    "Email": "p@p.io",
-    "Phone": "+358 549 45043",
-    "ImageID": "423049",
-    "ImageURL": "imageurl.fi",
-    "LastVisit": "2018-09-05 18:55:21",
-    "Client": {
-      "Token": 34234234,
-      "Type": 0
-    },
-    "Orgs": [
-      {
-        "OrgID": "5b4ab3f926eddc0001ad3885",
-        "Name": "iGrant.io",
-        "Location": "Stockholm, Sweden",
-        "Type": "RegTech",
-        "TypeID\"": "b4ab3bf26eddc0001ad3883"
-      }
-    ]
-  }
-}
-```
-
-<h3 id="delete__organizations_{organizationid}_users_{userid}-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Removed user successfully from organization.|[User](#schemauser)|
-|404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Organization id or User id not found|None|
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
-</aside>
-
-## View user consent data
-
-> Code samples
-
-```shell
-# You can also use wget
-curl -X GET https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}/consents \
-  -H 'Accept: application/json' \
-  -H 'Authorization: Bearer API_KEY'
-
-```
-
-```http
-GET https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}/consents HTTP/1.1
-Host: api.igrant.io
-Accept: application/json
-
-```
-
-```javascript
-var headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}/consents',
-  method: 'get',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
-
-const headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-fetch('https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}/consents',
-{
-  method: 'GET',
-
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
-}
-
-result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}/consents',
-  params: {
-  }, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Accept': 'application/json',
-  'Authorization': 'API_KEY'
-}
-
-r = requests.get('https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}/consents', params={
-
-}, headers = headers)
-
-print r.json()
-
-```
-
-```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}/consents");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("GET");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}/consents", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`GET /organizations/{organizationId}/users/{userId}/consents`
-
-View existing user data sets stored with an organization.
-
-<h3 id="get__organizations_{organizationid}_users_{userid}_consents-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|organizationId|path|string|true|ID of the organization|
-|userId|path|string|true|ID of the user|
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "ID": "5bba6a9998135900010927bb",
-  "OrgID": "5bba686e98135900010927a8",
-  "UserID": "5bc786ea90e2a00001de6de1",
-  "ConsentsAndPurposes": [
-    {
-      "Purpose": {
-        "ID": "5bba69db98135900010927ac",
-        "Description": "Contractual Purpose",
-        "LawfulUsage": "False",
-        "PolicyUrl": "https://www.ica.se/policies/behandling-av-personuppgifter/"
-      },
-      "Count": {
-        "Total": "2",
-        "Consented": "2"
-      },
-      "Consents": [
-        {
-          "ID": "5bba6a9998135900010927bb",
-          "Description": "No. of kids",
-          "Value": "",
-          "Status": {
-            "Consented": "Allow",
-            "TimeStamp": "0001-01-01T00:00:00Z",
-            "Days": 0,
-            "Remaining": 0
-          }
-        }
-      ]
-    }
-  ]
-}
-```
-
-<h3 id="get__organizations_{organizationid}_users_{userid}_consents-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful response|[Consent](#schemaconsent)|
-|404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Organization id or User id not found|None|
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
-</aside>
-
-## Update user consents
-
-> Code samples
-
-```shell
-# You can also use wget
-curl -X PATCH https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}/consents \
-  -H 'Content-Type: application/json' \
-  -H 'Authorization: Bearer API_KEY'
-
-```
-
-```http
-PATCH https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}/consents HTTP/1.1
-Host: api.igrant.io
-Content-Type: application/json
-
-```
-
-```javascript
-var headers = {
-  'Content-Type':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}/consents',
-  method: 'patch',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
-const inputBody = '{
-  "ID": "5bba6a9998135900010927bb",
-  "OrgID": "5bba686e98135900010927a8",
-  "UserID": "5bc786ea90e2a00001de6de1",
-  "ConsentsAndPurposes": [
-    {
-      "Purpose": {
-        "ID": "5bba69db98135900010927ac",
-        "Description": "Contractual Purpose",
-        "LawfulUsage": "False",
-        "PolicyUrl": "https://www.ica.se/policies/behandling-av-personuppgifter/"
-      },
-      "Count": {
-        "Total": "2",
-        "Consented": "2"
-      },
-      "Consents": [
-        {
-          "ID": "5bba6a9998135900010927bb",
-          "Description": "No. of kids",
-          "Value": "",
-          "Status": {
-            "Consented": "Allow",
-            "TimeStamp": "0001-01-01T00:00:00Z",
-            "Days": 0,
-            "Remaining": 0
-          }
-        }
-      ]
-    }
-  ]
-}';
-const headers = {
-  'Content-Type':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-fetch('https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}/consents',
-{
-  method: 'PATCH',
-  body: inputBody,
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Content-Type' => 'application/json',
-  'Authorization' => 'API_KEY'
-}
-
-result = RestClient.patch 'https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}/consents',
-  params: {
-  }, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Content-Type': 'application/json',
-  'Authorization': 'API_KEY'
-}
-
-r = requests.patch('https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}/consents', params={
-
-}, headers = headers)
-
-print r.json()
-
-```
-
-```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}/consents");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("PATCH");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Content-Type": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("PATCH", "https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}/consents", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`PATCH /organizations/{organizationId}/users/{userId}/consents`
-
-Update the consent given by the user.
-
-> Body parameter
-
-```json
-{
-  "ID": "5bba6a9998135900010927bb",
-  "OrgID": "5bba686e98135900010927a8",
-  "UserID": "5bc786ea90e2a00001de6de1",
-  "ConsentsAndPurposes": [
-    {
-      "Purpose": {
-        "ID": "5bba69db98135900010927ac",
-        "Description": "Contractual Purpose",
-        "LawfulUsage": "False",
-        "PolicyUrl": "https://www.ica.se/policies/behandling-av-personuppgifter/"
-      },
-      "Count": {
-        "Total": "2",
-        "Consented": "2"
-      },
-      "Consents": [
-        {
-          "ID": "5bba6a9998135900010927bb",
-          "Description": "No. of kids",
-          "Value": "",
-          "Status": {
-            "Consented": "Allow",
-            "TimeStamp": "0001-01-01T00:00:00Z",
-            "Days": 0,
-            "Remaining": 0
-          }
-        }
-      ]
-    }
-  ]
-}
-```
-
-<h3 id="patch__organizations_{organizationid}_users_{userid}_consents-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|organizationId|path|string|true|ID of the organization|
-|userId|path|string|true|ID of the user|
-|body|body|[Consent](#schemaconsent)|true|User consents|
-
-<h3 id="patch__organizations_{organizationid}_users_{userid}_consents-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|Successfully modified the user consents|None|
-|404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Organization id or User id not found|None|
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
-</aside>
-
-## View a user consent
-
-> Code samples
-
-```shell
-# You can also use wget
-curl -X GET https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}/consents/{consentId} \
-  -H 'Accept: application/json' \
-  -H 'Authorization: Bearer API_KEY'
-
-```
-
-```http
-GET https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}/consents/{consentId} HTTP/1.1
-Host: api.igrant.io
-Accept: application/json
-
-```
-
-```javascript
-var headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}/consents/{consentId}',
-  method: 'get',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
-
-const headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-fetch('https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}/consents/{consentId}',
-{
-  method: 'GET',
-
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
-}
-
-result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}/consents/{consentId}',
-  params: {
-  }, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Accept': 'application/json',
-  'Authorization': 'API_KEY'
-}
-
-r = requests.get('https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}/consents/{consentId}', params={
-
-}, headers = headers)
-
-print r.json()
-
-```
-
-```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}/consents/{consentId}");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("GET");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}/consents/{consentId}", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`GET /organizations/{organizationId}/users/{userId}/consents/{consentId}`
-
-View details of a user consent in an organization.
-
-<h3 id="get__organizations_{organizationid}_users_{userid}_consents_{consentid}-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|organizationId|path|string|true|ID of the organization|
-|userId|path|string|true|ID of the user|
-|consentId|path|string|true|ID of the consent|
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "ID": "5bba6a9998135900010927bb",
-  "OrgID": "5bba686e98135900010927a8",
-  "UserID": "5bc786ea90e2a00001de6de1",
-  "ConsentsAndPurposes": [
-    {
-      "Purpose": {
-        "ID": "5bba69db98135900010927ac",
-        "Description": "Contractual Purpose",
-        "LawfulUsage": "False",
-        "PolicyUrl": "https://www.ica.se/policies/behandling-av-personuppgifter/"
-      },
-      "Count": {
-        "Total": "2",
-        "Consented": "2"
-      },
-      "Consents": [
-        {
-          "ID": "5bba6a9998135900010927bb",
-          "Description": "No. of kids",
-          "Value": "",
-          "Status": {
-            "Consented": "Allow",
-            "TimeStamp": "0001-01-01T00:00:00Z",
-            "Days": 0,
-            "Remaining": 0
-          }
-        }
-      ]
-    }
-  ]
-}
-```
-
-<h3 id="get__organizations_{organizationid}_users_{userid}_consents_{consentid}-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Consent information of given Id.|[Consent](#schemaconsent)|
-|404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Organization id or User id not found|None|
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
-</aside>
-
-## Delete a user consent
-
-> Code samples
-
-```shell
-# You can also use wget
-curl -X DELETE https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}/consents/{consentId} \
-  -H 'Authorization: Bearer API_KEY'
-
-```
-
-```http
-DELETE https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}/consents/{consentId} HTTP/1.1
-Host: api.igrant.io
-
-```
-
-```javascript
-var headers = {
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}/consents/{consentId}',
-  method: 'delete',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
-
-const headers = {
-  'Authorization':'API_KEY'
-
-};
-
-fetch('https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}/consents/{consentId}',
-{
-  method: 'DELETE',
-
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Authorization' => 'API_KEY'
-}
-
-result = RestClient.delete 'https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}/consents/{consentId}',
-  params: {
-  }, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Authorization': 'API_KEY'
-}
-
-r = requests.delete('https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}/consents/{consentId}', params={
-
-}, headers = headers)
-
-print r.json()
-
-```
-
-```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}/consents/{consentId}");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("DELETE");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Authorization": []string{"API_KEY"},
-        
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("DELETE", "https://api.igrant.io/v1/organizations/{organizationId}/users/{userId}/consents/{consentId}", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`DELETE /organizations/{organizationId}/users/{userId}/consents/{consentId}`
-
-Delete a given user consent in an organization by consent ID.
-
-<h3 id="delete__organizations_{organizationid}_users_{userid}_consents_{consentid}-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|organizationId|path|string|true|ID of the organization|
-|userId|path|string|true|ID of the user|
-|consentId|path|string|true|ID of the consent|
-
-<h3 id="delete__organizations_{organizationid}_users_{userid}_consents_{consentid}-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|OK|None|
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
-</aside>
-
-## View purpose details
-
-> Code samples
-
-```shell
-# You can also use wget
-curl -X GET https://api.igrant.io/v1/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId} \
-  -H 'Accept: application/json' \
-  -H 'Authorization: Bearer API_KEY'
-
-```
-
-```http
-GET https://api.igrant.io/v1/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId} HTTP/1.1
-Host: api.igrant.io
-Accept: application/json
-
-```
-
-```javascript
-var headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}',
-  method: 'get',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
-
-const headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-fetch('https://api.igrant.io/v1/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}',
-{
-  method: 'GET',
-
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
-}
-
-result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}',
-  params: {
-  }, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Accept': 'application/json',
-  'Authorization': 'API_KEY'
-}
-
-r = requests.get('https://api.igrant.io/v1/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}', params={
-
-}, headers = headers)
-
-print r.json()
-
-```
-
-```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("GET");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`GET /organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}`
-
-View details of a purpose of an organization.
-
-<h3 id="get__organizations_{organizationid}_users_{userid}_consents_{consentid}_purposes_{purposeid}-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|organizationId|path|string|true|ID of the organization|
-|UserId|path|string|true|ID of the user|
-|ConsentId|path|string|true|ID of the consent|
-|PurposeId|path|string|true|ID of the purpose|
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "ID": "string",
-  "ConsentID": "string",
-  "OrgID": "string",
-  "UserID": "string",
-  "Consents": {
-    "Purpose": {
-      "ID": "string",
-      "Description": "string",
-      "LawfulUsage": true,
-      "PolicyURL": "string"
-    },
-    "Count": {
-      "Total": 2,
-      "Consented": 2
-    },
-    "Consents": [
-      {
-        "ID": "string",
-        "Description": "string",
-        "Value": "string",
-        "Status": {
-          "Consented": "string",
-          "TimeStamp": "string",
-          "Days": 0,
-          "Remaining": 0
-        }
-      }
-    ]
-  }
-}
-```
-
-<h3 id="get__organizations_{organizationid}_users_{userid}_consents_{consentid}_purposes_{purposeid}-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful response|[PurposeDetail](#schemapurposedetail)|
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
-</aside>
-
-## Set status of a purpose
-
-> Code samples
-
-```shell
-# You can also use wget
-curl -X POST https://api.igrant.io/v1/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/status \
-  -H 'Content-Type: application/json' \
-  -H 'Accept: application/json' \
-  -H 'Authorization: Bearer API_KEY'
-
-```
-
-```http
-POST https://api.igrant.io/v1/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/status HTTP/1.1
-Host: api.igrant.io
-Content-Type: application/json
-Accept: application/json
-
-```
-
-```javascript
-var headers = {
-  'Content-Type':'application/json',
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/status',
-  method: 'post',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
-const inputBody = '{
-  "Consented": "string"
-}';
-const headers = {
-  'Content-Type':'application/json',
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-fetch('https://api.igrant.io/v1/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/status',
-{
-  method: 'POST',
-  body: inputBody,
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Content-Type' => 'application/json',
-  'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
-}
-
-result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/status',
-  params: {
-  }, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Content-Type': 'application/json',
-  'Accept': 'application/json',
-  'Authorization': 'API_KEY'
-}
-
-r = requests.post('https://api.igrant.io/v1/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/status', params={
-
-}, headers = headers)
-
-print r.json()
-
-```
-
-```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/status");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("POST");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Content-Type": []string{"application/json"},
-        "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/status", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`POST /organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/status`
-
-Sets overall status for a given purpose, alternatives are "Allow" and "DisAllow".
-
-> Body parameter
-
-```json
-{
-  "Consented": "string"
-}
-```
-
-<h3 id="post__organizations_{organizationid}_users_{userid}_consents_{consentid}_purposes_{purposeid}_status-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|organizationId|path|string|true|ID of the organization|
-|UserId|path|string|true|ID of the user|
-|ConsentId|path|string|true|ID of the consent|
-|PurposeId|path|string|true|ID of the purpose|
-|body|body|object|true|none|
-|Consented|body|string|true|Status of the consent for a given purpose|
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "ID": "string",
-  "ConsentID": "string",
-  "OrgID": "string",
-  "UserID": "string",
-  "Consents": {
-    "Purpose": {
-      "ID": "string",
-      "Description": "string",
-      "LawfulUsage": true,
-      "PolicyURL": "string"
-    },
-    "Count": {
-      "Total": 2,
-      "Consented": 2
-    },
-    "Consents": [
-      {
-        "ID": "string",
-        "Description": "string",
-        "Value": "string",
-        "Status": {
-          "Consented": "string",
-          "TimeStamp": "string",
-          "Days": 0,
-          "Remaining": 0
-        }
-      }
-    ]
-  }
-}
-```
-
-<h3 id="post__organizations_{organizationid}_users_{userid}_consents_{consentid}_purposes_{purposeid}_status-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful response|[PurposeDetail](#schemapurposedetail)|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Failed response|None|
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
-</aside>
-
-## Update consent status
-
-> Code samples
-
-```shell
-# You can also use wget
-curl -X PATCH https://api.igrant.io/v1/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/attributes/{attrId} \
-  -H 'Content-Type: application/json' \
-  -H 'Accept: application/json' \
-  -H 'Authorization: Bearer API_KEY'
-
-```
-
-```http
-PATCH https://api.igrant.io/v1/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/attributes/{attrId} HTTP/1.1
-Host: api.igrant.io
-Content-Type: application/json
-Accept: application/json
-
-```
-
-```javascript
-var headers = {
-  'Content-Type':'application/json',
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/attributes/{attrId}',
-  method: 'patch',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
-const inputBody = '{
-  "Consented": "string",
-  "Days": 0
-}';
-const headers = {
-  'Content-Type':'application/json',
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-fetch('https://api.igrant.io/v1/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/attributes/{attrId}',
-{
-  method: 'PATCH',
-  body: inputBody,
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Content-Type' => 'application/json',
-  'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
-}
-
-result = RestClient.patch 'https://api.igrant.io/v1/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/attributes/{attrId}',
-  params: {
-  }, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Content-Type': 'application/json',
-  'Accept': 'application/json',
-  'Authorization': 'API_KEY'
-}
-
-r = requests.patch('https://api.igrant.io/v1/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/attributes/{attrId}', params={
-
-}, headers = headers)
-
-print r.json()
-
-```
-
-```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/attributes/{attrId}");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("PATCH");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Content-Type": []string{"application/json"},
-        "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("PATCH", "https://api.igrant.io/v1/organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/attributes/{attrId}", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`PATCH /organizations/{organizationId}/users/{UserId}/consents/{ConsentId}/purposes/{PurposeId}/attributes/{attrId}`
-
-Updates "Consented" status in a given purpose (Allow/DisAllow) OR "Days", i.e. "{ "days": 40}
-
-> Body parameter
-
-```json
-{
-  "Consented": "string",
-  "Days": 0
-}
-```
-
-<h3 id="patch__organizations_{organizationid}_users_{userid}_consents_{consentid}_purposes_{purposeid}_attributes_{attrid}-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|organizationId|path|string|true|ID of the organization|
-|UserId|path|string|true|ID of the user|
-|ConsentId|path|string|true|ID of the consent|
-|PurposeId|path|string|true|ID of the purpose|
-|attrId|path|string|true|ID of attribute (consentId)|
-|body|body|[ConsentedDays](#schemaconsenteddays)|true|none|
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "Msg": "Consent updated successfully",
-  "Status": 200
-}
-```
-
-<h3 id="patch__organizations_{organizationid}_users_{userid}_consents_{consentid}_purposes_{purposeid}_attributes_{attrid}-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful response|Inline|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Failed response|None|
-
-<h3 id="patch__organizations_{organizationid}_users_{userid}_consents_{consentid}_purposes_{purposeid}_attributes_{attrid}-responseschema">Response Schema</h3>
+<h3 id="get-total-subscribed-users-responseschema">Response Schema</h3>
 
 Status Code **200**
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|Msg|string|false|none|Response message|
-|Status|integer|false|none|Status Code|
+|» SubscribeUserCount|integer|false|none|none|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
+bearerAuth
 </aside>
 
+## Remove user
 
-## Add a purpose
+<a id="opIdRemove user"></a>
 
 > Code samples
 
 ```shell
 # You can also use wget
-curl -X POST https://api.igrant.io/v1/organizations/{organizationId}/purposes \
+curl -X DELETE https://api.igrant.io/v1/organizations/{organizationID}/users/{userID} \
   -H 'Accept: application/json' \
-  -H 'Authorization: Bearer API_KEY'
+  -H 'Authorization: Bearer {access-token}'
 
 ```
 
 ```http
-POST https://api.igrant.io/v1/organizations/{organizationId}/purposes HTTP/1.1
+DELETE https://api.igrant.io/v1/organizations/{organizationID}/users/{userID} HTTP/1.1
 Host: api.igrant.io
-Content-Type: application/json
 Accept: application/json
 
 ```
 
 ```javascript
-var headers = {
-  'Accept':'application/json',
-  'Authorization':'Bearer API_KEY'
 
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
 };
 
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationId}/purposes',
-  method: 'post',
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/users/{userID}',
+{
+  method: 'DELETE',
 
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
+  headers: headers
 })
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
 
 ```
 
-```javascript--nodejs
-const fetch = require('node-fetch');
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.delete 'https://api.igrant.io/v1/organizations/{organizationID}/users/{userID}',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.delete('https://api.igrant.io/v1/organizations/{organizationID}/users/{userID}', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('DELETE','https://api.igrant.io/v1/organizations/{organizationID}/users/{userID}', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/users/{userID}");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("DELETE");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("DELETE", "https://api.igrant.io/v1/organizations/{organizationID}/users/{userID}", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`DELETE /organizations/{organizationID}/users/{userID}`
+
+Removes user from  an organization
+
+<h3 id="remove-user-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organisation ID|
+|userID|path|string|true|User ID|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "User": {
+    "ID": "5daf22cea531351111afc7c8",
+    "Name": "George Floyd",
+    "IamID": "9d8c4h69-9fb2-4115-a4c3-53bddb8f2d7f",
+    "Email": "dmart@yopmail.com",
+    "Phone": "+46 7252 98991",
+    "ImageID": "5f1458a5chaa930001e78f12",
+    "ImageURL": "https:/<server-url>/image/5f1458a5chaa930001e78f12",
+    "LastVisit": "2020-07-22T18:04:02Z",
+    "Client": {
+      "Token": "fEkxEwh4T2mr-B4yQoZ9TT:APA91bHibhwLXkc2l6LxWxHW5TrKBoLrXGCHDO6A9pXQ0ShvDYPfxXm57D8tIsR-fwybjs-_OFXCgCbBQpYVON2svUiooWgJBFETXg_jUGy0B9etUHFnyuCbXPihyoCuJc2Gn6s9XkN_",
+      "Type": 2
+    },
+    "Orgs": [
+      {
+        "OrgID": "5dae2a9fa1215e00012103e4",
+        "Name": "Nordea Bank AB",
+        "Location": "Stockholm, Sweden",
+        "Type": "Banking and Finance",
+        "TypeID": "5d95a566a67c8800012f27d1",
+        "EulaAccepted": false
+      }
+    ],
+    "APIKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI1ZGFmMjJjZWE1MzEzNTAwMDFhZmM3YzgiLCJleHAiOjE2MDQwNjMwNjV9.Irk0XgXfVhIdlgBNz6ggEXlvoIPtzUzJv4-x0VKYBGE",
+    "Roles": [
+      {
+        "RoleID": 1,
+        "OrgID": "5daf22d0a531350001afc7c9"
+      }
+    ]
+  }
+}
+```
+
+<h3 id="remove-user-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns the user (with updated orgs)|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<h3 id="remove-user-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» User|[User](#schemauser)|false|none|none|
+|»» ID|string|false|none|none|
+|»» Name|string|false|none|none|
+|»» IamID|string|false|none|none|
+|»» Email|string|false|none|none|
+|»» Phone|string|false|none|none|
+|»» ImageID|string|false|none|none|
+|»» ImageURL|string|false|none|none|
+|»» LastVisit|string(date-time)|false|none|none|
+|»» Client|object|false|none|none|
+|»»» Token|string|false|none|none|
+|»»» Type|integer|false|none|none|
+|»» Orgs|[object]|false|none|none|
+|»»» OrgID|string|false|none|none|
+|»»» Name|string|false|none|none|
+|»»» Location|string|false|none|none|
+|»»» Type|string|false|none|none|
+|»»» TypeID|string|false|none|none|
+|»»» EulaAccepted|boolean|false|none|none|
+|»» APIKey|string|false|none|none|
+|»» Roles|[object]|false|none|none|
+|»»» RoleID|integer|false|none|none|
+|»»» OrgID|string|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Notify data breach
+
+<a id="opIdNotify data breach"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://api.igrant.io/v1/organizations/{orgID}/notify-data-breach \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+POST https://api.igrant.io/v1/organizations/{orgID}/notify-data-breach HTTP/1.1
+Host: api.igrant.io
+Content-Type: application/json
+
+```
+
+```javascript
 const inputBody = '{
-  "ID": "string",
-  "Description": "string",
-  "LawfulUsage": true,
-  "PolicyURL": "string"
+  "headline": "Data breach alert",
+  "userscount": 200,
+  "dpoemail": "dpo@abc.com",
+  "consequence": "Exposed authentication credentials of some of the clients",
+  "measures": "Update the account passwords within 24hours"
 }';
 const headers = {
-  'Accept':'application/json',
-  'Authorization':'Bearer API_KEY'
-
+  'Content-Type':'application/json',
+  'Authorization':'Bearer {access-token}'
 };
 
-fetch('https://api.igrant.io/v1/organizations/{organizationId}/purposes',
+fetch('https://api.igrant.io/v1/organizations/{orgID}/notify-data-breach',
 {
   method: 'POST',
   body: inputBody,
@@ -7072,11 +10195,381 @@ require 'rest-client'
 require 'json'
 
 headers = {
-  'Accept' => 'application/json',
-  'Authorization' => 'Bearer API_KEY'
+  'Content-Type' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
 }
 
-result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationId}/purposes',
+result = RestClient.post 'https://api.igrant.io/v1/organizations/{orgID}/notify-data-breach',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.post('https://api.igrant.io/v1/organizations/{orgID}/notify-data-breach', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Content-Type' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://api.igrant.io/v1/organizations/{orgID}/notify-data-breach', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{orgID}/notify-data-breach");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Content-Type": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{orgID}/notify-data-breach", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /organizations/{orgID}/notify-data-breach`
+
+Notifies all subscribed users of any data breaches that has occured in the organisation. This, for example, is as per Art. 34 GDPR (Communication of a personal data breach to the data subject) and can be used for this purpose.
+
+> Body parameter
+
+```json
+{
+  "headline": "Data breach alert",
+  "userscount": 200,
+  "dpoemail": "dpo@abc.com",
+  "consequence": "Exposed authentication credentials of some of the clients",
+  "measures": "Update the account passwords within 24hours"
+}
+```
+
+<h3 id="notify-data-breach-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|orgID|path|string|true|Organization ID|
+|body|body|object|true|none|
+|» headline|body|string|true|none|
+|» userscount|body|integer|false|none|
+|» dpoemail|body|string|true|none|
+|» consequence|body|string|true|none|
+|» measures|body|string|true|none|
+
+<h3 id="notify-data-breach-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|202|[Accepted](https://tools.ietf.org/html/rfc7231#section-6.3.3)|Data breach notification send to the users|None|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Invalid request payload|None|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Notify events
+
+<a id="opIdNotify events"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://api.igrant.io/v1/organizations/{orgID}/notify-events \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+POST https://api.igrant.io/v1/organizations/{orgID}/notify-events HTTP/1.1
+Host: api.igrant.io
+Content-Type: application/json
+
+```
+
+```javascript
+const inputBody = '{
+  "details": "General event notification"
+}';
+const headers = {
+  'Content-Type':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{orgID}/notify-events',
+{
+  method: 'POST',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Content-Type' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.post 'https://api.igrant.io/v1/organizations/{orgID}/notify-events',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.post('https://api.igrant.io/v1/organizations/{orgID}/notify-events', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Content-Type' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://api.igrant.io/v1/organizations/{orgID}/notify-events', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{orgID}/notify-events");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Content-Type": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{orgID}/notify-events", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /organizations/{orgID}/notify-events`
+
+Notifies all subscribed users about general events
+
+> Body parameter
+
+```json
+{
+  "details": "General event notification"
+}
+```
+
+<h3 id="notify-events-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|orgID|path|string|true|Organization ID|
+|body|body|object|true|none|
+|» details|body|string|true|none|
+
+<h3 id="notify-events-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|202|[Accepted](https://tools.ietf.org/html/rfc7231#section-6.3.3)|General event notification send to the users|None|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Invalid request payload|None|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Get data request
+
+<a id="opIdGet data request"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X GET https://api.igrant.io/v1/organizations/{organizationID}/data-requests/{dataReqID} \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+GET https://api.igrant.io/v1/organizations/{organizationID}/data-requests/{dataReqID} HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/data-requests/{dataReqID}',
+{
+  method: 'GET',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationID}/data-requests/{dataReqID}',
   params: {
   }, headers: headers
 
@@ -7088,19 +10581,2684 @@ p JSON.parse(result)
 import requests
 headers = {
   'Accept': 'application/json',
-  'Authorization': 'Bearer API_KEY'
+  'Authorization': 'Bearer {access-token}'
 }
 
-r = requests.post('https://api.igrant.io/v1/organizations/{organizationId}/purposes', params={
+r = requests.get('https://api.igrant.io/v1/organizations/{organizationID}/data-requests/{dataReqID}', headers = headers)
 
-}, headers = headers)
+print(r.json())
 
-print r.json()
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/organizations/{organizationID}/data-requests/{dataReqID}', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
 
 ```
 
 ```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/purposes");
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/data-requests/{dataReqID}");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationID}/data-requests/{dataReqID}", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`GET /organizations/{organizationID}/data-requests/{dataReqID}`
+
+Gets a data request by ID
+
+<h3 id="get-data-request-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organization ID|
+|dataReqID|path|string|true|Data request ID|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "ID": "5de4f01e181e17c6477cc217",
+  "UserID": "5db0181fa531350001afc7d5",
+  "UserName": "donny@yopmail.com",
+  "OrgID": "5dae01aa267e930001609aa4",
+  "Type": 2,
+  "TypeStr": "Download Data",
+  "State": 1,
+  "RequestedDate": "2019-12-02 11:06:06 +0000 UTC",
+  "ClosedDate": "0001-01-01 00:00:00 +0000 UTC",
+  "StateStr": "Request initiated",
+  "Comment": ""
+}
+```
+
+<h3 id="get-data-request-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns data request|[DataRequest](#schemadatarequest)|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Failed to fetch data request|None|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Update user request status
+
+<a id="opIdUpdate user request status"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X PATCH https://api.igrant.io/v1/organizations/{organizationID}/data-requests/{dataReqID} \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+PATCH https://api.igrant.io/v1/organizations/{organizationID}/data-requests/{dataReqID} HTTP/1.1
+Host: api.igrant.io
+Content-Type: application/json
+Accept: application/json
+
+```
+
+```javascript
+const inputBody = '{
+  "state": 7,
+  "comment": ""
+}';
+const headers = {
+  'Content-Type':'application/json',
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/data-requests/{dataReqID}',
+{
+  method: 'PATCH',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Content-Type' => 'application/json',
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.patch 'https://api.igrant.io/v1/organizations/{organizationID}/data-requests/{dataReqID}',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json',
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.patch('https://api.igrant.io/v1/organizations/{organizationID}/data-requests/{dataReqID}', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Content-Type' => 'application/json',
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('PATCH','https://api.igrant.io/v1/organizations/{organizationID}/data-requests/{dataReqID}', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/data-requests/{dataReqID}");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("PATCH");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Content-Type": []string{"application/json"},
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("PATCH", "https://api.igrant.io/v1/organizations/{organizationID}/data-requests/{dataReqID}", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`PATCH /organizations/{organizationID}/data-requests/{dataReqID}`
+
+Updates user requests status for a particular user request
+
+> Body parameter
+
+```json
+{
+  "state": 7,
+  "comment": ""
+}
+```
+
+<h3 id="update-user-request-status-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organization ID|
+|dataReqID|path|string|true|Data request ID|
+|body|body|object|true|none|
+|» state|body|integer|true|none|
+|» comment|body|string|false|none|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "ID": "5de4f01e181e17c6477cc217",
+  "UserID": "5db0181fa531350001afc7d5",
+  "UserName": "donny@yopmail.com",
+  "OrgID": "5dae01aa267e930001609aa4",
+  "Type": 2,
+  "TypeStr": "Download Data",
+  "State": 1,
+  "RequestedDate": "2019-12-02 11:06:06 +0000 UTC",
+  "ClosedDate": "0001-01-01 00:00:00 +0000 UTC",
+  "StateStr": "Request initiated",
+  "Comment": ""
+}
+```
+
+<h3 id="update-user-request-status-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns data request|[DataRequest](#schemadatarequest)|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Invalid request payload|None|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## GetPrivacyDashboardStatus
+
+<a id="opIdGetPrivacyDashboardStatus"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X GET https://api.igrant.io/v1/organizations/privacy-dashboard-status \
+  -H 'Accept: application/status' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+GET https://api.igrant.io/v1/organizations/privacy-dashboard-status HTTP/1.1
+Host: api.igrant.io
+Accept: application/status
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'application/status',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/privacy-dashboard-status',
+{
+  method: 'GET',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/status',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.get 'https://api.igrant.io/v1/organizations/privacy-dashboard-status',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/status',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.get('https://api.igrant.io/v1/organizations/privacy-dashboard-status', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/status',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/organizations/privacy-dashboard-status', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/privacy-dashboard-status");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/status"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/privacy-dashboard-status", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`GET /organizations/privacy-dashboard-status`
+
+*Gets the privacy dashboard status strings*
+
+Gets the privacy dashboard status strings
+
+> Example responses
+
+> 200 Response
+
+<h3 id="getprivacydashboardstatus-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns privacy dashboard status strings|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<h3 id="getprivacydashboardstatus-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» ID|integer|false|none|none|
+|» Str|string|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## GetPrivacyDashboardDockerImages
+
+<a id="opIdGetPrivacyDashboardDockerImages"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X GET https://api.igrant.io/v1/privacy-dashboard/releases \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+GET https://api.igrant.io/v1/privacy-dashboard/releases HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/privacy-dashboard/releases',
+{
+  method: 'GET',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.get 'https://api.igrant.io/v1/privacy-dashboard/releases',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.get('https://api.igrant.io/v1/privacy-dashboard/releases', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/privacy-dashboard/releases', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/privacy-dashboard/releases");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/privacy-dashboard/releases", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`GET /privacy-dashboard/releases`
+
+*Get privacy dashboard releases*
+
+Get privacy dashboard releases
+
+> Example responses
+
+> 200 Response
+
+```json
+[
+  {
+    "version": "v1.1.7",
+    "timestamp": "1590647928119"
+  }
+]
+```
+
+<h3 id="getprivacydashboarddockerimages-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns privacy dashboard release versions|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<h3 id="getprivacydashboarddockerimages-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» version|string|false|none|none|
+|» timestamp|string|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Get privacy dashboard info
+
+<a id="opIdGet privacy dashboard info"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X GET https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+GET https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards',
+{
+  method: 'GET',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.get('https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`GET /organizations/{organizationID}/privacy-dashboards`
+
+Gets the privacy dashboard info of an organization
+
+<h3 id="get-privacy-dashboard-info-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organization ID|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "HostName": "staging-privacy.igrant.io",
+  "Version": "v1.1.7",
+  "Status": 2,
+  "StatusStr": "Deployed"
+}
+```
+
+<h3 id="get-privacy-dashboard-info-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns privacy dashboard info|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Unable to fetch privacy dashboard info|None|
+
+<h3 id="get-privacy-dashboard-info-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» HostName|string|false|none|none|
+|» Version|string|false|none|none|
+|» Status|integer|false|none|none|
+|» StatusStr|string|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Deploy privacy dashboard
+
+<a id="opIdDeploy privacy dashboard"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+POST https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards HTTP/1.1
+Host: api.igrant.io
+Content-Type: application/json
+Accept: application/json
+
+```
+
+```javascript
+const inputBody = '{
+  "HostName": "dn-url.igrant.io",
+  "Version": "v1.1.7"
+}';
+const headers = {
+  'Content-Type':'application/json',
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards',
+{
+  method: 'POST',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Content-Type' => 'application/json',
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json',
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.post('https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Content-Type' => 'application/json',
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Content-Type": []string{"application/json"},
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /organizations/{organizationID}/privacy-dashboards`
+
+Deploys privacy or personal data dashboard for an organisation and point to a chosen DNS
+
+> Body parameter
+
+```json
+{
+  "HostName": "dn-url.igrant.io",
+  "Version": "v1.1.7"
+}
+```
+
+<h3 id="deploy-privacy-dashboard-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organization ID|
+|body|body|object|true|none|
+|» HostName|body|string|true|none|
+|» Version|body|string|true|none|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "HostName": "dns-url.igrant.io",
+  "Version": "v1.1.7",
+  "Status": 2,
+  "StatusStr": "Deployed"
+}
+```
+
+<h3 id="deploy-privacy-dashboard-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns privacy dashboard info|Inline|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Invalid request payload|None|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Failed to deploy privacy dashboard|None|
+
+<h3 id="deploy-privacy-dashboard-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» HostName|string|false|none|none|
+|» Version|string|false|none|none|
+|» Status|integer|false|none|none|
+|» StatusStr|string|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Update privacy dashboard release
+
+<a id="opIdUpdate privacy dashboard release"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X PATCH https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards/version \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+PATCH https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards/version HTTP/1.1
+Host: api.igrant.io
+Content-Type: application/json
+Accept: application/json
+
+```
+
+```javascript
+const inputBody = '{
+  "version": "v1.1.7"
+}';
+const headers = {
+  'Content-Type':'application/json',
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards/version',
+{
+  method: 'PATCH',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Content-Type' => 'application/json',
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.patch 'https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards/version',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json',
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.patch('https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards/version', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Content-Type' => 'application/json',
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('PATCH','https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards/version', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards/version");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("PATCH");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Content-Type": []string{"application/json"},
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("PATCH", "https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards/version", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`PATCH /organizations/{organizationID}/privacy-dashboards/version`
+
+Updates the privacy dashboard release version
+
+> Body parameter
+
+```json
+{
+  "version": "v1.1.7"
+}
+```
+
+<h3 id="update-privacy-dashboard-release-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organization ID|
+|body|body|object|true|none|
+|» version|body|string|true|none|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "HostName": "staging-privacy.igrant.io",
+  "Version": "v1.1.7",
+  "Status": 2,
+  "StatusStr": "Deployed"
+}
+```
+
+<h3 id="update-privacy-dashboard-release-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns privacy dashboard info|Inline|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Invalid request payload|None|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Failed to update privacy dashboard release version|None|
+
+<h3 id="update-privacy-dashboard-release-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» HostName|string|false|none|none|
+|» Version|string|false|none|none|
+|» Status|integer|false|none|none|
+|» StatusStr|string|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Update privacy dashboard hostname
+
+<a id="opIdUpdate privacy dashboard hostname"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X PATCH https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards/hostname \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+PATCH https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards/hostname HTTP/1.1
+Host: api.igrant.io
+Content-Type: application/json
+Accept: application/json
+
+```
+
+```javascript
+const inputBody = '{
+  "hostname": "hostname.igrant.io"
+}';
+const headers = {
+  'Content-Type':'application/json',
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards/hostname',
+{
+  method: 'PATCH',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Content-Type' => 'application/json',
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.patch 'https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards/hostname',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json',
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.patch('https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards/hostname', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Content-Type' => 'application/json',
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('PATCH','https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards/hostname', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards/hostname");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("PATCH");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Content-Type": []string{"application/json"},
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("PATCH", "https://api.igrant.io/v1/organizations/{organizationID}/privacy-dashboards/hostname", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`PATCH /organizations/{organizationID}/privacy-dashboards/hostname`
+
+Updates the privacy dashboard hostname
+
+> Body parameter
+
+```json
+{
+  "hostname": "hostname.igrant.io"
+}
+```
+
+<h3 id="update-privacy-dashboard-hostname-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organization ID|
+|body|body|object|true|none|
+|» hostname|body|string|true|none|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "HostName": "hostname.igrant.io",
+  "Version": "v1.1.7",
+  "Status": 2,
+  "StatusStr": "Deployed"
+}
+```
+
+<h3 id="update-privacy-dashboard-hostname-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns privacy dashboard info|Inline|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Invalid request payload|None|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Failed to update privacy dashboard hostname|None|
+
+<h3 id="update-privacy-dashboard-hostname-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» HostName|string|false|none|none|
+|» Version|string|false|none|none|
+|» Status|integer|false|none|none|
+|» StatusStr|string|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Get all webhooks
+
+<a id="opIdGet all webhooks"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X GET https://api.igrant.io/v1/organizations/{organizationID}/webhooks \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+GET https://api.igrant.io/v1/organizations/{organizationID}/webhooks HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/webhooks',
+{
+  method: 'GET',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationID}/webhooks',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.get('https://api.igrant.io/v1/organizations/{organizationID}/webhooks', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/organizations/{organizationID}/webhooks', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/webhooks");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationID}/webhooks", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`GET /organizations/{organizationID}/webhooks`
+
+Gets all webhooks for an organisation
+
+<h3 id="get-all-webhooks-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organization ID|
+
+> Example responses
+
+> 200 Response
+
+```json
+[
+  {
+    "ID": "5f1ea7d84fd11e0001ad4008",
+    "PayloadURL": "https://hookb.in/OerzZXd6nrhnzzlke3wl",
+    "Disabled": false,
+    "TimeStamp": "1595844568",
+    "IsLastDeliverySuccess": true
+  }
+]
+```
+
+<h3 id="get-all-webhooks-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Return webhooks|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<h3 id="get-all-webhooks-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» ID|string|false|none|none|
+|» PayloadURL|string|false|none|none|
+|» Disabled|boolean|false|none|none|
+|» TimeStamp|string|false|none|none|
+|» IsLastDeliverySuccess|boolean|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Create webhook
+
+<a id="opIdCreate webhook"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://api.igrant.io/v1/organizations/{organizationID}/webhooks \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+POST https://api.igrant.io/v1/organizations/{organizationID}/webhooks HTTP/1.1
+Host: api.igrant.io
+Content-Type: application/json
+Accept: application/json
+
+```
+
+```javascript
+const inputBody = '{
+  "payloadurl": "https://hookb.in/OerzZXd6nrhnzzlke3wl",
+  "subscribedevents": [
+    "data.download.initiated",
+    "data.download.cancelled",
+    "org.subscribed"
+  ],
+  "contenttype": "application/json",
+  "secretkey": "qwerty123",
+  "disabled": false,
+  "skipsslverification": false
+}';
+const headers = {
+  'Content-Type':'application/json',
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/webhooks',
+{
+  method: 'POST',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Content-Type' => 'application/json',
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationID}/webhooks',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json',
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.post('https://api.igrant.io/v1/organizations/{organizationID}/webhooks', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Content-Type' => 'application/json',
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://api.igrant.io/v1/organizations/{organizationID}/webhooks', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/webhooks");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Content-Type": []string{"application/json"},
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationID}/webhooks", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /organizations/{organizationID}/webhooks`
+
+Creates a webhook endpoint for an organisation
+
+> Body parameter
+
+```json
+{
+  "payloadurl": "https://hookb.in/OerzZXd6nrhnzzlke3wl",
+  "subscribedevents": [
+    "data.download.initiated",
+    "data.download.cancelled",
+    "org.subscribed"
+  ],
+  "contenttype": "application/json",
+  "secretkey": "qwerty123",
+  "disabled": false,
+  "skipsslverification": false
+}
+```
+
+<h3 id="create-webhook-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organization ID|
+|body|body|object|true|none|
+|» payloadurl|body|string|true|none|
+|» subscribedevents|body|[string]|true|none|
+|» contenttype|body|string|true|none|
+|» secretkey|body|string|true|none|
+|» disabled|body|boolean|true|none|
+|» skipsslverification|body|boolean|true|none|
+
+> Example responses
+
+> 201 Response
+
+```json
+{
+  "ID": "5f1ea7d84fd11e0001ad4008",
+  "OrgID": "5dae01aa267e930001609aa4",
+  "PayloadURL": "https://hookb.in/OerzZXd6nrhnzzlke3wl",
+  "ContentType": "application/json",
+  "SubscribedEvents": [
+    "data.download.initiated",
+    "data.download.cancelled",
+    "org.subscribed",
+    "org.unsubscribed"
+  ],
+  "Disabled": false,
+  "SecretKey": "qwerty123",
+  "SkipSSLVerification": false,
+  "TimeStamp": "1595844568"
+}
+```
+
+<h3 id="create-webhook-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|Return webhook|[Webhook](#schemawebhook)|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Invalid request payload|None|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Failed to create webhook|None|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Get webhook
+
+<a id="opIdGet webhook"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X GET https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID} \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+GET https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID} HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}',
+{
+  method: 'GET',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.get('https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`GET /organizations/{organizationID}/webhooks/{webhookID}`
+
+Gets a webhook for an organisation by ID
+
+<h3 id="get-webhook-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organization ID|
+|webhookID|path|string|true|Webhook ID|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "ID": "5f1ea7d84fd11e0001ad4008",
+  "OrgID": "5dae01aa267e930001609aa4",
+  "PayloadURL": "https://hookb.in/OerzZXd6nrhnzzlke3wl",
+  "ContentType": "application/json",
+  "SubscribedEvents": [
+    "data.download.initiated",
+    "data.download.cancelled",
+    "org.subscribed",
+    "org.unsubscribed"
+  ],
+  "Disabled": false,
+  "SecretKey": "qwerty123",
+  "SkipSSLVerification": false,
+  "TimeStamp": "1595844568"
+}
+```
+
+<h3 id="get-webhook-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Return webhook|[Webhook](#schemawebhook)|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+|404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Not found|None|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Update webhook
+
+<a id="opIdUpdate webhook"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X PUT https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID} \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+PUT https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID} HTTP/1.1
+Host: api.igrant.io
+Content-Type: application/json
+Accept: application/json
+
+```
+
+```javascript
+const inputBody = '{
+  "payloadurl": "https://hookb.in/OerzZXd6nrhnzzlke3wl",
+  "subscribedevents": [
+    "data.download.initiated",
+    "data.download.cancelled",
+    "org.subscribed"
+  ],
+  "contenttype": "application/json",
+  "secretkey": "qwerty123",
+  "disabled": false,
+  "skipsslverification": false
+}';
+const headers = {
+  'Content-Type':'application/json',
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}',
+{
+  method: 'PUT',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Content-Type' => 'application/json',
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.put 'https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json',
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.put('https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Content-Type' => 'application/json',
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('PUT','https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("PUT");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Content-Type": []string{"application/json"},
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("PUT", "https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`PUT /organizations/{organizationID}/webhooks/{webhookID}`
+
+Updates a webhook for an organisation by ID
+
+> Body parameter
+
+```json
+{
+  "payloadurl": "https://hookb.in/OerzZXd6nrhnzzlke3wl",
+  "subscribedevents": [
+    "data.download.initiated",
+    "data.download.cancelled",
+    "org.subscribed"
+  ],
+  "contenttype": "application/json",
+  "secretkey": "qwerty123",
+  "disabled": false,
+  "skipsslverification": false
+}
+```
+
+<h3 id="update-webhook-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organization ID|
+|webhookID|path|string|true|Webhook ID|
+|body|body|object|true|none|
+|» payloadurl|body|string|true|none|
+|» subscribedevents|body|[string]|true|none|
+|» contenttype|body|string|true|none|
+|» secretkey|body|string|true|none|
+|» disabled|body|boolean|true|none|
+|» skipsslverification|body|boolean|true|none|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "ID": "5f1ea7d84fd11e0001ad4008",
+  "OrgID": "5dae01aa267e930001609aa4",
+  "PayloadURL": "https://hookb.in/OerzZXd6nrhnzzlke3wl",
+  "ContentType": "application/json",
+  "SubscribedEvents": [
+    "data.download.initiated",
+    "data.download.cancelled",
+    "org.subscribed",
+    "org.unsubscribed"
+  ],
+  "Disabled": false,
+  "SecretKey": "qwerty123",
+  "SkipSSLVerification": false,
+  "TimeStamp": "1595844568"
+}
+```
+
+<h3 id="update-webhook-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Return webhook|[Webhook](#schemawebhook)|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+|404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Not found|None|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Delete webhook
+
+<a id="opIdDelete webhook"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X DELETE https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID} \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+DELETE https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID} HTTP/1.1
+Host: api.igrant.io
+
+```
+
+```javascript
+
+const headers = {
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}',
+{
+  method: 'DELETE',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.delete 'https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.delete('https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('DELETE','https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("DELETE");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("DELETE", "https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`DELETE /organizations/{organizationID}/webhooks/{webhookID}`
+
+Deletes a webhook for an organisation
+
+<h3 id="delete-webhook-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organization ID|
+|webhookID|path|string|true|Webhook ID|
+
+<h3 id="delete-webhook-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|204|[No Content](https://tools.ietf.org/html/rfc7231#section-6.3.5)|Deleted webhook|None|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+|404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Not found|None|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Ping webhook
+
+<a id="opIdPing webhook"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}/ping \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+POST https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}/ping HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}/ping',
+{
+  method: 'POST',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}/ping',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.post('https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}/ping', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}/ping', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}/ping");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("POST");
 int responseCode = con.getResponseCode();
@@ -7128,12 +13286,11 @@ func main() {
 
     headers := map[string][]string{
         "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
+        "Authorization": []string{"Bearer {access-token}"},
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationId}/purposes", data)
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}/ping", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -7143,27 +13300,1240 @@ func main() {
 
 ```
 
-`POST /organizations/{organizationId}/purposes`
+`POST /organizations/{organizationID}/webhooks/{webhookID}/ping`
 
-Add a purpose to an organization.
+Pings webhook payload URL to check the response status code is 200 OK or not
+
+<h3 id="ping-webhook-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organization ID|
+|webhookID|path|string|true|Webhook ID|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "ResponseStatusCode": 200,
+  "ResponseStatusStr": "200 OK",
+  "ExecutionStartTimeStamp": "1595851645",
+  "ExecutionEndTimeStamp": "1595851645",
+  "Status": "completed",
+  "StatusDescription": ""
+}
+```
+
+<h3 id="ping-webhook-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Return ping status|Inline|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Failed to fetch the webhook by given ID|None|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<h3 id="ping-webhook-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» ResponseStatusCode|integer|false|none|none|
+|» ResponseStatusStr|string|false|none|none|
+|» ExecutionStartTimeStamp|string|false|none|none|
+|» ExecutionEndTimeStamp|string|false|none|none|
+|» Status|string|false|none|none|
+|» StatusDescription|string|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Get webhook deliveries
+
+<a id="opIdGet webhook deliveries"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X GET https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}/delivery \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+GET https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}/delivery HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}/delivery',
+{
+  method: 'GET',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}/delivery',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.get('https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}/delivery', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}/delivery', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}/delivery");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}/delivery", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`GET /organizations/{organizationID}/webhooks/{webhookID}/delivery`
+
+Gets the recent webhook deliveries
+
+<h3 id="get-webhook-deliveries-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organization ID|
+|webhookID|path|string|true|Webhook ID|
+|limit|query|integer|false|Pagination limit (No of results)|
+|startid|query|string|false|Pagination start offset (for e.g. delivery ID)|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "WebhookDeliveries": [
+    {
+      "ID": "5f1ea9642cc8b10001414631",
+      "WebhookID": "5f1ea7d84fd11e0001ad4008",
+      "ResponseStatusCode": 200,
+      "ResponseStatusStr": "200 OK",
+      "TimeStamp": "1595844964",
+      "Status": "completed",
+      "StatusDescription": ""
+    }
+  ],
+  "Links": {
+    "Self": "https://staging-api.igrant.io/v1/organizations/5dae01aa267e930001609aa4/webhooks/5f1ea7d84fd11e0001ad4008/delivery?limit=50",
+    "Next": "https://staging-api.igrant.io/v1/organizations/5dae01aa267e930001609aa4/webhooks/5f1ea7d84fd11e0001ad4008/delivery?limit=50&startid=5f1ea9642cc8b10001414631"
+  }
+}
+```
+
+<h3 id="get-webhook-deliveries-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Return webhook deliveries|Inline|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Failed to fetch webhook deliveries|None|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<h3 id="get-webhook-deliveries-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» WebhookDeliveries|[object]|false|none|none|
+|»» ID|string|false|none|none|
+|»» WebhookID|string|false|none|none|
+|»» ResponseStatusCode|integer|false|none|none|
+|»» ResponseStatusStr|string|false|none|none|
+|»» TimeStamp|string|false|none|none|
+|»» Status|string|false|none|none|
+|»» StatusDescription|string|false|none|none|
+|» Links|object|false|none|none|
+|»» Self|string|false|none|none|
+|»» Next|string|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Get payload delivery details
+
+<a id="opIdGet payload delivery details"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X GET https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}/delivery/{deliveryID} \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+GET https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}/delivery/{deliveryID} HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}/delivery/{deliveryID}',
+{
+  method: 'GET',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}/delivery/{deliveryID}',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.get('https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}/delivery/{deliveryID}', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}/delivery/{deliveryID}', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}/delivery/{deliveryID}");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}/delivery/{deliveryID}", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`GET /organizations/{organizationID}/webhooks/{webhookID}/delivery/{deliveryID}`
+
+Gets the payload delivery details for a webhook by ID
+
+<h3 id="get-payload-delivery-details-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organization ID|
+|webhookID|path|string|true|Webhook ID|
+|deliveryID|path|string|true|Delivery ID|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "ID": "5f1ea9632cc8b10001414630",
+  "RequestHeaders": {
+    "Accept": [
+      "*/*"
+    ],
+    "Content-Type": [
+      "application/json"
+    ],
+    "User-Agent": [
+      "IGrant-Hookshot/1.0"
+    ],
+    "X-Igrant-Signature": [
+      "t=1595844963,sig=c4822b6a91221f783520240c740774908c5bc6de2a4a29a9d7ce31f19b624863"
+    ]
+  },
+  "RequestPayload": {
+    "data": {
+      "organisationID": "5dae01aa267e930001609aa4",
+      "userID": "5dbc02ecb99fd0000157547a",
+      "dataRequestID": "5dae01ee267e930001609bb8"
+    },
+    "deliveryid": "5f1ea9632cc8b10001414630",
+    "timestamp": "1595844963",
+    "type": "consent.disallowed",
+    "webhookid": "5f1ea7d84fd11e0001ad4008"
+  },
+  "ResponseHeaders": {
+    "Access-Control-Allow-Headers": [
+      "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range"
+    ],
+    "Access-Control-Allow-Methods": [
+      "GET, POST, OPTIONS, PUT, DELETE"
+    ],
+    "Access-Control-Allow-Origin": [
+      "*"
+    ],
+    "Access-Control-Expose-Headers": [
+      "Content-Length,Content-Range"
+    ]
+  },
+  "ResponseBody": "{\"success\":true}",
+  "ResponseStatusCode": 200,
+  "ResponseStatusStr": "200 OK",
+  "ExecutionStartTimeStamp": "1595844963",
+  "ExecutionEndTimeStamp": "1595844963",
+  "Status": "completed",
+  "StatusDescription": ""
+}
+```
+
+<h3 id="get-payload-delivery-details-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Return webhook delivery|[WebhookDelivery](#schemawebhookdelivery)|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Failed to fetch webhook delivery|None|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Redeliver webhook payload
+
+<a id="opIdRedeliver webhook payload"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}/delivery/{deliveryID}/redeliver \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+POST https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}/delivery/{deliveryID}/redeliver HTTP/1.1
+Host: api.igrant.io
+
+```
+
+```javascript
+
+const headers = {
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}/delivery/{deliveryID}/redeliver',
+{
+  method: 'POST',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}/delivery/{deliveryID}/redeliver',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.post('https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}/delivery/{deliveryID}/redeliver', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}/delivery/{deliveryID}/redeliver', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}/delivery/{deliveryID}/redeliver");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationID}/webhooks/{webhookID}/delivery/{deliveryID}/redeliver", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /organizations/{organizationID}/webhooks/{webhookID}/delivery/{deliveryID}/redeliver`
+
+Redo payload delivery to the webhook
+
+<h3 id="redeliver-webhook-payload-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organization ID|
+|webhookID|path|string|true|Webhook ID|
+|deliveryID|path|string|true|Delivery ID|
+
+<h3 id="redeliver-webhook-payload-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Redelivered the payload to webhook endpoint|None|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Bad request|None|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Internal server error|None|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Get webhook event-types
+
+<a id="opIdGet webhook event-types"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X GET https://api.igrant.io/v1/organizations/webhooks/event-types \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+GET https://api.igrant.io/v1/organizations/webhooks/event-types HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/webhooks/event-types',
+{
+  method: 'GET',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.get 'https://api.igrant.io/v1/organizations/webhooks/event-types',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.get('https://api.igrant.io/v1/organizations/webhooks/event-types', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/organizations/webhooks/event-types', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/webhooks/event-types");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/webhooks/event-types", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`GET /organizations/webhooks/event-types`
+
+List all available webhook event types
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "EventTypes": [
+    "data.download.cancelled",
+    "data.update.cancelled",
+    "org.unsubscribed",
+    "data.delete.initiated",
+    "data.download.initiated",
+    "data.update.initiated",
+    "data.delete.cancelled",
+    "consent.allowed",
+    "consent.disallowed",
+    "org.subscribed"
+  ]
+}
+```
+
+<h3 id="get-webhook-event-types-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Return webhook event types|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<h3 id="get-webhook-event-types-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» EventTypes|[string]|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Get webhook payload types
+
+<a id="opIdGet webhook payload types"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X GET https://api.igrant.io/v1/organizations/webhooks/payload/content-types \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+GET https://api.igrant.io/v1/organizations/webhooks/payload/content-types HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/webhooks/payload/content-types',
+{
+  method: 'GET',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.get 'https://api.igrant.io/v1/organizations/webhooks/payload/content-types',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.get('https://api.igrant.io/v1/organizations/webhooks/payload/content-types', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/organizations/webhooks/payload/content-types', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/webhooks/payload/content-types");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/webhooks/payload/content-types", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`GET /organizations/webhooks/payload/content-types`
+
+List available webhook payload content types
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "ContentTypes": [
+    "application/json",
+    "application/x-www-form-urlencoded"
+  ]
+}
+```
+
+<h3 id="get-webhook-payload-types-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Return webhook payload content types|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<h3 id="get-webhook-payload-types-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» ContentTypes|[string]|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+<h1 id="introduction-to-igrant-io-apis-data-model-management">Data model management</h1>
+
+iGrant.io maintains a metadata indexed registry with a publish–subscribe service. We provide CRUD (create, read, update, and delete) services for managing metadata of the data models for any organisation. These services are used for governance, transparency, facilitating agreement handling between ecosystem players and exercising personal data rights in a standardised manner.
+
+## Add usage purpose
+
+<a id="opIdAdd usage purpose"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://api.igrant.io/v1/organizations/{organizationID}/purposes \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+POST https://api.igrant.io/v1/organizations/{organizationID}/purposes HTTP/1.1
+Host: api.igrant.io
+Content-Type: application/json
+Accept: application/json
+
+```
+
+```javascript
+const inputBody = '{
+  "purposes": [
+    {
+      "name": "Marketing and capmpaign",
+      "description": "For this purpose, following personal data attributes shown below are used. You may consent to share your data at attribute level.",
+      "lawfulusage": false,
+      "policyurl": "https://igrant.io/policy_default.html"
+    }
+  ]
+}';
+const headers = {
+  'Content-Type':'application/json',
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/purposes',
+{
+  method: 'POST',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Content-Type' => 'application/json',
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationID}/purposes',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json',
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.post('https://api.igrant.io/v1/organizations/{organizationID}/purposes', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Content-Type' => 'application/json',
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://api.igrant.io/v1/organizations/{organizationID}/purposes', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/purposes");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Content-Type": []string{"application/json"},
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationID}/purposes", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /organizations/{organizationID}/purposes`
+
+Adds a new personal data usage purpose to an organisation. This is provisioned by an organisation during data model upload. The organization is able to give a description towards their users, and the applicable lawful bases for processing, for example as defined in Article 6 of the GDPR.
 
 > Body parameter
 
 ```json
 {
-  "Description": "string",
-  "LawfulUsage": true,
-  "PolicyURL": "string"
+  "purposes": [
+    {
+      "name": "Marketing and capmpaign",
+      "description": "For this purpose, following personal data attributes shown below are used. You may consent to share your data at attribute level.",
+      "lawfulusage": false,
+      "policyurl": "https://igrant.io/policy_default.html"
+    }
+  ]
 }
 ```
 
-<h3 id="post__organizations_{organizationid}_purposes-parameters">Parameters</h3>
+<h3 id="add-usage-purpose-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|organizationId|path|string|true|ID of the organization|
+|organizationID|path|string|true|Organisation ID|
 |body|body|object|true|none|
-
+|» purposes|body|[object]|false|none|
+|»» name|body|string|true|none|
+|»» description|body|string|true|none|
+|»» lawfulusage|body|boolean|false|none|
+|»» policyurl|body|string|true|none|
 
 > Example responses
 
@@ -7172,118 +14542,225 @@ Add a purpose to an organization.
 ```json
 {
   "Organization": {
-    "ID": "string",
-    "Name": "string",
-    "CoverImageID": "string",
-    "CoverImageurl": "string",
-    "LogoImageID": "string",
-    "LogoImageURL": "string",
-    "Location": "string",
+    "ID": "5daf22d0a531350001afc7c9",
+    "Name": "DMart Retail Chain",
+    "CoverImageID": "",
+    "CoverImageURL": "",
+    "LogoImageID": "5ecf5f979a273200016a13ef",
+    "LogoImageURL": "https://<server-url>/5daf22d0a531350001afc7c9/image/5ecf5f979a273200016a13ef",
+    "Location": "Stockholm, Sweden",
     "Type": {
-      "ID": "5bba67ba98135900010927a5",
+      "ID": "5d17cc114dacb40001b29094",
       "Type": "Retail",
-      "ImageID": "5bba67e798135900010927a7",
-      "ImageURL": "https://api.igrant.io/v1/organizations/types/5bba67ba98135900010927a5/image"
+      "ImageID": "5d17cc7f4dacb40001b29095",
+      "ImageURL": "https://staging-api.igrant.io/v1/organizations/types/5d17cc114dacb40001b29094/image"
     },
-    "Description": "string",
+    "Description": "",
     "Enabled": true,
-    "Policyurl": "string",
-    "EulaURL": "string",
-    "Template": [
+    "PolicyURL": "",
+    "EulaURL": "",
+    "Templates": [
       {
-        "ID": "5bba6a9998135900010927ba",
-        "Consent": "Spouse",
+        "ID": "5f187f9efd59960001434c2e",
+        "Consent": "Age",
         "PurposeIDs": [
-          "5bba69db98135900010927ac, 8bba69db98135900010927af"
+          "5db0303ba531350001afc7e0",
+          "5db03048a531350001afc7e1"
         ]
       }
     ],
     "Purposes": [
       {
-        "ID": "string",
-        "Description": "string",
-        "LawfulUsage": true,
-        "PolicyURL": "string"
+        "ID": "5db0303ba531350001afc7e0",
+        "Name": "Marketing and campaign",
+        "Description": "For this purpose, following personal data attributes shown below are used. You may consent to share your data at attribute level.",
+        "LawfulUsage": false,
+        "PolicyURL": "https://orgname.com/policy_default.html"
       }
     ],
     "Admins": [
       {
-        "userID": "string",
-        "roleID": 0
+        "UserID": "5daf22cea531350001afc7c8",
+        "RoleID": 1
       }
     ],
     "BillingInfo": {
-      "BillingRegistrationID": "string",
-      "PlanType": "string"
+      "BillingRegistrationID": "cus_G2URbi8W6DT7hh",
+      "MaxUserCounter": 4,
+      "DefaultChargeNotified": false,
+      "CurrentPeriodEnd": 0,
+      "PrevMonthUsers": 1,
+      "PayPerUserInfo": {
+        "UserCommitment": 0,
+        "TimeCommitment": "",
+        "CancelOnCommitmentEnd": false,
+        "CommitmentPeriodRemaining": 0
+      },
+      "DefaultPaymentSource": {
+        "Brand": "Visa",
+        "ExpiryMonth": 4,
+        "ExpiryYear": 2024,
+        "Last4Digits": "4242"
+      },
+      "Address": {
+        "Name": "George Floyd",
+        "City": "Stockholm",
+        "Country": "Sweden",
+        "Line1": "",
+        "Line2": "",
+        "PostalCode": "",
+        "State": ""
+      },
+      "ServiceAgreementVersion": "v2.0",
+      "FreeTrialExpired": true
+    },
+    "Subs": {
+      "Method": 0,
+      "Key": ""
+    },
+    "HlcSupport": false,
+    "PrivacyDashboard": {
+      "HostName": "dmart.igrant.io",
+      "Version": "v1.1.7",
+      "Status": 2,
+      "Delete": false
     }
   }
 }
 ```
 
-<h3 id="post__organizations_{organizationid}_purposes-responses">Responses</h3>
+<h3 id="add-usage-purpose-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|success, returns the organization details|[OrganizationObject](#schemaorganizationobject)|
+|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|Returns organisation (with newly created purposes)|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
 
+<h3 id="add-usage-purpose-responseschema">Response Schema</h3>
+
+Status Code **201**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» Organization|[Organisation](#schemaorganisation)|false|none|none|
+|»» ID|string|false|none|none|
+|»» Name|string|false|none|none|
+|»» CoverImageID|string|false|none|none|
+|»» CoverImageURL|string|false|none|none|
+|»» LogoImageID|string|false|none|none|
+|»» LogoImageURL|string|false|none|none|
+|»» Location|string|false|none|none|
+|»» Type|[OrganisationType](#schemaorganisationtype)|false|none|none|
+|»»» ID|string|false|none|none|
+|»»» Type|string|false|none|none|
+|»»» ImageID|string|false|none|none|
+|»»» ImageURL|string|false|none|none|
+|»» Description|string|false|none|none|
+|»» Enabled|boolean|false|none|none|
+|»» PolicyURL|string|false|none|none|
+|»» EulaURL|string|false|none|none|
+|»» Templates|[allOf]|false|none|none|
+
+*allOf*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»»» *anonymous*|[Template](#schematemplate)|false|none|none|
+|»»»» ID|string|false|none|none|
+|»»»» Consent|string|false|none|none|
+
+*and*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»»» *anonymous*|object|false|none|none|
+|»»»» PurposeIDs|[string]|false|none|none|
+
+*continued*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»» Purposes|[[Purpose](#schemapurpose)]|false|none|none|
+|»»» ID|string|false|none|none|
+|»»» Name|string|false|none|none|
+|»»» Description|string|false|none|none|
+|»»» LawfulUsage|boolean|false|none|none|
+|»»» PolicyURL|string|false|none|none|
+|»» Admins|[object]|false|none|none|
+|»»» UserID|string|false|none|none|
+|»»» RoleID|string|false|none|none|
+|»» BillingInfo|[OrganisationBillingInfo](#schemaorganisationbillinginfo)|false|none|none|
+|»»» BillingRegistrationID|string|false|none|none|
+|»»» MaxUserCounter|integer|false|none|none|
+|»»» DefaultChargeNotified|boolean|false|none|none|
+|»»» CurrentPeriodEnd|integer|false|none|none|
+|»»» PrevMonthUsers|integer|false|none|none|
+|»»» PayPerUserInfo|object|false|none|none|
+|»»»» UserCommitment|integer|false|none|none|
+|»»»» TimeCommitment|string|false|none|none|
+|»»»» CancelOnCommitmentEnd|boolean|false|none|none|
+|»»»» CommitmentPeriodRemaining|integer|false|none|none|
+|»»» DefaultPaymentSource|object|false|none|none|
+|»»»» Brand|string|false|none|none|
+|»»»» ExpiryMonth|integer|false|none|none|
+|»»»» ExpiryYear|integer|false|none|none|
+|»»»» Last4Digits|string|false|none|none|
+|»»» Address|object|false|none|none|
+|»»»» Name|string|false|none|none|
+|»»»» City|string|false|none|none|
+|»»»» Country|string|false|none|none|
+|»»»» Line1|string|false|none|none|
+|»»»» Line2|string|false|none|none|
+|»»»» PostalCode|string|false|none|none|
+|»»»» State|string|false|none|none|
+|»»» ServiceAgreementVersion|string|false|none|none|
+|»»» FreeTrialExpired|boolean|false|none|none|
+|»» Subs|object|false|none|none|
+|»»» Method|integer|false|none|none|
+|»»» Key|string|false|none|none|
+|»» HlcSupport|boolean|false|none|none|
+|»» PrivacyDashboard|[OrganisationPrivacyBoard](#schemaorganisationprivacyboard)|false|none|none|
+|»»» HostName|string|false|none|none|
+|»»» Version|string|false|none|none|
+|»»» Status|integer|false|none|none|
+|»»» Delete|boolean|false|none|none|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
+bearerAuth
 </aside>
 
+## Get all usage purposes
 
-
-## Generate QR code for a purpose
+<a id="opIdGet all usage purposes"></a>
 
 > Code samples
 
 ```shell
 # You can also use wget
-curl -X POST https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/qrcode \
+curl -X GET https://api.igrant.io/v1/organizations/{organizationID}/purposes \
   -H 'Accept: application/json' \
-  -H 'Authorization: Bearer API_KEY'
+  -H 'Authorization: Bearer {access-token}'
 
 ```
 
 ```http
-POST https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/qrcode HTTP/1.1
+GET https://api.igrant.io/v1/organizations/{organizationID}/purposes HTTP/1.1
 Host: api.igrant.io
 Accept: application/json
 
 ```
 
 ```javascript
-var headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/qrcode',
-  method: 'post',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
 
 const headers = {
   'Accept':'application/json',
-  'Authorization':'API_KEY'
-
+  'Authorization':'Bearer {access-token}'
 };
 
-fetch('https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/qrcode',
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/purposes',
 {
-  method: 'POST',
+  method: 'GET',
 
   headers: headers
 })
@@ -7301,10 +14778,10 @@ require 'json'
 
 headers = {
   'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
+  'Authorization' => 'Bearer {access-token}'
 }
 
-result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/qrcode',
+result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationID}/purposes',
   params: {
   }, headers: headers
 
@@ -7316,19 +14793,1421 @@ p JSON.parse(result)
 import requests
 headers = {
   'Accept': 'application/json',
-  'Authorization': 'API_KEY'
+  'Authorization': 'Bearer {access-token}'
 }
 
-r = requests.post('https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/qrcode', params={
+r = requests.get('https://api.igrant.io/v1/organizations/{organizationID}/purposes', headers = headers)
 
-}, headers = headers)
+print(r.json())
 
-print r.json()
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/organizations/{organizationID}/purposes', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
 
 ```
 
 ```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/qrcode");
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/purposes");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationID}/purposes", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`GET /organizations/{organizationID}/purposes`
+
+Gets all the usage purposes defined in the organisation. This information is used towards an organisation list the usage purpose and to obtain user consents.
+
+<h3 id="get-all-usage-purposes-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organization ID|
+
+> Example responses
+
+> 201 Response
+
+```json
+{
+  "OrgID": "5dae01aa267e930001609aa4",
+  "Purposes": [
+    {
+      "ID": "5db0303ba531350001afc7e0",
+      "Name": "Marketing and campaign",
+      "Description": "For this purpose, following personal data attributes shown below are used. You may consent to share your data at attribute level.",
+      "LawfulUsage": false,
+      "PolicyURL": "https://orgname.com/policy_default.html"
+    }
+  ]
+}
+```
+
+<h3 id="get-all-usage-purposes-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|Returns all the purposes for an organization|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<h3 id="get-all-usage-purposes-responseschema">Response Schema</h3>
+
+Status Code **201**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» OrgID|string|false|none|none|
+|» Purposes|[[Purpose](#schemapurpose)]|false|none|none|
+|»» ID|string|false|none|none|
+|»» Name|string|false|none|none|
+|»» Description|string|false|none|none|
+|»» LawfulUsage|boolean|false|none|none|
+|»» PolicyURL|string|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Get a usage purpose
+
+<a id="opIdGet a usage purpose"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X GET https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID} \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+GET https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID} HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}',
+{
+  method: 'GET',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.get('https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`GET /organizations/{organizationID}/purposes/{purposeID}`
+
+Gets a particular usage purpose defined in the organisation. This information is used towards an organisation user to obtain user consents.
+
+<h3 id="get-a-usage-purpose-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organization ID|
+|purposeID|path|string|true|Purpose ID|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "Purpose": {
+    "ID": "5db0303ba531350001afc7e0",
+    "Name": "Marketing and campaign",
+    "Description": "For this purpose, following personal data attributes shown below are used. You may consent to share your data at attribute level.",
+    "LawfulUsage": false,
+    "PolicyURL": "https://orgname.com/policy_default.html"
+  },
+  "Templates": [
+    {
+      "ID": "5f187f9efd59960001434c2e",
+      "Consent": "Age"
+    }
+  ]
+}
+```
+
+<h3 id="get-a-usage-purpose-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns purpose and associated attributes|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<h3 id="get-a-usage-purpose-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» Purpose|[Purpose](#schemapurpose)|false|none|none|
+|»» ID|string|false|none|none|
+|»» Name|string|false|none|none|
+|»» Description|string|false|none|none|
+|»» LawfulUsage|boolean|false|none|none|
+|»» PolicyURL|string|false|none|none|
+|» Templates|[[Template](#schematemplate)]|false|none|none|
+|»» ID|string|false|none|none|
+|»» Consent|string|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Delete a usage purpose
+
+<a id="opIdDelete a usage purpose"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X DELETE https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID} \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+DELETE https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID} HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}',
+{
+  method: 'DELETE',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.delete 'https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.delete('https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('DELETE','https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("DELETE");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("DELETE", "https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`DELETE /organizations/{organizationID}/purposes/{purposeID}`
+
+Deletes an existing data usage purpose.
+
+<h3 id="delete-a-usage-purpose-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organization ID|
+|purposeID|path|string|true|Purpose ID|
+
+> Example responses
+
+> 201 Response
+
+```json
+{
+  "Organization": {
+    "ID": "5daf22d0a531350001afc7c9",
+    "Name": "DMart Retail Chain",
+    "CoverImageID": "",
+    "CoverImageURL": "",
+    "LogoImageID": "5ecf5f979a273200016a13ef",
+    "LogoImageURL": "https://<server-url>/5daf22d0a531350001afc7c9/image/5ecf5f979a273200016a13ef",
+    "Location": "Stockholm, Sweden",
+    "Type": {
+      "ID": "5d17cc114dacb40001b29094",
+      "Type": "Retail",
+      "ImageID": "5d17cc7f4dacb40001b29095",
+      "ImageURL": "https://staging-api.igrant.io/v1/organizations/types/5d17cc114dacb40001b29094/image"
+    },
+    "Description": "",
+    "Enabled": true,
+    "PolicyURL": "",
+    "EulaURL": "",
+    "Templates": [
+      {
+        "ID": "5f187f9efd59960001434c2e",
+        "Consent": "Age",
+        "PurposeIDs": [
+          "5db0303ba531350001afc7e0",
+          "5db03048a531350001afc7e1"
+        ]
+      }
+    ],
+    "Purposes": [
+      {
+        "ID": "5db0303ba531350001afc7e0",
+        "Name": "Marketing and campaign",
+        "Description": "For this purpose, following personal data attributes shown below are used. You may consent to share your data at attribute level.",
+        "LawfulUsage": false,
+        "PolicyURL": "https://orgname.com/policy_default.html"
+      }
+    ],
+    "Admins": [
+      {
+        "UserID": "5daf22cea531350001afc7c8",
+        "RoleID": 1
+      }
+    ],
+    "BillingInfo": {
+      "BillingRegistrationID": "cus_G2URbi8W6DT7hh",
+      "MaxUserCounter": 4,
+      "DefaultChargeNotified": false,
+      "CurrentPeriodEnd": 0,
+      "PrevMonthUsers": 1,
+      "PayPerUserInfo": {
+        "UserCommitment": 0,
+        "TimeCommitment": "",
+        "CancelOnCommitmentEnd": false,
+        "CommitmentPeriodRemaining": 0
+      },
+      "DefaultPaymentSource": {
+        "Brand": "Visa",
+        "ExpiryMonth": 4,
+        "ExpiryYear": 2024,
+        "Last4Digits": "4242"
+      },
+      "Address": {
+        "Name": "George Floyd",
+        "City": "Stockholm",
+        "Country": "Sweden",
+        "Line1": "",
+        "Line2": "",
+        "PostalCode": "",
+        "State": ""
+      },
+      "ServiceAgreementVersion": "v2.0",
+      "FreeTrialExpired": true
+    },
+    "Subs": {
+      "Method": 0,
+      "Key": ""
+    },
+    "HlcSupport": false,
+    "PrivacyDashboard": {
+      "HostName": "dmart.igrant.io",
+      "Version": "v1.1.7",
+      "Status": 2,
+      "Delete": false
+    }
+  }
+}
+```
+
+<h3 id="delete-a-usage-purpose-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|Returns organisation|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<h3 id="delete-a-usage-purpose-responseschema">Response Schema</h3>
+
+Status Code **201**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» Organization|[Organisation](#schemaorganisation)|false|none|none|
+|»» ID|string|false|none|none|
+|»» Name|string|false|none|none|
+|»» CoverImageID|string|false|none|none|
+|»» CoverImageURL|string|false|none|none|
+|»» LogoImageID|string|false|none|none|
+|»» LogoImageURL|string|false|none|none|
+|»» Location|string|false|none|none|
+|»» Type|[OrganisationType](#schemaorganisationtype)|false|none|none|
+|»»» ID|string|false|none|none|
+|»»» Type|string|false|none|none|
+|»»» ImageID|string|false|none|none|
+|»»» ImageURL|string|false|none|none|
+|»» Description|string|false|none|none|
+|»» Enabled|boolean|false|none|none|
+|»» PolicyURL|string|false|none|none|
+|»» EulaURL|string|false|none|none|
+|»» Templates|[allOf]|false|none|none|
+
+*allOf*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»»» *anonymous*|[Template](#schematemplate)|false|none|none|
+|»»»» ID|string|false|none|none|
+|»»»» Consent|string|false|none|none|
+
+*and*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»»» *anonymous*|object|false|none|none|
+|»»»» PurposeIDs|[string]|false|none|none|
+
+*continued*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»» Purposes|[[Purpose](#schemapurpose)]|false|none|none|
+|»»» ID|string|false|none|none|
+|»»» Name|string|false|none|none|
+|»»» Description|string|false|none|none|
+|»»» LawfulUsage|boolean|false|none|none|
+|»»» PolicyURL|string|false|none|none|
+|»» Admins|[object]|false|none|none|
+|»»» UserID|string|false|none|none|
+|»»» RoleID|string|false|none|none|
+|»» BillingInfo|[OrganisationBillingInfo](#schemaorganisationbillinginfo)|false|none|none|
+|»»» BillingRegistrationID|string|false|none|none|
+|»»» MaxUserCounter|integer|false|none|none|
+|»»» DefaultChargeNotified|boolean|false|none|none|
+|»»» CurrentPeriodEnd|integer|false|none|none|
+|»»» PrevMonthUsers|integer|false|none|none|
+|»»» PayPerUserInfo|object|false|none|none|
+|»»»» UserCommitment|integer|false|none|none|
+|»»»» TimeCommitment|string|false|none|none|
+|»»»» CancelOnCommitmentEnd|boolean|false|none|none|
+|»»»» CommitmentPeriodRemaining|integer|false|none|none|
+|»»» DefaultPaymentSource|object|false|none|none|
+|»»»» Brand|string|false|none|none|
+|»»»» ExpiryMonth|integer|false|none|none|
+|»»»» ExpiryYear|integer|false|none|none|
+|»»»» Last4Digits|string|false|none|none|
+|»»» Address|object|false|none|none|
+|»»»» Name|string|false|none|none|
+|»»»» City|string|false|none|none|
+|»»»» Country|string|false|none|none|
+|»»»» Line1|string|false|none|none|
+|»»»» Line2|string|false|none|none|
+|»»»» PostalCode|string|false|none|none|
+|»»»» State|string|false|none|none|
+|»»» ServiceAgreementVersion|string|false|none|none|
+|»»» FreeTrialExpired|boolean|false|none|none|
+|»» Subs|object|false|none|none|
+|»»» Method|integer|false|none|none|
+|»»» Key|string|false|none|none|
+|»» HlcSupport|boolean|false|none|none|
+|»» PrivacyDashboard|[OrganisationPrivacyBoard](#schemaorganisationprivacyboard)|false|none|none|
+|»»» HostName|string|false|none|none|
+|»»» Version|string|false|none|none|
+|»»» Status|integer|false|none|none|
+|»»» Delete|boolean|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Update usage purpose
+
+<a id="opIdUpdate usage purpose"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X PUT https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID} \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+PUT https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID} HTTP/1.1
+Host: api.igrant.io
+Content-Type: application/json
+Accept: application/json
+
+```
+
+```javascript
+const inputBody = '{
+  "name": "Marketing and campaign",
+  "description": "For this purpose, following personal data attributes shown below are used. You may consent to share your data at attribute level.",
+  "lawfulusage": false,
+  "policyurl": "https://igrant.io/policy_default.html"
+}';
+const headers = {
+  'Content-Type':'application/json',
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}',
+{
+  method: 'PUT',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Content-Type' => 'application/json',
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.put 'https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json',
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.put('https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Content-Type' => 'application/json',
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('PUT','https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("PUT");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Content-Type": []string{"application/json"},
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("PUT", "https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`PUT /organizations/{organizationID}/purposes/{purposeID}`
+
+Updates a new personal data usage purpose in an organisation. The organisation is able to modify details provisioned earlier.
+
+> Body parameter
+
+```json
+{
+  "name": "Marketing and campaign",
+  "description": "For this purpose, following personal data attributes shown below are used. You may consent to share your data at attribute level.",
+  "lawfulusage": false,
+  "policyurl": "https://igrant.io/policy_default.html"
+}
+```
+
+<h3 id="update-usage-purpose-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organization ID|
+|purposeID|path|string|true|Purpose ID|
+|body|body|object|true|none|
+|» name|body|string|true|none|
+|» description|body|string|true|none|
+|» lawfulusage|body|boolean|false|none|
+|» policyurl|body|string|true|none|
+
+> Example responses
+
+> 201 Response
+
+```json
+{
+  "Organization": {
+    "ID": "5daf22d0a531350001afc7c9",
+    "Name": "DMart Retail Chain",
+    "CoverImageID": "",
+    "CoverImageURL": "",
+    "LogoImageID": "5ecf5f979a273200016a13ef",
+    "LogoImageURL": "https://<server-url>/5daf22d0a531350001afc7c9/image/5ecf5f979a273200016a13ef",
+    "Location": "Stockholm, Sweden",
+    "Type": {
+      "ID": "5d17cc114dacb40001b29094",
+      "Type": "Retail",
+      "ImageID": "5d17cc7f4dacb40001b29095",
+      "ImageURL": "https://staging-api.igrant.io/v1/organizations/types/5d17cc114dacb40001b29094/image"
+    },
+    "Description": "",
+    "Enabled": true,
+    "PolicyURL": "",
+    "EulaURL": "",
+    "Templates": [
+      {
+        "ID": "5f187f9efd59960001434c2e",
+        "Consent": "Age",
+        "PurposeIDs": [
+          "5db0303ba531350001afc7e0",
+          "5db03048a531350001afc7e1"
+        ]
+      }
+    ],
+    "Purposes": [
+      {
+        "ID": "5db0303ba531350001afc7e0",
+        "Name": "Marketing and campaign",
+        "Description": "For this purpose, following personal data attributes shown below are used. You may consent to share your data at attribute level.",
+        "LawfulUsage": false,
+        "PolicyURL": "https://orgname.com/policy_default.html"
+      }
+    ],
+    "Admins": [
+      {
+        "UserID": "5daf22cea531350001afc7c8",
+        "RoleID": 1
+      }
+    ],
+    "BillingInfo": {
+      "BillingRegistrationID": "cus_G2URbi8W6DT7hh",
+      "MaxUserCounter": 4,
+      "DefaultChargeNotified": false,
+      "CurrentPeriodEnd": 0,
+      "PrevMonthUsers": 1,
+      "PayPerUserInfo": {
+        "UserCommitment": 0,
+        "TimeCommitment": "",
+        "CancelOnCommitmentEnd": false,
+        "CommitmentPeriodRemaining": 0
+      },
+      "DefaultPaymentSource": {
+        "Brand": "Visa",
+        "ExpiryMonth": 4,
+        "ExpiryYear": 2024,
+        "Last4Digits": "4242"
+      },
+      "Address": {
+        "Name": "George Floyd",
+        "City": "Stockholm",
+        "Country": "Sweden",
+        "Line1": "",
+        "Line2": "",
+        "PostalCode": "",
+        "State": ""
+      },
+      "ServiceAgreementVersion": "v2.0",
+      "FreeTrialExpired": true
+    },
+    "Subs": {
+      "Method": 0,
+      "Key": ""
+    },
+    "HlcSupport": false,
+    "PrivacyDashboard": {
+      "HostName": "dmart.igrant.io",
+      "Version": "v1.1.7",
+      "Status": 2,
+      "Delete": false
+    }
+  }
+}
+```
+
+<h3 id="update-usage-purpose-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|Returns the organisation|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<h3 id="update-usage-purpose-responseschema">Response Schema</h3>
+
+Status Code **201**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» Organization|[Organisation](#schemaorganisation)|false|none|none|
+|»» ID|string|false|none|none|
+|»» Name|string|false|none|none|
+|»» CoverImageID|string|false|none|none|
+|»» CoverImageURL|string|false|none|none|
+|»» LogoImageID|string|false|none|none|
+|»» LogoImageURL|string|false|none|none|
+|»» Location|string|false|none|none|
+|»» Type|[OrganisationType](#schemaorganisationtype)|false|none|none|
+|»»» ID|string|false|none|none|
+|»»» Type|string|false|none|none|
+|»»» ImageID|string|false|none|none|
+|»»» ImageURL|string|false|none|none|
+|»» Description|string|false|none|none|
+|»» Enabled|boolean|false|none|none|
+|»» PolicyURL|string|false|none|none|
+|»» EulaURL|string|false|none|none|
+|»» Templates|[allOf]|false|none|none|
+
+*allOf*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»»» *anonymous*|[Template](#schematemplate)|false|none|none|
+|»»»» ID|string|false|none|none|
+|»»»» Consent|string|false|none|none|
+
+*and*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»»» *anonymous*|object|false|none|none|
+|»»»» PurposeIDs|[string]|false|none|none|
+
+*continued*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»» Purposes|[[Purpose](#schemapurpose)]|false|none|none|
+|»»» ID|string|false|none|none|
+|»»» Name|string|false|none|none|
+|»»» Description|string|false|none|none|
+|»»» LawfulUsage|boolean|false|none|none|
+|»»» PolicyURL|string|false|none|none|
+|»» Admins|[object]|false|none|none|
+|»»» UserID|string|false|none|none|
+|»»» RoleID|string|false|none|none|
+|»» BillingInfo|[OrganisationBillingInfo](#schemaorganisationbillinginfo)|false|none|none|
+|»»» BillingRegistrationID|string|false|none|none|
+|»»» MaxUserCounter|integer|false|none|none|
+|»»» DefaultChargeNotified|boolean|false|none|none|
+|»»» CurrentPeriodEnd|integer|false|none|none|
+|»»» PrevMonthUsers|integer|false|none|none|
+|»»» PayPerUserInfo|object|false|none|none|
+|»»»» UserCommitment|integer|false|none|none|
+|»»»» TimeCommitment|string|false|none|none|
+|»»»» CancelOnCommitmentEnd|boolean|false|none|none|
+|»»»» CommitmentPeriodRemaining|integer|false|none|none|
+|»»» DefaultPaymentSource|object|false|none|none|
+|»»»» Brand|string|false|none|none|
+|»»»» ExpiryMonth|integer|false|none|none|
+|»»»» ExpiryYear|integer|false|none|none|
+|»»»» Last4Digits|string|false|none|none|
+|»»» Address|object|false|none|none|
+|»»»» Name|string|false|none|none|
+|»»»» City|string|false|none|none|
+|»»»» Country|string|false|none|none|
+|»»»» Line1|string|false|none|none|
+|»»»» Line2|string|false|none|none|
+|»»»» PostalCode|string|false|none|none|
+|»»»» State|string|false|none|none|
+|»»» ServiceAgreementVersion|string|false|none|none|
+|»»» FreeTrialExpired|boolean|false|none|none|
+|»» Subs|object|false|none|none|
+|»»» Method|integer|false|none|none|
+|»»» Key|string|false|none|none|
+|»» HlcSupport|boolean|false|none|none|
+|»» PrivacyDashboard|[OrganisationPrivacyBoard](#schemaorganisationprivacyboard)|false|none|none|
+|»»» HostName|string|false|none|none|
+|»»» Version|string|false|none|none|
+|»»» Status|integer|false|none|none|
+|»»» Delete|boolean|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Get attributes with usage purposes
+
+<a id="opIdGet attributes with usage purposes"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X GET https://api.igrant.io/v1/organizations/{organizationID}/templates \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+GET https://api.igrant.io/v1/organizations/{organizationID}/templates HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/templates',
+{
+  method: 'GET',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationID}/templates',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.get('https://api.igrant.io/v1/organizations/{organizationID}/templates', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/organizations/{organizationID}/templates', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/templates");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationID}/templates", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`GET /organizations/{organizationID}/templates`
+
+Gets all attributes and its attached list of one or more usage purposes
+
+<h3 id="get-attributes-with-usage-purposes-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organisation ID|
+
+> Example responses
+
+> 201 Response
+
+```json
+{
+  "OrgID": "5dae01aa267e930001609aa4",
+  "Templates": [
+    {
+      "ID": "5f187f9efd59960001434c2e",
+      "Consent": "Age",
+      "PurposeIDs": [
+        "5db0303ba531350001afc7e0",
+        "5db03048a531350001afc7e1"
+      ]
+    }
+  ]
+}
+```
+
+<h3 id="get-attributes-with-usage-purposes-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|Returns attributes and attached purposes|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<h3 id="get-attributes-with-usage-purposes-responseschema">Response Schema</h3>
+
+Status Code **201**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» OrgID|string|false|none|none|
+|» Templates|[allOf]|false|none|none|
+
+*allOf*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»» *anonymous*|[Template](#schematemplate)|false|none|none|
+|»»» ID|string|false|none|none|
+|»»» Consent|string|false|none|none|
+
+*and*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»» *anonymous*|object|false|none|none|
+|»»» PurposeIDs|[string]|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Add attribute to purpose
+
+<a id="opIdAdd attribute to purpose"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://api.igrant.io/v1/organizations/{organizationID}/templates \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+POST https://api.igrant.io/v1/organizations/{organizationID}/templates HTTP/1.1
+Host: api.igrant.io
+Content-Type: application/json
+Accept: application/json
+
+```
+
+```javascript
+const inputBody = '{
+  "templates": [
+    {
+      "consent": "Age",
+      "purposeids": [
+        "5f1c9298fd59960001434c6d"
+      ]
+    }
+  ]
+}';
+const headers = {
+  'Content-Type':'application/json',
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/templates',
+{
+  method: 'POST',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Content-Type' => 'application/json',
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationID}/templates',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json',
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.post('https://api.igrant.io/v1/organizations/{organizationID}/templates', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Content-Type' => 'application/json',
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://api.igrant.io/v1/organizations/{organizationID}/templates', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/templates");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("POST");
 int responseCode = con.getResponseCode();
@@ -7355,13 +16234,13 @@ import (
 func main() {
 
     headers := map[string][]string{
+        "Content-Type": []string{"application/json"},
         "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
+        "Authorization": []string{"Bearer {access-token}"},
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/qrcode", data)
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationID}/templates", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -7371,80 +16250,1168 @@ func main() {
 
 ```
 
-`POST /organizations/{organizationID}/purposes/{purposeID}/qrcode`
+`POST /organizations/{organizationID}/templates`
 
-Generate the QR code for a given purpose in an organization
+Adds an attribute and attaches it one or more pre-defined usage purposes
 
-<h3 id="post__organizations_{organizationid}_purposes_{purposeid}_qrcode-parameters">Parameters</h3>
+> Body parameter
+
+```json
+{
+  "templates": [
+    {
+      "consent": "Age",
+      "purposeids": [
+        "5f1c9298fd59960001434c6d"
+      ]
+    }
+  ]
+}
+```
+
+<h3 id="add-attribute-to-purpose-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|organizationID|path|string|true|ID of the organization|
-|purposeID|path|string|true|ID of the purpose|
+|organizationID|path|string|true|Organisation ID|
+|body|body|object|true|none|
+|» templates|body|[object]|true|none|
+|»» consent|body|string|true|none|
+|»» purposeids|body|[string]|true|none|
 
+> Example responses
 
+> 201 Response
 
-<h3 id="post__organizations_{organizationid}_purposes_{purposeid}_qrcode-responses">Responses</h3>
+```json
+{
+  "Organization": {
+    "ID": "5daf22d0a531350001afc7c9",
+    "Name": "DMart Retail Chain",
+    "CoverImageID": "",
+    "CoverImageURL": "",
+    "LogoImageID": "5ecf5f979a273200016a13ef",
+    "LogoImageURL": "https://<server-url>/5daf22d0a531350001afc7c9/image/5ecf5f979a273200016a13ef",
+    "Location": "Stockholm, Sweden",
+    "Type": {
+      "ID": "5d17cc114dacb40001b29094",
+      "Type": "Retail",
+      "ImageID": "5d17cc7f4dacb40001b29095",
+      "ImageURL": "https://staging-api.igrant.io/v1/organizations/types/5d17cc114dacb40001b29094/image"
+    },
+    "Description": "",
+    "Enabled": true,
+    "PolicyURL": "",
+    "EulaURL": "",
+    "Templates": [
+      {
+        "ID": "5f187f9efd59960001434c2e",
+        "Consent": "Age",
+        "PurposeIDs": [
+          "5db0303ba531350001afc7e0",
+          "5db03048a531350001afc7e1"
+        ]
+      }
+    ],
+    "Purposes": [
+      {
+        "ID": "5db0303ba531350001afc7e0",
+        "Name": "Marketing and campaign",
+        "Description": "For this purpose, following personal data attributes shown below are used. You may consent to share your data at attribute level.",
+        "LawfulUsage": false,
+        "PolicyURL": "https://orgname.com/policy_default.html"
+      }
+    ],
+    "Admins": [
+      {
+        "UserID": "5daf22cea531350001afc7c8",
+        "RoleID": 1
+      }
+    ],
+    "BillingInfo": {
+      "BillingRegistrationID": "cus_G2URbi8W6DT7hh",
+      "MaxUserCounter": 4,
+      "DefaultChargeNotified": false,
+      "CurrentPeriodEnd": 0,
+      "PrevMonthUsers": 1,
+      "PayPerUserInfo": {
+        "UserCommitment": 0,
+        "TimeCommitment": "",
+        "CancelOnCommitmentEnd": false,
+        "CommitmentPeriodRemaining": 0
+      },
+      "DefaultPaymentSource": {
+        "Brand": "Visa",
+        "ExpiryMonth": 4,
+        "ExpiryYear": 2024,
+        "Last4Digits": "4242"
+      },
+      "Address": {
+        "Name": "George Floyd",
+        "City": "Stockholm",
+        "Country": "Sweden",
+        "Line1": "",
+        "Line2": "",
+        "PostalCode": "",
+        "State": ""
+      },
+      "ServiceAgreementVersion": "v2.0",
+      "FreeTrialExpired": true
+    },
+    "Subs": {
+      "Method": 0,
+      "Key": ""
+    },
+    "HlcSupport": false,
+    "PrivacyDashboard": {
+      "HostName": "dmart.igrant.io",
+      "Version": "v1.1.7",
+      "Status": 2,
+      "Delete": false
+    }
+  }
+}
+```
+
+<h3 id="add-attribute-to-purpose-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|QR code generated|None|
+|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|Returns organisation|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<h3 id="add-attribute-to-purpose-responseschema">Response Schema</h3>
+
+Status Code **201**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» Organization|[Organisation](#schemaorganisation)|false|none|none|
+|»» ID|string|false|none|none|
+|»» Name|string|false|none|none|
+|»» CoverImageID|string|false|none|none|
+|»» CoverImageURL|string|false|none|none|
+|»» LogoImageID|string|false|none|none|
+|»» LogoImageURL|string|false|none|none|
+|»» Location|string|false|none|none|
+|»» Type|[OrganisationType](#schemaorganisationtype)|false|none|none|
+|»»» ID|string|false|none|none|
+|»»» Type|string|false|none|none|
+|»»» ImageID|string|false|none|none|
+|»»» ImageURL|string|false|none|none|
+|»» Description|string|false|none|none|
+|»» Enabled|boolean|false|none|none|
+|»» PolicyURL|string|false|none|none|
+|»» EulaURL|string|false|none|none|
+|»» Templates|[allOf]|false|none|none|
+
+*allOf*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»»» *anonymous*|[Template](#schematemplate)|false|none|none|
+|»»»» ID|string|false|none|none|
+|»»»» Consent|string|false|none|none|
+
+*and*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»»» *anonymous*|object|false|none|none|
+|»»»» PurposeIDs|[string]|false|none|none|
+
+*continued*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»» Purposes|[[Purpose](#schemapurpose)]|false|none|none|
+|»»» ID|string|false|none|none|
+|»»» Name|string|false|none|none|
+|»»» Description|string|false|none|none|
+|»»» LawfulUsage|boolean|false|none|none|
+|»»» PolicyURL|string|false|none|none|
+|»» Admins|[object]|false|none|none|
+|»»» UserID|string|false|none|none|
+|»»» RoleID|string|false|none|none|
+|»» BillingInfo|[OrganisationBillingInfo](#schemaorganisationbillinginfo)|false|none|none|
+|»»» BillingRegistrationID|string|false|none|none|
+|»»» MaxUserCounter|integer|false|none|none|
+|»»» DefaultChargeNotified|boolean|false|none|none|
+|»»» CurrentPeriodEnd|integer|false|none|none|
+|»»» PrevMonthUsers|integer|false|none|none|
+|»»» PayPerUserInfo|object|false|none|none|
+|»»»» UserCommitment|integer|false|none|none|
+|»»»» TimeCommitment|string|false|none|none|
+|»»»» CancelOnCommitmentEnd|boolean|false|none|none|
+|»»»» CommitmentPeriodRemaining|integer|false|none|none|
+|»»» DefaultPaymentSource|object|false|none|none|
+|»»»» Brand|string|false|none|none|
+|»»»» ExpiryMonth|integer|false|none|none|
+|»»»» ExpiryYear|integer|false|none|none|
+|»»»» Last4Digits|string|false|none|none|
+|»»» Address|object|false|none|none|
+|»»»» Name|string|false|none|none|
+|»»»» City|string|false|none|none|
+|»»»» Country|string|false|none|none|
+|»»»» Line1|string|false|none|none|
+|»»»» Line2|string|false|none|none|
+|»»»» PostalCode|string|false|none|none|
+|»»»» State|string|false|none|none|
+|»»» ServiceAgreementVersion|string|false|none|none|
+|»»» FreeTrialExpired|boolean|false|none|none|
+|»» Subs|object|false|none|none|
+|»»» Method|integer|false|none|none|
+|»»» Key|string|false|none|none|
+|»» HlcSupport|boolean|false|none|none|
+|»» PrivacyDashboard|[OrganisationPrivacyBoard](#schemaorganisationprivacyboard)|false|none|none|
+|»»» HostName|string|false|none|none|
+|»»» Version|string|false|none|none|
+|»»» Status|integer|false|none|none|
+|»»» Delete|boolean|false|none|none|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
+bearerAuth
 </aside>
 
+## Delete attribute
 
-## View QR code for a purpose
+<a id="opIdDelete attribute"></a>
 
 > Code samples
 
 ```shell
 # You can also use wget
-curl -X GET https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/qrcode/web \
-  -H 'Accept: image/png' \
-  -H 'Authorization: Bearer API_KEY' >> QRcode.png
-
+curl -X DELETE https://api.igrant.io/v1/organizations/{organizationID}/templates/{templateID} \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
 
 ```
 
 ```http
-GET https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/qrcode/web HTTP/1.1
+DELETE https://api.igrant.io/v1/organizations/{organizationID}/templates/{templateID} HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/templates/{templateID}',
+{
+  method: 'DELETE',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.delete 'https://api.igrant.io/v1/organizations/{organizationID}/templates/{templateID}',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.delete('https://api.igrant.io/v1/organizations/{organizationID}/templates/{templateID}', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('DELETE','https://api.igrant.io/v1/organizations/{organizationID}/templates/{templateID}', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/templates/{templateID}");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("DELETE");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("DELETE", "https://api.igrant.io/v1/organizations/{organizationID}/templates/{templateID}", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`DELETE /organizations/{organizationID}/templates/{templateID}`
+
+Deletes an attribute and the detaches it from a usage purpose
+
+<h3 id="delete-attribute-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organisation ID|
+|templateID|path|string|true|Attribute ID|
+
+> Example responses
+
+> 201 Response
+
+```json
+{
+  "Organization": {
+    "ID": "5daf22d0a531350001afc7c9",
+    "Name": "DMart Retail Chain",
+    "CoverImageID": "",
+    "CoverImageURL": "",
+    "LogoImageID": "5ecf5f979a273200016a13ef",
+    "LogoImageURL": "https://<server-url>/5daf22d0a531350001afc7c9/image/5ecf5f979a273200016a13ef",
+    "Location": "Stockholm, Sweden",
+    "Type": {
+      "ID": "5d17cc114dacb40001b29094",
+      "Type": "Retail",
+      "ImageID": "5d17cc7f4dacb40001b29095",
+      "ImageURL": "https://staging-api.igrant.io/v1/organizations/types/5d17cc114dacb40001b29094/image"
+    },
+    "Description": "",
+    "Enabled": true,
+    "PolicyURL": "",
+    "EulaURL": "",
+    "Templates": [
+      {
+        "ID": "5f187f9efd59960001434c2e",
+        "Consent": "Age",
+        "PurposeIDs": [
+          "5db0303ba531350001afc7e0",
+          "5db03048a531350001afc7e1"
+        ]
+      }
+    ],
+    "Purposes": [
+      {
+        "ID": "5db0303ba531350001afc7e0",
+        "Name": "Marketing and campaign",
+        "Description": "For this purpose, following personal data attributes shown below are used. You may consent to share your data at attribute level.",
+        "LawfulUsage": false,
+        "PolicyURL": "https://orgname.com/policy_default.html"
+      }
+    ],
+    "Admins": [
+      {
+        "UserID": "5daf22cea531350001afc7c8",
+        "RoleID": 1
+      }
+    ],
+    "BillingInfo": {
+      "BillingRegistrationID": "cus_G2URbi8W6DT7hh",
+      "MaxUserCounter": 4,
+      "DefaultChargeNotified": false,
+      "CurrentPeriodEnd": 0,
+      "PrevMonthUsers": 1,
+      "PayPerUserInfo": {
+        "UserCommitment": 0,
+        "TimeCommitment": "",
+        "CancelOnCommitmentEnd": false,
+        "CommitmentPeriodRemaining": 0
+      },
+      "DefaultPaymentSource": {
+        "Brand": "Visa",
+        "ExpiryMonth": 4,
+        "ExpiryYear": 2024,
+        "Last4Digits": "4242"
+      },
+      "Address": {
+        "Name": "George Floyd",
+        "City": "Stockholm",
+        "Country": "Sweden",
+        "Line1": "",
+        "Line2": "",
+        "PostalCode": "",
+        "State": ""
+      },
+      "ServiceAgreementVersion": "v2.0",
+      "FreeTrialExpired": true
+    },
+    "Subs": {
+      "Method": 0,
+      "Key": ""
+    },
+    "HlcSupport": false,
+    "PrivacyDashboard": {
+      "HostName": "dmart.igrant.io",
+      "Version": "v1.1.7",
+      "Status": 2,
+      "Delete": false
+    }
+  }
+}
+```
+
+<h3 id="delete-attribute-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|Returns organisation|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<h3 id="delete-attribute-responseschema">Response Schema</h3>
+
+Status Code **201**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» Organization|[Organisation](#schemaorganisation)|false|none|none|
+|»» ID|string|false|none|none|
+|»» Name|string|false|none|none|
+|»» CoverImageID|string|false|none|none|
+|»» CoverImageURL|string|false|none|none|
+|»» LogoImageID|string|false|none|none|
+|»» LogoImageURL|string|false|none|none|
+|»» Location|string|false|none|none|
+|»» Type|[OrganisationType](#schemaorganisationtype)|false|none|none|
+|»»» ID|string|false|none|none|
+|»»» Type|string|false|none|none|
+|»»» ImageID|string|false|none|none|
+|»»» ImageURL|string|false|none|none|
+|»» Description|string|false|none|none|
+|»» Enabled|boolean|false|none|none|
+|»» PolicyURL|string|false|none|none|
+|»» EulaURL|string|false|none|none|
+|»» Templates|[allOf]|false|none|none|
+
+*allOf*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»»» *anonymous*|[Template](#schematemplate)|false|none|none|
+|»»»» ID|string|false|none|none|
+|»»»» Consent|string|false|none|none|
+
+*and*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»»» *anonymous*|object|false|none|none|
+|»»»» PurposeIDs|[string]|false|none|none|
+
+*continued*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»» Purposes|[[Purpose](#schemapurpose)]|false|none|none|
+|»»» ID|string|false|none|none|
+|»»» Name|string|false|none|none|
+|»»» Description|string|false|none|none|
+|»»» LawfulUsage|boolean|false|none|none|
+|»»» PolicyURL|string|false|none|none|
+|»» Admins|[object]|false|none|none|
+|»»» UserID|string|false|none|none|
+|»»» RoleID|string|false|none|none|
+|»» BillingInfo|[OrganisationBillingInfo](#schemaorganisationbillinginfo)|false|none|none|
+|»»» BillingRegistrationID|string|false|none|none|
+|»»» MaxUserCounter|integer|false|none|none|
+|»»» DefaultChargeNotified|boolean|false|none|none|
+|»»» CurrentPeriodEnd|integer|false|none|none|
+|»»» PrevMonthUsers|integer|false|none|none|
+|»»» PayPerUserInfo|object|false|none|none|
+|»»»» UserCommitment|integer|false|none|none|
+|»»»» TimeCommitment|string|false|none|none|
+|»»»» CancelOnCommitmentEnd|boolean|false|none|none|
+|»»»» CommitmentPeriodRemaining|integer|false|none|none|
+|»»» DefaultPaymentSource|object|false|none|none|
+|»»»» Brand|string|false|none|none|
+|»»»» ExpiryMonth|integer|false|none|none|
+|»»»» ExpiryYear|integer|false|none|none|
+|»»»» Last4Digits|string|false|none|none|
+|»»» Address|object|false|none|none|
+|»»»» Name|string|false|none|none|
+|»»»» City|string|false|none|none|
+|»»»» Country|string|false|none|none|
+|»»»» Line1|string|false|none|none|
+|»»»» Line2|string|false|none|none|
+|»»»» PostalCode|string|false|none|none|
+|»»»» State|string|false|none|none|
+|»»» ServiceAgreementVersion|string|false|none|none|
+|»»» FreeTrialExpired|boolean|false|none|none|
+|»» Subs|object|false|none|none|
+|»»» Method|integer|false|none|none|
+|»»» Key|string|false|none|none|
+|»» HlcSupport|boolean|false|none|none|
+|»» PrivacyDashboard|[OrganisationPrivacyBoard](#schemaorganisationprivacyboard)|false|none|none|
+|»»» HostName|string|false|none|none|
+|»»» Version|string|false|none|none|
+|»»» Status|integer|false|none|none|
+|»»» Delete|boolean|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Update attribute
+
+<a id="opIdUpdate attribute"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X PUT https://api.igrant.io/v1/organizations/{organizationID}/templates/{templateID} \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+PUT https://api.igrant.io/v1/organizations/{organizationID}/templates/{templateID} HTTP/1.1
+Host: api.igrant.io
+Content-Type: application/json
+Accept: application/json
+
+```
+
+```javascript
+const inputBody = '{
+  "consent": "Age",
+  "purposeids": [
+    "5f1c9298fd59960001434c6d"
+  ]
+}';
+const headers = {
+  'Content-Type':'application/json',
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/templates/{templateID}',
+{
+  method: 'PUT',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Content-Type' => 'application/json',
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.put 'https://api.igrant.io/v1/organizations/{organizationID}/templates/{templateID}',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json',
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.put('https://api.igrant.io/v1/organizations/{organizationID}/templates/{templateID}', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Content-Type' => 'application/json',
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('PUT','https://api.igrant.io/v1/organizations/{organizationID}/templates/{templateID}', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/templates/{templateID}");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("PUT");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Content-Type": []string{"application/json"},
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("PUT", "https://api.igrant.io/v1/organizations/{organizationID}/templates/{templateID}", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`PUT /organizations/{organizationID}/templates/{templateID}`
+
+Updates an attribute details, attaches or detaches to one or more purposes
+
+> Body parameter
+
+```json
+{
+  "consent": "Age",
+  "purposeids": [
+    "5f1c9298fd59960001434c6d"
+  ]
+}
+```
+
+<h3 id="update-attribute-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organisation ID|
+|templateID|path|string|true|Attribute ID|
+|body|body|object|false|none|
+|» consent|body|string|true|none|
+|» purposeids|body|[string]|true|none|
+
+> Example responses
+
+> 201 Response
+
+```json
+{
+  "Organization": {
+    "ID": "5daf22d0a531350001afc7c9",
+    "Name": "DMart Retail Chain",
+    "CoverImageID": "",
+    "CoverImageURL": "",
+    "LogoImageID": "5ecf5f979a273200016a13ef",
+    "LogoImageURL": "https://<server-url>/5daf22d0a531350001afc7c9/image/5ecf5f979a273200016a13ef",
+    "Location": "Stockholm, Sweden",
+    "Type": {
+      "ID": "5d17cc114dacb40001b29094",
+      "Type": "Retail",
+      "ImageID": "5d17cc7f4dacb40001b29095",
+      "ImageURL": "https://staging-api.igrant.io/v1/organizations/types/5d17cc114dacb40001b29094/image"
+    },
+    "Description": "",
+    "Enabled": true,
+    "PolicyURL": "",
+    "EulaURL": "",
+    "Templates": [
+      {
+        "ID": "5f187f9efd59960001434c2e",
+        "Consent": "Age",
+        "PurposeIDs": [
+          "5db0303ba531350001afc7e0",
+          "5db03048a531350001afc7e1"
+        ]
+      }
+    ],
+    "Purposes": [
+      {
+        "ID": "5db0303ba531350001afc7e0",
+        "Name": "Marketing and campaign",
+        "Description": "For this purpose, following personal data attributes shown below are used. You may consent to share your data at attribute level.",
+        "LawfulUsage": false,
+        "PolicyURL": "https://orgname.com/policy_default.html"
+      }
+    ],
+    "Admins": [
+      {
+        "UserID": "5daf22cea531350001afc7c8",
+        "RoleID": 1
+      }
+    ],
+    "BillingInfo": {
+      "BillingRegistrationID": "cus_G2URbi8W6DT7hh",
+      "MaxUserCounter": 4,
+      "DefaultChargeNotified": false,
+      "CurrentPeriodEnd": 0,
+      "PrevMonthUsers": 1,
+      "PayPerUserInfo": {
+        "UserCommitment": 0,
+        "TimeCommitment": "",
+        "CancelOnCommitmentEnd": false,
+        "CommitmentPeriodRemaining": 0
+      },
+      "DefaultPaymentSource": {
+        "Brand": "Visa",
+        "ExpiryMonth": 4,
+        "ExpiryYear": 2024,
+        "Last4Digits": "4242"
+      },
+      "Address": {
+        "Name": "George Floyd",
+        "City": "Stockholm",
+        "Country": "Sweden",
+        "Line1": "",
+        "Line2": "",
+        "PostalCode": "",
+        "State": ""
+      },
+      "ServiceAgreementVersion": "v2.0",
+      "FreeTrialExpired": true
+    },
+    "Subs": {
+      "Method": 0,
+      "Key": ""
+    },
+    "HlcSupport": false,
+    "PrivacyDashboard": {
+      "HostName": "dmart.igrant.io",
+      "Version": "v1.1.7",
+      "Status": 2,
+      "Delete": false
+    }
+  }
+}
+```
+
+<h3 id="update-attribute-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|Returns organisation|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<h3 id="update-attribute-responseschema">Response Schema</h3>
+
+Status Code **201**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» Organization|[Organisation](#schemaorganisation)|false|none|none|
+|»» ID|string|false|none|none|
+|»» Name|string|false|none|none|
+|»» CoverImageID|string|false|none|none|
+|»» CoverImageURL|string|false|none|none|
+|»» LogoImageID|string|false|none|none|
+|»» LogoImageURL|string|false|none|none|
+|»» Location|string|false|none|none|
+|»» Type|[OrganisationType](#schemaorganisationtype)|false|none|none|
+|»»» ID|string|false|none|none|
+|»»» Type|string|false|none|none|
+|»»» ImageID|string|false|none|none|
+|»»» ImageURL|string|false|none|none|
+|»» Description|string|false|none|none|
+|»» Enabled|boolean|false|none|none|
+|»» PolicyURL|string|false|none|none|
+|»» EulaURL|string|false|none|none|
+|»» Templates|[allOf]|false|none|none|
+
+*allOf*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»»» *anonymous*|[Template](#schematemplate)|false|none|none|
+|»»»» ID|string|false|none|none|
+|»»»» Consent|string|false|none|none|
+
+*and*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»»» *anonymous*|object|false|none|none|
+|»»»» PurposeIDs|[string]|false|none|none|
+
+*continued*
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|»» Purposes|[[Purpose](#schemapurpose)]|false|none|none|
+|»»» ID|string|false|none|none|
+|»»» Name|string|false|none|none|
+|»»» Description|string|false|none|none|
+|»»» LawfulUsage|boolean|false|none|none|
+|»»» PolicyURL|string|false|none|none|
+|»» Admins|[object]|false|none|none|
+|»»» UserID|string|false|none|none|
+|»»» RoleID|string|false|none|none|
+|»» BillingInfo|[OrganisationBillingInfo](#schemaorganisationbillinginfo)|false|none|none|
+|»»» BillingRegistrationID|string|false|none|none|
+|»»» MaxUserCounter|integer|false|none|none|
+|»»» DefaultChargeNotified|boolean|false|none|none|
+|»»» CurrentPeriodEnd|integer|false|none|none|
+|»»» PrevMonthUsers|integer|false|none|none|
+|»»» PayPerUserInfo|object|false|none|none|
+|»»»» UserCommitment|integer|false|none|none|
+|»»»» TimeCommitment|string|false|none|none|
+|»»»» CancelOnCommitmentEnd|boolean|false|none|none|
+|»»»» CommitmentPeriodRemaining|integer|false|none|none|
+|»»» DefaultPaymentSource|object|false|none|none|
+|»»»» Brand|string|false|none|none|
+|»»»» ExpiryMonth|integer|false|none|none|
+|»»»» ExpiryYear|integer|false|none|none|
+|»»»» Last4Digits|string|false|none|none|
+|»»» Address|object|false|none|none|
+|»»»» Name|string|false|none|none|
+|»»»» City|string|false|none|none|
+|»»»» Country|string|false|none|none|
+|»»»» Line1|string|false|none|none|
+|»»»» Line2|string|false|none|none|
+|»»»» PostalCode|string|false|none|none|
+|»»»» State|string|false|none|none|
+|»»» ServiceAgreementVersion|string|false|none|none|
+|»»» FreeTrialExpired|boolean|false|none|none|
+|»» Subs|object|false|none|none|
+|»»» Method|integer|false|none|none|
+|»»» Key|string|false|none|none|
+|»» HlcSupport|boolean|false|none|none|
+|»» PrivacyDashboard|[OrganisationPrivacyBoard](#schemaorganisationprivacyboard)|false|none|none|
+|»»» HostName|string|false|none|none|
+|»»» Version|string|false|none|none|
+|»»» Status|integer|false|none|none|
+|»»» Delete|boolean|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+<h1 id="introduction-to-igrant-io-apis-personal-data-transfer">Personal data transfer</h1>
+
+A key aspect of iGrant.io is that it enables a consented data exchange. The platform allows organisations to define the data exchange purpose and the lawful basis of processing or exchanging data. The lawful basis can be based on consent or other legal basis (e.g. lawful purpose, contract, legal obligation, vital interests, public task, legitimate interests). If it's without consent, individuals will only have limited or no rights to withdraw the consents, however the individual can still follow what data is processed and why.
+
+## Generate org QR code
+
+<a id="opIdGenerate org QR code"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://api.igrant.io/v1/organizations/{organizationID}/qrcode \
+  -H 'Accept: image/png' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+POST https://api.igrant.io/v1/organizations/{organizationID}/qrcode HTTP/1.1
 Host: api.igrant.io
 Accept: image/png
 
 ```
 
 ```javascript
-var headers = {
-  'Accept':'image/png',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/qrcode/web',
-  method: 'get',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
 
 const headers = {
   'Accept':'image/png',
-  'Authorization':'API_KEY'
-
+  'Authorization':'Bearer {access-token}'
 };
 
-fetch('https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/qrcode/web',
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/qrcode',
+{
+  method: 'POST',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'image/png',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationID}/qrcode',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'image/png',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.post('https://api.igrant.io/v1/organizations/{organizationID}/qrcode', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'image/png',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://api.igrant.io/v1/organizations/{organizationID}/qrcode', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/qrcode");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"image/png"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationID}/qrcode", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /organizations/{organizationID}/qrcode`
+
+Generates a QR code for organization
+
+<h3 id="generate-org-qr-code-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organization ID|
+
+> Example responses
+
+> 200 Response
+
+<h3 id="generate-org-qr-code-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns organization QR code|string|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Get org QR code
+
+<a id="opIdGet org QR code"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X GET https://api.igrant.io/v1/organizations/{organizationID}/qrcode \
+  -H 'Accept: image/png' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+GET https://api.igrant.io/v1/organizations/{organizationID}/qrcode HTTP/1.1
+Host: api.igrant.io
+Accept: image/png
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'image/png',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/qrcode',
 {
   method: 'GET',
 
@@ -7464,10 +17431,10 @@ require 'json'
 
 headers = {
   'Accept' => 'image/png',
-  'Authorization' => 'API_KEY'
+  'Authorization' => 'Bearer {access-token}'
 }
 
-result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/qrcode/web',
+result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationID}/qrcode',
   params: {
   }, headers: headers
 
@@ -7479,19 +17446,49 @@ p JSON.parse(result)
 import requests
 headers = {
   'Accept': 'image/png',
-  'Authorization': 'API_KEY'
+  'Authorization': 'Bearer {access-token}'
 }
 
-r = requests.get('https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/qrcode/web', params={
+r = requests.get('https://api.igrant.io/v1/organizations/{organizationID}/qrcode', headers = headers)
 
-}, headers = headers)
+print(r.json())
 
-print r.json()
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'image/png',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/organizations/{organizationID}/qrcode', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
 
 ```
 
 ```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/qrcode/web");
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/qrcode");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("GET");
 int responseCode = con.getResponseCode();
@@ -7519,12 +17516,11 @@ func main() {
 
     headers := map[string][]string{
         "Accept": []string{"image/png"},
-        "Authorization": []string{"API_KEY"},
-        
+        "Authorization": []string{"Bearer {access-token}"},
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/qrcode/web", data)
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationID}/qrcode", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -7534,81 +17530,59 @@ func main() {
 
 ```
 
-`GET /organizations/{organizationID}/purposes/{purposeID}/qrcode/web`
+`GET /organizations/{organizationID}/qrcode`
 
-Download the QR code of a given purpose in an organization as an image
+Gets an organization QR code
 
-<h3 id="get__organizations_{organizationid}_purposes_{purposeid}_qrcode_web-parameters">Parameters</h3>
+<h3 id="get-org-qr-code-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|organizationID|path|string|true|ID of the organization|
-|purposeID|path|string|true|ID of the purpose|
+|organizationID|path|string|true|Organization ID|
 
 > Example responses
 
-<h3 id="get__organizations_{organizationid}_purposes_{purposeid}_qrcode_web-responses">Responses</h3>
+> 200 Response
+
+<h3 id="get-org-qr-code-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|QR code returned|None|
-
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns organization QR code|string|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|QR code does not exist|None|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
+bearerAuth
 </aside>
 
+## Delete org QR code
 
-
-## Delete a purpose
+<a id="opIdDelete org QR code"></a>
 
 > Code samples
 
 ```shell
 # You can also use wget
-curl -X DELETE https://api.igrant.io/v1/organizations/{organizationId}/purposes/{purposeID} \
-  -H 'Accept: application/json' \
-  -H 'Authorization: Bearer API_KEY'
+curl -X DELETE https://api.igrant.io/v1/organizations/{organizationID}/qrcode \
+  -H 'Authorization: Bearer {access-token}'
 
 ```
 
 ```http
-DELETE https://api.igrant.io/v1/organizations/{organizationId}/purposes/{purposeID} HTTP/1.1
+DELETE https://api.igrant.io/v1/organizations/{organizationID}/qrcode HTTP/1.1
 Host: api.igrant.io
-Accept: application/json
 
 ```
 
 ```javascript
-var headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationId}/purposes/{purposeID}',
-  method: 'delete',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
 
 const headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
+  'Authorization':'Bearer {access-token}'
 };
 
-fetch('https://api.igrant.io/v1/organizations/{organizationId}/purposes/{purposeID}',
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/qrcode',
 {
   method: 'DELETE',
 
@@ -7627,11 +17601,10 @@ require 'rest-client'
 require 'json'
 
 headers = {
-  'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
+  'Authorization' => 'Bearer {access-token}'
 }
 
-result = RestClient.delete 'https://api.igrant.io/v1/organizations/{organizationId}/purposes/{purposeID}',
+result = RestClient.delete 'https://api.igrant.io/v1/organizations/{organizationID}/qrcode',
   params: {
   }, headers: headers
 
@@ -7642,20 +17615,48 @@ p JSON.parse(result)
 ```python
 import requests
 headers = {
-  'Accept': 'application/json',
-  'Authorization': 'API_KEY'
+  'Authorization': 'Bearer {access-token}'
 }
 
-r = requests.delete('https://api.igrant.io/v1/organizations/{organizationId}/purposes/{purposeID}', params={
+r = requests.delete('https://api.igrant.io/v1/organizations/{organizationID}/qrcode', headers = headers)
 
-}, headers = headers)
+print(r.json())
 
-print r.json()
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('DELETE','https://api.igrant.io/v1/organizations/{organizationID}/qrcode', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
 
 ```
 
 ```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/purposes/{purposeID}");
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/qrcode");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("DELETE");
 int responseCode = con.getResponseCode();
@@ -7682,13 +17683,11 @@ import (
 func main() {
 
     headers := map[string][]string{
-        "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
+        "Authorization": []string{"Bearer {access-token}"},
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("DELETE", "https://api.igrant.io/v1/organizations/{organizationId}/purposes/{purposeID}", data)
+    req, err := http.NewRequest("DELETE", "https://api.igrant.io/v1/organizations/{organizationID}/qrcode", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -7698,138 +17697,61 @@ func main() {
 
 ```
 
-`DELETE /organizations/{organizationId}/purposes/{purposeID}`
+`DELETE /organizations/{organizationID}/qrcode`
 
-Deletes a purpose from an organization based on purpose ID.
+Deletes an organization QR code
 
-<h3 id="delete__organizations_{organizationid}_purposes_{purposeid}-parameters">Parameters</h3>
+<h3 id="delete-org-qr-code-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|organizationId|path|string|true|ID of the organization from which a purpose shall be deleted|
-|purposeID|path|string|true|ID of the purpose that shall be deleted|
+|organizationID|path|string|true|Organization ID|
 
-> Example responses
-
-> 201 Response
-
-```json
-{
-  "Organization": {
-    "ID": "string",
-    "Name": "string",
-    "CoverImageID": "string",
-    "CoverImageurl": "string",
-    "LogoImageID": "string",
-    "LogoImageURL": "string",
-    "Location": "string",
-    "Type": {
-      "ID": "5bba67ba98135900010927a5",
-      "Type": "Retail",
-      "ImageID": "5bba67e798135900010927a7",
-      "ImageURL": "https://api.igrant.io/v1/organizations/types/5bba67ba98135900010927a5/image"
-    },
-    "Description": "string",
-    "Enabled": true,
-    "Policyurl": "string",
-    "EulaURL": "string",
-    "Template": [
-      {
-        "ID": "5bba6a9998135900010927ba",
-        "Consent": "Spouse",
-        "PurposeIDs": [
-          "5bba69db98135900010927ac, 8bba69db98135900010927af"
-        ]
-      }
-    ],
-    "Purposes": [
-      {
-        "ID": "string",
-        "Description": "string",
-        "LawfulUsage": true,
-        "PolicyURL": "string"
-      }
-    ],
-    "Admins": [
-      {
-        "userID": "string",
-        "roleID": 0
-      }
-    ],
-    "BillingInfo": {
-      "BillingRegistrationID": "string",
-      "PlanType": "string"
-    }
-  }
-}
-```
-
-<h3 id="delete__organizations_{organizationid}_purposes_{purposeid}-responses">Responses</h3>
+<h3 id="delete-org-qr-code-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|201|[Deleted](https://tools.ietf.org/html/rfc7231#section-6.3.2)|success, returns the organization details|[OrganizationObject](#schemaorganizationobject)|
+|204|[No Content](https://tools.ietf.org/html/rfc7231#section-6.3.5)|Deleted organization QR code|None|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|QR code doesnot exist|None|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
+bearerAuth
 </aside>
 
-## Set attributes in a purpose
+## Get org QR code (web)
+
+<a id="opIdGet org QR code (web)"></a>
 
 > Code samples
 
 ```shell
 # You can also use wget
-curl -X POST https://api.igrant.io/v1/organizations/{organizationId}/purposes/{PurposeId}/attributes/consent \
-  -H 'Content-Type: application/json' \
-  -H 'Authorization: Bearer API_KEY'
+curl -X GET https://api.igrant.io/v1/organizations/{orgID}/qrcode/web \
+  -H 'Accept: image/png' \
+  -H 'Authorization: Bearer {access-token}'
 
 ```
 
 ```http
-POST https://api.igrant.io/v1/organizations/{organizationId}/purposes/{PurposeId}/attributes/consent HTTP/1.1
+GET https://api.igrant.io/v1/organizations/{orgID}/qrcode/web HTTP/1.1
 Host: api.igrant.io
-Content-Type: application/json
+Accept: image/png
 
 ```
 
 ```javascript
-var headers = {
-  'Content-Type':'application/json',
-  'Authorization':'API_KEY'
 
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationId}/purposes/{PurposeId}/attributes/consent',
-  method: 'post',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
-const inputBody = '{
-  "attributeIDs": [
-    "string"
-  ]
-}';
 const headers = {
-  'Content-Type':'application/json',
-  'Authorization':'API_KEY'
-
+  'Accept':'image/png',
+  'Authorization':'Bearer {access-token}'
 };
 
-fetch('https://api.igrant.io/v1/organizations/{organizationId}/purposes/{PurposeId}/attributes/consent',
+fetch('https://api.igrant.io/v1/organizations/{orgID}/qrcode/web',
 {
-  method: 'POST',
-  body: inputBody,
+  method: 'GET',
+
   headers: headers
 })
 .then(function(res) {
@@ -7845,11 +17767,11 @@ require 'rest-client'
 require 'json'
 
 headers = {
-  'Content-Type' => 'application/json',
-  'Authorization' => 'API_KEY'
+  'Accept' => 'image/png',
+  'Authorization' => 'Bearer {access-token}'
 }
 
-result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationId}/purposes/{PurposeId}/attributes/consent',
+result = RestClient.get 'https://api.igrant.io/v1/organizations/{orgID}/qrcode/web',
   params: {
   }, headers: headers
 
@@ -7860,20 +17782,399 @@ p JSON.parse(result)
 ```python
 import requests
 headers = {
-  'Content-Type': 'application/json',
-  'Authorization': 'API_KEY'
+  'Accept': 'image/png',
+  'Authorization': 'Bearer {access-token}'
 }
 
-r = requests.post('https://api.igrant.io/v1/organizations/{organizationId}/purposes/{PurposeId}/attributes/consent', params={
+r = requests.get('https://api.igrant.io/v1/organizations/{orgID}/qrcode/web', headers = headers)
 
-}, headers = headers)
+print(r.json())
 
-print r.json()
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'image/png',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/organizations/{orgID}/qrcode/web', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
 
 ```
 
 ```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/purposes/{PurposeId}/attributes/consent");
+URL obj = new URL("https://api.igrant.io/v1/organizations/{orgID}/qrcode/web");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"image/png"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{orgID}/qrcode/web", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`GET /organizations/{orgID}/qrcode/web`
+
+Get organization QR code (web)
+
+<h3 id="get-org-qr-code-(web)-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|orgID|path|string|true|Organization ID|
+
+> Example responses
+
+> 200 Response
+
+<h3 id="get-org-qr-code-(web)-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns organization QR code|string|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|QR code does not exist|None|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Get purpose QR code
+
+<a id="opIdGet purpose QR code"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X GET https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/qrcode \
+  -H 'Accept: image/png' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+GET https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/qrcode HTTP/1.1
+Host: api.igrant.io
+Accept: image/png
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'image/png',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/qrcode',
+{
+  method: 'GET',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'image/png',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.get 'https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/qrcode',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'image/png',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.get('https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/qrcode', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'image/png',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/qrcode', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/qrcode");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"image/png"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/qrcode", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`GET /organizations/{orgID}/purposes/{purposeID}/qrcode`
+
+Gets an organization QR code created for a particular usage purpose
+
+<h3 id="get-purpose-qr-code-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|orgID|path|string|true|Organization ID|
+|purposeID|path|string|true|Purpose ID|
+
+> Example responses
+
+> 200 Response
+
+<h3 id="get-purpose-qr-code-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns purpose QR code|string|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|QR code does not exist|None|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Generate purpose QR code
+
+<a id="opIdGenerate purpose QR code"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/qrcode \
+  -H 'Accept: image/png' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+POST https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/qrcode HTTP/1.1
+Host: api.igrant.io
+Accept: image/png
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'image/png',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/qrcode',
+{
+  method: 'POST',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'image/png',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.post 'https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/qrcode',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'image/png',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.post('https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/qrcode', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'image/png',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/qrcode', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/qrcode");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("POST");
 int responseCode = con.getResponseCode();
@@ -7900,13 +18201,12 @@ import (
 func main() {
 
     headers := map[string][]string{
-        "Content-Type": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
+        "Accept": []string{"image/png"},
+        "Authorization": []string{"Bearer {access-token}"},
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationId}/purposes/{PurposeId}/attributes/consent", data)
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/qrcode", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -7916,480 +18216,60 @@ func main() {
 
 ```
 
-`POST /organizations/{organizationId}/purposes/{PurposeId}/attributes/consent`
+`POST /organizations/{orgID}/purposes/{purposeID}/qrcode`
 
-Notification request for attributes in a purpose.
+Generates a QR code for an organization for a particular usage purpose
 
-> Body parameter
-
-```json
-{
-  "attributeIDs": [
-    "string"
-  ]
-}
-```
-
-<h3 id="post__organizations_{organizationid}_purposes_{purposeid}_attributes_consent-parameters">Parameters</h3>
+<h3 id="generate-purpose-qr-code-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|organizationId|path|string|true|ID of the organization|
-|PurposeId|path|string|true|ID of the user|
-|body|body|object|true|none|
-|attributeIDs|body|[string]|false|none|
-
-<h3 id="post__organizations_{organizationid}_purposes_{purposeid}_attributes_consent-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|202|[Accepted](https://tools.ietf.org/html/rfc7231#section-6.3.3)|Accepted, successful response|None|
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
-</aside>
-
-
-## View consented users for purpose
-
-> Code samples
-
-```shell
-# You can also use wget
-curl -X GET https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/consented/users \
-  -H 'Accept: application/json' \
-  -H 'Authorization: Bearer API_KEY'
-
-```
-
-```http
-GET https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/consented/users HTTP/1.1
-Host: api.igrant.io
-Accept: application/json
-
-```
-
-```javascript
-var headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/consented/users',
-  method: 'get',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
-
-const headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-fetch('https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/consented/users',
-{
-  method: 'GET',
-
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
-}
-
-result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/consented/users',
-  params: {
-  }, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Accept': 'application/json',
-  'Authorization': 'API_KEY'
-}
-
-r = requests.get('https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/consented/users', params={
-
-}, headers = headers)
-
-print r.json()
-
-```
-
-```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/consented/users");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("GET");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/consented/users", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`GET /organizations/{organizationID}/purposes/{purposeID}/consented/users`
-
-Retrieves the users consented for a given purpose
-
-<h3 id="get__organizations_{organizationid}_purposes_{purposeid}_consented_users-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|organizationID|path|string|true|ID of the organization|
-|purposeID|path|string|true|ID of the purpose|
+|orgID|path|string|true|Organization ID|
+|purposeID|path|string|true|Purpose ID|
 
 > Example responses
 
 > 200 Response
 
-```json
-[
-  {
-    "User": {
-      "ID": "5b9025defef8d50001ebb6f2",
-      "Name": "Test production",
-      "IamID": "7c7591e507",
-      "Email": "p@p.io",
-      "Phone": "+358 549 45043",
-      "ImageID": "423049",
-      "ImageURL": "imageurl.fi",
-      "LastVisit": "2018-09-05 18:55:21",
-      "Client": {
-        "Token": 34234234,
-        "Type": 0
-      },
-      "Orgs": [
-        {
-          "OrgID": "5b4ab3f926eddc0001ad3885",
-          "Name": "iGrant.io",
-          "Location": "Stockholm, Sweden",
-          "Type": "RegTech",
-          "TypeID\"": "b4ab3bf26eddc0001ad3883"
-        }
-      ]
-    }
-  }
-]
-```
-
-<h3 id="get__organizations_{organizationid}_purposes_{purposeid}_consented_users-responses">Responses</h3>
+<h3 id="generate-purpose-qr-code-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Success, list of users consented to the given purpose|[consentedUserResp](#schemaconsenteduserresp)|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Request failed|None|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns purpose QR code|string|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|QR code does not exist|None|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
+bearerAuth
 </aside>
 
+## Delete purpose QR code
 
-
-## View consented users for attribute
+<a id="opIdDelete purpose QR code"></a>
 
 > Code samples
 
 ```shell
 # You can also use wget
-curl -X GET https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/attributes/{attributeID}/consented/users \
-  -H 'Accept: application/json' \
-  -H 'Authorization: Bearer API_KEY'
+curl -X DELETE https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/qrcode \
+  -H 'Authorization: Bearer {access-token}'
 
 ```
 
 ```http
-GET https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/attributes/{attributeID}/consented/users HTTP/1.1
+DELETE https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/qrcode HTTP/1.1
 Host: api.igrant.io
-Accept: application/json
 
 ```
 
 ```javascript
-var headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/attributes/{attributeID}/consented/users',
-  method: 'get',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
 
 const headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
+  'Authorization':'Bearer {access-token}'
 };
 
-fetch('https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/attributes/{attributeID}/consented/users',
-{
-  method: 'GET',
-
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
-}
-
-result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/attributes/{attributeID}/consented/users',
-  params: {
-  }, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Accept': 'application/json',
-  'Authorization': 'API_KEY'
-}
-
-r = requests.get('https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/attributes/{attributeID}/consented/users', params={
-
-}, headers = headers)
-
-print r.json()
-
-```
-
-```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/attributes/{attributeID}/consented/users");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("GET");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationID}/purposes/{purposeID}/attributes/{attributeID}/consented/users", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`GET /organizations/{organizationID}/purposes/{purposeID}/attributes/{attributeID}/consented/users`
-
-Retrieves the users consented for a given attribute of a purpose.
-
-<h3 id="get__organizations_{organizationid}_purposes_{purposeid}_attributes_{attributeid}_consented_users-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|organizationID|path|string|true|ID of the organization|
-|purposeID|path|string|true|ID of the purpose|
-|attributeID|path|string|true|ID of the attribute|
-
-> Example responses
-
-> 200 Response
-
-```json
-[
-  {
-    "User": {
-      "ID": "5b9025defef8d50001ebb6f2",
-      "Name": "Test production",
-      "IamID": "7c7591e507",
-      "Email": "p@p.io",
-      "Phone": "+358 549 45043",
-      "ImageID": "423049",
-      "ImageURL": "imageurl.fi",
-      "LastVisit": "2018-09-05 18:55:21",
-      "Client": {
-        "Token": 34234234,
-        "Type": 0
-      },
-      "Orgs": [
-        {
-          "OrgID": "5b4ab3f926eddc0001ad3885",
-          "Name": "iGrant.io",
-          "Location": "Stockholm, Sweden",
-          "Type": "RegTech",
-          "TypeID\"": "b4ab3bf26eddc0001ad3883"
-        }
-      ]
-    }
-  }
-]
-```
-
-<h3 id="get__organizations_{organizationid}_purposes_{purposeid}_attributes_{attributeid}_consented_users-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Success, list of users consented to the attribute for the given purpose|[consentedUserResp](#schemaconsenteduserresp)|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Request failed|None|
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
-</aside>
-
-## Delete a template
-
-> Code samples
-
-```shell
-# You can also use wget
-curl -X DELETE https://api.igrant.io/v1/organizations/{organizationId}/templates/{templateID} \
-  -H 'Accept: application/json' \
-  -H 'Authorization: Bearer API_KEY'
-
-```
-
-```http
-DELETE https://api.igrant.io/v1/organizations/{organizationId}/templates/{templateID} HTTP/1.1
-Host: api.igrant.io
-Accept: application/json
-
-```
-
-```javascript
-var headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/organizations/{organizationId}/templates/{templateID}',
-  method: 'delete',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
-
-const headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-fetch('https://api.igrant.io/v1/organizations/{organizationId}/templates/{templateID}',
+fetch('https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/qrcode',
 {
   method: 'DELETE',
 
@@ -8408,11 +18288,10 @@ require 'rest-client'
 require 'json'
 
 headers = {
-  'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
+  'Authorization' => 'Bearer {access-token}'
 }
 
-result = RestClient.delete 'https://api.igrant.io/v1/organizations/{organizationId}/templates/{templateID}',
+result = RestClient.delete 'https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/qrcode',
   params: {
   }, headers: headers
 
@@ -8423,20 +18302,48 @@ p JSON.parse(result)
 ```python
 import requests
 headers = {
-  'Accept': 'application/json',
-  'Authorization': 'API_KEY'
+  'Authorization': 'Bearer {access-token}'
 }
 
-r = requests.delete('https://api.igrant.io/v1/organizations/{organizationId}/templates/{templateID}', params={
+r = requests.delete('https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/qrcode', headers = headers)
 
-}, headers = headers)
+print(r.json())
 
-print r.json()
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('DELETE','https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/qrcode', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
 
 ```
 
 ```java
-URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationId}/templates/{templateID}");
+URL obj = new URL("https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/qrcode");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("DELETE");
 int responseCode = con.getResponseCode();
@@ -8463,13 +18370,11 @@ import (
 func main() {
 
     headers := map[string][]string{
-        "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
+        "Authorization": []string{"Bearer {access-token}"},
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("DELETE", "https://api.igrant.io/v1/organizations/{organizationId}/templates/{templateID}", data)
+    req, err := http.NewRequest("DELETE", "https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/qrcode", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -8479,131 +18384,234 @@ func main() {
 
 ```
 
-`DELETE /organizations/{organizationId}/templates/{templateID}`
+`DELETE /organizations/{orgID}/purposes/{purposeID}/qrcode`
 
-Deletes a template from an organization based on template IDs.
+Deletes an organization's purpose level QR code
 
-<h3 id="delete__organizations_{organizationid}_templates_{templateid}-parameters">Parameters</h3>
+<h3 id="delete-purpose-qr-code-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|organizationId|path|string|true|ID of the organization from which a template shall be deleted|
-|templateID|path|string|true|ID of the template that shall be deleted|
+|orgID|path|string|true|Organization ID|
+|purposeID|path|string|true|Purpose ID|
 
-> Example responses
-
-> 201 Response
-
-```json
-{
-  "Organization": {
-    "ID": "string",
-    "Name": "string",
-    "CoverImageID": "string",
-    "CoverImageurl": "string",
-    "LogoImageID": "string",
-    "LogoImageURL": "string",
-    "Location": "string",
-    "Type": {
-      "ID": "5bba67ba98135900010927a5",
-      "Type": "Retail",
-      "ImageID": "5bba67e798135900010927a7",
-      "ImageURL": "https://api.igrant.io/v1/organizations/types/5bba67ba98135900010927a5/image"
-    },
-    "Description": "string",
-    "Enabled": true,
-    "Policyurl": "string",
-    "EulaURL": "string",
-    "Template": [
-      {
-        "ID": "5bba6a9998135900010927ba",
-        "Consent": "Spouse",
-        "PurposeIDs": [
-          "5bba69db98135900010927ac, 8bba69db98135900010927af"
-        ]
-      }
-    ],
-    "Purposes": [
-      {
-        "ID": "string",
-        "Description": "string",
-        "LawfulUsage": true,
-        "PolicyURL": "string"
-      }
-    ],
-    "Admins": [
-      {
-        "userID": "string",
-        "roleID": 0
-      }
-    ],
-    "BillingInfo": {
-      "BillingRegistrationID": "string",
-      "PlanType": "string"
-    }
-  }
-}
-```
-
-<h3 id="delete__organizations_{organizationid}_templates_{templateid}-responses">Responses</h3>
+<h3 id="delete-purpose-qr-code-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|success, returns the organization details|[OrganizationObject](#schemaorganizationobject)|
+|204|[No Content](https://tools.ietf.org/html/rfc7231#section-6.3.5)|Deleted purpose QR code|None|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|QR code doesnot exist|None|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
+bearerAuth
 </aside>
 
-## Get consents of users
+## Get purpose QR code (web)
+
+<a id="opIdGet purpose QR code (web)"></a>
 
 > Code samples
 
 ```shell
 # You can also use wget
-curl -X GET https://api.igrant.io/v1/user/organizations/{organizationId}/consents \
-  -H 'Accept: application/json' \
-  -H 'Authorization: Bearer API_KEY'
+curl -X GET https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/qrcode/web \
+  -H 'Accept: image/png' \
+  -H 'Authorization: Bearer {access-token}'
 
 ```
 
 ```http
-GET https://api.igrant.io/v1/user/organizations/{organizationId}/consents HTTP/1.1
+GET https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/qrcode/web HTTP/1.1
+Host: api.igrant.io
+Accept: image/png
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'image/png',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/qrcode/web',
+{
+  method: 'GET',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'image/png',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.get 'https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/qrcode/web',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'image/png',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.get('https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/qrcode/web', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'image/png',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/qrcode/web', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/qrcode/web");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"image/png"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{orgID}/purposes/{purposeID}/qrcode/web", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`GET /organizations/{orgID}/purposes/{purposeID}/qrcode/web`
+
+Gets the QR code for an organization for a particular usage purpose that was generated earlier (web)
+
+<h3 id="get-purpose-qr-code-(web)-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|orgID|path|string|true|Organization ID|
+|purposeID|path|string|true|Purpose ID|
+
+> Example responses
+
+> 200 Response
+
+<h3 id="get-purpose-qr-code-(web)-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns purpose QR code|string|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|QR code doesnot exist|None|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Get data requests
+
+<a id="opIdGet data requests"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X GET https://api.igrant.io/v1/organizations/{orgID}/data-requests?status=open \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+GET https://api.igrant.io/v1/organizations/{orgID}/data-requests?status=open HTTP/1.1
 Host: api.igrant.io
 Accept: application/json
 
 ```
 
 ```javascript
-var headers = {
-  'Accept':'application/json',
-  'Authorization':'API_KEY'
-
-};
-
-$.ajax({
-  url: 'https://api.igrant.io/v1/user/organizations/{organizationId}/consents',
-  method: 'get',
-
-  headers: headers,
-  success: function(data) {
-    console.log(JSON.stringify(data));
-  }
-})
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
 
 const headers = {
   'Accept':'application/json',
-  'Authorization':'API_KEY'
-
+  'Authorization':'Bearer {access-token}'
 };
 
-fetch('https://api.igrant.io/v1/user/organizations/{organizationId}/consents',
+fetch('https://api.igrant.io/v1/organizations/{orgID}/data-requests?status=open',
 {
   method: 'GET',
 
@@ -8623,12 +18631,13 @@ require 'json'
 
 headers = {
   'Accept' => 'application/json',
-  'Authorization' => 'API_KEY'
+  'Authorization' => 'Bearer {access-token}'
 }
 
-result = RestClient.get 'https://api.igrant.io/v1/user/organizations/{organizationId}/consents',
+result = RestClient.get 'https://api.igrant.io/v1/organizations/{orgID}/data-requests',
   params: {
-  }, headers: headers
+  'status' => 'string'
+}, headers: headers
 
 p JSON.parse(result)
 
@@ -8638,19 +18647,51 @@ p JSON.parse(result)
 import requests
 headers = {
   'Accept': 'application/json',
-  'Authorization': 'API_KEY'
+  'Authorization': 'Bearer {access-token}'
 }
 
-r = requests.get('https://api.igrant.io/v1/user/organizations/{organizationId}/consents', params={
-
+r = requests.get('https://api.igrant.io/v1/organizations/{orgID}/data-requests', params={
+  'status': 'open'
 }, headers = headers)
 
-print r.json()
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/organizations/{orgID}/data-requests', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
 
 ```
 
 ```java
-URL obj = new URL("https://api.igrant.io/v1/user/organizations/{organizationId}/consents");
+URL obj = new URL("https://api.igrant.io/v1/organizations/{orgID}/data-requests?status=open");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 con.setRequestMethod("GET");
 int responseCode = con.getResponseCode();
@@ -8678,12 +18719,11 @@ func main() {
 
     headers := map[string][]string{
         "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-        
+        "Authorization": []string{"Bearer {access-token}"},
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/user/organizations/{organizationId}/consents", data)
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{orgID}/data-requests", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -8693,15 +18733,25 @@ func main() {
 
 ```
 
-`GET /user/organizations/{organizationId}/consents`
+`GET /organizations/{orgID}/data-requests`
 
-Get the consents of users for a given organization.
+Get data requests. These are requests placed by the users to the organization in regards with their data. for e.g. data download request, data delete request, data modify request
 
-<h3 id="get__user_organizations_{organizationid}_consents-parameters">Parameters</h3>
+<h3 id="get-data-requests-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
-|organizationId|path|string|true|ID of the organization|
+|orgID|path|string|true|Organization ID|
+|status|query|string|true|Status of the data request|
+|limit|query|integer|false|Pagination limit|
+|startid|query|string|false|Pagination start ID (for e.g. data request ID)|
+
+#### Enumerated Values
+
+|Parameter|Value|
+|---|---|
+|status|open|
+|status|closed|
 
 > Example responses
 
@@ -8709,87 +18759,353 @@ Get the consents of users for a given organization.
 
 ```json
 {
-  "ID": "5bba6a9998135900010927bb",
-  "OrgID": "5bba686e98135900010927a8",
-  "UserID": "5bc786ea90e2a00001de6de1",
-  "ConsentsAndPurposes": [
+  "DataRequests": [
     {
-      "Purpose": {
-        "ID": "5bba69db98135900010927ac",
-        "Description": "Contractual Purpose",
-        "LawfulUsage": "False",
-        "PolicyUrl": "https://www.ica.se/policies/behandling-av-personuppgifter/"
-      },
-      "Count": {
-        "Total": "2",
-        "Consented": "2"
-      },
-      "Consents": [
-        {
-          "ID": "5bba6a9998135900010927bb",
-          "Description": "No. of kids",
-          "Value": "",
-          "Status": {
-            "Consented": "Allow",
-            "TimeStamp": "0001-01-01T00:00:00Z",
-            "Days": 0,
-            "Remaining": 0
-          }
-        }
-      ]
+      "ID": "5de4f01e181e17c6477cc217",
+      "UserID": "5db0181fa531350001afc7d5",
+      "UserName": "donny@yopmail.com",
+      "OrgID": "5dae01aa267e930001609aa4",
+      "Type": 2,
+      "TypeStr": "Download Data",
+      "State": 1,
+      "RequestedDate": "2019-12-02 11:06:06 +0000 UTC",
+      "ClosedDate": "0001-01-01 00:00:00 +0000 UTC",
+      "StateStr": "Request initiated",
+      "Comment": ""
     }
-  ]
+  ],
+  "IsRequestsOngoing": false,
+  "IsDataDeleteRequestOngoing": false,
+  "IsDataDownloadRequestOngoing": false,
+  "Links": {
+    "Self": "https://staging-api.igrant.io/v1/organizations/5dae01aa267e930001609aa4/data-requests?limit=50",
+    "Next": "https://staging-api.igrant.io/v1/organizations/5dae01aa267e930001609aa4/data-requests?limit=50&startid=5de4f01e181e17c6477cc217"
+  }
 }
 ```
 
-<h3 id="get__user_organizations_{organizationid}_consents-responses">Responses</h3>
+<h3 id="get-data-requests-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Successful response|[Consent](#schemaconsent)|
-|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Failed to fetch organization ID, organization ID not found|None|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns user data requests|Inline|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|Invalid status|None|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Unable to fetch data request for the organization|None|
+
+<h3 id="get-data-requests-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» DataRequests|[[DataRequest](#schemadatarequest)]|false|none|none|
+|»» ID|string|false|none|none|
+|»» UserID|string|false|none|none|
+|»» UserName|string|false|none|none|
+|»» OrgID|string|false|none|none|
+|»» Type|integer|false|none|none|
+|»» TypeStr|string|false|none|none|
+|»» State|integer|false|none|none|
+|»» RequestedDate|string(date-time)|false|none|none|
+|»» ClosedDate|string(date-time)|false|none|none|
+|»» StateStr|string|false|none|none|
+|»» Comment|string|false|none|none|
+|» IsRequestsOngoing|boolean|false|none|none|
+|» IsDataDeleteRequestOngoing|boolean|false|none|none|
+|» IsDataDownloadRequestOngoing|boolean|false|none|none|
+|» Links|object|false|none|none|
+|»» Self|string|false|none|none|
+|»» Next|string|false|none|none|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
-Bearer
+bearerAuth
 </aside>
 
-# Schemas
+<h1 id="introduction-to-igrant-io-apis-logging-and-accountability">Logging and accountability</h1>
 
-<h2 id="tocSconsent">Consent</h2>
+This provides all APIs that are used to retried logs for organisations and is used primarily by the business admins (including DPOs) to have some visibility into the actions within iGrant.io for their organisations. Logs are categoried into different areas like Security (Login/Logout), API Calls, Organisation Users (Owner/Admin/… in the future DPO, etc), End User and Webhooks
 
-<a id="schemaconsent"></a>
+## Get logs
+
+<a id="opIdGet logs"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X GET https://api.igrant.io/v1/organizations/{orgID}/logs \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+GET https://api.igrant.io/v1/organizations/{orgID}/logs HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{orgID}/logs',
+{
+  method: 'GET',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.get 'https://api.igrant.io/v1/organizations/{orgID}/logs',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.get('https://api.igrant.io/v1/organizations/{orgID}/logs', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/organizations/{orgID}/logs', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{orgID}/logs");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{orgID}/logs", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`GET /organizations/{orgID}/logs`
+
+Gets all action logs for an organization
+
+<h3 id="get-logs-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|orgID|path|string|true|Organization ID|
+|limit|query|integer|false|Pagination limit|
+|startid|query|string|false|Pagination start ID (for e.g. action log ID)|
+
+> Example responses
+
+> 200 Response
 
 ```json
 {
-  "ID": "5bba6a9998135900010927bb",
-  "OrgID": "5bba686e98135900010927a8",
-  "UserID": "5bc786ea90e2a00001de6de1",
-  "ConsentsAndPurposes": [
+  "Logs": [
     {
-      "Purpose": {
-        "ID": "5bba69db98135900010927ac",
-        "Description": "Contractual Purpose",
-        "LawfulUsage": "False",
-        "PolicyUrl": "https://www.ica.se/policies/behandling-av-personuppgifter/"
-      },
-      "Count": {
-        "Total": "2",
-        "Consented": "2"
-      },
-      "Consents": [
-        {
-          "ID": "5bba6a9998135900010927bb",
-          "Description": "No. of kids",
-          "Value": "",
-          "Status": {
-            "Consented": "Allow",
-            "TimeStamp": "0001-01-01T00:00:00Z",
-            "Days": 0,
-            "Remaining": 0
-          }
-        }
-      ]
+      "ID": "5f1dfeb1181e17c6479ef3d2",
+      "Type": 2,
+      "TypeStr": "API calls",
+      "UserID": "5daf22cea531350001afc7c8",
+      "UserName": "dmart@yopmail.com",
+      "TimeStamp": "2020-07-26 22:07:45 +0000 UTC",
+      "Log": "Organization API: /v1/organizations/5dae01aa267e930001609aa4/purposes/5dae1058a1215e00012103d8/consented/users called by user: dmart@yopmail.com"
+    }
+  ],
+  "Links": {
+    "Self": "https://staging-api.igrant.io/v1/organizations/5dae01aa267e930001609aa4/logs?limit=50",
+    "Next": "https://staging-api.igrant.io/v1/organizations/5dae01aa267e930001609aa4/logs?startid=5db6c4d1181e17c64776e72a&limit=50"
+  }
+}
+```
+
+<h3 id="get-logs-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns organisation logs|Inline|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Unauthorized|None|
+
+<h3 id="get-logs-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» Logs|[[OrganisationActionLog](#schemaorganisationactionlog)]|false|none|none|
+|»» ID|string|false|none|none|
+|»» Type|integer|false|none|none|
+|»» TypeStr|string|false|none|none|
+|»» UserID|string|false|none|none|
+|»» UserName|string|false|none|none|
+|»» TimeStamp|string(date-time)|false|none|none|
+|»» Log|string|false|none|none|
+|» Links|object|false|none|none|
+|»» Self|string|false|none|none|
+|»» Next|string|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+
+# Schemas
+
+<h2 id="tocS_Token">Token</h2>
+<!-- backwards compatibility -->
+<a id="schematoken"></a>
+<a id="schema_Token"></a>
+<a id="tocStoken"></a>
+<a id="tocstoken"></a>
+
+```json
+{
+  "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJDeHhVYTVaQ2NnaENxQUxTZy1wbFVYUkJlNE1ERG9zamF0enNYa1lqMEtFIn0.eyJqdGkiOiIzZDM0NDk3Zi05NDYxLTQyZDItYjA0My01ZTU2MTVhOTg0ODYiLCJleHAiOjE1OTU2MTAwMjksIm5iZiI6MCwiaWF0IjoxNTk1NTg4NDI5LCJpc3MiOiJodHRwczovL3N0YWdpbmctaWFtLmlncmFudC5pby9hdXRoL3JlYWxtcy9pZ3JhbnQtdXNlcnMiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiOWQ4YzRkNjktOWZiMi00MTE1LWE0YzMtNTNiY2JiOGYyZDdmIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiaWdyYW50LWlvcy1hcHAiLCJhdXRoX3RpbWUiOjAsInNlc3Npb25fc3RhdGUiOiIxMWQwYjg3OC0wMWNkLTQ1YmYtYTQxOC04Yzc0ZjkyNTE5NmUiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsIm5hbWUiOiJSYXZpIFNoYW5rYXIiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJkbWFydEB5b3BtYWlsLmNvbSIsImdpdmVuX25hbWUiOiJSYXZpIFNoYW5rYXIiLCJmYW1pbHlfbmFtZSI6IiIsImVtYWlsIjoiZG1hcnRAeW9wbWFpbC5jb20ifQ.K6eOOztvymq7W6yq7mjioJ76eZ7djtIjowqBlx9oCXIfbdt7W2HF6zX7FvkXFuta79ObDYeiqjt9Hy-9SWgS4-QGOFEM9pvT1aLC6gspeI2143P8ZPWWjHRuOH6Ht6TR8ML_X-DJ5n9hmoB9LDc8Vk39zTHhdmtSpu-yUrWHs2wFDmwO8yFdf9Em038WGxo4PYKzqzdEjsIVhSJy-BpkjoEluYxNkOGh3uQ4LZ7jbmXM83mwqEg8r-RwLljjqP3d2_7TSrNcO4Z8IVNslLv5wuSk9ZgCsPqE6poMjFLmrvOAcu2Rx6Em_me19RN1bTT2wrm_Joulzc02XcMyN9gDoA",
+  "expires_in": 21600,
+  "refresh_expires_in": 36000,
+  "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI5YmJiYTI4Ni1mYzI3LTRmMjItODg5Ny05MGU5NTMyNjE0NjkifQ.eyJqdGkiOiJhMzFlZWZkMS00MDNhLTQyZmYtODQ3Mi1hMjYzMjAwMjNmZjMiLCJleHAiOjE1OTU2MjQ0MjksIm5iZiI6MCwiaWF0IjoxNTk1NTg4NDI5LCJpc3MiOiJodHRwczovL3N0YWdpbmctaWFtLmlncmFudC5pby9hdXRoL3JlYWxtcy9pZ3JhbnQtdXNlcnMiLCJhdWQiOiJodHRwczovL3N0YWdpbmctaWFtLmlncmFudC5pby9hdXRoL3JlYWxtcy9pZ3JhbnQtdXNlcnMiLCJzdWIiOiI5ZDhjNGQ2OS05ZmIyLTQxMTUtYTRjMy01M2JjYmI4ZjJkN2YiLCJ0eXAiOiJSZWZyZXNoIiwiYXpwIjoiaWdyYW50LWlvcy1hcHAiLCJhdXRoX3RpbWUiOjAsInNlc3Npb25fc3RhdGUiOiIxMWQwYjg3OC0wMWNkLTQ1YmYtYTQxOC04Yzc0ZjkyNTE5NmUiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoicHJvZmlsZSBlbWFpbCJ9.DknM937PZWqwPiczJdNeIbEo0-R-09hBbOJiqRrDmqo",
+  "token_type": "bearer"
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|access_token|string|false|none|none|
+|expires_in|integer|false|none|none|
+|refresh_token|string|false|none|none|
+|refresh_expires_in|integer|false|none|none|
+|token_type|string|false|none|none|
+
+<h2 id="tocS_User">User</h2>
+<!-- backwards compatibility -->
+<a id="schemauser"></a>
+<a id="schema_User"></a>
+<a id="tocSuser"></a>
+<a id="tocsuser"></a>
+
+```json
+{
+  "ID": "5daf22cea531351111afc7c8",
+  "Name": "George Floyd",
+  "IamID": "9d8c4h69-9fb2-4115-a4c3-53bddb8f2d7f",
+  "Email": "dmart@yopmail.com",
+  "Phone": "+46 7252 98991",
+  "ImageID": "5f1458a5chaa930001e78f12",
+  "ImageURL": "https:/<server-url>/image/5f1458a5chaa930001e78f12",
+  "LastVisit": "2020-07-22T18:04:02Z",
+  "Client": {
+    "Token": "fEkxEwh4T2mr-B4yQoZ9TT:APA91bHibhwLXkc2l6LxWxHW5TrKBoLrXGCHDO6A9pXQ0ShvDYPfxXm57D8tIsR-fwybjs-_OFXCgCbBQpYVON2svUiooWgJBFETXg_jUGy0B9etUHFnyuCbXPihyoCuJc2Gn6s9XkN_",
+    "Type": 2
+  },
+  "Orgs": [
+    {
+      "OrgID": "5dae2a9fa1215e00012103e4",
+      "Name": "Nordea Bank AB",
+      "Location": "Stockholm, Sweden",
+      "Type": "Banking and Finance",
+      "TypeID": "5d95a566a67c8800012f27d1",
+      "EulaAccepted": false
+    }
+  ],
+  "APIKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI1ZGFmMjJjZWE1MzEzNTAwMDFhZmM3YzgiLCJleHAiOjE2MDQwNjMwNjV9.Irk0XgXfVhIdlgBNz6ggEXlvoIPtzUzJv4-x0VKYBGE",
+  "Roles": [
+    {
+      "RoleID": 1,
+      "OrgID": "5daf22d0a531350001afc7c9"
     }
   ]
 }
@@ -8800,124 +19116,590 @@ Bearer
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|ID|string|false|none|ID of the consent|
-|OrgID|string|false|none|Organization ID|
-|UserID|string|false|none|ID of the user|
-|ConsentsAndPurposes|[object]|false|none|none|
-|Purpose|object|false|none|none|
 |ID|string|false|none|none|
+|Name|string|false|none|none|
+|IamID|string|false|none|none|
+|Email|string|false|none|none|
+|Phone|string|false|none|none|
+|ImageID|string|false|none|none|
+|ImageURL|string|false|none|none|
+|LastVisit|string(date-time)|false|none|none|
+|Client|object|false|none|none|
+|» Token|string|false|none|none|
+|» Type|integer|false|none|none|
+|Orgs|[object]|false|none|none|
+|» OrgID|string|false|none|none|
+|» Name|string|false|none|none|
+|» Location|string|false|none|none|
+|» Type|string|false|none|none|
+|» TypeID|string|false|none|none|
+|» EulaAccepted|boolean|false|none|none|
+|APIKey|string|false|none|none|
+|Roles|[object]|false|none|none|
+|» RoleID|integer|false|none|none|
+|» OrgID|string|false|none|none|
+
+<h2 id="tocS_Webhook">Webhook</h2>
+<!-- backwards compatibility -->
+<a id="schemawebhook"></a>
+<a id="schema_Webhook"></a>
+<a id="tocSwebhook"></a>
+<a id="tocswebhook"></a>
+
+```json
+{
+  "ID": "5f1ea7d84fd11e0001ad4008",
+  "OrgID": "5dae01aa267e930001609aa4",
+  "PayloadURL": "https://hookb.in/OerzZXd6nrhnzzlke3wl",
+  "ContentType": "application/json",
+  "SubscribedEvents": [
+    "data.download.initiated",
+    "data.download.cancelled",
+    "org.subscribed",
+    "org.unsubscribed"
+  ],
+  "Disabled": false,
+  "SecretKey": "qwerty123",
+  "SkipSSLVerification": false,
+  "TimeStamp": "1595844568"
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|ID|string|false|none|none|
+|OrgID|string|false|none|none|
+|PayloadURL|string|false|none|none|
+|ContentType|string|false|none|none|
+|SubscribedEvents|[string]|false|none|none|
+|Disabled|boolean|false|none|none|
+|SecretKey|string|false|none|none|
+|SkipSSLVerification|boolean|false|none|none|
+|TimeStamp|string|false|none|none|
+
+<h2 id="tocS_DataRequestWebhookEvent">DataRequestWebhookEvent</h2>
+<!-- backwards compatibility -->
+<a id="schemadatarequestwebhookevent"></a>
+<a id="schema_DataRequestWebhookEvent"></a>
+<a id="tocSdatarequestwebhookevent"></a>
+<a id="tocsdatarequestwebhookevent"></a>
+
+```json
+{
+  "organisationID": "5dae01aa267e930001609aa4",
+  "userID": "5dbc02ecb99fd0000157547a",
+  "dataRequestID": "5dae01ee267e930001609bb8"
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|organisationID|string|false|none|none|
+|userID|string|false|none|none|
+|dataRequestID|string|false|none|none|
+
+<h2 id="tocS_DataUpdateRequestWebhookEvent">DataUpdateRequestWebhookEvent</h2>
+<!-- backwards compatibility -->
+<a id="schemadataupdaterequestwebhookevent"></a>
+<a id="schema_DataUpdateRequestWebhookEvent"></a>
+<a id="tocSdataupdaterequestwebhookevent"></a>
+<a id="tocsdataupdaterequestwebhookevent"></a>
+
+```json
+{
+  "organisationID": "5dae01aa267e930001609aa4",
+  "userID": "5dbc02ecb99fd0000157547a",
+  "dataRequestID": "5dae01ee267e930001609bb8",
+  "consentID": "5e4e91036c7aa200012aa9da",
+  "purposeID": "5dae1058a1215e00012103d8",
+  "attributeID": "5dae01ee267e930001609aa8"
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|organisationID|string|false|none|none|
+|userID|string|false|none|none|
+|dataRequestID|string|false|none|none|
+|consentID|string|false|none|none|
+|purposeID|string|false|none|none|
+|attributeID|string|false|none|none|
+
+<h2 id="tocS_ConsentWebhookEvent">ConsentWebhookEvent</h2>
+<!-- backwards compatibility -->
+<a id="schemaconsentwebhookevent"></a>
+<a id="schema_ConsentWebhookEvent"></a>
+<a id="tocSconsentwebhookevent"></a>
+<a id="tocsconsentwebhookevent"></a>
+
+```json
+{
+  "organisationID": "5dae01aa267e930001609aa4",
+  "userID": "5dbc02ecb99fd0000157547a",
+  "consentID": "5e4e91036c7aa200012aa9da",
+  "purposeID": "5dae1058a1215e00012103d8",
+  "attribute": [
+    "5dae01ee267e930001609aa8",
+    "5dae01f4267e930001609aa9",
+    "5dae106ba1215e00012103d9",
+    "5f1df5c84e26ea0001b9f3a7",
+    "5f1df6214e26ea0001b9f3ad"
+  ],
+  "days": 0,
+  "timestamp": "1595844963"
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|organisationID|string|false|none|none|
+|userID|string|false|none|none|
+|consentID|string|false|none|none|
+|purposeID|string|false|none|none|
+|attribute|[string]|false|none|none|
+|days|integer|false|none|none|
+|timestamp|string|false|none|none|
+
+<h2 id="tocS_OrgSubscriptionWebhookEvent">OrgSubscriptionWebhookEvent</h2>
+<!-- backwards compatibility -->
+<a id="schemaorgsubscriptionwebhookevent"></a>
+<a id="schema_OrgSubscriptionWebhookEvent"></a>
+<a id="tocSorgsubscriptionwebhookevent"></a>
+<a id="tocsorgsubscriptionwebhookevent"></a>
+
+```json
+{
+  "organisationID": "5dae01aa267e930001609aa4",
+  "userID": "5dbc02ecb99fd0000157547a"
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|organisationID|string|false|none|none|
+|userID|string|false|none|none|
+
+<h2 id="tocS_WebhookEvent">WebhookEvent</h2>
+<!-- backwards compatibility -->
+<a id="schemawebhookevent"></a>
+<a id="schema_WebhookEvent"></a>
+<a id="tocSwebhookevent"></a>
+<a id="tocswebhookevent"></a>
+
+```json
+{
+  "data": {
+    "organisationID": "5dae01aa267e930001609aa4",
+    "userID": "5dbc02ecb99fd0000157547a",
+    "dataRequestID": "5dae01ee267e930001609bb8"
+  },
+  "deliveryid": "5f1ea9632cc8b10001414630",
+  "timestamp": "1595844963",
+  "type": "consent.disallowed",
+  "webhookid": "5f1ea7d84fd11e0001ad4008"
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|data|any|false|none|none|
+
+oneOf
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|[DataRequestWebhookEvent](#schemadatarequestwebhookevent)|false|none|none|
+
+xor
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|[DataUpdateRequestWebhookEvent](#schemadataupdaterequestwebhookevent)|false|none|none|
+
+xor
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|[ConsentWebhookEvent](#schemaconsentwebhookevent)|false|none|none|
+
+xor
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» *anonymous*|[OrgSubscriptionWebhookEvent](#schemaorgsubscriptionwebhookevent)|false|none|none|
+
+continued
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|deliveryid|string|false|none|none|
+|timestamp|string|false|none|none|
+|type|string|false|none|none|
+|webhookid|string|false|none|none|
+
+<h2 id="tocS_WebhookDelivery">WebhookDelivery</h2>
+<!-- backwards compatibility -->
+<a id="schemawebhookdelivery"></a>
+<a id="schema_WebhookDelivery"></a>
+<a id="tocSwebhookdelivery"></a>
+<a id="tocswebhookdelivery"></a>
+
+```json
+{
+  "ID": "5f1ea9632cc8b10001414630",
+  "RequestHeaders": {
+    "Accept": [
+      "*/*"
+    ],
+    "Content-Type": [
+      "application/json"
+    ],
+    "User-Agent": [
+      "IGrant-Hookshot/1.0"
+    ],
+    "X-Igrant-Signature": [
+      "t=1595844963,sig=c4822b6a91221f783520240c740774908c5bc6de2a4a29a9d7ce31f19b624863"
+    ]
+  },
+  "RequestPayload": {
+    "data": {
+      "organisationID": "5dae01aa267e930001609aa4",
+      "userID": "5dbc02ecb99fd0000157547a",
+      "dataRequestID": "5dae01ee267e930001609bb8"
+    },
+    "deliveryid": "5f1ea9632cc8b10001414630",
+    "timestamp": "1595844963",
+    "type": "consent.disallowed",
+    "webhookid": "5f1ea7d84fd11e0001ad4008"
+  },
+  "ResponseHeaders": {
+    "Access-Control-Allow-Headers": [
+      "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range"
+    ],
+    "Access-Control-Allow-Methods": [
+      "GET, POST, OPTIONS, PUT, DELETE"
+    ],
+    "Access-Control-Allow-Origin": [
+      "*"
+    ],
+    "Access-Control-Expose-Headers": [
+      "Content-Length,Content-Range"
+    ]
+  },
+  "ResponseBody": "{\"success\":true}",
+  "ResponseStatusCode": 200,
+  "ResponseStatusStr": "200 OK",
+  "ExecutionStartTimeStamp": "1595844963",
+  "ExecutionEndTimeStamp": "1595844963",
+  "Status": "completed",
+  "StatusDescription": ""
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|ID|string|false|none|none|
+|RequestHeaders|object|false|none|none|
+|» **additionalProperties**|[string]|false|none|none|
+|RequestPayload|[WebhookEvent](#schemawebhookevent)|false|none|none|
+|ResponseHeaders|object|false|none|none|
+|» **additionalProperties**|[string]|false|none|none|
+|ResponseBody|string|false|none|none|
+|ResponseStatusCode|integer|false|none|none|
+|ResponseStatusStr|string|false|none|none|
+|ExecutionStartTimeStamp|string|false|none|none|
+|ExecutionEndTimeStamp|string|false|none|none|
+|Status|string|false|none|none|
+|StatusDescription|string|false|none|none|
+
+#### Enumerated Values
+
+|Property|Value|
+|---|---|
+|Status|completed|
+|Status|failed|
+
+<h2 id="tocS_DataRequest">DataRequest</h2>
+<!-- backwards compatibility -->
+<a id="schemadatarequest"></a>
+<a id="schema_DataRequest"></a>
+<a id="tocSdatarequest"></a>
+<a id="tocsdatarequest"></a>
+
+```json
+{
+  "ID": "5de4f01e181e17c6477cc217",
+  "UserID": "5db0181fa531350001afc7d5",
+  "UserName": "donny@yopmail.com",
+  "OrgID": "5dae01aa267e930001609aa4",
+  "Type": 2,
+  "TypeStr": "Download Data",
+  "State": 1,
+  "RequestedDate": "2019-12-02 11:06:06 +0000 UTC",
+  "ClosedDate": "0001-01-01 00:00:00 +0000 UTC",
+  "StateStr": "Request initiated",
+  "Comment": ""
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|ID|string|false|none|none|
+|UserID|string|false|none|none|
+|UserName|string|false|none|none|
+|OrgID|string|false|none|none|
+|Type|integer|false|none|none|
+|TypeStr|string|false|none|none|
+|State|integer|false|none|none|
+|RequestedDate|string(date-time)|false|none|none|
+|ClosedDate|string(date-time)|false|none|none|
+|StateStr|string|false|none|none|
+|Comment|string|false|none|none|
+
+<h2 id="tocS_OrganisationType">OrganisationType</h2>
+<!-- backwards compatibility -->
+<a id="schemaorganisationtype"></a>
+<a id="schema_OrganisationType"></a>
+<a id="tocSorganisationtype"></a>
+<a id="tocsorganisationtype"></a>
+
+```json
+{
+  "ID": "5d17cc114dacb40001b29094",
+  "Type": "Retail",
+  "ImageID": "5d17cc7f4dacb40001b29095",
+  "ImageURL": "https://staging-api.igrant.io/v1/organizations/types/5d17cc114dacb40001b29094/image"
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|ID|string|false|none|none|
+|Type|string|false|none|none|
+|ImageID|string|false|none|none|
+|ImageURL|string|false|none|none|
+
+<h2 id="tocS_OrganisationActionLog">OrganisationActionLog</h2>
+<!-- backwards compatibility -->
+<a id="schemaorganisationactionlog"></a>
+<a id="schema_OrganisationActionLog"></a>
+<a id="tocSorganisationactionlog"></a>
+<a id="tocsorganisationactionlog"></a>
+
+```json
+{
+  "ID": "5f1dfeb1181e17c6479ef3d2",
+  "Type": 2,
+  "TypeStr": "API calls",
+  "UserID": "5daf22cea531350001afc7c8",
+  "UserName": "dmart@yopmail.com",
+  "TimeStamp": "2020-07-26 22:07:45 +0000 UTC",
+  "Log": "Organization API: /v1/organizations/5dae01aa267e930001609aa4/purposes/5dae1058a1215e00012103d8/consented/users called by user: dmart@yopmail.com"
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|ID|string|false|none|none|
+|Type|integer|false|none|none|
+|TypeStr|string|false|none|none|
+|UserID|string|false|none|none|
+|UserName|string|false|none|none|
+|TimeStamp|string(date-time)|false|none|none|
+|Log|string|false|none|none|
+
+<h2 id="tocS_OrganisationBillingInfo">OrganisationBillingInfo</h2>
+<!-- backwards compatibility -->
+<a id="schemaorganisationbillinginfo"></a>
+<a id="schema_OrganisationBillingInfo"></a>
+<a id="tocSorganisationbillinginfo"></a>
+<a id="tocsorganisationbillinginfo"></a>
+
+```json
+{
+  "BillingRegistrationID": "cus_G2URbi8W6DT7hh",
+  "MaxUserCounter": 4,
+  "DefaultChargeNotified": false,
+  "CurrentPeriodEnd": 0,
+  "PrevMonthUsers": 1,
+  "PayPerUserInfo": {
+    "UserCommitment": 0,
+    "TimeCommitment": "",
+    "CancelOnCommitmentEnd": false,
+    "CommitmentPeriodRemaining": 0
+  },
+  "DefaultPaymentSource": {
+    "Brand": "Visa",
+    "ExpiryMonth": 4,
+    "ExpiryYear": 2024,
+    "Last4Digits": "4242"
+  },
+  "Address": {
+    "Name": "George Floyd",
+    "City": "Stockholm",
+    "Country": "Sweden",
+    "Line1": "",
+    "Line2": "",
+    "PostalCode": "",
+    "State": ""
+  },
+  "ServiceAgreementVersion": "v2.0",
+  "FreeTrialExpired": true
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|BillingRegistrationID|string|false|none|none|
+|MaxUserCounter|integer|false|none|none|
+|DefaultChargeNotified|boolean|false|none|none|
+|CurrentPeriodEnd|integer|false|none|none|
+|PrevMonthUsers|integer|false|none|none|
+|PayPerUserInfo|object|false|none|none|
+|» UserCommitment|integer|false|none|none|
+|» TimeCommitment|string|false|none|none|
+|» CancelOnCommitmentEnd|boolean|false|none|none|
+|» CommitmentPeriodRemaining|integer|false|none|none|
+|DefaultPaymentSource|object|false|none|none|
+|» Brand|string|false|none|none|
+|» ExpiryMonth|integer|false|none|none|
+|» ExpiryYear|integer|false|none|none|
+|» Last4Digits|string|false|none|none|
+|Address|object|false|none|none|
+|» Name|string|false|none|none|
+|» City|string|false|none|none|
+|» Country|string|false|none|none|
+|» Line1|string|false|none|none|
+|» Line2|string|false|none|none|
+|» PostalCode|string|false|none|none|
+|» State|string|false|none|none|
+|ServiceAgreementVersion|string|false|none|none|
+|FreeTrialExpired|boolean|false|none|none|
+
+<h2 id="tocS_OrganisationPrivacyBoard">OrganisationPrivacyBoard</h2>
+<!-- backwards compatibility -->
+<a id="schemaorganisationprivacyboard"></a>
+<a id="schema_OrganisationPrivacyBoard"></a>
+<a id="tocSorganisationprivacyboard"></a>
+<a id="tocsorganisationprivacyboard"></a>
+
+```json
+{
+  "HostName": "dmart.igrant.io",
+  "Version": "v1.1.7",
+  "Status": 2,
+  "Delete": false
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|HostName|string|false|none|none|
+|Version|string|false|none|none|
+|Status|integer|false|none|none|
+|Delete|boolean|false|none|none|
+
+<h2 id="tocS_Template">Template</h2>
+<!-- backwards compatibility -->
+<a id="schematemplate"></a>
+<a id="schema_Template"></a>
+<a id="tocStemplate"></a>
+<a id="tocstemplate"></a>
+
+```json
+{
+  "ID": "5f187f9efd59960001434c2e",
+  "Consent": "Age"
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|ID|string|false|none|none|
+|Consent|string|false|none|none|
+
+<h2 id="tocS_Purpose">Purpose</h2>
+<!-- backwards compatibility -->
+<a id="schemapurpose"></a>
+<a id="schema_Purpose"></a>
+<a id="tocSpurpose"></a>
+<a id="tocspurpose"></a>
+
+```json
+{
+  "ID": "5db0303ba531350001afc7e0",
+  "Name": "Marketing and campaign",
+  "Description": "For this purpose, following personal data attributes shown below are used. You may consent to share your data at attribute level.",
+  "LawfulUsage": false,
+  "PolicyURL": "https://orgname.com/policy_default.html"
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|ID|string|false|none|none|
+|Name|string|false|none|none|
 |Description|string|false|none|none|
 |LawfulUsage|boolean|false|none|none|
 |PolicyURL|string|false|none|none|
-|Count|object|false|none|none|
-|Total|integer|false|none|Total amount of purposes|
-|Consented|integer|false|none|Total consented|
-|Consents|object|false|none|none|
-|ID|string|false|none|Consent ID|
-|Description|string|false|none|Description of consent|
-|Value|string|false|none|Value of consent|
-|Status|[Status](#schemastatus)|false|none|none|
 
-<h2 id="tocSstatusconsented">StatusConsented</h2>
-
-<a id="schemastatusconsented"></a>
+<h2 id="tocS_AttributeConsent">AttributeConsent</h2>
+<!-- backwards compatibility -->
+<a id="schemaattributeconsent"></a>
+<a id="schema_AttributeConsent"></a>
+<a id="tocSattributeconsent"></a>
+<a id="tocsattributeconsent"></a>
 
 ```json
 {
-  "Consented": "string"
-}
-
-```
-
-### Properties
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|Consented|string|false|none|Status of the consent for a given purpose|
-
-<h2 id="tocSconsenteddays">ConsentedDays</h2>
-
-<a id="schemaconsenteddays"></a>
-
-```json
-{
-  "Consented": "string",
-  "Days": 0
-}
-
-```
-
-### Properties
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|Consented|string|false|none|Status of the consent for a given purpose|
-|Days|integer|false|none|Amount of days consented|
-
-<h2 id="tocSpurposedetail">PurposeDetail</h2>
-
-<a id="schemapurposedetail"></a>
-
-```json
-{
-  "ID": "string",
-  "ConsentID": "string",
-  "OrgID": "string",
-  "UserID": "string",
-  "Consents": {
-    "Purpose": {
-      "ID": "string",
-      "Description": "string",
-      "LawfulUsage": true,
-      "PolicyURL": "string"
-    },
-    "Count": {
-      "Total": 2,
-      "Consented": 2
-    },
-    "Consents": [
-      {
-        "ID": "string",
-        "Description": "string",
-        "Value": "string",
-        "Status": {
-          "Consented": "string",
-          "TimeStamp": "string",
-          "Days": 0,
-          "Remaining": 0
-        }
-      }
-    ]
-  }
-}
-
-```
-
-### Properties
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|ID|string|false|none|ID of purpose|
-|ConsentID|string|false|none|ID of consent|
-|OrgID|string|false|none|Organization ID|
-|UserID|string|false|none|ID of user|
-|Consents|object|false|none|none|
-|Purpose|[Purpose](#schemapurpose)|false|none|none|
-|Count|[Count](#schemacount)|false|none|none|
-|Consents|[[Consents](#schemaconsents)]|false|none|none|
-
-<h2 id="tocSconsents">Consents</h2>
-
-<a id="schemaconsents"></a>
-
-```json
-{
-  "ID": "string",
-  "Description": "string",
-  "Value": "string",
+  "ID": "5dae01ee267e930001609aa8",
+  "Description": "Name",
+  "Value": "",
   "Status": {
-    "Consented": "string",
-    "TimeStamp": "string",
+    "Consent": "Allow",
+    "TimeStamp": "0001-01-01T00:00:00Z",
     "Days": 0,
     "Remaining": 0
   }
@@ -8929,446 +19711,106 @@ Bearer
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|ID|string|false|none|Consent ID|
-|Description|string|false|none|description|
-|Value|string|false|none|Consent value|
-|Status|[Status](#schemastatus)|false|none|none|
+|ID|string|false|none|none|
+|Description|string|false|none|none|
+|Value|string|false|none|none|
+|Status|object|false|none|none|
+|» Consent|string|false|none|none|
+|» TimeStamp|string(date-time)|false|none|none|
+|» Days|integer|false|none|none|
+|» Remaining|integer|false|none|none|
 
-<h2 id="tocSstatus">Status</h2>
-
-<a id="schemastatus"></a>
-
-```json
-{
-  "Consented": "string",
-  "TimeStamp": "string",
-  "Days": 0,
-  "Remaining": 0
-}
-
-```
-
-### Properties
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|Consented|string|false|none|Allow/DisAllow|
-|TimeStamp|string|false|none|Timestamp|
-|Days|integer|false|none|Amount of days to consent|
-|Remaining|integer|false|none|Amount of days remaining|
-
-<h2 id="tocScount">Count</h2>
-
-<a id="schemacount"></a>
+<h2 id="tocS_Organisation">Organisation</h2>
+<!-- backwards compatibility -->
+<a id="schemaorganisation"></a>
+<a id="schema_Organisation"></a>
+<a id="tocSorganisation"></a>
+<a id="tocsorganisation"></a>
 
 ```json
 {
-  "Total": 2,
-  "Consented": 2
-}
-
-```
-
-### Properties
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|Total|integer|false|none|Total amount of purposes|
-|Consented|integer|false|none|Total consented|
-
-<h2 id="tocScreateorganization">CreateOrganization</h2>
-
-<a id="schemacreateorganization"></a>
-
-```json
-{
-  "Name": "string",
-  "Location": "string",
-  "Description": "string",
-  "TypeID": "string"
-}
-
-```
-
-### Properties
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|Name|string|true|none|Name of the organization|
-|Location|string|true|none|Location of the organization|
-|Description|string|true|none|Description of the organization|
-|TypeID|string|true|none|ID of the type of organization|
-
-<h2 id="tocSconsenttemplate">ConsentTemplate</h2>
-
-<a id="schemaconsenttemplate"></a>
-
-```json
-{
-  "ID": "5bba6a9998135900010927ba",
-  "Consent": "Spouse",
-  "PurposeIDs": [
-    "5bba69db98135900010927ac, 8bba69db98135900010927af"
-  ]
-}
-
-```
-
-### Properties
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|ID|string|false|none|ID of the consent|
-|Consent|string|false|none|Consent, e.g. Spouse|
-|PurposeIDs|[string]|false|none|An array of PurposeIDs|
-
-<h2 id="tocStype">Type</h2>
-
-<a id="schematype"></a>
-
-```json
-{
-  "ID": "5bba67ba98135900010927a5",
-  "Type": "Retail",
-  "ImageID": "5bba67e798135900010927a7",
-  "ImageURL": "https://api.igrant.io/v1/organizations/types/5bba67ba98135900010927a5/image"
-}
-
-```
-
-### Properties
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|ID|string|false|none|ID of Type|
-|Type|string|false|none|Describes the type of organization (field, ID of field etc.)|
-|ImageID|string|false|none|ID of image|
-|ImageURL|string|false|none|URL of image (where the Image is located)|
-
-<h2 id="tocSpurpose">Purpose</h2>
-
-<a id="schemapurpose"></a>
-
-```json
-{
-  "ID": "string",
-  "Description": "string",
-  "LawfulUsage": true,
-  "PolicyURL": "string"
-}
-
-```
-
-### Properties
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|ID|string|true|none|ID of purpose|
-|Description|string|true|none|Description of purpose|
-|LawfulUsage|boolean|true|none|Lawful usage (True or False)|
-|PolicyURL|string|true|none|URL of policy|
-
-
-<h2 id="tocSdatabreach">Databreach</h2>
-
-<a id="schemadatabreach"></a>
-
-```json
-{
-  "headline": "string",
-  "userscount": 0,
-  "dpoemail": "string",
-  "consequence": "string",
-  "measures": "string"
-}
-
-```
-
-### Properties
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|headline|string|false|none|Nature of data breach|
-|userscount|integer|false|none|Number of data subjects|
-|dpoemail|string|false|none|Dpo contact|
-|consequence|string|false|none|Consequence of personal data breach|
-|measures|string|false|none|Measures to be taken|
-
-<h2 id="tocSclientdata">ClientData</h2>
-
-<a id="schemaclientdata"></a>
-
-```json
-{
-  "Token": "string",
-  "Type": 0
-}
-
-```
-
-### Properties
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|Token|string|false|none|Client token|
-|Type|integer|false|none|Type of client|
-
-<h2 id="tocSorgs">Orgs</h2>
-
-<a id="schemaorgs"></a>
-
-```json
-{
-  "OrgID": "string",
-  "Name": "string",
-  "Location": "string",
-  "Type": "string",
-  "TypeID": "string"
-}
-
-```
-
-### Properties
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|OrgID|string|false|none|This is the ID of the organization|
-|Name|string|false|none|Name of organization|
-|Location|string|false|none|Location of the organization|
-|Type|string|false|none|Field of organization like retail, medical etc|
-|TypeID|string|false|none|Type ID|
-
-
-<h2 id="tocSsubscriptionstatus">SubscriptionStatus</h2>
-
-<a id="schemasubscriptionstatus"></a>
-
-```json
-{
-  "Enabled": true
-}
-
-```
-
-### Properties
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|Enabled|boolean|false|none|Subscription status of an organisation|
-
-
-<h2 id="tocSsubscribeusercount">SubscribeUserCount</h2>
-
-<a id="schemasubscribeusercount"></a>
-
-```json
-{
-  "SubscribeUserCount": 7
-}
-
-```
-
-*The number of users subscribed*
-
-### Properties
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|*anonymous*|integer|false|none|The number of users subscribed|
-
-<h2 id="tocSuser">User</h2>
-
-<a id="schemauser"></a>
-
-```json
-{
-  "User": {
-    "ID": "5b9025defef8d50001ebb6f2",
-    "Name": "Test production",
-    "IamID": "7c7591e507",
-    "Email": "p@p.io",
-    "Phone": "+358 549 45043",
-    "ImageID": "423049",
-    "ImageURL": "imageurl.fi",
-    "LastVisit": "2018-09-05 18:55:21",
-    "Client": {
-      "Token": 34234234,
-      "Type": 0
-    },
-    "Orgs": [
-      {
-        "OrgID": "5b4ab3f926eddc0001ad3885",
-        "Name": "iGrant.io",
-        "Location": "Stockholm, Sweden",
-        "Type": "RegTech",
-        "TypeID\"": "b4ab3bf26eddc0001ad3883"
-      }
-    ]
-  }
-}
-
-```
-
-### Properties
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|ID|string|false|none|The ID of the user|
-|Name|string|false|none|The name of the user|
-|IamID|string|false|none|Identity management ID|
-|Email|string|false|none|User email address|
-|Phone|string|false|none|User phone number|
-|ImageID|string|false|none|User image ID|
-|ImageURL|string|false|none|URL of user image|
-|LastVisit|string(date)|false|none|Date and time of LastVisit|
-|Client|[ClientData](#schemaclientdata)|false|none|none|
-|Orgs|[[Orgs](#schemaorgs)]|false|none|none|
-
-<h2 id="tocSorganization">Organization</h2>
-
-<a id="schemaorganization"></a>
-
-```json
-{
-  "ID": "string",
-  "Name": "string",
-  "CoverImageID": "string",
-  "CoverImageurl": "string",
-  "LogoImageID": "string",
-  "LogoImageURL": "string",
-  "Location": "string",
+  "ID": "5daf22d0a531350001afc7c9",
+  "Name": "DMart Retail Chain",
+  "CoverImageID": "",
+  "CoverImageURL": "",
+  "LogoImageID": "5ecf5f979a273200016a13ef",
+  "LogoImageURL": "https://<server-url>/5daf22d0a531350001afc7c9/image/5ecf5f979a273200016a13ef",
+  "Location": "Stockholm, Sweden",
   "Type": {
-    "ID": "5bba67ba98135900010927a5",
+    "ID": "5d17cc114dacb40001b29094",
     "Type": "Retail",
-    "ImageID": "5bba67e798135900010927a7",
-    "ImageURL": "https://api.igrant.io/v1/organizations/types/5bba67ba98135900010927a5/image"
+    "ImageID": "5d17cc7f4dacb40001b29095",
+    "ImageURL": "https://staging-api.igrant.io/v1/organizations/types/5d17cc114dacb40001b29094/image"
   },
-  "Description": "string",
+  "Description": "",
   "Enabled": true,
-  "Policyurl": "string",
-  "EulaURL": "string",
-  "Template": [
+  "PolicyURL": "",
+  "EulaURL": "",
+  "Templates": [
     {
-      "ID": "5bba6a9998135900010927ba",
-      "Consent": "Spouse",
+      "ID": "5f187f9efd59960001434c2e",
+      "Consent": "Age",
       "PurposeIDs": [
-        "5bba69db98135900010927ac, 8bba69db98135900010927af"
+        "5db0303ba531350001afc7e0",
+        "5db03048a531350001afc7e1"
       ]
     }
   ],
   "Purposes": [
     {
-      "ID": "string",
-      "Description": "string",
-      "LawfulUsage": true,
-      "PolicyURL": "string"
+      "ID": "5db0303ba531350001afc7e0",
+      "Name": "Marketing and campaign",
+      "Description": "For this purpose, following personal data attributes shown below are used. You may consent to share your data at attribute level.",
+      "LawfulUsage": false,
+      "PolicyURL": "https://orgname.com/policy_default.html"
     }
   ],
   "Admins": [
     {
-      "userID": "string",
-      "roleID": 0
+      "UserID": "5daf22cea531350001afc7c8",
+      "RoleID": 1
     }
   ],
   "BillingInfo": {
-    "BillingRegistrationID": "string",
-    "PlanType": "string"
-  }
-}
-
-```
-
-### Properties
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|ID|string|false|none|ID of the organization|
-|Name|string|false|none|Name of the organization|
-|CoverImageID|string|false|none|This is the ID of the coverImage|
-|CoverImageurl|string|false|none|URL of the coverImage|
-|LogoImageID|string|false|none|ID of the logo Image|
-|LogoImageURL|string|false|none|URL of the logoImage|
-|Location|string|false|none|Location of the organization (Country, City)|
-|Type|[Type](#schematype)|false|none|none|
-|Description|string|false|none|The description of the organization|
-|Enabled|boolean|false|none|Boolean value for indicating if the organization is enabled in the system|
-|Policyurl|string|false|none|URL of company policy|
-|EulaURL|string|false|none|EulaURL|
-|Template|[[ConsentTemplate](#schemaconsenttemplate)]|false|none|Contains properties of a consent|
-|Purposes|[[Purpose](#schemapurpose)]|false|none|contains information about purposes|
-|Admins|[[userDataAdmin](#schemauserdataadmin)]|false|none|represents the admins of the organization|
-|BillingInfo|[BillingInfo](#schemabillinginfo)|false|none|none|
-
-<h2 id="tocSbillinginfo">BillingInfo</h2>
-
-<a id="schemabillinginfo"></a>
-
-```json
-{
-  "BillingRegistrationID": "string",
-  "PlanType": "string"
-}
-
-```
-
-### Properties
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|BillingRegistrationID|string|false|none|ID of billing registration|
-|PlanType|string|false|none|Type of plan|
-
-<h2 id="tocSorganizationobject">OrganizationObject</h2>
-
-<a id="schemaorganizationobject"></a>
-
-```json
-{
-  "Organization": {
-    "ID": "string",
-    "Name": "string",
-    "CoverImageID": "string",
-    "CoverImageurl": "string",
-    "LogoImageID": "string",
-    "LogoImageURL": "string",
-    "Location": "string",
-    "Type": {
-      "ID": "5bba67ba98135900010927a5",
-      "Type": "Retail",
-      "ImageID": "5bba67e798135900010927a7",
-      "ImageURL": "https://api.igrant.io/v1/organizations/types/5bba67ba98135900010927a5/image"
+    "BillingRegistrationID": "cus_G2URbi8W6DT7hh",
+    "MaxUserCounter": 4,
+    "DefaultChargeNotified": false,
+    "CurrentPeriodEnd": 0,
+    "PrevMonthUsers": 1,
+    "PayPerUserInfo": {
+      "UserCommitment": 0,
+      "TimeCommitment": "",
+      "CancelOnCommitmentEnd": false,
+      "CommitmentPeriodRemaining": 0
     },
-    "Description": "string",
-    "Enabled": true,
-    "Policyurl": "string",
-    "EulaURL": "string",
-    "Template": [
-      {
-        "ID": "5bba6a9998135900010927ba",
-        "Consent": "Spouse",
-        "PurposeIDs": [
-          "5bba69db98135900010927ac, 8bba69db98135900010927af"
-        ]
-      }
-    ],
-    "Purposes": [
-      {
-        "ID": "string",
-        "Description": "string",
-        "LawfulUsage": true,
-        "PolicyURL": "string"
-      }
-    ],
-    "Admins": [
-      {
-        "userID": "string",
-        "roleID": 0
-      }
-    ],
-    "BillingInfo": {
-      "BillingRegistrationID": "string",
-      "PlanType": "string"
-    }
+    "DefaultPaymentSource": {
+      "Brand": "Visa",
+      "ExpiryMonth": 4,
+      "ExpiryYear": 2024,
+      "Last4Digits": "4242"
+    },
+    "Address": {
+      "Name": "George Floyd",
+      "City": "Stockholm",
+      "Country": "Sweden",
+      "Line1": "",
+      "Line2": "",
+      "PostalCode": "",
+      "State": ""
+    },
+    "ServiceAgreementVersion": "v2.0",
+    "FreeTrialExpired": true
+  },
+  "Subs": {
+    "Method": 0,
+    "Key": ""
+  },
+  "HlcSupport": false,
+  "PrivacyDashboard": {
+    "HostName": "dmart.igrant.io",
+    "Version": "v1.1.7",
+    "Status": 2,
+    "Delete": false
   }
 }
 
@@ -9378,212 +19820,45 @@ Bearer
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|Organization|[Organization](#schemaorganization)|false|none|none|
+|ID|string|false|none|none|
+|Name|string|false|none|none|
+|CoverImageID|string|false|none|none|
+|CoverImageURL|string|false|none|none|
+|LogoImageID|string|false|none|none|
+|LogoImageURL|string|false|none|none|
+|Location|string|false|none|none|
+|Type|[OrganisationType](#schemaorganisationtype)|false|none|none|
+|Description|string|false|none|none|
+|Enabled|boolean|false|none|none|
+|PolicyURL|string|false|none|none|
+|EulaURL|string|false|none|none|
+|Templates|[allOf]|false|none|none|
 
-<h2 id="tocSroles">Roles</h2>
-
-<a id="schemaroles"></a>
-
-```json
-{
-  "ID": 1,
-  "Role": "Admin"
-}
-
-```
-
-### Properties
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|ID|integer|false|none|Unique ID of the roles|
-|Role|string|false|none|Name of the role|
-
-<h2 id="tocSprivacydashboardreq">PrivacyDashboardReq</h2>
-
-<a id="schemaprivacydashboardreq"></a>
-
-```json
-{
-  "HostName": "string"
-}
-
-```
-
-### Properties
+allOf
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|HostName|string|true|none|Name of host|
+|» *anonymous*|[Template](#schematemplate)|false|none|none|
 
-<h2 id="tocSprivacydashboard">PrivacyDashboard</h2>
-
-<a id="schemaprivacydashboard"></a>
-
-```json
-{
-  "HostName": "string",
-  "Version": "string",
-  "IPAddress": "string",
-  "Status": 0,
-  "StatusStr": "string"
-}
-
-```
-
-### Properties
+and
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|HostName|string|true|none|Name of host|
-|Version|string|false|none|Version number|
-|IPAddress|string|false|none|IP address of the host|
-|Status|integer|false|none|status code|
-|StatusStr|string|false|none|Status of privacy dashboard deployment|
+|» *anonymous*|object|false|none|none|
+|»» PurposeIDs|[string]|false|none|none|
 
-<h2 id="tocSuserdataadmin">userDataAdmin</h2>
-
-<a id="schemauserdataadmin"></a>
-
-```json
-{
-  "userID": "string",
-  "roleID": 0
-}
-
-```
-
-### Properties
+continued
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|userID|string|false|none|ID of user|
-|roleID|integer|false|none|ID of role|
-
-<h2 id="tocSorganizations">Organizations</h2>
-
-<a id="schemaorganizations"></a>
-
-```json
-{
-  "Organizations": [
-    {
-      "ID": "OrgID",
-      "Name": "TestOrg",
-      "CoverImageID": "ID",
-      "CoverImageurl": "url",
-      "LogoImageID": "ID",
-      "LogoImageURL": "url",
-      "Location": "Turku",
-      "Type": {
-        "ID": "ID",
-        "Type": "Retail",
-        "ImageID": "imageID",
-        "ImageURL": "url"
-      },
-      "Description": "Testorg stores and processes the following data of yours. For each of your personal data attributes, you can view what is used as contractual basis in order for us to carry out a business relation with you. You can view the current status for all your personal data attributes, the purpose in which they are used and provide you the choice to opt-in or opt-out. \\n\\nYes, We are GDPR compliant.",
-      "Enabled": true,
-      "Policyurl": "URL",
-      "EulaURL": "EulaURL",
-      "Templates": [
-        {
-          "ID": "TemplateID",
-          "Consent": "Spouse",
-          "PurposeIDs": [
-            "IDs.."
-          ]
-        }
-      ],
-      "Purposes": [
-        {
-          "ID": "PurposeID",
-          "Description": "Contractual purpose",
-          "LawfulUsage": false,
-          "PolicyURL": "URL"
-        }
-      ],
-      "Admins": [
-        {
-          "UserID": "UserID",
-          "RoleID": 1
-        }
-      ],
-      "BillingInfo": {
-        "BillingRegistrationID": "",
-        "PlanType": ""
-      }
-    }
-  ]
-}
-
-```
-
-### Properties
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|*anonymous*|[[Organization](#schemaorganization)]|false|none|none|
-
-<h2 id="tocSconsenteduserresp">consentedUserResp</h2>
-
-<a id="schemaconsenteduserresp"></a>
-
-```json
-[
-  {
-    "User": {
-      "ID": "5b9025defef8d50001ebb6f2",
-      "Name": "Test production",
-      "IamID": "7c7591e507",
-      "Email": "p@p.io",
-      "Phone": "+358 549 45043",
-      "ImageID": "423049",
-      "ImageURL": "imageurl.fi",
-      "LastVisit": "2018-09-05 18:55:21",
-      "Client": {
-        "Token": 34234234,
-        "Type": 0
-      },
-      "Orgs": [
-        {
-          "OrgID": "5b4ab3f926eddc0001ad3885",
-          "Name": "iGrant.io",
-          "Location": "Stockholm, Sweden",
-          "Type": "RegTech",
-          "TypeID\"": "b4ab3bf26eddc0001ad3883"
-        }
-      ]
-    }
-  }
-]
-
-```
-
-### Properties
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|*anonymous*|[[User](#schemauser)]|false|none|none|
-|ID|string|false|none|ID of the user|
-|Name|string|false|none|Name of the user|
-|Phone|string|false|none|User phone number|
-
-<h2 id="tocSsubscribetoken">SubscribeToken</h2>
-
-<a id="schemasubscribetoken"></a>
-
-```json
-{
-  "SubscribeToken": "string",
-  "SubscribeMethod": "string"
-}
-
-```
-
-### Properties
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|SubscribeToken|string|false|none|Client token|
-|SubscribeMethod|string|false|none|Type of client|
+|Purposes|[[Purpose](#schemapurpose)]|false|none|none|
+|Admins|[object]|false|none|none|
+|» UserID|string|false|none|none|
+|» RoleID|string|false|none|none|
+|BillingInfo|[OrganisationBillingInfo](#schemaorganisationbillinginfo)|false|none|none|
+|Subs|object|false|none|none|
+|» Method|integer|false|none|none|
+|» Key|string|false|none|none|
+|HlcSupport|boolean|false|none|none|
+|PrivacyDashboard|[OrganisationPrivacyBoard](#schemaorganisationprivacyboard)|false|none|none|
 
