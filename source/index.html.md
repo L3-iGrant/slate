@@ -1,5 +1,5 @@
 ---
-title: Introduction to iGrant.io APIs 
+title: Introduction to iGrant.io APIs v2.1.2
 language_tabs:
   - shell: Shell
   - http: HTTP
@@ -29,10 +29,7 @@ iGrant.io offers one form of authentication - Bearer authentication
 
 This form of authentication is a form of authentication scheme that involves security tokens. The client sends this token in the Authorization header when making request.
 
-Base URLs:
-
-* <a href="https://api.igrant.io/v1">https://api.igrant.io/v1</a>
-
+Base URL: <a href="https://api.igrant.io/v1">https://api.igrant.io/v1</a>
 
 <h1 id="introduction-to-igrant-io-apis-identity-management">Identity management</h1>
 
@@ -19038,7 +19035,6 @@ Status Code **200**
 To perform this operation, you must be authenticated by means of one of the following methods:
 bearerAuth
 </aside>
-
 
 # Schemas
 
