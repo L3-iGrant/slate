@@ -1,0 +1,5054 @@
+openapi: 3.0.3
+info:
+  title: Introduction to iGrant.io APIs
+  description: | 
+    This specification is documented in **OpenAPI format**, it describes the RESTFul APIs of iGrant.io.
+      
+    iGrant.io offers one form of authentication - Bearer authentication
+
+    This form of authentication is a form of authentication scheme that involves security tokens. The client sends this token in the Authorization header when making request.
+
+  version: v2.1.2
+servers:
+- url: https://api.igrant.io/v1
+  description: iGrant.io production server address
+security:
+- bearerAuth: []
+paths:
+  /v1.1/users/login:
+    post:
+      description: Login as user
+      operationId: Login as user
+      deprecated: false
+      security: []
+      servers: 
+      - url: http://demo-api.igrant.io
+        description: Demo server
+      tags:
+      - Identity management
+      requestBody:
+        description: Login credentials
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                  format: password
+              required:
+              - username
+              - password
+            example:
+              username: admin@abc.com
+              password: qwerty123
+      responses:
+        "200":
+          description: "Returns token and user details"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  User:
+                    $ref: "#/components/schemas/User"
+                  Token:
+                    $ref: "#/components/schemas/Token"
+        "400":
+          description: "Bad request"
+        "401":
+          description: "Invalid user credentials"
+
+  /users/login:
+    post:
+      description: Login as user
+      operationId: Login as user (old)
+      deprecated: true
+      security: []
+      tags:
+      - Identity management
+      requestBody:
+        description: Login credentials
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                  format: password
+              required:
+              - username
+              - password
+            example:
+              username: admin@abc.com
+              password: qwerty123
+      responses:
+        "200":
+          description: Returns token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Token"
+        "400":
+          description: "Bad request"
+        "401":
+          description: "Invalid user credentials"
+
+  /users/admin/login:
+    post:
+      description: Login as organisation admin
+      operationId: Login as organisation admin
+      security: []
+      tags:
+      - Identity management
+      requestBody:
+        description: Login credentials
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+                  format: password
+              required:
+              - username
+              - password
+            example:
+              username: admin@abc.com
+              password: qwerty123
+        required: true
+      responses:
+        "200":
+          description: "Returns token and user details"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  User:
+                    $ref: "#/components/schemas/User"
+                  Token:
+                    $ref: "#/components/schemas/Token"
+        "400":
+          description: "Bad request"
+        "401":
+          description: "Invalid user credentials"
+          
+  /users/logout:
+    post:
+      security:
+      - bearerAuth: []
+      tags:
+      - Identity management
+      description: Logout user
+      operationId: Logout user
+      requestBody:
+        description: Refresh token and clientid
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refreshtoken:
+                  type: string
+                clientid:
+                  type: string
+              required: 
+              - refreshtoken
+              - clientid
+        required: true
+      responses:
+        "204":
+          description: "Logout successful"
+        "400":
+          description: "Bad request"
+          
+  /users/token:
+    post:
+      description: Refreshes an access token
+      operationId: Refresh access token
+      security: []
+      tags:
+      - Identity management
+      requestBody:
+        description: "Refresh token and clientid"
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refreshtoken:
+                  type: string
+                clientid:
+                  type: string
+              required: 
+              - refreshtoken
+              - clientid
+        required: true
+      responses:
+        "200":
+          description: "Returns refreshed token"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Token"
+        "400":
+          description: "Bad request"
+          
+  /user/password/reset:
+    post:
+      description: Resets a user password using the current password. 
+      operationId: Reset user password
+      security: 
+      - bearerAuth: []
+      tags:
+      - Service management (User)
+      requestBody:
+        description: Current password
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+              example: 
+                password: qwerty123
+              required: 
+              - password
+        required: true
+      responses:
+        "200":
+          description: "User password resetted successfully"
+        "400":
+          description: "Bad request"
+        "401":
+          description: "Unauthorized"
+          
+  /user/password/forgot:
+    put:
+      description: Forgot user password is used to request a password reset. A notification is sent to the user reset the password to the registered email ID.
+      operationId: Forgot user password
+      security: []
+      tags:
+      - Service management (User)
+      requestBody:
+        description: Username
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+              example:
+                username: admin@abc.com
+              required: 
+              - password
+        required: true
+      responses:
+        "200":
+          description: "User forgot password action handled successfully"
+        "400":
+          description: "Bad request"
+        "401":
+          description: "Unauthorized"
+  
+  /users/unregister:
+    post:
+      description: Unregisters user i.e. removes user from IAM and database
+      operationId: Unregisters user
+      tags: 
+      - Internal
+      security: 
+      - bearerAuth: []
+      responses:
+        "200":
+          description: "User removed successfully"
+        "401":
+          description: "Unauthorized"
+  
+  
+  /users/register:
+    post:
+      description: Registers a new user to the system
+      operationId: Register new user
+      security: []
+      tags:
+      - Service management (User)
+      requestBody:
+        description: User details
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                name:
+                  type: string
+                password:
+                  type: string
+                  format: password
+                phone:
+                  type: string
+                isadmin:
+                  type: boolean
+              required: 
+              - username
+              - password
+              - phone
+        required: true
+      responses:
+        "201":
+          description: "User created successfully"
+        "409":
+          description: "User exists with same username"
+        "400":
+          description: "Bad request"
+  
+  /organizations:
+    get:
+      description: Gets all organisations in the system
+      operationId: Get all organisations
+      security: 
+      - bearerAuth: []
+      tags: 
+      - Internal
+      responses:
+        "200":
+          description: Returns array of basic organisational detail (along with type information)
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    ID:
+                      type: string
+                    Name:
+                      type: string
+                    TypeID:
+                      type: string
+                    Type:
+                      type: string
+                example: 
+                  - ID: "5dae01aa267e930001609aa4"
+                    Name: "iGrant.io Dev"
+                    TypeID: "5d95a566a67c8800012f27d1"
+                    Type: "RegTech"
+        "401":
+          description: "Unauthorized"
+    post:
+      description: Registers an organisation to the system
+      operationId: Register an organisation
+      security: 
+      - bearerAuth: []
+      tags: 
+      - Service management (Organization)
+      requestBody:
+        description: ""
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                location:
+                  type: string
+                typeid:
+                  type: string
+                eulaurl:
+                  type: string
+                hlcsupport:
+                  type: boolean
+                description:
+                  type: string
+              example: 
+                name: "Delphyx LLP"
+                location: "London, GB"
+                typeid: "5f0570c04a05b00001a05cc2"
+              required: 
+              - name
+              - location
+              - typeid
+        required: true
+      responses:
+        "201":
+          description: Returns created organisation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Organisation"
+        "401":
+          description: "Unauthorized"
+  
+  /organizations/roles:
+    get:
+      description: Get the list of organisational user roles
+      operationId: Get org user roles
+      security: []
+      tags:
+      - Service management (Organization)
+      responses:
+        "200":
+          description: "Returns the list of organisation roles"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    ID:
+                      type: integer
+                    Role:
+                      type: string
+                example: 
+                  - ID: 1
+                    Role: Admin
+                  - ID: 2
+                    Role: Dpo
+                  - ID: 3
+                    Role: Developer
+  /organizations/subscribe-methods:
+    get:
+      description: Gets all organisation subscription methods configured in the system
+      operationId: Get subscription methods
+      security: []
+      tags:
+      - Service management (Organization)
+      responses:
+        "200":
+          description: Returns all organisation subscription methods
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Methods:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        ID:
+                          type: integer
+                          example: 1
+                        Method:
+                          type: string
+                          example: "Key-Based"
+  
+  /organizations/search:
+    get:
+      description: Search organisations by name
+      operationId: Search organisation 
+      security:
+      - bearerAuth: []
+      tags: 
+      - Internal
+      parameters: 
+      - in: query
+        name: name
+        description: Name of the organisation
+        schema:
+          type: string
+          example: dmart
+      responses:
+        "200":
+          description: Returns all organisations matched by the name
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Organizations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        ID:
+                          type: string
+                          example: "5daf22d0a531350001afc7c9"
+                        Name:
+                          type: string
+                          example: "DMart Retail Chain"
+                        Location:
+                          type: string
+                          example: "Ernakulam, India"
+                        Type:
+                          type: string
+                          example: "Retail"
+                        Subscribed:
+                          type: boolean
+                          example: false
+        "401":
+          description: "Unauthorized"
+  
+  /organizations/data-requests:
+    get:
+      description: Get all data request states configured in the system
+      operationId: Get data request states
+      tags:
+      - Internal
+      security: []
+      responses:
+        "200":
+          description: Returns data request states
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    ID:
+                      type: integer
+                    Str:
+                      type: string
+                example: 
+                  - ID: 1
+                    Str: Request initiated
+                  - ID: 2
+                    Str: Request acknowledged
+                  - ID: 6
+                    Str: Request processed without action
+                  - ID: 7
+                    Str: Request processed with action
+                  - ID: 8
+                    Str: Request cancelled by user
+  
+  /organizations/types:
+    get:
+      description: Gets all organization category types in the system. E.g. Retail, Banking and finance etc.
+      operationId: Get organization types
+      tags:
+      - Internal
+      security: 
+      - bearerAuth: []
+      responses:
+        "200":
+          description: Returns all organization types
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    ID:
+                      type: string
+                      example: "5d17cc114dacb40001b29094"
+                    Type:
+                      type: string
+                      example: "Retail"
+                    ImageID:
+                      type: string
+                      example: "5d17cc334dacb40002b29093"
+                    ImageURL:
+                      type: string
+                      example: "https://<server-url>/organizations/types/5d17cc334dacb40002b29093/image"
+                    
+        "401":
+          description: "Unauthorized"
+    post:
+      description: Add an organization type
+      operationId: Add organization type
+      tags:
+      - Internal
+      security: 
+      - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  example: Banking
+              required: 
+              - type
+        required: true
+      responses:
+        "201":
+          description: Returns created organization type
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrganisationType"
+        "401":
+          description: "Unauthorized"
+  /organizations/types/{typeID}:
+    get:
+      description: Gets organization catogory type by given ID
+      operationId: Gets organization type
+      tags: 
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      parameters: 
+      - in: path
+        name: typeID
+        required: true
+        schema:
+          type: string
+          example: "5f1c7465fd59960001434c5b"
+        description: Organisation type ID
+      responses:
+        "200": 
+          description: Returns the organization type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganisationType'
+        "401":
+          description: "Unauthorized"
+    
+    delete:
+      description: Deletes organization type by given ID
+      operationId: Deletes organization type
+      tags: 
+      - Internal
+      security: 
+      - bearerAuth: []
+      parameters: 
+      - in: path
+        name: typeID
+        required: true
+        schema:
+          type: string
+          example: "5f1c7465fd59960001434c5b"
+        description: Organisation type ID
+      responses:
+        "204":
+          description: "Successfully deleted organisation type"
+        "401":
+          description: "Unauthorized"
+        "404":
+          description: "404 not found"
+    
+    patch:
+      description: Updates an organization category type
+      operationId: Update organization type
+      tags: 
+      - Internal
+      security: 
+      - bearerAuth: []
+      parameters: 
+      - in: path
+        name: typeID
+        required: true
+        schema:
+          type: string
+          example: "5f1c7465fd59960001434c5b"
+        description: Organization type ID
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  example: Retail
+              required: 
+              - type
+        required: true
+      responses:
+        "201":
+          description: "Return updated organisation type"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganisationType'
+        "401":
+          description: "Unauthorized"
+        "404":
+          description: "404 not found"
+  
+  /organizations/types/{typeID}/image:
+    get:
+      description: Gets an organization type image by type ID
+      operationId: Get organization type image
+      tags: 
+      - Internal
+      security: 
+      - bearerAuth: []
+      parameters: 
+      - in: path
+        name: typeID
+        required: true
+        schema:
+          type: string
+          example: "5f1c7465fd59960001434c5b"
+        description: Organisation type ID
+      responses:
+        "200":
+          description: "Returns organization type icon"
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+        "401":
+          description: "Unauthorized"
+        "404":
+          description: "404 not found"
+      
+    post:
+      description: Updates organization type image
+      operationId: Update organization type image
+      tags: 
+      - Internal
+      security: 
+      - bearerAuth: []
+      parameters: 
+      - in: path
+        name: typeID
+        required: true
+        schema:
+          type: string
+          example: "5f1c7465fd59960001434c5b"
+        description: Organization type ID
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                orgtypeicon:
+                  type: string
+                  format: binary
+              required:
+              - orgtypeicon
+        required: true
+      responses:
+        "200":
+          description: "Updated organization type image"
+        "500":
+          description: "Invalid org type icon file provided"
+        "401":
+          description: "Unauthorized"
+        "404":
+          description: "404 not found"
+  
+  /organizations/{organizationID}:
+    get:
+      description: Get organization by ID
+      operationId: Get organization
+      tags: 
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      parameters: 
+      - in: path
+        name: organizationID
+        required: true
+        description: Organisation ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      responses:
+        "200":
+          description: "Returns organization"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Organization:
+                    $ref: '#/components/schemas/Organisation'
+        "401":
+          description: "Unauthorized"
+        "404":
+          description: "404 not found"
+    delete:
+      description: Deletes an organization by ID
+      operationId: Delete organization
+      tags: 
+      - Internal
+      security: 
+      - bearerAuth: []
+      parameters: 
+      - in: path
+        name: organizationID
+        required: true
+        description: Organisation ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      responses:
+        "204":
+          description: "Deleted organization"
+        "401":
+          description: "Unauthorized"
+        "404":
+          description: "404 not found"
+    patch:
+      description: Updates an organization
+      operationId: Update an organization
+      tags: 
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      parameters: 
+      - in: path
+        name: organizationID
+        required: true
+        description: Organisation ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                location:
+                  type: string
+                description:
+                  type: string
+                policyurl:
+                  type: string
+      responses:
+        "202":
+          description: "Updated organization"
+        "401":
+          description: "Unauthorized"
+        "404":
+          description: "404 not found"
+  
+  /organizations/{organizationID}/subscribe-key:
+    get:
+      description: Gets subscription key if the subscription method is key based
+      operationId: Get subscription key
+      tags: 
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      parameters: 
+      - in: path
+        name: organizationID
+        required: true
+        description: Organisation ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      responses:
+        "200":
+          description: Returns the subscription key and method
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  SubscribeKey:
+                    type: string
+                    example: "IT43-YO37-I6GG"
+                  SubscribeMethod:
+                    type: string
+                    example: "Key-Based"
+        
+        "401":
+          description: "Unauthorized"
+  
+  /organizations/{organizationID}/subscribe-key/renew:
+    post:
+      description: Renew the subscription key if the subscription method is key based
+      operationId: Renew the subscription key
+      tags: 
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      parameters: 
+      - in: path
+        name: organizationID
+        required: true
+        description: Organisation ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      responses:
+        "200":
+          description: "Returns the renewed subscription key"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  SubscribeKey:
+                    type: string
+                    example: "69H7-RWT4-CHQJ"
+                  SubscribeMethod:
+                    type: string
+                    example: "Key-Based"
+        "400":
+          description: "Unable to renew since, existing subscription method is not key based"
+        "401":
+          description: "Unauthorized"
+  
+  /organizations/{organizationID}/subscribe-method:
+    get:
+      description: Get the existing subscription method for an organization
+      operationId: Get subscription method
+      tags: 
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      parameters: 
+      - in: path
+        name: organizationID
+        required: true
+        description: Organisation ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      responses:
+        "200":
+          description: "Returns subscription method"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ID:
+                    type: integer
+                    example: 1
+                  Method:
+                    type: string
+                    example: "Key-Based"
+        "401":
+          description: "Unauthorized"
+    post:
+      description: Sets how users can subscribe to an organization
+      operationId: Set subscription method
+      security: 
+      - bearerAuth: []
+      tags:
+      - Service management (Organization)
+      parameters: 
+      - in: path
+        name: organizationID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                subscribemethodid:
+                  type: integer
+                  example: 1
+              required: 
+              - subscribemethodid
+      responses:
+        "204": 
+          description: "Updated subscription method"
+        "401":
+          description: "Unauthorized"
+  
+  /organizations/{organizationID}/subscription:
+    get:
+      description: Gets the subscription status of an organisation towards users. Used for troubleshooting purposes or used by Enterprise Dashboards.
+      operationId: Get subscription status
+      tags:
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      parameters: 
+      - in: path
+        name: organizationID
+        required: true
+        description: Organisation ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      responses:
+        "200":
+          description: Returns subscription status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Enabled:
+                    type: boolean
+                    example: true
+        "401":
+          description: "Unauthorized"
+  
+  /organizations/{organizationID}/subscription/enable:
+    post:
+      description: "Enable organization for subscription towards users. This is performed once the data model is all uploaded and the organisation is ready for consent management and data exchange. "
+      operationId: Enable organization
+      tags: 
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      parameters: 
+      - in: path
+        name: organizationID
+        required: true
+        description: Organisation ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      responses:
+        "200":
+          description: Enabled organisation for subscription
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Organization:
+                    $ref: '#/components/schemas/Organisation'
+        "401":
+          description: "Unauthorized"
+  
+  /organizations/{organizationID}/subscription/disable:
+    post:
+      description: Disables an organisation towards users. This can be manually triggered by the organisation as part of maintainenace or can be forced by a super admin, example if the license conditions fail
+      operationId: Disable organization
+      tags: 
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      parameters: 
+      - in: path
+        name: organizationID
+        required: true
+        description: Organisation ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      responses:
+        "200":
+          description: Disabled organisation for subscription
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Organization:
+                    $ref: '#/components/schemas/Organisation'
+        "401":
+          description: "Unauthorized"
+  
+  /organizations/{organizationID}/eulaURL:
+    post:
+      description: Updates an organization's EULA URL. This is used if the organisation wishes to notify users if there are any updates to its EULA agrements. 
+      operationId: Update EULA URL
+      tags: 
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      parameters: 
+      - in: path
+        name: organizationID
+        required: true
+        description: Organisation ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                eulaurl:
+                  type: string
+                  example: "https://igrant.io/eula.html"
+              required: 
+              - eulaurl
+        required: true
+      
+      responses:
+        "202":
+          description: "Updated EULA URL for an organization"
+        "400":
+          description: "Invalid EULA URL provided"
+        "401":
+          description: "Unauthorized"
+    
+    delete:
+      description: "Deletes an organization EULA URL"
+      operationId: Delete aorganization EULA url
+      tags: 
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      parameters: 
+      - in: path
+        name: organizationID
+        required: true
+        description: Organisation ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      responses:
+        "202":
+          description: "Deleted EULA URL for an organization"
+        "400":
+          description: "Invalid EULA URL provided"
+        "401":
+          description: "Unauthorized"
+      
+  /organizations/{organizationID}/purposes:
+    post:
+      description: Adds a new personal data usage purpose to an organisation. This is provisioned by an organisation during data model upload. The organization is able to give a description towards their users, and the applicable lawful bases for processing, for example as defined in Article 6 of the GDPR.
+      operationId: Add usage purpose
+      tags:
+      - Data model management
+      security: 
+      - bearerAuth: []
+      parameters: 
+      - in: path
+        name: organizationID
+        required: true
+        description: Organisation ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                purposes:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      description:
+                        type: string
+                      lawfulusage:
+                        type: boolean
+                      policyurl:
+                        type: string
+                    required: 
+                    - name
+                    - description
+                    - policyurl
+                    example:
+                      name: "Marketing and capmpaign"
+                      description: "For this purpose, following personal data attributes shown below are used. You may consent to share your data at attribute level."
+                      lawfulusage: false
+                      policyurl: "https://igrant.io/policy_default.html"
+        required: true
+      responses:
+        "201":
+          description: "Returns organisation (with newly created purposes)"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Organization:
+                    $ref: '#/components/schemas/Organisation'
+        "401":
+          description: "Unauthorized"
+        
+    get:
+      description: Gets all the usage purposes defined in the organisation. This information is used towards an organisation list the usage purpose and to obtain user consents.
+      operationId: Get all usage purposes
+      tags: 
+      - Data model management
+      security: 
+      - bearerAuth: []
+      parameters: 
+      - in: path
+        name: organizationID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      responses:
+        "201": 
+          description: "Returns all the purposes for an organization"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  OrgID:
+                    type: string
+                    example: "5dae01aa267e930001609aa4"
+                  Purposes:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Purpose'
+        "401":
+          description: "Unauthorized"
+        
+          
+  /organizations/{organizationID}/purposes/{purposeID}:
+    get:
+      description: Gets a particular usage purpose defined in the organisation. This information is used towards an organisation user to obtain user consents.
+      operationId: Get a usage purpose
+      tags: 
+      - Data model management
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      - in: path
+        name: purposeID
+        required: true
+        description: Purpose ID
+        schema:
+          type: string
+          example: "5dae01e8267e930001609aa7"
+      responses:
+        "200":
+          description: "Returns purpose and associated attributes"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Purpose:
+                    $ref: '#/components/schemas/Purpose'
+                  Templates:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Template'
+        "401":
+          description: "Unauthorized"
+    
+    delete:
+      description: Deletes an existing data usage purpose.
+      operationId: Delete a usage purpose
+      tags:
+      - Data model management
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      - in: path
+        name: purposeID
+        required: true
+        description: Purpose ID
+        schema:
+          type: string
+          example: "5dae01e8267e930001609aa7"
+      responses:
+        "201":
+          description: "Returns organisation"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Organization:
+                    $ref: '#/components/schemas/Organisation'
+        "401":
+          description: "Unauthorized"
+    
+    put:
+      description: Updates a new personal data usage purpose in an organisation. 
+        The organisation is able to modify details provisioned earlier.
+      operationId: Update usage purpose
+      tags: 
+      - Data model management
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      - in: path
+        name: purposeID
+        required: true
+        description: Purpose ID
+        schema:
+          type: string
+          example: "5dae01e8267e930001609aa7"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+                lawfulusage:
+                  type: boolean
+                policyurl:
+                  type: string
+              required: 
+              - name
+              - description
+              - policyurl
+              example:
+                name: "Marketing and campaign"
+                description: "For this purpose, following personal data attributes shown below are used. You may consent to share your data at attribute level."
+                lawfulusage: false
+                policyurl: "https://igrant.io/policy_default.html"
+        required: true
+      responses:
+        "201":
+          description: "Returns the organisation"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Organization:
+                    $ref: '#/components/schemas/Organisation'
+        "401":
+          description: "Unauthorized"
+  
+  /organizations/{organizationID}/templates:
+    get:
+      description: Gets all attributes and its attached list of one or more usage purposes
+      operationId: Get attributes with usage purposes
+      tags: 
+      - Data model management
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organisation ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      responses:
+        "201":
+          description: "Returns attributes and attached purposes"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  OrgID:
+                    type: string
+                    example: "5dae01aa267e930001609aa4"
+                  Templates:
+                    type: array
+                    items:
+                      allOf:
+                      - $ref: "#/components/schemas/Template"
+                      - type: object
+                        properties:
+                          PurposeIDs:
+                            type: array
+                            items:
+                              type: string
+                        example:
+                          PurposeIDs:
+                          - "5db0303ba531350001afc7e0"
+                          - "5db03048a531350001afc7e1"
+          
+        "401":
+          description: "Unauthorized"
+    
+    post:
+      description: Adds an attribute and attaches it one or more pre-defined usage purposes
+      operationId: Add attribute to purpose
+      tags: 
+      - Data model management
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organisation ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                templates:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      consent:
+                        type: string
+                        example: "Age"
+                      purposeids:
+                        type: array
+                        items:
+                          type: string
+                        example:
+                        - "5f1c9298fd59960001434c6d"
+                    required: 
+                    - consent
+                    - purposeids
+              required: 
+              - templates
+        required: true
+      
+      responses:
+        "201":
+          description: "Returns organisation"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Organization:
+                    $ref: '#/components/schemas/Organisation'
+        "401":
+          description: "Unauthorized"
+  
+  /organizations/{organizationID}/templates/{templateID}:
+    delete:
+      description: Deletes an attribute and the detaches it from a usage purpose
+      operationId: Delete attribute
+      tags: 
+      - Data model management
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organisation ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      - in: path
+        name: templateID
+        required: true
+        description: Attribute ID
+        schema:
+          type: string
+          example: "5f1c9ae4fd59960001434c6f"
+      responses:
+        "201":
+          description: "Returns organisation"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Organization:
+                    $ref: '#/components/schemas/Organisation'
+        "401":
+          description: "Unauthorized"
+    
+    put:
+      description: Updates an attribute details, attaches or detaches to one or more purposes
+      operationId: Update attribute
+      tags: 
+      - Data model management
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organisation ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      - in: path
+        name: templateID
+        required: true
+        description: Attribute ID
+        schema:
+          type: string
+          example: "5f1c9ae4fd59960001434c6f"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                consent:
+                  type: string
+                  example: "Age"
+                purposeids:
+                  type: array
+                  items:
+                    type: string
+                  example:
+                  - "5f1c9298fd59960001434c6d"
+              required: 
+              - consent
+              - purposeids
+      responses:
+        "201":
+          description: "Returns organisation"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Organization:
+                    $ref: '#/components/schemas/Organisation'
+        "401":
+          description: "Unauthorized"
+  
+  /organizations/{organizationID}/admins:
+    get:
+      description: Gets all admin users of an organisation. The various user types include admins, DPOs and developers
+      operationId: Get organisation admins
+      tags: 
+      - Internal
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organisation ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      responses:
+        "200":
+          description: "Return organisation admins"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    UserID:
+                      type: string
+                      example: "5dae01aa267e930001609aa3"
+                    Role:
+                      type: string
+                      example: "Admin"
+        "401":
+          description: "Unauthorized"
+    
+    post:
+      description: Add admins, dpo and other roles to organization users. 
+      operationId: Add organisation roles
+      tags: 
+      - Internal
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organisation ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userid:
+                  type: string
+                  example: "5dbc02ecb99fd0000157547a"
+                roleid:
+                  type: integer
+                  example: 1
+              required: 
+              - userid
+              - roleid
+        required: true
+      
+      responses:
+        "201":
+          description: "Returns organisation"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Organization:
+                    $ref: '#/components/schemas/Organisation'
+        "401":
+          description: "Unauthorized"
+    
+    # Todo: Fix delete operation cannot have request body
+    delete:
+      description: Deletes an admin user from an organization
+      operationId: Delete admin user
+      tags: 
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organisation ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      # requestBody:
+      #   content:
+      #     application/json:
+      #       schema:
+      #         type: object
+      #         properties:
+      #           userid:
+      #             type: string
+      #             example: "5dbc02ecb99fd0000157547a"
+      #           roleid:
+      #             type: integer
+      #             example: 1
+      #         required: 
+      #         - userid
+      #         - roleid
+      #   required: true
+      responses:
+        "200":
+          description: "Returns organisation"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Organization:
+                    $ref: '#/components/schemas/Organisation'
+        "401":
+          description: "Unauthorized"
+  
+  /organizations/{organizationID}/coverimage:
+    post:
+      description: Updates an organizations cover image. This images are seen by the users in their app, portal etc.
+      operationId: Update org cover image
+      tags:
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organisation ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                orgimage:
+                  type: string
+                  format: binary
+              required:
+              - orgimage
+        required: true
+      responses:
+        "200":
+          description: "Returns organisation"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Organization:
+                    $ref: '#/components/schemas/Organisation'
+        "401":
+          description: "Unauthorized"
+  
+  /organizations/{organizationID}/image/{imageID}:
+    get:
+      description: Gets the organization image with the image ID
+      operationId: Get org image
+      tags: 
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organisation ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      - in: path
+        name: imageID
+        required: true
+        description: Image ID
+        schema:
+          type: string
+          example: "5d95a5c0a67c8800012f27d2"
+      responses:
+        "200":
+          description: "Returns organization image"
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+        "401":
+          description: "Unauthorized"
+        "404":
+          description: "404 not found"
+  
+  /organizations/{organizationID}/image/{imageID}/web:
+    get:
+      description: Gets an organization cover image
+      operationId: Get org cover image
+      tags: 
+      - Internal
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organisation ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      - in: path
+        name: imageID
+        required: true
+        description: Image ID
+        schema:
+          type: string
+          example: "5d95a5c0a67c8800012f27d2"
+      responses:
+        "200":
+          description: "Returns organization image"
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+        "404":
+          description: "404 not found"
+  
+  /organizations/{organizationID}/logoimage:
+    post:
+      description: Updates an organization logo image
+      operationId: Updates logo image
+      tags:
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organisation ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                orgimage:
+                  type: string
+                  format: binary
+              required:
+              - orgimage
+        required: true
+      responses:
+        "200":
+          description: "Returns organisation"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Organization:
+                    $ref: '#/components/schemas/Organisation'
+        "401":
+          description: "Unauthorized"
+          
+  /organizations/{organizationID}/users:
+    get:
+      description: Gets the list of users who are subscribed or registerd with an organisation
+      operationId: Get subscribed users
+      tags:
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organisation ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      - in: query
+        name: limit
+        required: false
+        description: Pagination limit (No of results)
+        schema:
+          type: integer
+          example: 20
+      - in: query
+        name: startid
+        required: false
+        description: Pagination start offset (ID of the result object for e.g. user ID, organisation ID e.t.c.)
+        schema:
+          type: string
+          example: "5db0181fa531350001afc7d5"
+      responses:
+        "200":
+          description: Returns organization users
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Users:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        ID:
+                          type: string
+                          example: "5e8468d19380c40001f3ef69"
+                        Name:
+                          type: string
+                          example: "Joseph George"
+                        Phone:
+                          type: string
+                          example: "+467252844669"
+                        Email:
+                          type: string
+                          example: "george@orgmail.com"
+                  Links:
+                    type: object
+                    properties:
+                      Self:
+                        type: string
+                        example: "https://<image-server>/5dae01aa267e930001609aa4/users?limit=20"
+                      Next:
+                        type: string
+                        example: "https://<image-server>/5dae01aa267e930001609aa4/users?limit=1&startid=5e833b4d9380c40001f3ef65"
+                        
+        "401":
+          description: Unauthorized
+      
+    post:
+      description: Provisions individual users to organisations. This is used when organisation onboards their users or when users subscribe to organisations, for example in a data wallet.
+      operationId: Add user to organization
+      tags:
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organisation ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userid:
+                  type: string
+                  example: "5f0c2ec1d6f0970001fae263"
+                subscribekey: 
+                  type: string
+                  example: "GBDL-SQPR-QN1O"
+      responses:
+        "200":
+          description: "Returns the added user"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  User:
+                    $ref: '#/components/schemas/User'
+        "400":
+          description: "Invalid subscription token"
+        "401":
+          description: "Unauthorized"
+  
+  /organizations/{organizationID}/users/count:
+    get:
+      description: Gets the total number of users subscribed to an organisation
+      operationId: Get total subscribed users
+      tags:
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organisation ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      responses:
+        "200":
+          description: Returns subscribed users count
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  SubscribeUserCount:
+                    type: integer
+                    example: 7
+        "401":
+          description: "Unauthorized"
+  
+  
+  /organizations/{organizationID}/users/{userID}:
+    delete:
+      description: Removes user from  an organization
+      operationId: Remove user
+      tags:
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organisation ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      - in: path
+        name: userID
+        required: true
+        description: User ID
+        schema:
+          type: string
+          example: "5dbc02ecb99fd0000157547a"
+      responses:
+        "200":
+          description: Returns the user (with updated orgs)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  User:
+                    $ref: '#/components/schemas/User'
+        "401":
+          description: Unauthorized
+          
+  
+  /users:
+    get:
+      description: "Get all users"
+      operationId: "Get all users"
+      tags:
+      - Internal
+      security:
+      - bearerAuth: []
+      responses:
+        "200":
+          description: "Return all the users"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    ID:
+                      type: string
+                      example: "5dae01aa267e930001609aa3"
+                    Email:
+                      type: string
+                      example: "dmart@yopmail.com"
+                    Name:
+                      type: string
+                      example: "Ravi Shankar"
+        "401":
+          description: "Unauthorized"
+                  
+    post:
+      description: "Add user to the system"
+      operationId: "Add user"
+      tags:
+      - Internal
+      security: 
+      - bearerAuth: []
+      deprecated: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                phone:
+                  type: string
+                  example: "+12222332233"
+                name:
+                  type: string
+                  example: "Donny Yang"
+              required:
+              - phone
+              - name
+        required: true
+      responses:
+        "201":
+          description: "Return created user"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  User:
+                    $ref: '#/components/schemas/User'
+        "401":
+          description: "Unauthorized"
+        "500":
+          description: "Invalid request payload"
+  
+  /users/{userID}:
+    get:
+      description: Get user by ID
+      operationId: Get user by ID
+      tags:
+      - Internal
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: userID
+        required: true
+        description: User ID
+        schema:
+          type: string
+          example: "5dbc02ecb99fd0000157547a"
+      responses:
+        "200":
+          description: Returns the user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  User:
+                    $ref: '#/components/schemas/User'
+        "500":
+          description: Invalid user ID
+        "401":
+          description: Unauthorized
+    delete:
+      description: Delete user
+      operationId: Delete user
+      tags:
+      - Internal
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: userID
+        required: true
+        description: User ID
+        schema:
+          type: string
+          example: "5dbc02ecb99fd0000157547a"
+      responses:
+        "204":
+          description: "Deleted the user"
+        "404":
+          description: "User not found"
+        "401":
+          description: "Unauthorized"
+  
+  /users/{userID}/image/{imageID}:
+    get:
+      description: Get the image for a particular user
+      operationId: Get user image
+      tags:
+      - Service management (User)
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: userID
+        required: true
+        description: User ID
+        schema:
+          type: string
+          example: "5dbc02ecb99fd0000157547a"
+      - in: path
+        name: imageID
+        required: true
+        description: Image ID
+        schema:
+          type: string
+          example: "5f1d727bfd59960001434c79"
+      responses:
+        "200":
+          description: "Returns user image"
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+        "401":
+          description: "Unauthorized"
+        "404":
+          description: "404 not found"
+  
+  /users/{userID}/image/{imageID}/web:
+    get:
+      description: Get the image for a particular user
+      operationId: Get users image
+      tags:
+      - Internal
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: userID
+        required: true
+        description: User ID
+        schema:
+          type: string
+          example: "5dbc02ecb99fd0000157547a"
+      - in: path
+        name: imageID
+        required: true
+        description: Image ID
+        schema:
+          type: string
+          example: "5f1d727bfd59960001434c79"
+      responses:
+        "200":
+          description: "Returns user image"
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+        "401":
+          description: "Unauthorized"
+        "404":
+          description: "404 not found"
+  
+  /users/{userID}/image:
+    post:
+      description: Updates the image of a particular user
+      operationId: Update users image
+      tags:
+      - Service management (User)
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: userID
+        required: true
+        description: User ID
+        schema:
+          type: string
+          example: "5dbc02ecb99fd0000157547a"
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                userimage:
+                  type: string
+                  format: binary
+              required:
+              - userimage
+        required: true
+      responses:
+        "200":
+          description: Returns user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  User:
+                    $ref: '#/components/schemas/User'
+        "500":
+          description: Invalid user image provided
+        "401":
+          description: Unauthorized
+    
+    delete:
+      description:  Deletes a particular user image
+      operationId: Delete user image
+      tags:
+      - Service management (User)
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: userID
+        required: true
+        description: User ID
+        schema:
+          type: string
+          example: "5dbc02ecb99fd0000157547a"
+      responses:
+        "200":
+          description: Returns user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  User:
+                    $ref: '#/components/schemas/User'
+        "401":
+          description: Unauthorized
+      
+  /users/{userID}/organizations:
+    get:
+      description: Gets details of all organizations subscribed by the user
+      operationId: Get subscribed organisations
+      tags:
+      - Internal
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: userID
+        required: true
+        description: User ID
+        schema:
+          type: string
+          example: "5dbc02ecb99fd0000157547a"
+      - in: query
+        name: typeID
+        required: false
+        description: Organization type ID (for filtering)
+        schema:
+          type: string
+          example: "5d17cc114dacb40001b29094"
+      responses:
+        "200":
+          description: Returns subscribed organizations
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  UserOrganizations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Organisation'
+        "401":
+          description: Unauthorized
+      
+    
+  # Same as GetConsentByID
+  /organizations/{orgID}/users/{userID}/consents:
+    get:
+      operationId: Get consents for a user
+      description: Get consents for a particular user. This will include all consents given  for the defined usage purposes and data attributes within the usage purpose.
+      tags:
+      - Permissions and consents
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: orgID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      - in: path
+        name: userID
+        required: true
+        description: User ID
+        schema:
+          type: string
+          example: "5dbc02ecb99fd0000157547a"
+      responses:
+        "200":
+          description: Return consents and purposes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ID:
+                    type: string
+                    example: "5e4e91036c7aa200012aa9da"
+                  OrgID:
+                    type: string
+                    example: "5dae01aa267e930001609aa4"
+                  UserID:
+                    type: string
+                    example: "5dbc02ecb99fd0000157547a"
+                  ConsentsAndPurposes:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        Purpose:
+                          $ref: '#/components/schemas/Purpose'
+                        Count:
+                          type: object
+                          properties:
+                            Total:
+                              type: integer
+                              example: 4
+                            Consented:
+                              type: integer
+                              example: 4
+                        Consents:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/AttributeConsent'
+                          
+        "401":
+          description: Unauthorized
+          
+          
+  /organizations/{orgID}/users/{userID}/consents/{consentID}:
+    get:
+      operationId: Gets user consent 
+      description: Get user consent by ID
+      tags:
+      - Permissions and consents
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: orgID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      - in: path
+        name: userID
+        required: true
+        description: User ID
+        schema:
+          type: string
+          example: "5dbc02ecb99fd0000157547a"
+      - in: path
+        name: consentID
+        required: true
+        description: Consent ID
+        schema:
+          type: string
+          example: "5e4e91036c7aa200012aa9da"
+      responses:
+        "200":
+          description: Return consents and purposes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ID:
+                    type: string
+                    example: "5e4e91036c7aa200012aa9da"
+                  OrgID:
+                    type: string
+                    example: "5dae01aa267e930001609aa4"
+                  UserID:
+                    type: string
+                    example: "5dbc02ecb99fd0000157547a"
+                  ConsentsAndPurposes:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        Purpose:
+                          $ref: '#/components/schemas/Purpose'
+                        Count:
+                          type: object
+                          properties:
+                            Total:
+                              type: integer
+                              example: 4
+                            Consented:
+                              type: integer
+                              example: 4
+                        Consents:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/AttributeConsent'
+                          
+        "401":
+          description: Unauthorized        
+  
+  /organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}:
+    get:
+      description: Gets all the consents for a given purpose by ID
+      operationId: Get all purpose consents
+      tags: 
+      - Permissions and consents
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: orgID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      - in: path
+        name: userID
+        required: true
+        description: User ID
+        schema:
+          type: string
+          example: "5dbc02ecb99fd0000157547a"
+      - in: path
+        name: consentID
+        required: true
+        description: Consent ID
+        schema:
+          type: string
+          example: "5e4e91036c7aa200012aa9da"
+      - in: path
+        name: purposeID
+        required: true
+        description: Purpose ID
+        schema:
+          type: string
+          example: "5dae01e8267e930001609aa7"
+      responses:
+        "200":
+          description: Return consents for a given purpose
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ID:
+                    type: string
+                    example: "5e4e91036c7aa200012aa9da"
+                  ConsentID:
+                    type: string
+                    example: "5e4e91036c7aa200012aa9da"
+                  OrgID:
+                    type: string
+                    example: "5dae01aa267e930001609aa4"
+                  UserID:
+                    type: string
+                    example: "5dbc02ecb99fd0000157547a"
+                  Consents:
+                    type: object
+                    properties:
+                      Purpose:
+                        $ref: '#/components/schemas/Purpose'
+                      Count:
+                        type: object
+                        properties:
+                          Total:
+                            type: integer
+                            example: 4
+                          Consented:
+                            type: integer
+                            example: 4
+                      Consents:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/AttributeConsent'
+                          
+        "401":
+          description: Unauthorized
+    
+    patch:
+      description: Update attribute consent for a given purpose
+      operationId: Update consents for attribute
+      deprecated: true
+      tags: 
+      - Permissions and consents
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: orgID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      - in: path
+        name: userID
+        required: true
+        description: User ID
+        schema:
+          type: string
+          example: "5dbc02ecb99fd0000157547a"
+      - in: path
+        name: consentID
+        required: true
+        description: Consent ID
+        schema:
+          type: string
+          example: "5e4e91036c7aa200012aa9da"
+      - in: path
+        name: purposeID
+        required: true
+        description: Purpose ID
+        schema:
+          type: string
+          example: "5dae01e8267e930001609aa7"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                consentattributes:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      attributeid:
+                        type: string
+                        example: "5dae01ee267e930001609aa8"
+                    required:
+                    - attributeid
+                consented:
+                  type: string
+                  example: "Allow"
+              required:
+              - consentattributes
+              - consented
+      responses:
+        "200":
+          description: "Returns consents for the purpose"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ID:
+                    type: string
+                    example: "5e4e91036c7aa200012aa9da"
+                  OrgID:
+                    type: string
+                    example: "5dae01aa267e930001609aa4"
+                  UserID:
+                    type: string
+                    example: "5dbc02ecb99fd0000157547a"
+                  Purposes:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        ID:
+                          type: string
+                          example: "5dae1058a1215e00012103d8"
+                        AllowAll:
+                          type: boolean
+                          example: false
+                        Consents:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              Status:
+                                type: object
+                                properties:
+                                  Consented:
+                                    type: string
+                                    example: "Allow"
+                                  TimeStamp:
+                                    type: string
+                                    format: date-time
+                                    example: "0001-01-01T00:00:00Z"
+                                  Days:
+                                    type: integer
+                                    example: 0
+                              Value:
+                                type: string
+                                example: ""
+                              TemplateID:
+                                type: string
+                                example: "5dae01f4267e930001609aa9"
+        "400":
+          description: "Invalid request payload"
+        "404":
+          description: "Not found"
+        "401":
+          description: "Unauthorized"
+  
+  /organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}/status:
+    get:
+      deprecated: false
+      description: Gets all consent attributes status for a given usage purpose
+      operationId: Get all consents
+      tags: 
+      - Permissions and consents
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: orgID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      - in: path
+        name: userID
+        required: true
+        description: User ID
+        schema:
+          type: string
+          example: "5dbc02ecb99fd0000157547a"
+      - in: path
+        name: consentID
+        required: true
+        description: Consent ID
+        schema:
+          type: string
+          example: "5e4e91036c7aa200012aa9da"
+      - in: path
+        name: purposeID
+        required: true
+        description: Purpose ID
+        schema:
+          type: string
+          example: "5dae01e8267e930001609aa7"
+      
+      responses:
+        "200":
+          description: Return all consent attributes status for a given usage purpose
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Consented:
+                    type: string
+                    example: "Disallow"
+        "401":
+          description: Unauthorized
+    
+    post:
+      description: Updates all attribute consents of a given purpose
+      operationId: Updates attribute consents for purpose
+      tags: 
+      - Permissions and consents
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: orgID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      - in: path
+        name: userID
+        required: true
+        description: User ID
+        schema:
+          type: string
+          example: "5dbc02ecb99fd0000157547a"
+      - in: path
+        name: consentID
+        required: true
+        description: Consent ID
+        schema:
+          type: string
+          example: "5e4e91036c7aa200012aa9da"
+      - in: path
+        name: purposeID
+        required: true
+        description: Purpose ID
+        schema:
+          type: string
+          example: "5dae01e8267e930001609aa7"
+      
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                consented:
+                  type: string
+                  example: "Allow"
+              required: 
+              - consented
+      
+      responses:
+        "200":
+          description: Return consents and purposes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ID:
+                    type: string
+                    example: "5e4e91036c7aa200012aa9da"
+                  OrgID:
+                    type: string
+                    example: "5dae01aa267e930001609aa4"
+                  UserID:
+                    type: string
+                    example: "5dbc02ecb99fd0000157547a"
+                  ConsentsAndPurposes:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        Purpose:
+                          $ref: '#/components/schemas/Purpose'
+                        Count:
+                          type: object
+                          properties:
+                            Total:
+                              type: integer
+                              example: 4
+                            Consented:
+                              type: integer
+                              example: 4
+                        Consents:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/AttributeConsent'
+                          
+        "401":
+          description: Unauthorized 
+  
+  /organizations/{orgID}/users/{userID}/consents/{consentID}/purposes/{purposeID}/attributes/{attributeID}:
+    patch:
+      description: Updates a single attribute consent for a usage purpose
+      operationId: Update an attribute consent
+      tags:
+      - Permissions and consents
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: orgID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      - in: path
+        name: userID
+        required: true
+        description: User ID
+        schema:
+          type: string
+          example: "5dbc02ecb99fd0000157547a"
+      - in: path
+        name: consentID
+        required: true
+        description: Consent ID
+        schema:
+          type: string
+          example: "5e4e91036c7aa200012aa9da"
+      - in: path
+        name: purposeID
+        required: true
+        description: Purpose ID
+        schema:
+          type: string
+          example: "5dae01e8267e930001609aa7"
+      - in: path
+        name: attributeID
+        required: true
+        description: Attribute ID
+        schema:
+          type: string
+          example: "5dae01ee267e930001609aa8"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                consented:
+                  type: string
+                  example: "Allow"
+                days:
+                  type: integer
+                  example: 0
+              required:
+              - consented
+              - days
+      responses:
+        "200":
+          description: Consent updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Msg:
+                    type: string
+                    example: Consent updated successfully
+                  Status:
+                    type: integer
+                    example: 200
+        "401":
+          description: Unauthorized
+  
+  
+  /organizations/{orgID}/purposes/{purposeID}/attributes/consent:
+    post:
+      description: Make special request for consent for an attribute for all users in this organization. A notification is sent if the user consent is not present for the given attribute i.e. it is Disallow (as a notification to mobile app)
+      operationId: Notify consent requests
+      tags:
+      - Permissions and consents
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: orgID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      - in: path
+        name: purposeID
+        required: true
+        description: Purpose ID
+        schema:
+          type: string
+          example: "5dae01e8267e930001609aa7"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                attributeids:
+                  type: array
+                  items:
+                    type: string
+                    example: "5f1df5c84e26ea0001b9f3a7"
+      
+      responses:
+        "202":
+          description: "Notification requesting attribute consent is sent to user devices"
+        "401":
+          description: "Unauthorized"
+                      
+  /organizations/{orgID}/notify-data-breach:
+    post:
+      description: Notifies all subscribed users of any data breaches that has occured 
+        in the organisation. This, for example, is as per Art. 34 GDPR (Communication of 
+        a personal data breach to the data subject) and can be used for this purpose.
+      operationId: Notify data breach
+      tags:
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: orgID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                headline:
+                  type: string
+                  example: Data breach alert
+                userscount:
+                  type: integer
+                  example: 200
+                dpoemail:
+                  type: string
+                  example: dpo@abc.com
+                consequence:
+                  type: string
+                  example: Exposed authentication credentials of some of the clients
+                measures:
+                  type: string
+                  example: Update the account passwords within 24hours
+              required: 
+              - headline
+              - dpoemail
+              - consequence
+              - measures
+      responses:
+        "202":
+          description: "Data breach notification send to the users"
+        "400":
+          description: "Invalid request payload"
+        "401":
+          description: "Unauthorized"
+      
+  /organizations/{orgID}/notify-events:
+    post:
+      description: Notifies all subscribed users about general events
+      operationId: Notify events
+      tags: 
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: orgID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                details:
+                  type: string
+                  example: "General event notification"
+              required:
+              - details
+      responses:
+        "202":
+          description: "General event notification send to the users"
+        "400":
+          description: "Invalid request payload"
+        "401":
+          description: "Unauthorized"
+  
+  /organizations/{orgID}/purposes/{purposeID}/attributes/{attributeID}/consented/users:
+    get:
+      description: Gets all users who consented to a given attribute for an usage purpose
+      operationId: Get all consented users (Attribute)
+      tags:
+      - Permissions and consents
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: orgID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      - in: path
+        name: purposeID
+        required: true
+        description: Purpose ID
+        schema:
+          type: string
+          example: "5dae01e8267e930001609aa7"
+      - in: path
+        name: attributeID
+        required: true
+        description: Attribute ID
+        schema:
+          type: string
+          example: "5dae01ee267e930001609aa8"
+      responses:
+        "200":
+          description: Returns users
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Users:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        ID:
+                          type: string
+                          example: "5dbc02ecb99fd0000157547a"
+                        Name:
+                          type: string
+                          example: "Donny Yang"
+                        Phone:
+                          type: string
+                          example: "+44 7744 156699"
+                        Email:
+                          type: string
+                          example: "donny@yopmail.com"
+                  Links:
+                    type: object
+                    properties:
+                      Self:
+                        type: string
+                        example: "https://<server-url>/5dae01aa267e930001609aa4/purposes/5dae1058a1215e00012103d8/attributes/5dae106ba1215e00012103d9/consented/users?limit=50"
+                      Next:
+                        type: string
+                        example: "https://<server-url>/5dae01aa267e930001609aa4/purposes/5dae1058a1215e00012103d8/attributes/5dae106ba1215e00012103d9/consented/users?limit=50&startid=5dbc02ecb99fd0000157547a"
+        "401":
+          description: Unauthorized
+  
+  /organizations/{orgID}/purposes/{purposeID}/consented/users:
+    get:
+      description: Gets all users who consented to a given usage purpose
+      operationId: Get all consented users (Purpose)
+      tags:
+      - Permissions and consents
+      security: 
+      - bearerAuth: []
+      
+      parameters:
+      - in: path
+        name: orgID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      - in: path
+        name: purposeID
+        required: true
+        description: Purpose ID
+        schema:
+          type: string
+          example: "5dae01e8267e930001609aa7"
+      - in: query
+        name: limit
+        required: false
+        description: Pagination limit
+        schema:
+          type: integer
+          example: 40
+      - in: query
+        name: startid
+        required: false
+        description: Pagination start ID (for e.g. action log ID)
+        schema:
+          type: string
+          example: "5db6c4d3181e17c64776e741"
+      
+      responses:
+        "200":
+          description: Returns users
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Users:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        ID:
+                          type: string
+                          example: "5dbc02ecb99fd0000157547a"
+                        Name:
+                          type: string
+                          example: "Donny Yang"
+                        Phone:
+                          type: string
+                          example: "+44 7744 156699"
+                        Email:
+                          type: string
+                          example: "donny@yopmail.com"
+                  Links:
+                    type: object
+                    properties:
+                      Self:
+                        type: string
+                        example: "https://<server-url>/5dae01aa267e930001609aa4/purposes/5dae1058a1215e00012103d8/consented/users?limit=50"
+                      Next:
+                        type: string
+                        example: "https://<server-url>/5dae01aa267e930001609aa4/purposes/5dae1058a1215e00012103d8/consented/users?limit=50&startid=5db0181fa531350001afc7d5"
+        "401":
+          description: Unauthorized
+  
+  /organizations/{orgID}/logs:
+    get:
+      description: Gets all action logs for an organization
+      operationId: Get logs
+      tags:
+      - Logging and accountability
+      security: 
+      - bearerAuth: []
+      
+      parameters:
+      - in: path
+        name: orgID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      
+      - in: query
+        name: limit
+        required: false
+        description: Pagination limit
+        schema:
+          type: integer
+          example: 40
+      - in: query
+        name: startid
+        required: false
+        description: Pagination start ID (for e.g. action log ID)
+        schema:
+          type: string
+          example: "5db6c4d3181e17c64776e741"
+      responses:
+        "200": 
+          description: Returns organisation logs
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Logs:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/OrganisationActionLog'
+                  Links:
+                    type: object
+                    properties:
+                      Self:
+                        type: string
+                        example: "https://staging-api.igrant.io/v1/organizations/5dae01aa267e930001609aa4/logs?limit=50"
+                      Next:
+                        type: string
+                        example: "https://staging-api.igrant.io/v1/organizations/5dae01aa267e930001609aa4/logs?startid=5db6c4d1181e17c64776e72a&limit=50"
+                    
+        "401":
+          description: Unauthorized
+  
+  /organizations/{organizationID}/qrcode:
+    post:
+      description: Generates a QR code for organization
+      operationId: Generate org QR code
+      tags:
+      - Personal data transfer
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      responses:
+        "200":
+          description: Returns organization QR code
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+        "401":
+          description: Unauthorized
+    get:
+      description: Gets an organization QR code
+      operationId: Get org QR code
+      tags:
+      - Personal data transfer
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      
+      responses:
+        "200":
+          description: Returns organization QR code
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+        "401":
+          description: Unauthorized
+        "500":
+          description: QR code does not exist
+    
+    delete:
+      description: Deletes an organization QR code
+      operationId: Delete org QR code
+      tags:
+      - Personal data transfer
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      
+      responses:
+        "204":
+          description: Deleted organization QR code
+        "401":
+          description: Unauthorized
+        "500":
+          description: QR code doesnot exist
+  
+  /organizations/{orgID}/qrcode/web:
+    get:
+      description: Get organization QR code (web)
+      operationId: Get org QR code (web)
+      tags:
+      - Personal data transfer
+      parameters:
+      - in: path
+        name: orgID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      
+      responses:
+        "200":
+          description: Returns organization QR code
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+        "401":
+          description: Unauthorized
+        "500":
+          description: QR code does not exist
+  
+  /organizations/{orgID}/purposes/{purposeID}/qrcode:
+    get:
+      description: Gets an organization QR code created for a particular usage purpose
+      operationId: Get purpose QR code
+      tags:
+      - Personal data transfer
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: orgID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      - in: path
+        name: purposeID
+        required: true
+        description: Purpose ID
+        schema:
+          type: string
+          example: "5dae01e8267e930001609aa7"
+      responses:
+        "200":
+          description: Returns purpose QR code
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+        "401":
+          description: Unauthorized
+        "500":
+          description: QR code does not exist
+    post:
+      description: Generates a QR code for an organization for a particular usage purpose
+      operationId: Generate purpose QR code
+      tags:
+      - Personal data transfer
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: orgID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      - in: path
+        name: purposeID
+        required: true
+        description: Purpose ID
+        schema:
+          type: string
+          example: "5dae01e8267e930001609aa7"
+      responses:
+        "200":
+          description: Returns purpose QR code
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+        "401":
+          description: Unauthorized
+        "500":
+          description: QR code does not exist
+    
+    delete:
+      description: Deletes an organization's purpose level QR code
+      operationId:  Delete purpose QR code
+      tags:
+      - Personal data transfer
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: orgID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      - in: path
+        name: purposeID
+        required: true
+        description: Purpose ID
+        schema:
+          type: string
+          example: "5dae01e8267e930001609aa7"
+      responses:
+        "204":
+          description: Deleted purpose QR code
+        "401":
+          description: Unauthorized
+        "500":
+          description: QR code doesnot exist
+  
+  /organizations/{orgID}/purposes/{purposeID}/qrcode/web:
+    get:
+      description: Gets the QR code for an organization for a particular usage purpose that was generated earlier (web)
+      operationId: Get purpose QR code (web)
+      tags:
+      - Personal data transfer
+      parameters:
+      - in: path
+        name: orgID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      - in: path
+        name: purposeID
+        required: true
+        description: Purpose ID
+        schema:
+          type: string
+          example: "5dae01e8267e930001609aa7"
+      responses:
+        "200":
+          description: Returns purpose QR code
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+        "401":
+          description: Unauthorized
+        "500":
+          description: QR code doesnot exist
+  
+  /organizations/{orgID}/data-requests:
+    get:
+      description: Get data requests. These are requests placed by the users to the organization in regards with their data. 
+        for e.g. data download request, data delete request, data modify request
+      operationId: Get data requests
+      tags: 
+      - Personal data transfer
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: orgID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      - in: query
+        name: status
+        required: true
+        description: Status of the data request
+        schema:
+          type: string
+          example: "open"
+          enum: [open, closed]
+      - in: query
+        name: limit
+        required: false
+        description: Pagination limit
+        schema:
+          type: integer
+          example: 40
+      - in: query
+        name: startid
+        required: false
+        description: Pagination start ID (for e.g. data request ID)
+        schema:
+          type: string
+          example: "5de4f01e181e17c6477cc217"
+      responses:
+        "200":
+          description: "Returns user data requests"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  DataRequests:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DataRequest'
+                  IsRequestsOngoing:
+                    type: boolean
+                    example: false
+                  IsDataDeleteRequestOngoing:
+                    type: boolean
+                    example: false
+                  IsDataDownloadRequestOngoing:
+                    type: boolean
+                    example: false
+                  Links:
+                    type: object
+                    properties:
+                      Self:
+                        type: string
+                        example: "https://staging-api.igrant.io/v1/organizations/5dae01aa267e930001609aa4/data-requests?limit=50"
+                      Next:
+                        type: string
+                        example: "https://staging-api.igrant.io/v1/organizations/5dae01aa267e930001609aa4/data-requests?limit=50&startid=5de4f01e181e17c6477cc217"
+                    
+        "400":
+          description: "Invalid status"
+        "500":
+          description: "Unable to fetch data request for the organization"
+  
+  /organizations/{organizationID}/data-requests/{dataReqID}:
+    get:
+      description: Gets a data request by ID
+      operationId: Get data request
+      tags:
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      - in: path
+        name: dataReqID
+        required: true
+        description: Data request ID
+        schema:
+          type: string
+          example: "5de4f01e181e17c6477cc217"
+      responses:
+        "200":
+          description: Returns data request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataRequest'
+        "500":
+          description: Failed to fetch data request
+        "401":
+          description: Unauthorized
+    patch:
+      description: Updates user requests status for a particular user request
+      operationId: Update user request status
+      tags:
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      - in: path
+        name: dataReqID
+        required: true
+        description: Data request ID
+        schema:
+          type: string
+          example: "5de4f01e181e17c6477cc217"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                state:
+                  type: integer
+                  example: 7
+                comment:
+                  type: string
+                  example: ""
+              required: 
+              - state
+      responses:
+        "200":
+          description: Returns data request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataRequest'
+        "500":
+          description: Invalid request payload
+        "401":
+          description: Unauthorized
+  
+  /organizations/privacy-dashboard-status:
+    get:
+      operationId: GetPrivacyDashboardStatus
+      description: Gets the privacy dashboard status strings
+      summary: Gets the privacy dashboard status strings
+      tags:
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      responses:
+        "200":
+          description: Returns privacy dashboard status strings
+          content:
+            application/status:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    ID:
+                      type: integer
+                      example: 1
+                    Str:
+                      type: string
+                      example: Requested
+                example: 
+                - ID: 1
+                  Str: Requested
+                - ID: 0
+                  Str: Not Configured
+                - ID: 2
+                  Str: Deployed
+        "401":
+          description: "Unauthorized"
+  
+  /privacy-dashboard/releases:
+    get:
+      operationId: GetPrivacyDashboardDockerImages
+      description: Get privacy dashboard releases
+      summary: Get privacy dashboard releases
+      tags:
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      responses:
+        "200":
+          description: Returns privacy dashboard release versions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    version:
+                      type: string
+                      example: "v1.1.7"
+                    timestamp:
+                      type: string
+                      example: "1590647928119"
+        "401":
+          description: Unauthorized
+  
+  /organizations/{organizationID}/privacy-dashboards:
+    get:
+      description: Gets the privacy dashboard info of an organization
+      operationId: Get privacy dashboard info
+      tags:
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      responses:
+        "200":
+          description: Returns privacy dashboard info
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  HostName:
+                    type: string
+                    example: "staging-privacy.igrant.io"
+                  Version:
+                    type: string
+                    example: "v1.1.7"
+                  Status:
+                    type: integer
+                    example: 2
+                  StatusStr:
+                    type: string
+                    example: "Deployed"
+        "500":
+          description: Unable to fetch privacy dashboard info
+        "401":
+          description: Unauthorized
+    
+    post:
+      description: Deploys privacy or personal data dashboard for an organisation and point to a chosen DNS
+      operationId: Deploy privacy dashboard
+      tags: 
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                HostName:
+                    type: string
+                    example: "dn-url.igrant.io"
+                Version:
+                  type: string
+                  example: "v1.1.7"
+              required: 
+              - HostName
+              - Version
+      responses:
+        "200":
+          description: Returns privacy dashboard info
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  HostName:
+                    type: string
+                    example: "dns-url.igrant.io"
+                  Version:
+                    type: string
+                    example: "v1.1.7"
+                  Status:
+                    type: integer
+                    example: 2
+                  StatusStr:
+                    type: string
+                    example: "Deployed"
+        "400":
+          description: Invalid request payload
+        "500":
+          description: Failed to deploy privacy dashboard
+        "401":
+          description: Unauthorized
+    delete:
+      description: Admin restricted API to delete the privacy dashboard for the organization
+      operationId: Delete privacy dashboard
+      tags: 
+      - Internal
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      responses:
+        "200":
+          description: Deleted privacy dashboard
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganisationPrivacyBoard'
+        "500":
+          description: Failed to delete privacy dashboard
+        "401":
+          description: Unauthorized
+  
+  /organizations/{organizationID}/privacy-dashboards/version:
+    patch:
+      description: Updates the privacy dashboard release version
+      operationId: Update privacy dashboard release
+      tags:
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                version:
+                  type: string
+                  example: "v1.1.7"
+              required: 
+              - version
+      responses:
+        "200":
+          description: Returns privacy dashboard info
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  HostName:
+                    type: string
+                    example: "staging-privacy.igrant.io"
+                  Version:
+                    type: string
+                    example: "v1.1.7"
+                  Status:
+                    type: integer
+                    example: 2
+                  StatusStr:
+                    type: string
+                    example: "Deployed"
+        "400":
+          description: Invalid request payload
+        "500":
+          description: Failed to update privacy dashboard release version
+        "401":
+          description: Unauthorized
+  
+  /organizations/{organizationID}/privacy-dashboards/hostname:
+    patch:
+      description: Updates the privacy dashboard hostname
+      operationId: Update privacy dashboard hostname
+      tags:
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                hostname:
+                  type: string
+                  example: "hostname.igrant.io"
+              required: 
+              - hostname
+      responses:
+        "200":
+          description: Returns privacy dashboard info
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  HostName:
+                    type: string
+                    example: "hostname.igrant.io"
+                  Version:
+                    type: string
+                    example: "v1.1.7"
+                  Status:
+                    type: integer
+                    example: 2
+                  StatusStr:
+                    type: string
+                    example: "Deployed"
+        "400":
+          description: Invalid request payload
+        "500":
+          description: Failed to update privacy dashboard hostname
+        "401":
+          description: Unauthorized
+  
+  /organizations/{organizationID}/webhooks:
+    get:
+      description: Gets all webhooks for an organisation
+      operationId: Get all webhooks
+      tags:
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      responses:
+        "200":
+          description: Return webhooks
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    ID:
+                      type: string
+                      example: "5f1ea7d84fd11e0001ad4008"
+                    PayloadURL:
+                      type: string
+                      example: "https://hookb.in/OerzZXd6nrhnzzlke3wl"
+                    Disabled:
+                      type: boolean
+                      example: false
+                    TimeStamp:
+                      type: string
+                      example: "1595844568"
+                    IsLastDeliverySuccess:
+                      type: boolean
+                      example: true
+        "401":
+          description: Unauthorized
+    
+    post:
+      description: Creates a webhook endpoint for an organisation
+      operationId: Create webhook
+      tags:
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                payloadurl:
+                  type: string
+                  example: "https://hookb.in/OerzZXd6nrhnzzlke3wl"
+                subscribedevents:
+                  type: array
+                  items:
+                    type: string
+                  example: 
+                  - "data.download.initiated"
+                  - "data.download.cancelled"
+                  - "org.subscribed"
+                contenttype:
+                  type: string
+                  example: "application/json"
+                secretkey:
+                  type: string
+                  example: "qwerty123"
+                disabled:
+                  type: boolean
+                  example: false
+                skipsslverification:
+                  type: boolean
+                  example: false
+              required: 
+              - payloadurl
+              - subscribedevents
+              - contenttype
+              - secretkey
+              - disabled
+              - skipsslverification
+      responses:
+        "201":
+          description: Return webhook
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Webhook'
+        "400":
+          description: Invalid request payload
+        "500":
+          description: Failed to create webhook
+        "401":
+          description: Unauthorized
+  
+  /organizations/{organizationID}/webhooks/{webhookID}:
+    get:
+      description: Gets a webhook for an organisation by ID
+      operationId: Get webhook
+      tags:
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      - in: path
+        name: webhookID
+        required: true
+        description: Webhook ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      responses:
+        "200":
+          description: Return webhook
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Webhook'
+        "404":
+          description: Not found
+        "401":
+          description: Unauthorized
+    put:
+      description: Updates a webhook for an organisation by ID
+      operationId: Update webhook
+      tags:
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      - in: path
+        name: webhookID
+        required: true
+        description: Webhook ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                payloadurl:
+                  type: string
+                  example: "https://hookb.in/OerzZXd6nrhnzzlke3wl"
+                subscribedevents:
+                  type: array
+                  items:
+                    type: string
+                  example: 
+                  - "data.download.initiated"
+                  - "data.download.cancelled"
+                  - "org.subscribed"
+                contenttype:
+                  type: string
+                  example: "application/json"
+                secretkey:
+                  type: string
+                  example: "qwerty123"
+                disabled:
+                  type: boolean
+                  example: false
+                skipsslverification:
+                  type: boolean
+                  example: false
+              required: 
+              - payloadurl
+              - subscribedevents
+              - contenttype
+              - secretkey
+              - disabled
+              - skipsslverification
+      responses:
+        "200":
+          description: Return webhook
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Webhook'
+        "404":
+          description: Not found
+        "401":
+          description: Unauthorized
+    delete:
+      description: Deletes a webhook for an organisation
+      operationId: Delete webhook
+      tags:
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      - in: path
+        name: webhookID
+        required: true
+        description: Webhook ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      responses:
+        "204":
+          description: Deleted webhook
+        "404":
+          description: Not found
+        "401":
+          description: Unauthorized
+      
+  /organizations/{organizationID}/webhooks/{webhookID}/ping:
+    post:
+      description: Pings webhook payload URL to check the response status code is 200 OK or not
+      operationId: Ping webhook
+      tags: 
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      - in: path
+        name: webhookID
+        required: true
+        description: Webhook ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      responses:
+        "200":
+          description: Return ping status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ResponseStatusCode:
+                    type: integer
+                    example: 200
+                  ResponseStatusStr:
+                    type: string
+                    example: "200 OK"
+                  ExecutionStartTimeStamp:
+                    type: string
+                    example: "1595851645"
+                  ExecutionEndTimeStamp:
+                    type: string
+                    example: "1595851645"
+                  Status:
+                    type: string
+                    example: "completed"
+                  StatusDescription:
+                    type: string
+                    example: ""
+        "400":
+          description: Failed to fetch the webhook by given ID
+        "401":
+          description: Unauthorized
+  
+  /organizations/{organizationID}/webhooks/{webhookID}/delivery:
+    get:
+      description: Gets the recent webhook deliveries
+      operationId: Get webhook deliveries
+      tags: 
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      - in: path
+        name: webhookID
+        required: true
+        description: Webhook ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      - in: query
+        name: limit
+        required: false
+        description: Pagination limit (No of results)
+        schema:
+          type: integer
+          example: 20
+      - in: query
+        name: startid
+        required: false
+        description: Pagination start offset (for e.g. delivery ID)
+        schema:
+          type: string
+          example: "5db0181fa531350001afc7d5"
+      responses:
+        "200":
+          description: Return webhook deliveries
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  WebhookDeliveries:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        ID:
+                          type: string
+                          example: "5f1ea9642cc8b10001414631"
+                        WebhookID:
+                          type: string
+                          example: "5f1ea7d84fd11e0001ad4008"
+                        ResponseStatusCode:
+                          type: integer
+                          example: 200
+                        ResponseStatusStr:
+                          type: string
+                          example: "200 OK"
+                        TimeStamp:
+                          type: string
+                          example: "1595844964"
+                        Status:
+                          type: string
+                          example: "completed"
+                        StatusDescription:
+                          type: string
+                          example: ""
+                  Links:
+                    type: object
+                    properties:
+                      Self:
+                        type: string
+                        example: "https://staging-api.igrant.io/v1/organizations/5dae01aa267e930001609aa4/webhooks/5f1ea7d84fd11e0001ad4008/delivery?limit=50"
+                      Next:
+                        type: string
+                        example: "https://staging-api.igrant.io/v1/organizations/5dae01aa267e930001609aa4/webhooks/5f1ea7d84fd11e0001ad4008/delivery?limit=50&startid=5f1ea9642cc8b10001414631"
+        "400":
+          description: Failed to fetch webhook deliveries
+        "401":
+          description: Unauthorized
+  
+  /organizations/{organizationID}/webhooks/{webhookID}/delivery/{deliveryID}:
+    get:
+      description: Gets the payload delivery details for a webhook by ID
+      operationId: Get payload delivery details
+      tags: 
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      - in: path
+        name: webhookID
+        required: true
+        description: Webhook ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      - in: path
+        name: deliveryID
+        required: true
+        description: Delivery ID
+        schema:
+          type: string
+          example: "5f1ea9632cc8b10001414630"
+      responses:
+        "200":
+          description: Return webhook delivery
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookDelivery'
+        "400":
+          description: Failed to fetch webhook delivery
+        "401":
+          description: Unauthorized
+  
+  /organizations/{organizationID}/webhooks/{webhookID}/delivery/{deliveryID}/redeliver:
+    post:
+      description: Redo payload delivery to the webhook
+      operationId: Redeliver webhook payload
+      tags: 
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      parameters:
+      - in: path
+        name: organizationID
+        required: true
+        description: Organization ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      - in: path
+        name: webhookID
+        required: true
+        description: Webhook ID
+        schema:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+      - in: path
+        name: deliveryID
+        required: true
+        description: Delivery ID
+        schema:
+          type: string
+          example: "5f1ea9632cc8b10001414630"
+      responses:
+        "200":
+          description: Redelivered the payload to webhook endpoint
+        "400":
+          description: Bad request
+        "500":
+          description: Internal server error
+        "401":
+          description: Unauthorized
+  
+  /organizations/webhooks/event-types:
+    get:
+      description: List all available webhook event types
+      operationId: Get webhook event-types
+      tags: 
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      responses:
+        "200":
+          description: Return webhook event types
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  EventTypes:
+                    type: array
+                    items:
+                      type: string
+                    example: 
+                    - "data.download.cancelled"
+                    - "data.update.cancelled"
+                    - "org.unsubscribed"
+                    - "data.delete.initiated"
+                    - "data.download.initiated"
+                    - "data.update.initiated"
+                    - "data.delete.cancelled"
+                    - "consent.allowed"
+                    - "consent.disallowed"
+                    - "org.subscribed"
+        "401":
+          description: Unauthorized
+  
+  /organizations/webhooks/payload/content-types:
+    get:
+      description: List available webhook payload content types
+      operationId: Get webhook payload types
+      tags: 
+      - Service management (Organization)
+      security: 
+      - bearerAuth: []
+      responses:
+        "200":
+          description: Return webhook payload content types
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ContentTypes:
+                    type: array
+                    items:
+                      type: string
+                    example: 
+                    - "application/json"
+                    - "application/x-www-form-urlencoded"
+        "401":
+          description: Unauthorized
+components:
+  schemas:
+    Token:
+      type: object
+      properties:
+        access_token:
+          type: string
+        expires_in:
+          type: integer
+        refresh_token:
+          type: string
+        refresh_expires_in:
+          type: integer
+        token_type:
+          type: string
+      example:
+        access_token: "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJDeHhVYTVaQ2NnaENxQUxTZy1wbFVYUkJlNE1ERG9zamF0enNYa1lqMEtFIn0.eyJqdGkiOiIzZDM0NDk3Zi05NDYxLTQyZDItYjA0My01ZTU2MTVhOTg0ODYiLCJleHAiOjE1OTU2MTAwMjksIm5iZiI6MCwiaWF0IjoxNTk1NTg4NDI5LCJpc3MiOiJodHRwczovL3N0YWdpbmctaWFtLmlncmFudC5pby9hdXRoL3JlYWxtcy9pZ3JhbnQtdXNlcnMiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiOWQ4YzRkNjktOWZiMi00MTE1LWE0YzMtNTNiY2JiOGYyZDdmIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiaWdyYW50LWlvcy1hcHAiLCJhdXRoX3RpbWUiOjAsInNlc3Npb25fc3RhdGUiOiIxMWQwYjg3OC0wMWNkLTQ1YmYtYTQxOC04Yzc0ZjkyNTE5NmUiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsIm5hbWUiOiJSYXZpIFNoYW5rYXIiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJkbWFydEB5b3BtYWlsLmNvbSIsImdpdmVuX25hbWUiOiJSYXZpIFNoYW5rYXIiLCJmYW1pbHlfbmFtZSI6IiIsImVtYWlsIjoiZG1hcnRAeW9wbWFpbC5jb20ifQ.K6eOOztvymq7W6yq7mjioJ76eZ7djtIjowqBlx9oCXIfbdt7W2HF6zX7FvkXFuta79ObDYeiqjt9Hy-9SWgS4-QGOFEM9pvT1aLC6gspeI2143P8ZPWWjHRuOH6Ht6TR8ML_X-DJ5n9hmoB9LDc8Vk39zTHhdmtSpu-yUrWHs2wFDmwO8yFdf9Em038WGxo4PYKzqzdEjsIVhSJy-BpkjoEluYxNkOGh3uQ4LZ7jbmXM83mwqEg8r-RwLljjqP3d2_7TSrNcO4Z8IVNslLv5wuSk9ZgCsPqE6poMjFLmrvOAcu2Rx6Em_me19RN1bTT2wrm_Joulzc02XcMyN9gDoA"
+        expires_in: 21600
+        refresh_expires_in: 36000
+        refresh_token: "eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI5YmJiYTI4Ni1mYzI3LTRmMjItODg5Ny05MGU5NTMyNjE0NjkifQ.eyJqdGkiOiJhMzFlZWZkMS00MDNhLTQyZmYtODQ3Mi1hMjYzMjAwMjNmZjMiLCJleHAiOjE1OTU2MjQ0MjksIm5iZiI6MCwiaWF0IjoxNTk1NTg4NDI5LCJpc3MiOiJodHRwczovL3N0YWdpbmctaWFtLmlncmFudC5pby9hdXRoL3JlYWxtcy9pZ3JhbnQtdXNlcnMiLCJhdWQiOiJodHRwczovL3N0YWdpbmctaWFtLmlncmFudC5pby9hdXRoL3JlYWxtcy9pZ3JhbnQtdXNlcnMiLCJzdWIiOiI5ZDhjNGQ2OS05ZmIyLTQxMTUtYTRjMy01M2JjYmI4ZjJkN2YiLCJ0eXAiOiJSZWZyZXNoIiwiYXpwIjoiaWdyYW50LWlvcy1hcHAiLCJhdXRoX3RpbWUiOjAsInNlc3Npb25fc3RhdGUiOiIxMWQwYjg3OC0wMWNkLTQ1YmYtYTQxOC04Yzc0ZjkyNTE5NmUiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoicHJvZmlsZSBlbWFpbCJ9.DknM937PZWqwPiczJdNeIbEo0-R-09hBbOJiqRrDmqo"
+        token_type: "bearer"
+    User:
+      type: object
+      properties:
+        ID:
+          type: string
+        Name:
+          type: string
+        IamID:
+          type: string
+        Email:
+          type: string
+        Phone:
+          type: string
+        ImageID:
+          type: string
+        ImageURL:
+          type: string
+        LastVisit:
+          type: string
+          format: date-time
+        Client:
+          type: object
+          properties:
+            Token:
+              type: string
+            Type:
+              type: integer
+        Orgs:
+          type: array
+          items:
+            type: object
+            properties:
+              OrgID:
+                type: string
+              Name:
+                type: string
+              Location:
+                type: string
+              Type:
+                type: string
+              TypeID:
+                type: string
+              EulaAccepted:
+                type: boolean
+        APIKey:
+          type: string
+        Roles:
+          type: array
+          items:
+            type: object
+            properties:
+              RoleID:
+                type: integer
+              OrgID:
+                type: string
+      example:
+        ID: "5daf22cea531351111afc7c8"
+        Name: "George Floyd"
+        IamID: "9d8c4h69-9fb2-4115-a4c3-53bddb8f2d7f"
+        Email: "dmart@yopmail.com"
+        Phone: "+46 7252 98991"
+        ImageID: "5f1458a5chaa930001e78f12"
+        ImageURL: "https:/<server-url>/image/5f1458a5chaa930001e78f12"
+        LastVisit: "2020-07-22T18:04:02Z"
+        Client:
+          Token: "fEkxEwh4T2mr-B4yQoZ9TT:APA91bHibhwLXkc2l6LxWxHW5TrKBoLrXGCHDO6A9pXQ0ShvDYPfxXm57D8tIsR-fwybjs-_OFXCgCbBQpYVON2svUiooWgJBFETXg_jUGy0B9etUHFnyuCbXPihyoCuJc2Gn6s9XkN_"
+          Type: 2
+        Orgs:
+          - OrgID: "5dae2a9fa1215e00012103e4"
+            Name: "Nordea Bank AB"
+            Location: "Stockholm, Sweden"
+            Type: "Banking and Finance"
+            TypeID: "5d95a566a67c8800012f27d1"
+            EulaAccepted: false
+        APIKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI1ZGFmMjJjZWE1MzEzNTAwMDFhZmM3YzgiLCJleHAiOjE2MDQwNjMwNjV9.Irk0XgXfVhIdlgBNz6ggEXlvoIPtzUzJv4-x0VKYBGE"
+        Roles:
+          - RoleID: 1
+            OrgID: "5daf22d0a531350001afc7c9"
+    Webhook:
+      type: object
+      properties:
+        ID:
+          type: string
+          example: "5f1ea7d84fd11e0001ad4008"
+        OrgID:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+        PayloadURL:
+          type: string
+          example: "https://hookb.in/OerzZXd6nrhnzzlke3wl"
+        ContentType:
+          type: string
+          example: "application/json"
+        SubscribedEvents:
+          type: array
+          items:
+            type: string
+          example:
+          - "data.download.initiated"
+          - "data.download.cancelled"
+          - "org.subscribed"
+          - "org.unsubscribed"
+        Disabled:
+          type: boolean
+          example: false
+        SecretKey:
+          type: string
+          example: "qwerty123"
+        SkipSSLVerification:
+          type: boolean
+          example: false
+        TimeStamp:
+          type: string
+          example: "1595844568"
+          
+    DataRequestWebhookEvent:
+      type: object
+      properties:
+        organisationID:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+        userID:
+          type: string
+          example: "5dbc02ecb99fd0000157547a"
+        dataRequestID:
+          type: string
+          example: "5dae01ee267e930001609bb8"
+    
+    DataUpdateRequestWebhookEvent:
+      type: object
+      properties:
+        organisationID:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+        userID:
+          type: string
+          example: "5dbc02ecb99fd0000157547a"
+        dataRequestID:
+          type: string
+          example: "5dae01ee267e930001609bb8"
+        consentID:
+          type: string
+          example: "5e4e91036c7aa200012aa9da"
+        purposeID:
+          type: string
+          example: "5dae1058a1215e00012103d8"
+        attributeID:
+          type: string
+          example: "5dae01ee267e930001609aa8"
+    
+    ConsentWebhookEvent:
+      type: object
+      properties:
+        organisationID:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+        userID:
+          type: string
+          example: "5dbc02ecb99fd0000157547a"
+        consentID:
+          type: string
+          example: "5e4e91036c7aa200012aa9da"
+        purposeID:
+          type: string
+          example: "5dae1058a1215e00012103d8"
+        attribute:
+          type: array
+          items:
+            type: string
+          example: 
+          - "5dae01ee267e930001609aa8"
+          - "5dae01f4267e930001609aa9"
+          - "5dae106ba1215e00012103d9"
+          - "5f1df5c84e26ea0001b9f3a7"
+          - "5f1df6214e26ea0001b9f3ad"
+        days:
+          type: integer
+          example: 0
+        
+        timestamp:
+          type: string
+          example: "1595844963"
+    
+    OrgSubscriptionWebhookEvent:
+      type: object
+      properties:
+        organisationID:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+        userID:
+          type: string
+          example: "5dbc02ecb99fd0000157547a"
+    
+    WebhookEvent:
+      type: object
+      properties:
+        data:
+          oneOf:
+            - $ref: '#/components/schemas/DataRequestWebhookEvent'
+            - $ref: '#/components/schemas/DataUpdateRequestWebhookEvent'
+            - $ref: '#/components/schemas/ConsentWebhookEvent'
+            - $ref: '#/components/schemas/OrgSubscriptionWebhookEvent'
+        deliveryid:
+          type: string
+          example: "5f1ea9632cc8b10001414630"
+        timestamp:
+          type: string
+          example: "1595844963"
+        type:
+          type: string
+          example: "consent.disallowed"
+        webhookid: 
+          type: string
+          example: "5f1ea7d84fd11e0001ad4008"
+          
+    
+    WebhookDelivery:
+      type: object
+      properties:
+        ID:
+          type: string
+          example: "5f1ea9632cc8b10001414630"
+        RequestHeaders:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          example: 
+            Accept: ["*/*"]
+            Content-Type: ["application/json"]
+            User-Agent: ["IGrant-Hookshot/1.0"]
+            X-Igrant-Signature: ["t=1595844963,sig=c4822b6a91221f783520240c740774908c5bc6de2a4a29a9d7ce31f19b624863"]
+        RequestPayload:
+          $ref: '#/components/schemas/WebhookEvent'
+        ResponseHeaders:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          example: 
+            Access-Control-Allow-Headers: ["DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range"]
+            Access-Control-Allow-Methods: ["GET, POST, OPTIONS, PUT, DELETE"]
+            Access-Control-Allow-Origin: ["*"]
+            Access-Control-Expose-Headers: ["Content-Length,Content-Range"]
+        ResponseBody:
+          type: string
+          example: "{\"success\":true}"
+        ResponseStatusCode: 
+          type: integer
+          example: 200
+        ResponseStatusStr:
+          type: string
+          example: "200 OK"
+        ExecutionStartTimeStamp:
+          type: string
+          example: "1595844963"
+        ExecutionEndTimeStamp:
+          type: string
+          example: "1595844963"
+        Status:
+          type: string
+          example: "completed"
+          enum: [completed, failed]
+        StatusDescription:
+          type: string
+          example: ""
+            
+    
+    DataRequest:
+      type: object
+      properties:
+        ID:
+         type: string
+         example: "5de4f01e181e17c6477cc217"
+        UserID:
+          type: string
+          example: "5db0181fa531350001afc7d5"
+        UserName:
+          type: string
+          example: "donny@yopmail.com"
+        OrgID:
+          type: string
+          example: "5dae01aa267e930001609aa4"
+        Type:
+          type: integer
+          example: 2
+        TypeStr:
+          type: string
+          example: "Download Data"
+        State:
+          type: integer
+          example: 1
+        RequestedDate:
+          type: string
+          format: date-time
+          example: "2019-12-02 11:06:06 +0000 UTC"
+        ClosedDate:
+          type: string
+          format: date-time
+          example: "0001-01-01 00:00:00 +0000 UTC"
+        StateStr:
+          type: string
+          example: "Request initiated"
+        Comment:
+          type: string
+          example: ""
+    
+    OrganisationType:
+      type: object
+      properties:
+        ID:
+          type: string
+        Type:
+          type: string
+        ImageID:
+          type: string
+        ImageURL:
+          type: string
+      example: 
+        ID: "5d17cc114dacb40001b29094"
+        Type: "Retail"
+        ImageID: "5d17cc7f4dacb40001b29095"
+        ImageURL: "https://staging-api.igrant.io/v1/organizations/types/5d17cc114dacb40001b29094/image"
+    
+    OrganisationActionLog:
+      type: object
+      properties:
+        ID:
+          type: string
+          example: "5f1dfeb1181e17c6479ef3d2"
+        Type:
+          type: integer
+          example: 2
+        TypeStr:
+          type: string
+          example: "API calls"
+        UserID:
+          type: string
+          example: "5daf22cea531350001afc7c8"
+        UserName:
+          type: string
+          example: "dmart@yopmail.com"
+        TimeStamp:
+          type: string
+          format: date-time
+          example: "2020-07-26 22:07:45 +0000 UTC"
+        Log:
+          type: string
+          example: "Organization API: /v1/organizations/5dae01aa267e930001609aa4/purposes/5dae1058a1215e00012103d8/consented/users called by user: dmart@yopmail.com"
+    
+    
+    OrganisationBillingInfo:
+      type: object
+      properties:
+        BillingRegistrationID:
+          type: string
+        MaxUserCounter:
+          type: integer
+        DefaultChargeNotified:
+          type: boolean
+        CurrentPeriodEnd:
+          type: integer
+        PrevMonthUsers:
+          type: integer
+        PayPerUserInfo:
+          type: object
+          properties:
+            UserCommitment:
+              type: integer
+            TimeCommitment:
+              type: string
+            CancelOnCommitmentEnd:
+              type: boolean
+            CommitmentPeriodRemaining:
+              type: integer
+        DefaultPaymentSource:
+          type: object
+          properties:
+            Brand:
+              type: string
+            ExpiryMonth:
+              type: integer
+            ExpiryYear:
+              type: integer
+            Last4Digits:
+              type: string
+        Address:
+          type: object
+          properties:
+            Name:
+              type: string
+            City:
+              type: string
+            Country:
+              type: string
+            Line1:
+              type: string
+            Line2:
+              type: string
+            PostalCode:
+              type: string
+            State:
+              type: string
+        ServiceAgreementVersion:
+          type: string
+        FreeTrialExpired:
+          type: boolean
+      example: 
+        BillingRegistrationID: cus_G2URbi8W6DT7hh
+        MaxUserCounter: 4 
+        DefaultChargeNotified: false
+        CurrentPeriodEnd: 0
+        PrevMonthUsers: 1
+        PayPerUserInfo:
+          UserCommitment: 0
+          TimeCommitment: ""
+          CancelOnCommitmentEnd: false
+          CommitmentPeriodRemaining: 0
+        DefaultPaymentSource:
+          Brand: "Visa"
+          ExpiryMonth: 4
+          ExpiryYear: 2024
+          Last4Digits: "4242"
+        Address:
+          Name: "George Floyd"
+          City: "Stockholm"
+          Country: "Sweden"
+          Line1: ""
+          Line2: ""
+          PostalCode: ""
+          State: ""
+        ServiceAgreementVersion: "v2.0"
+        FreeTrialExpired: true
+    OrganisationPrivacyBoard:
+      type: object
+      properties:
+        HostName:
+          type: string
+        Version:
+          type: string
+        Status:
+          type: integer
+        Delete:
+          type: boolean
+      example: 
+        HostName: "dmart.igrant.io"
+        Version: "v1.1.7"
+        Status: 2
+        Delete: false
+    
+    Template:
+      type: object
+      properties:
+        ID:
+          type: string
+        Consent:
+          type: string
+      example: 
+        ID: "5f187f9efd59960001434c2e"
+        Consent: "Age"
+      
+    Purpose:
+      type: object
+      properties:
+        ID:
+          type: string
+        Name:
+          type: string
+        Description:
+          type: string
+        LawfulUsage:
+          type: boolean
+        PolicyURL:
+          type: string
+      example:
+        ID: "5db0303ba531350001afc7e0"
+        Name: "Marketing and campaign"
+        Description: "For this purpose, following personal data attributes shown below are used. You may consent to share your data at attribute level."
+        LawfulUsage: false
+        PolicyURL: "https://orgname.com/policy_default.html"
+    
+    AttributeConsent:
+      type: object
+      properties:
+        ID:
+          type: string
+          example: "5dae01ee267e930001609aa8"
+        Description:
+          type: string
+          example: "Name"
+        # Todo: Remove this
+        Value:
+          type: string
+          example: ""
+        Status:
+          type: object
+          properties:
+            Consent:
+              type: string
+              example: "Allow"
+            TimeStamp:
+              type: string
+              format: date-time
+              example: "0001-01-01T00:00:00Z"
+            Days:
+              type: integer
+              example: 0
+            Remaining:
+              type: integer
+              example: 0
+    
+    Organisation:
+      type: object
+      properties:
+        ID:
+          type: string
+          example: "5daf22d0a531350001afc7c9"
+        Name:
+          type: string
+          example: "DMart Retail Chain"
+        CoverImageID:
+          type: string
+          example: ""
+        CoverImageURL:
+          type: string
+          example: ""
+        LogoImageID:
+          type: string
+          example: "5ecf5f979a273200016a13ef"
+        LogoImageURL:
+          type: string
+          example: "https://<server-url>/5daf22d0a531350001afc7c9/image/5ecf5f979a273200016a13ef"
+        Location:
+          type: string
+          example: "Stockholm, Sweden"
+        Type:
+          $ref: "#/components/schemas/OrganisationType"
+        Description:
+          type: string
+          example: ""
+        Enabled:
+          type: boolean
+          example: true
+        PolicyURL:
+          type: string
+          example: ""
+        EulaURL:
+          type: string
+          example: ""
+        Templates:
+          type: array
+          items:
+            allOf:
+            - $ref: "#/components/schemas/Template"
+            - type: object
+              properties:
+                PurposeIDs:
+                  type: array
+                  items:
+                    type: string
+              example:
+                PurposeIDs:
+                - "5db0303ba531350001afc7e0"
+                - "5db03048a531350001afc7e1"
+        Purposes:
+          type: array
+          items:
+            $ref: "#/components/schemas/Purpose"
+            
+        Admins:
+          type: array
+          items:
+            type: object
+            properties:
+              UserID:
+                type: string
+              RoleID:
+                type: string
+            example:
+              UserID: "5daf22cea531350001afc7c8"
+              RoleID: 1
+        
+        BillingInfo:
+          $ref: "#/components/schemas/OrganisationBillingInfo"
+          
+        Subs:
+          type: object
+          properties:
+            Method:
+              type: integer
+            Key:
+              type: string
+          example: 
+            Method: 0
+            Key: ""
+        HlcSupport:
+          type: boolean
+          example: false
+        PrivacyDashboard:
+          $ref: "#/components/schemas/OrganisationPrivacyBoard"
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+tags:
+  - name: Identity management
+    description: "Identity management handles authentication and authorisation of individuals and organisations (further split to owners, admins, developers and dpo roles)."
+
+  - name: Permissions and consents
+    description: "Permission management enables people to manage and have an overview of data transactions and connections and to execute their legal rights (for example, as per the GDPR Articles for ). Using iGrant.io services, organisations can manage consents from individuals throughout its lifecycle. It can be an active consenting where consent is given in real-time or passive consenting where consents can be given anytime. In either case, individuals can at any time use the service to re-evaluate their consents if the need arises."
+
+  - name: Service management (User)
+    description: "iGrant.io enables a multi-operator environment via a distributed service registry. The service management functions are at two levels: one at the individual level and the other at the organisational level. This section lists all service management functions towards individuals. This includes functions like registrations, user progile management, subscription to a specific organisatione etc."
+
+  - name: Service management (Organization)
+    description: "iGrant.io enables a multi-operator environment via a distributed service registry. The service management functions are at two levels: one at the individual level and the other at the organisational level. This section lists all service management functions towards organisations. This includes functions like organisation onboarding/provisioning, managing organisation users, adding end users or consumers to organisation, agreement handling between a organisations for data exchange etc."
+
+  - name: Value exchange
+    description: "This includes APIs that are used for pricing and packaging. "
+
+  - name: Data model management
+    description: "iGrant.io maintains a metadata indexed registry with a publish–subscribe service. We provide CRUD (create, read, update, and delete) services for managing metadata of the data models for any organisation. These services are used for governance, transparency, facilitating agreement handling between ecosystem players and exercising personal data rights in a standardised manner."
+
+  - name: Personal data transfer
+    description: "A key aspect of iGrant.io is that it enables a consented data exchange. The platform allows organisations to define the data exchange purpose and the lawful basis of processing or exchanging data. The lawful basis can be based on consent or other legal basis (e.g. lawful purpose, contract, legal obligation, vital interests, public task, legitimate interests). If it's without consent, individuals will only have limited or no rights to withdraw the consents, however the individual can still follow what data is processed and why."
+
+  - name: Logging and accountability
+    description: "This provides all APIs that are used to retried logs for organisations and is used primarily by the business admins (including DPOs) to have some visibility into the actions within iGrant.io for their organisations. Logs are categoried into different areas like Security (Login/Logout), API Calls, Organisation Users (Owner/Admin/… in the future DPO, etc), End User and Webhooks"
+    
+  - name: Governance and audits
+    description: "iGrant.io establishes governance support towards users, organisations and ecosystem partners as well as towards third party auditors. Currently. the audit function is available via https://audit.igrant.io/"
+  
+  - name: Internal
+    description: "Strictly for internal use of iGrant.io or based on auhorisation"
