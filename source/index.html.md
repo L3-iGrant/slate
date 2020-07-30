@@ -1149,7 +1149,7 @@ This operation does not require authentication
 
 <h1 id="introduction-to-igrant-io-apis-permissions-and-consents">Permissions and consents</h1>
 
-Permission management enables people to manage and have an overview of data transactions and connections and to execute their legal rights (for example, as per the GDPR Articles for ). Using iGrant.io services, organisations can manage consents from individuals throughout its lifecycle. It can be an active consenting where consent is given in real-time or passive consenting where consents can be given anytime. In either case, individuals can at any time use the service to re-evaluate their consents if the need arises.
+Permission management enables people to manage and have an overview of data transactions and connections and to execute their legal rights (for example, as per the GDPR Article 6 in the GDPR). Using iGrant.io services, organisations can manage consents from individuals throughout its lifecycle. It can be an active consenting where consent is given in real-time or passive consenting where consents can be given anytime. In either case, individuals can at any time use the service to re-evaluate their consents if the need arises.
 
 ## Get consents for a user
 
