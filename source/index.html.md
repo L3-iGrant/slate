@@ -4901,7 +4901,7 @@ Registers an organisation to the system
     "Delete": false
   },
   "DataRetention": {
-    "RetentionPeriodInSeconds": 800,
+    "RetentionPeriod": 800,
     "Enabled": true
   }
 }
@@ -5714,7 +5714,7 @@ Get organization by ID
       "Delete": false
     },
     "DataRetention": {
-      "RetentionPeriodInSeconds": 800,
+      "RetentionPeriod": 800,
       "Enabled": true
     }
   }
@@ -5818,7 +5818,7 @@ Status Code **200**
 |»»» Status|integer|false|none|none|
 |»»» Delete|boolean|false|none|none|
 |»» DataRetention|[OrganisationDataRetention](#schemaorganisationdataretention)|false|none|none|
-|»»» RetentionPeriodInSeconds|integer|false|none|none|
+|»»» RetentionPeriod|integer|false|none|none|
 |»»» Enabled|boolean|false|none|none|
 
 <aside class="warning">
@@ -7201,7 +7201,7 @@ Enable organization for subscription towards users. This is performed once the d
       "Delete": false
     },
     "DataRetention": {
-      "RetentionPeriodInSeconds": 800,
+      "RetentionPeriod": 800,
       "Enabled": true
     }
   }
@@ -7304,7 +7304,7 @@ Status Code **200**
 |»»» Status|integer|false|none|none|
 |»»» Delete|boolean|false|none|none|
 |»» DataRetention|[OrganisationDataRetention](#schemaorganisationdataretention)|false|none|none|
-|»»» RetentionPeriodInSeconds|integer|false|none|none|
+|»»» RetentionPeriod|integer|false|none|none|
 |»»» Enabled|boolean|false|none|none|
 
 <aside class="warning">
@@ -7560,7 +7560,7 @@ Disables an organisation towards users. This can be manually triggered by the or
       "Delete": false
     },
     "DataRetention": {
-      "RetentionPeriodInSeconds": 800,
+      "RetentionPeriod": 800,
       "Enabled": true
     }
   }
@@ -7663,7 +7663,7 @@ Status Code **200**
 |»»» Status|integer|false|none|none|
 |»»» Delete|boolean|false|none|none|
 |»» DataRetention|[OrganisationDataRetention](#schemaorganisationdataretention)|false|none|none|
-|»»» RetentionPeriodInSeconds|integer|false|none|none|
+|»»» RetentionPeriod|integer|false|none|none|
 |»»» Enabled|boolean|false|none|none|
 
 <aside class="warning">
@@ -8264,7 +8264,7 @@ Deletes an admin user from an organization
       "Delete": false
     },
     "DataRetention": {
-      "RetentionPeriodInSeconds": 800,
+      "RetentionPeriod": 800,
       "Enabled": true
     }
   }
@@ -8367,7 +8367,7 @@ Status Code **200**
 |»»» Status|integer|false|none|none|
 |»»» Delete|boolean|false|none|none|
 |»» DataRetention|[OrganisationDataRetention](#schemaorganisationdataretention)|false|none|none|
-|»»» RetentionPeriodInSeconds|integer|false|none|none|
+|»»» RetentionPeriod|integer|false|none|none|
 |»»» Enabled|boolean|false|none|none|
 
 <aside class="warning">
@@ -8641,7 +8641,7 @@ orgimage: string
       "Delete": false
     },
     "DataRetention": {
-      "RetentionPeriodInSeconds": 800,
+      "RetentionPeriod": 800,
       "Enabled": true
     }
   }
@@ -8744,7 +8744,7 @@ Status Code **200**
 |»»» Status|integer|false|none|none|
 |»»» Delete|boolean|false|none|none|
 |»» DataRetention|[OrganisationDataRetention](#schemaorganisationdataretention)|false|none|none|
-|»»» RetentionPeriodInSeconds|integer|false|none|none|
+|»»» RetentionPeriod|integer|false|none|none|
 |»»» Enabled|boolean|false|none|none|
 
 <aside class="warning">
@@ -9193,7 +9193,7 @@ orgimage: string
       "Delete": false
     },
     "DataRetention": {
-      "RetentionPeriodInSeconds": 800,
+      "RetentionPeriod": 800,
       "Enabled": true
     }
   }
@@ -9296,7 +9296,7 @@ Status Code **200**
 |»»» Status|integer|false|none|none|
 |»»» Delete|boolean|false|none|none|
 |»» DataRetention|[OrganisationDataRetention](#schemaorganisationdataretention)|false|none|none|
-|»»» RetentionPeriodInSeconds|integer|false|none|none|
+|»»» RetentionPeriod|integer|false|none|none|
 |»»» Enabled|boolean|false|none|none|
 
 <aside class="warning">
@@ -14642,7 +14642,7 @@ Enable data retention policy
     "Delete": false
   },
   "DataRetention": {
-    "RetentionPeriodInSeconds": 800,
+    "RetentionPeriod": 800,
     "Enabled": true
   }
 }
@@ -14907,7 +14907,7 @@ Disable data retention policy
     "Delete": false
   },
   "DataRetention": {
-    "RetentionPeriodInSeconds": 800,
+    "RetentionPeriod": 800,
     "Enabled": true
   }
 }
@@ -14950,7 +14950,7 @@ Accept: application/json
 
 ```javascript
 const inputBody = '{
-  "retentionperiodinseconds": 800
+  "RetentionPeriod": 800
 }';
 const headers = {
   'Content-Type':'application/json',
@@ -15089,7 +15089,7 @@ Update data retention policy
 
 ```json
 {
-  "retentionperiodinseconds": 800
+  "RetentionPeriod": 800
 }
 ```
 
@@ -15099,7 +15099,7 @@ Update data retention policy
 |---|---|---|---|---|
 |organizationID|path|string|true|Organization ID|
 |body|body|object|true|none|
-|» retentionperiodinseconds|body|integer|true|none|
+|» RetentionPeriod|body|integer|true|none|
 
 > Example responses
 
@@ -15191,7 +15191,7 @@ Update data retention policy
     "Delete": false
   },
   "DataRetention": {
-    "RetentionPeriodInSeconds": 800,
+    "RetentionPeriod": 800,
     "Enabled": true
   }
 }
@@ -15372,7 +15372,7 @@ Get data retention policy
 
 ```json
 {
-  "RetentionPeriodInSeconds": 800,
+  "RetentionPeriod": 800,
   "Enabled": true
 }
 ```
@@ -15678,7 +15678,7 @@ Adds a new personal data usage purpose to an organisation. This is provisioned b
       "Delete": false
     },
     "DataRetention": {
-      "RetentionPeriodInSeconds": 800,
+      "RetentionPeriod": 800,
       "Enabled": true
     }
   }
@@ -15781,7 +15781,7 @@ Status Code **201**
 |»»» Status|integer|false|none|none|
 |»»» Delete|boolean|false|none|none|
 |»» DataRetention|[OrganisationDataRetention](#schemaorganisationdataretention)|false|none|none|
-|»»» RetentionPeriodInSeconds|integer|false|none|none|
+|»»» RetentionPeriod|integer|false|none|none|
 |»»» Enabled|boolean|false|none|none|
 
 <aside class="warning">
@@ -16448,7 +16448,7 @@ Deletes an existing data usage purpose.
       "Delete": false
     },
     "DataRetention": {
-      "RetentionPeriodInSeconds": 800,
+      "RetentionPeriod": 800,
       "Enabled": true
     }
   }
@@ -16551,7 +16551,7 @@ Status Code **201**
 |»»» Status|integer|false|none|none|
 |»»» Delete|boolean|false|none|none|
 |»» DataRetention|[OrganisationDataRetention](#schemaorganisationdataretention)|false|none|none|
-|»»» RetentionPeriodInSeconds|integer|false|none|none|
+|»»» RetentionPeriod|integer|false|none|none|
 |»»» Enabled|boolean|false|none|none|
 
 <aside class="warning">
@@ -16836,7 +16836,7 @@ Updates a new personal data usage purpose in an organisation. The organisation i
       "Delete": false
     },
     "DataRetention": {
-      "RetentionPeriodInSeconds": 800,
+      "RetentionPeriod": 800,
       "Enabled": true
     }
   }
@@ -16939,7 +16939,7 @@ Status Code **201**
 |»»» Status|integer|false|none|none|
 |»»» Delete|boolean|false|none|none|
 |»» DataRetention|[OrganisationDataRetention](#schemaorganisationdataretention)|false|none|none|
-|»»» RetentionPeriodInSeconds|integer|false|none|none|
+|»»» RetentionPeriod|integer|false|none|none|
 |»»» Enabled|boolean|false|none|none|
 
 <aside class="warning">
@@ -17443,7 +17443,7 @@ Adds an attribute and attaches it one or more pre-defined usage purposes
       "Delete": false
     },
     "DataRetention": {
-      "RetentionPeriodInSeconds": 800,
+      "RetentionPeriod": 800,
       "Enabled": true
     }
   }
@@ -17546,7 +17546,7 @@ Status Code **201**
 |»»» Status|integer|false|none|none|
 |»»» Delete|boolean|false|none|none|
 |»» DataRetention|[OrganisationDataRetention](#schemaorganisationdataretention)|false|none|none|
-|»»» RetentionPeriodInSeconds|integer|false|none|none|
+|»»» RetentionPeriod|integer|false|none|none|
 |»»» Enabled|boolean|false|none|none|
 
 <aside class="warning">
@@ -17803,7 +17803,7 @@ Deletes an attribute and the detaches it from a usage purpose
       "Delete": false
     },
     "DataRetention": {
-      "RetentionPeriodInSeconds": 800,
+      "RetentionPeriod": 800,
       "Enabled": true
     }
   }
@@ -17906,7 +17906,7 @@ Status Code **201**
 |»»» Status|integer|false|none|none|
 |»»» Delete|boolean|false|none|none|
 |»» DataRetention|[OrganisationDataRetention](#schemaorganisationdataretention)|false|none|none|
-|»»» RetentionPeriodInSeconds|integer|false|none|none|
+|»»» RetentionPeriod|integer|false|none|none|
 |»»» Enabled|boolean|false|none|none|
 
 <aside class="warning">
@@ -18189,7 +18189,7 @@ Updates an attribute details, attaches or detaches to one or more purposes
       "Delete": false
     },
     "DataRetention": {
-      "RetentionPeriodInSeconds": 800,
+      "RetentionPeriod": 800,
       "Enabled": true
     }
   }
@@ -18292,7 +18292,7 @@ Status Code **201**
 |»»» Status|integer|false|none|none|
 |»»» Delete|boolean|false|none|none|
 |»» DataRetention|[OrganisationDataRetention](#schemaorganisationdataretention)|false|none|none|
-|»»» RetentionPeriodInSeconds|integer|false|none|none|
+|»»» RetentionPeriod|integer|false|none|none|
 |»»» Enabled|boolean|false|none|none|
 
 <aside class="warning">
@@ -22609,7 +22609,7 @@ Add admins, dpo and other roles to organization users.
       "Delete": false
     },
     "DataRetention": {
-      "RetentionPeriodInSeconds": 800,
+      "RetentionPeriod": 800,
       "Enabled": true
     }
   }
@@ -22712,7 +22712,7 @@ Status Code **201**
 |»»» Status|integer|false|none|none|
 |»»» Delete|boolean|false|none|none|
 |»» DataRetention|[OrganisationDataRetention](#schemaorganisationdataretention)|false|none|none|
-|»»» RetentionPeriodInSeconds|integer|false|none|none|
+|»»» RetentionPeriod|integer|false|none|none|
 |»»» Enabled|boolean|false|none|none|
 
 <aside class="warning">
@@ -24170,7 +24170,7 @@ Gets details of all organizations subscribed by the user
         "Delete": false
       },
       "DataRetention": {
-        "RetentionPeriodInSeconds": 800,
+        "RetentionPeriod": 800,
         "Enabled": true
       }
     }
@@ -24274,7 +24274,7 @@ Status Code **200**
 |»»» Status|integer|false|none|none|
 |»»» Delete|boolean|false|none|none|
 |»» DataRetention|[OrganisationDataRetention](#schemaorganisationdataretention)|false|none|none|
-|»»» RetentionPeriodInSeconds|integer|false|none|none|
+|»»» RetentionPeriod|integer|false|none|none|
 |»»» Enabled|boolean|false|none|none|
 
 <aside class="warning">
@@ -24972,7 +24972,7 @@ continued
 
 ```json
 {
-  "RetentionPeriodInSeconds": 800,
+  "RetentionPeriod": 800,
   "Enabled": true
 }
 
@@ -24982,7 +24982,7 @@ continued
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|RetentionPeriodInSeconds|integer|false|none|none|
+|RetentionPeriod|integer|false|none|none|
 |Enabled|boolean|false|none|none|
 
 <h2 id="tocS_OrganisationBillingInfo">OrganisationBillingInfo</h2>
@@ -25260,7 +25260,7 @@ continued
     "Delete": false
   },
   "DataRetention": {
-    "RetentionPeriodInSeconds": 800,
+    "RetentionPeriod": 800,
     "Enabled": true
   }
 }
