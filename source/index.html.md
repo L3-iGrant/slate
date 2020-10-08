@@ -1353,7 +1353,10 @@ Get consents for a particular user. This will include all consents given  for th
             "Remaining": 0
           }
         }
-      ]
+      ],
+      "DataRetention": {
+        "Expiry": "Saturday, 03-Oct-20 09:34:32 UTC"
+      }
     }
   ]
 }
@@ -1394,6 +1397,8 @@ Status Code **200**
 |»»»» TimeStamp|string(date-time)|false|none|none|
 |»»»» Days|integer|false|none|none|
 |»»»» Remaining|integer|false|none|none|
+|»» DataRetention|object|false|none|none|
+|»»» Expiry|string|false|none|none|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
