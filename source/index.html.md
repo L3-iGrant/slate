@@ -1355,7 +1355,7 @@ Get consents for a particular user. This will include all consents given  for th
         }
       ],
       "DataRetention": {
-        "Expiry": "Saturday, 03-Oct-20 09:34:32 UTC"
+        "Expiry": "2020-11-14 03:03:10 +0000 UTC"
       }
     }
   ]
@@ -1816,7 +1816,7 @@ Gets all the consents for a given purpose by ID
   "OrgID": "5dae01aa267e930001609aa4",
   "UserID": "5dbc02ecb99fd0000157547a",
   "DataRetention": {
-    "Expiry": "Saturday, 03-Oct-20 09:34:32 UTC"
+    "Expiry": "2020-11-14 03:03:10 +0000 UTC"
   },
   "Consents": {
     "Purpose": {
@@ -2532,6 +2532,9 @@ Updates all attribute consents of a given purpose
         "LawfulUsage": false,
         "PolicyURL": "https://orgname.com/policy_default.html"
       },
+      "DataRetention": {
+        "Expiry": "2020-11-14 03:03:10 +0000 UTC"
+      },
       "Count": {
         "Total": 4,
         "Consented": 4
@@ -2577,6 +2580,8 @@ Status Code **200**
 |»»» Description|string|false|none|none|
 |»»» LawfulUsage|boolean|false|none|none|
 |»»» PolicyURL|string|false|none|none|
+|»» DataRetention|object|false|none|none|
+|»»» Expiry|string|false|none|none|
 |»» Count|object|false|none|none|
 |»»» Total|integer|false|none|none|
 |»»» Consented|integer|false|none|none|
