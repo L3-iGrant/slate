@@ -33,7 +33,7 @@ Base URLs:
 
 * <a href="https://cloudagent.igrant.io/v1/{orgId}/admin">https://cloudagent.igrant.io/v1/{orgId}/admin</a>
 
-    * **orgId** - Org ID assigned by iGrant.io Default: <iGrant.io Org ID>
+    * **orgId** - Org ID assigned by iGrant.io Default: undefined
 
 # Authentication
 
