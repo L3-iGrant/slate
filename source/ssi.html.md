@@ -6964,7 +6964,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 ApiKeyHeader
 </aside>
 
-<h1 id="introduction-to-aries-cloudagent-apis-issue-credential">issue-credential</h1>
+<h1 id="introduction-to-aries-cloudagent-apis-issuer">issuer</h1>
 
 Credential issue, revocation
 
@@ -10776,9 +10776,9 @@ To perform this operation, you must be authenticated by means of one of the foll
 ApiKeyHeader
 </aside>
 
-<h1 id="introduction-to-aries-cloudagent-apis-present-proof">present-proof</h1>
+<h1 id="introduction-to-aries-cloudagent-apis-verifier">verifier</h1>
 
-Proof presentation
+Data exchange and verification
 
 <a href="https://github.com/hyperledger/aries-rfcs/tree/4fae574c03f9f1013db30bf2c0c676b1122f7149/features/0037-present-proof">Specification</a>
 
