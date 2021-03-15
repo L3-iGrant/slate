@@ -24,10 +24,12 @@ under the License.
 // GENERAL STUFF
 ////////////////////////////////////////////////////////////////////////////////
 
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
 html, body {
   color: $main-text;
   padding: 0;
-  font-family: 'Helvetica neue';
+  font-family: 'Roboto', sans-serif;
   font-weight: 400;
   font-size: 14px;
 
@@ -58,7 +60,7 @@ html, body {
 }
 
 .toc-wrapper {
-  font-family: 'Helvetica neue';
+  font-family: 'Roboto', sans-serif;
   font-weight: 400;
   font-size: 16px;
   transition: left 0.3s ease-in-out;
@@ -191,7 +193,7 @@ html, body {
     padding-left: $nav-padding + $nav-indent;
     font-size: 13px;
     border-radius: 0px;
-    font-family: 'Helvetica neue';
+    font-family: 'Roboto', sans-serif;
     font-weight: normal;
   }
 
@@ -201,7 +203,7 @@ html, body {
     text-align: left;
     border-style: square;
     margin-bottom: 2px;
-    font-family: 'Helvetica neue';
+    font-family: 'Roboto', sans-serif;
     font-size: 14px;
   }
   
@@ -218,7 +220,7 @@ html, body {
     font-size: 13px;
     background-color: rgba(255, 255, 255, 0.103);
     opacity: 2;
-    font-family: 'Helvetica neue';
+    font-family: 'Roboto', sans-serif;
     font-weight: 0px;
   }
   
