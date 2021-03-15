@@ -1157,6 +1157,1487 @@ Refreshes an access token
 This operation does not require authentication
 </aside>
 
+## Adds an external identity provider
+
+<a id="opIdAdds an external identity provider"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+POST https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id HTTP/1.1
+Host: api.igrant.io
+Content-Type: application/json
+Accept: application/json
+
+```
+
+```javascript
+const inputBody = '{
+  "authorizationUrl": "string",
+  "tokenUrl": "string",
+  "logoutUrl": "string",
+  "clientId": "string",
+  "clientSecret": "string",
+  "jwksUrl": "string",
+  "userInfoUrl": "string",
+  "validateSignature": true,
+  "disableUserInfo": true,
+  "issuer": "string",
+  "defaultScope": "string"
+}';
+const headers = {
+  'Content-Type':'application/json',
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id',
+{
+  method: 'POST',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Content-Type' => 'application/json',
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json',
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.post('https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Content-Type' => 'application/json',
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Content-Type": []string{"application/json"},
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /organizations/{organizationID}/idp/open-id`
+
+Adds an external identity provider
+
+> Body parameter
+
+```json
+{
+  "authorizationUrl": "string",
+  "tokenUrl": "string",
+  "logoutUrl": "string",
+  "clientId": "string",
+  "clientSecret": "string",
+  "jwksUrl": "string",
+  "userInfoUrl": "string",
+  "validateSignature": true,
+  "disableUserInfo": true,
+  "issuer": "string",
+  "defaultScope": "string"
+}
+```
+
+<h3 id="adds-an-external-identity-provider-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organisation ID|
+|body|body|object|false|OpenID client configuration for external identity provider|
+|» authorizationUrl|body|string|true|none|
+|» tokenUrl|body|string|true|none|
+|» logoutUrl|body|string|true|none|
+|» clientId|body|string|true|none|
+|» clientSecret|body|string|true|none|
+|» jwksUrl|body|string|true|none|
+|» userInfoUrl|body|string|true|none|
+|» validateSignature|body|boolean|true|none|
+|» disableUserInfo|body|boolean|true|none|
+|» issuer|body|string|true|none|
+|» defaultScope|body|string|true|none|
+
+> Example responses
+
+> 201 Response
+
+```json
+{
+  "authorizationUrl": "string",
+  "tokenUrl": "string",
+  "logoutUrl": "string",
+  "clientId": "string",
+  "clientSecret": "string",
+  "jwksUrl": "string",
+  "userInfoUrl": "string",
+  "validateSignature": true,
+  "disableUserInfo": true,
+  "issuer": "string",
+  "defaultScope": "string"
+}
+```
+
+<h3 id="adds-an-external-identity-provider-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|Configured external identity provider for organisation|Inline|
+
+<h3 id="adds-an-external-identity-provider-responseschema">Response Schema</h3>
+
+Status Code **201**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» authorizationUrl|string|false|none|none|
+|» tokenUrl|string|false|none|none|
+|» logoutUrl|string|false|none|none|
+|» clientId|string|false|none|none|
+|» clientSecret|string|false|none|none|
+|» jwksUrl|string|false|none|none|
+|» userInfoUrl|string|false|none|none|
+|» validateSignature|boolean|false|none|none|
+|» disableUserInfo|boolean|false|none|none|
+|» issuer|string|false|none|none|
+|» defaultScope|string|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Updates configured external identity provider
+
+<a id="opIdUpdates configured external identity provider"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X PUT https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+PUT https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id HTTP/1.1
+Host: api.igrant.io
+Content-Type: application/json
+Accept: application/json
+
+```
+
+```javascript
+const inputBody = '{
+  "authorizationUrl": "string",
+  "tokenUrl": "string",
+  "logoutUrl": "string",
+  "clientId": "string",
+  "clientSecret": "string",
+  "jwksUrl": "string",
+  "userInfoUrl": "string",
+  "validateSignature": true,
+  "disableUserInfo": true,
+  "issuer": "string",
+  "defaultScope": "string"
+}';
+const headers = {
+  'Content-Type':'application/json',
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id',
+{
+  method: 'PUT',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Content-Type' => 'application/json',
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.put 'https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Content-Type': 'application/json',
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.put('https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Content-Type' => 'application/json',
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('PUT','https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("PUT");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Content-Type": []string{"application/json"},
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("PUT", "https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`PUT /organizations/{organizationID}/idp/open-id`
+
+Updates configured external identity provider
+
+> Body parameter
+
+```json
+{
+  "authorizationUrl": "string",
+  "tokenUrl": "string",
+  "logoutUrl": "string",
+  "clientId": "string",
+  "clientSecret": "string",
+  "jwksUrl": "string",
+  "userInfoUrl": "string",
+  "validateSignature": true,
+  "disableUserInfo": true,
+  "issuer": "string",
+  "defaultScope": "string"
+}
+```
+
+<h3 id="updates-configured-external-identity-provider-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organisation ID|
+|body|body|object|false|OpenID client configuration for external identity provider|
+|» authorizationUrl|body|string|true|none|
+|» tokenUrl|body|string|true|none|
+|» logoutUrl|body|string|true|none|
+|» clientId|body|string|true|none|
+|» clientSecret|body|string|true|none|
+|» jwksUrl|body|string|true|none|
+|» userInfoUrl|body|string|true|none|
+|» validateSignature|body|boolean|true|none|
+|» disableUserInfo|body|boolean|true|none|
+|» issuer|body|string|true|none|
+|» defaultScope|body|string|true|none|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "authorizationUrl": "string",
+  "tokenUrl": "string",
+  "logoutUrl": "string",
+  "clientId": "string",
+  "clientSecret": "string",
+  "jwksUrl": "string",
+  "userInfoUrl": "string",
+  "validateSignature": true,
+  "disableUserInfo": true,
+  "issuer": "string",
+  "defaultScope": "string"
+}
+```
+
+<h3 id="updates-configured-external-identity-provider-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Updates configured external identity provider for organisation|Inline|
+
+<h3 id="updates-configured-external-identity-provider-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» authorizationUrl|string|false|none|none|
+|» tokenUrl|string|false|none|none|
+|» logoutUrl|string|false|none|none|
+|» clientId|string|false|none|none|
+|» clientSecret|string|false|none|none|
+|» jwksUrl|string|false|none|none|
+|» userInfoUrl|string|false|none|none|
+|» validateSignature|boolean|false|none|none|
+|» disableUserInfo|boolean|false|none|none|
+|» issuer|string|false|none|none|
+|» defaultScope|string|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Get configured external identity provider
+
+<a id="opIdGet configured external identity provider"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X GET https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+GET https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id',
+{
+  method: 'GET',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.get('https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`GET /organizations/{organizationID}/idp/open-id`
+
+Get configured external identity provider
+
+<h3 id="get-configured-external-identity-provider-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organisation ID|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "authorizationUrl": "string",
+  "tokenUrl": "string",
+  "logoutUrl": "string",
+  "clientId": "string",
+  "clientSecret": "string",
+  "jwksUrl": "string",
+  "userInfoUrl": "string",
+  "validateSignature": true,
+  "disableUserInfo": true,
+  "issuer": "string",
+  "defaultScope": "string"
+}
+```
+
+<h3 id="get-configured-external-identity-provider-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Get configured external identity provider for organisation|Inline|
+
+<h3 id="get-configured-external-identity-provider-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» authorizationUrl|string|false|none|none|
+|» tokenUrl|string|false|none|none|
+|» logoutUrl|string|false|none|none|
+|» clientId|string|false|none|none|
+|» clientSecret|string|false|none|none|
+|» jwksUrl|string|false|none|none|
+|» userInfoUrl|string|false|none|none|
+|» validateSignature|boolean|false|none|none|
+|» disableUserInfo|boolean|false|none|none|
+|» issuer|string|false|none|none|
+|» defaultScope|string|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Remove configured external identity provider
+
+<a id="opIdRemove configured external identity provider"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X DELETE https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+DELETE https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id HTTP/1.1
+Host: api.igrant.io
+
+```
+
+```javascript
+
+const headers = {
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id',
+{
+  method: 'DELETE',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.delete 'https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.delete('https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('DELETE','https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("DELETE");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("DELETE", "https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`DELETE /organizations/{organizationID}/idp/open-id`
+
+Remove configured external identity provider
+
+<h3 id="remove-configured-external-identity-provider-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organisation ID|
+
+<h3 id="remove-configured-external-identity-provider-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|204|[No Content](https://tools.ietf.org/html/rfc7231#section-6.3.5)|Removed configured external identity provider for organisation|None|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Exchange the authorization code for an access token
+
+<a id="opIdExchange the authorization code for an access token"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id/exchange?redirect_uri=https%3A%2F%2Fpreference-center.igrant.io%2Flogin&code=string \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+POST https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id/exchange?redirect_uri=https%3A%2F%2Fpreference-center.igrant.io%2Flogin&code=string HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id/exchange?redirect_uri=https%3A%2F%2Fpreference-center.igrant.io%2Flogin&code=string',
+{
+  method: 'POST',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id/exchange',
+  params: {
+  'redirect_uri' => 'string',
+'code' => 'string'
+}, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.post('https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id/exchange', params={
+  'redirect_uri': 'https://preference-center.igrant.io/login',  'code': 'string'
+}, headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id/exchange', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id/exchange?redirect_uri=https%3A%2F%2Fpreference-center.igrant.io%2Flogin&code=string");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id/exchange", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /organizations/{organizationID}/idp/open-id/exchange`
+
+Exchange the authorization code for an access token
+
+<h3 id="exchange-the-authorization-code-for-an-access-token-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organisation ID|
+|redirect_uri|query|string|true|URI to be redirected to after successfully obtaining the authorization code|
+|code|query|string|true|Authorization code|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "User": {
+    "ID": "5daf22cea531351111afc7c8",
+    "Name": "George Floyd",
+    "IamID": "9d8c4h69-9fb2-4115-a4c3-53bddb8f2d7f",
+    "Email": "dmart@yopmail.com",
+    "Phone": "+46 7252 98991",
+    "ImageID": "5f1458a5chaa930001e78f12",
+    "ImageURL": "https:/<server-url>/image/5f1458a5chaa930001e78f12",
+    "LastVisit": "2020-07-22T18:04:02Z",
+    "Client": {
+      "Token": "fEkxEwh4T2mr-B4yQoZ9TT:APA91bHibhwLXkc2l6LxWxHW5TrKBoLrXGCHDO6A9pXQ0ShvDYPfxXm57D8tIsR-fwybjs-_OFXCgCbBQpYVON2svUiooWgJBFETXg_jUGy0B9etUHFnyuCbXPihyoCuJc2Gn6s9XkN_",
+      "Type": 2
+    },
+    "Orgs": [
+      {
+        "OrgID": "5dae2a9fa1215e00012103e4",
+        "Name": "Nordea Bank AB",
+        "Location": "Stockholm, Sweden",
+        "Type": "Banking and Finance",
+        "TypeID": "5d95a566a67c8800012f27d1",
+        "EulaAccepted": false
+      }
+    ],
+    "APIKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI1ZGFmMjJjZWE1MzEzNTAwMDFhZmM3YzgiLCJleHAiOjE2MDQwNjMwNjV9.Irk0XgXfVhIdlgBNz6ggEXlvoIPtzUzJv4-x0VKYBGE",
+    "Roles": [
+      {
+        "RoleID": 1,
+        "OrgID": "5daf22d0a531350001afc7c9"
+      }
+    ]
+  },
+  "Token": {
+    "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJDeHhVYTVaQ2NnaENxQUxTZy1wbFVYUkJlNE1ERG9zamF0enNYa1lqMEtFIn0.eyJqdGkiOiIzZDM0NDk3Zi05NDYxLTQyZDItYjA0My01ZTU2MTVhOTg0ODYiLCJleHAiOjE1OTU2MTAwMjksIm5iZiI6MCwiaWF0IjoxNTk1NTg4NDI5LCJpc3MiOiJodHRwczovL3N0YWdpbmctaWFtLmlncmFudC5pby9hdXRoL3JlYWxtcy9pZ3JhbnQtdXNlcnMiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiOWQ4YzRkNjktOWZiMi00MTE1LWE0YzMtNTNiY2JiOGYyZDdmIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiaWdyYW50LWlvcy1hcHAiLCJhdXRoX3RpbWUiOjAsInNlc3Npb25fc3RhdGUiOiIxMWQwYjg3OC0wMWNkLTQ1YmYtYTQxOC04Yzc0ZjkyNTE5NmUiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6InByb2ZpbGUgZW1haWwiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsIm5hbWUiOiJSYXZpIFNoYW5rYXIiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJkbWFydEB5b3BtYWlsLmNvbSIsImdpdmVuX25hbWUiOiJSYXZpIFNoYW5rYXIiLCJmYW1pbHlfbmFtZSI6IiIsImVtYWlsIjoiZG1hcnRAeW9wbWFpbC5jb20ifQ.K6eOOztvymq7W6yq7mjioJ76eZ7djtIjowqBlx9oCXIfbdt7W2HF6zX7FvkXFuta79ObDYeiqjt9Hy-9SWgS4-QGOFEM9pvT1aLC6gspeI2143P8ZPWWjHRuOH6Ht6TR8ML_X-DJ5n9hmoB9LDc8Vk39zTHhdmtSpu-yUrWHs2wFDmwO8yFdf9Em038WGxo4PYKzqzdEjsIVhSJy-BpkjoEluYxNkOGh3uQ4LZ7jbmXM83mwqEg8r-RwLljjqP3d2_7TSrNcO4Z8IVNslLv5wuSk9ZgCsPqE6poMjFLmrvOAcu2Rx6Em_me19RN1bTT2wrm_Joulzc02XcMyN9gDoA",
+    "expires_in": 21600,
+    "refresh_expires_in": 36000,
+    "refresh_token": "eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI5YmJiYTI4Ni1mYzI3LTRmMjItODg5Ny05MGU5NTMyNjE0NjkifQ.eyJqdGkiOiJhMzFlZWZkMS00MDNhLTQyZmYtODQ3Mi1hMjYzMjAwMjNmZjMiLCJleHAiOjE1OTU2MjQ0MjksIm5iZiI6MCwiaWF0IjoxNTk1NTg4NDI5LCJpc3MiOiJodHRwczovL3N0YWdpbmctaWFtLmlncmFudC5pby9hdXRoL3JlYWxtcy9pZ3JhbnQtdXNlcnMiLCJhdWQiOiJodHRwczovL3N0YWdpbmctaWFtLmlncmFudC5pby9hdXRoL3JlYWxtcy9pZ3JhbnQtdXNlcnMiLCJzdWIiOiI5ZDhjNGQ2OS05ZmIyLTQxMTUtYTRjMy01M2JjYmI4ZjJkN2YiLCJ0eXAiOiJSZWZyZXNoIiwiYXpwIjoiaWdyYW50LWlvcy1hcHAiLCJhdXRoX3RpbWUiOjAsInNlc3Npb25fc3RhdGUiOiIxMWQwYjg3OC0wMWNkLTQ1YmYtYTQxOC04Yzc0ZjkyNTE5NmUiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoicHJvZmlsZSBlbWFpbCJ9.DknM937PZWqwPiczJdNeIbEo0-R-09hBbOJiqRrDmqo",
+    "token_type": "bearer"
+  }
+}
+```
+
+<h3 id="exchange-the-authorization-code-for-an-access-token-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns token and user details|Inline|
+
+<h3 id="exchange-the-authorization-code-for-an-access-token-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» User|[User](#schemauser)|false|none|none|
+|»» ID|string|false|none|none|
+|»» Name|string|false|none|none|
+|»» IamID|string|false|none|none|
+|»» Email|string|false|none|none|
+|»» Phone|string|false|none|none|
+|»» ImageID|string|false|none|none|
+|»» ImageURL|string|false|none|none|
+|»» LastVisit|string(date-time)|false|none|none|
+|»» Client|object|false|none|none|
+|»»» Token|string|false|none|none|
+|»»» Type|integer|false|none|none|
+|»» Orgs|[object]|false|none|none|
+|»»» OrgID|string|false|none|none|
+|»»» Name|string|false|none|none|
+|»»» Location|string|false|none|none|
+|»»» Type|string|false|none|none|
+|»»» TypeID|string|false|none|none|
+|»»» EulaAccepted|boolean|false|none|none|
+|»» APIKey|string|false|none|none|
+|»» Roles|[object]|false|none|none|
+|»»» RoleID|integer|false|none|none|
+|»»» OrgID|string|false|none|none|
+|» Token|[Token](#schematoken)|false|none|none|
+|»» access_token|string|false|none|none|
+|»» expires_in|integer|false|none|none|
+|»» refresh_token|string|false|none|none|
+|»» refresh_expires_in|integer|false|none|none|
+|»» token_type|string|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## Perform logout for OpenID client (including backchannel logout if configured)
+
+<a id="opIdPerform logout for OpenID client (including backchannel logout if configured)"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id/logout \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+POST https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id/logout HTTP/1.1
+Host: api.igrant.io
+
+```
+
+```javascript
+
+const headers = {
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id/logout',
+{
+  method: 'POST',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id/logout',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.post('https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id/logout', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id/logout', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id/logout");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id/logout", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /organizations/{organizationID}/idp/open-id/logout`
+
+Perform logout for OpenID client (including backchannel logout if configured)
+
+<h3 id="perform-logout-for-openid-client-(including-backchannel-logout-if-configured)-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organisation ID|
+
+<h3 id="perform-logout-for-openid-client-(including-backchannel-logout-if-configured)-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|204|[No Content](https://tools.ietf.org/html/rfc7231#section-6.3.5)|Ended user session in iGrant.io IAM and external IDP (if configured)|None|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
+## To get the redirect_uri that needs to be configured in external identity provider's OpenID client
+
+<a id="opIdTo get the redirect_uri that needs to be configured in external identity provider's OpenID client"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X GET https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id/redirect-uri \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+GET https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id/redirect-uri HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id/redirect-uri',
+{
+  method: 'GET',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.get 'https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id/redirect-uri',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.get('https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id/redirect-uri', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('GET','https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id/redirect-uri', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id/redirect-uri");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("GET");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("GET", "https://api.igrant.io/v1/organizations/{organizationID}/idp/open-id/redirect-uri", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`GET /organizations/{organizationID}/idp/open-id/redirect-uri`
+
+To get the redirect_uri that needs to be configured in external identity provider's OpenID client
+
+<h3 id="to-get-the-redirect_uri-that-needs-to-be-configured-in-external-identity-provider's-openid-client-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organisation ID|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "RedirectURI": "https://iam.igrant.io/auth/realms/igrant-users/broker/5f5238ddc67001000111f8d9/endpoint"
+}
+```
+
+<h3 id="to-get-the-redirect_uri-that-needs-to-be-configured-in-external-identity-provider's-openid-client-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns redirect URI|Inline|
+
+<h3 id="to-get-the-redirect_uri-that-needs-to-be-configured-in-external-identity-provider's-openid-client-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|» RedirectURI|string|false|none|none|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
+
 <h1 id="introduction-to-igrant-io-apis-permissions-and-consents">Permissions and consents</h1>
 
 Permission management enables people to manage and have an overview of data transactions and connections and to execute their legal rights (for example, as per the GDPR Article 6 in the GDPR). Using iGrant.io services, organisations can manage consents from individuals throughout its lifecycle. It can be an active consenting where consent is given in real-time or passive consenting where consents can be given anytime. In either case, individuals can at any time use the service to re-evaluate their consents if the need arise.
