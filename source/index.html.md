@@ -1,5 +1,5 @@
 ---
-title: Introduction to iGrant.io APIs v2.1.3
+title: Introduction to iGrant.io APIs v2.1.4
 language_tabs:
   - shell: Shell
   - http: HTTP
@@ -19,7 +19,7 @@ headingLevel: 2
 
 <!-- Generator: Widdershins v4.0.1 -->
 
-<h1 id="introduction-to-igrant-io-apis">Introduction to iGrant.io APIs v2.1.3</h1>
+<h1 id="introduction-to-igrant-io-apis">Introduction to iGrant.io APIs v2.1.4</h1>
 
 > Scroll down for code samples, example requests and responses. Select a language for code samples from the tabs above or the mobile navigation menu.
 
@@ -1158,9 +1158,9 @@ Refreshes an access token
 This operation does not require authentication
 </aside>
 
-## Adds an external identity provider
+## Add external IDP
 
-<a id="opIdAdds an external identity provider"></a>
+<a id="opIdAdd external IDP"></a>
 
 > Code samples
 
@@ -1326,7 +1326,7 @@ func main() {
 
 `POST /organizations/{organizationID}/idp/open-id`
 
-Adds an external identity provider
+Add external IDP
 
 > Body parameter
 
@@ -1346,7 +1346,7 @@ Adds an external identity provider
 }
 ```
 
-<h3 id="adds-an-external-identity-provider-parameters">Parameters</h3>
+<h3 id="add-external-idp-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
@@ -1384,13 +1384,13 @@ Adds an external identity provider
 }
 ```
 
-<h3 id="adds-an-external-identity-provider-responses">Responses</h3>
+<h3 id="add-external-idp-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
 |201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|Configured external identity provider for organisation|Inline|
 
-<h3 id="adds-an-external-identity-provider-responseschema">Response Schema</h3>
+<h3 id="add-external-idp-responseschema">Response Schema</h3>
 
 Status Code **201**
 
@@ -1413,9 +1413,9 @@ To perform this operation, you must be authenticated by means of one of the foll
 bearerAuth
 </aside>
 
-## Updates configured external identity provider
+## Update external IDP
 
-<a id="opIdUpdates configured external identity provider"></a>
+<a id="opIdUpdate external IDP"></a>
 
 > Code samples
 
@@ -1581,7 +1581,7 @@ func main() {
 
 `PUT /organizations/{organizationID}/idp/open-id`
 
-Updates configured external identity provider
+Update external IDP
 
 > Body parameter
 
@@ -1601,7 +1601,7 @@ Updates configured external identity provider
 }
 ```
 
-<h3 id="updates-configured-external-identity-provider-parameters">Parameters</h3>
+<h3 id="update-external-idp-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
@@ -1639,13 +1639,13 @@ Updates configured external identity provider
 }
 ```
 
-<h3 id="updates-configured-external-identity-provider-responses">Responses</h3>
+<h3 id="update-external-idp-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
 |200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Updates configured external identity provider for organisation|Inline|
 
-<h3 id="updates-configured-external-identity-provider-responseschema">Response Schema</h3>
+<h3 id="update-external-idp-responseschema">Response Schema</h3>
 
 Status Code **200**
 
@@ -1668,9 +1668,9 @@ To perform this operation, you must be authenticated by means of one of the foll
 bearerAuth
 </aside>
 
-## Get configured external identity provider
+## Get external IDP
 
-<a id="opIdGet configured external identity provider"></a>
+<a id="opIdGet external IDP"></a>
 
 > Code samples
 
@@ -1817,9 +1817,9 @@ func main() {
 
 `GET /organizations/{organizationID}/idp/open-id`
 
-Get configured external identity provider
+Get external IDP
 
-<h3 id="get-configured-external-identity-provider-parameters">Parameters</h3>
+<h3 id="get-external-idp-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
@@ -1845,13 +1845,13 @@ Get configured external identity provider
 }
 ```
 
-<h3 id="get-configured-external-identity-provider-responses">Responses</h3>
+<h3 id="get-external-idp-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
 |200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Get configured external identity provider for organisation|Inline|
 
-<h3 id="get-configured-external-identity-provider-responseschema">Response Schema</h3>
+<h3 id="get-external-idp-responseschema">Response Schema</h3>
 
 Status Code **200**
 
@@ -1874,9 +1874,9 @@ To perform this operation, you must be authenticated by means of one of the foll
 bearerAuth
 </aside>
 
-## Remove configured external identity provider
+## Delete external IDP
 
-<a id="opIdRemove configured external identity provider"></a>
+<a id="opIdDelete external IDP"></a>
 
 > Code samples
 
@@ -2016,15 +2016,15 @@ func main() {
 
 `DELETE /organizations/{organizationID}/idp/open-id`
 
-Remove configured external identity provider
+Delete external IDP
 
-<h3 id="remove-configured-external-identity-provider-parameters">Parameters</h3>
+<h3 id="delete-external-idp-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
 |organizationID|path|string|true|Organisation ID|
 
-<h3 id="remove-configured-external-identity-provider-responses">Responses</h3>
+<h3 id="delete-external-idp-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
@@ -2035,9 +2035,9 @@ To perform this operation, you must be authenticated by means of one of the foll
 bearerAuth
 </aside>
 
-## Exchange the authorization code for an access token
+## Exchange auth code
 
-<a id="opIdExchange the authorization code for an access token"></a>
+<a id="opIdExchange auth code"></a>
 
 > Code samples
 
@@ -2188,9 +2188,9 @@ func main() {
 
 `POST /organizations/{organizationID}/idp/open-id/exchange`
 
-Exchange the authorization code for an access token
+Exchange auth code
 
-<h3 id="exchange-the-authorization-code-for-an-access-token-parameters">Parameters</h3>
+<h3 id="exchange-auth-code-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
@@ -2245,13 +2245,13 @@ Exchange the authorization code for an access token
 }
 ```
 
-<h3 id="exchange-the-authorization-code-for-an-access-token-responses">Responses</h3>
+<h3 id="exchange-auth-code-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
 |200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns token and user details|Inline|
 
-<h3 id="exchange-the-authorization-code-for-an-access-token-responseschema">Response Schema</h3>
+<h3 id="exchange-auth-code-responseschema">Response Schema</h3>
 
 Status Code **200**
 
@@ -2292,9 +2292,9 @@ To perform this operation, you must be authenticated by means of one of the foll
 bearerAuth
 </aside>
 
-## Perform logout for OpenID client (including backchannel logout if configured)
+## Logout OpenID client
 
-<a id="opIdPerform logout for OpenID client (including backchannel logout if configured)"></a>
+<a id="opIdLogout OpenID client"></a>
 
 > Code samples
 
@@ -2434,15 +2434,15 @@ func main() {
 
 `POST /organizations/{organizationID}/idp/open-id/logout`
 
-Perform logout for OpenID client (including backchannel logout if configured)
+Logout OpenID client
 
-<h3 id="perform-logout-for-openid-client-(including-backchannel-logout-if-configured)-parameters">Parameters</h3>
+<h3 id="logout-openid-client-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
 |organizationID|path|string|true|Organisation ID|
 
-<h3 id="perform-logout-for-openid-client-(including-backchannel-logout-if-configured)-responses">Responses</h3>
+<h3 id="logout-openid-client-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
@@ -2453,9 +2453,9 @@ To perform this operation, you must be authenticated by means of one of the foll
 bearerAuth
 </aside>
 
-## To get the redirect_uri that needs to be configured in external identity provider's OpenID client
+## Get redirect_uri
 
-<a id="opIdTo get the redirect_uri that needs to be configured in external identity provider's OpenID client"></a>
+<a id="opIdGet redirect_uri"></a>
 
 > Code samples
 
@@ -2602,9 +2602,9 @@ func main() {
 
 `GET /organizations/{organizationID}/idp/open-id/redirect-uri`
 
-To get the redirect_uri that needs to be configured in external identity provider's OpenID client
+Get redirect_uri
 
-<h3 id="to-get-the-redirect_uri-that-needs-to-be-configured-in-external-identity-provider's-openid-client-parameters">Parameters</h3>
+<h3 id="get-redirect_uri-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
@@ -2620,13 +2620,13 @@ To get the redirect_uri that needs to be configured in external identity provide
 }
 ```
 
-<h3 id="to-get-the-redirect_uri-that-needs-to-be-configured-in-external-identity-provider's-openid-client-responses">Responses</h3>
+<h3 id="get-redirect_uri-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
 |200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Returns redirect URI|Inline|
 
-<h3 id="to-get-the-redirect_uri-that-needs-to-be-configured-in-external-identity-provider's-openid-client-responseschema">Response Schema</h3>
+<h3 id="get-redirect_uri-responseschema">Response Schema</h3>
 
 Status Code **200**
 
