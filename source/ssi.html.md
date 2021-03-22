@@ -1,5 +1,5 @@
 ---
-title: Introduction to iGrant.io SSI APIs v0.5.6_5.0
+title: Introduction to iGrant.io SSI API(s)
 language_tabs:
   - shell: Shell
   - http: HTTP
@@ -19,28 +19,28 @@ headingLevel: 2
 
 <!-- Generator: Widdershins v4.0.1 -->
 
-<h1 id="introduction-to-aries-cloudagent-apis">Introduction to iGrant.io SSI APIs v0.5.6_5.0</h1>
+<h1 id="intro">Introduction to iGrant.io SSI API(s)</h1>
 
 > Scroll down for code samples, example requests and responses. Select a language for code samples from the tabs above or the mobile navigation menu.
 
-This specification is documented in **OpenAPI format**, it describes the RESTFul APIs of Aries Cloudagent with iGrant.io operator integrations
-  
-iGrant.io offers one form of authentication - Bearer authentication
+This specification is documented in OpenAPI format, it describes the RESTFul APIs of Aries Cloudagent with iGrant.io operator integrations.
 
-This form of authentication is a form of authentication scheme that involves security tokens. The client sends this token in the Authorization header when making request.
+iGrant.io offers one form of authentication - ApiKey authentication
+
+This form of authentication is a form of authentication scheme that involves API keys. The client sends this token in the Authorization header when making request.
 
 Base URLs:
 
 * <a href="https://cloudagent.igrant.io/v1/{orgId}/admin">https://cloudagent.igrant.io/v1/{orgId}/admin</a>
 
-    * **orgId** - Org ID assigned by iGrant.io Default: undefined
+    * **orgId** - Org ID assigned by iGrant.io Default: demo
 
 # Authentication
 
 * API Key (ApiKeyHeader)
     - Parameter Name: **Authorization**, in: header. 
 
-<h1 id="introduction-to-aries-cloudagent-apis-basic-routing">basic-routing</h1>
+<h1 id="agent1-basic-routing">basic-routing</h1>
 
 iGrant.io basic routing protocols
 
@@ -360,7 +360,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 ApiKeyHeader
 </aside>
 
-<h1 id="introduction-to-aries-cloudagent-apis-basicmessage">basicmessage</h1>
+<h1 id="agent1-basicmessage">basicmessage</h1>
 
 Simple messaging
 
@@ -542,7 +542,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 ApiKeyHeader
 </aside>
 
-<h1 id="introduction-to-aries-cloudagent-apis-connection">connection</h1>
+<h1 id="agent1-connection">connection</h1>
 
 Connection management
 
@@ -734,7 +734,7 @@ func main() {
       "accept": "auto",
       "alias": "Bob, providing quotes",
       "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "created_at": "2021-02-04 19:10:56Z",
+      "created_at": "2021-03-22 06:01:36Z",
       "error_msg": "No DIDDoc provided; cannot connect to public DID",
       "inbound_connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
       "initiator": "self",
@@ -747,7 +747,7 @@ func main() {
       "their_did": "WgWxqztrNooG92RXvxSTWv",
       "their_label": "Bob",
       "their_role": "Point of contact",
-      "updated_at": "2021-02-04 19:10:56Z"
+      "updated_at": "2021-03-22 06:01:36Z"
     }
   ]
 }
@@ -928,7 +928,7 @@ func main() {
   "accept": "auto",
   "alias": "Bob, providing quotes",
   "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "created_at": "2021-02-04 19:10:56Z",
+  "created_at": "2021-03-22 06:01:36Z",
   "error_msg": "No DIDDoc provided; cannot connect to public DID",
   "inbound_connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   "initiator": "self",
@@ -941,7 +941,7 @@ func main() {
   "their_did": "WgWxqztrNooG92RXvxSTWv",
   "their_label": "Bob",
   "their_role": "Point of contact",
-  "updated_at": "2021-02-04 19:10:56Z"
+  "updated_at": "2021-03-22 06:01:36Z"
 }
 ```
 
@@ -1315,7 +1315,7 @@ func main() {
     "accept": "auto",
     "alias": "Bob, providing quotes",
     "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    "created_at": "2021-02-04 19:10:56Z",
+    "created_at": "2021-03-22 06:01:36Z",
     "error_msg": "No DIDDoc provided; cannot connect to public DID",
     "inbound_connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     "initiator": "self",
@@ -1328,7 +1328,7 @@ func main() {
     "their_did": "WgWxqztrNooG92RXvxSTWv",
     "their_label": "Bob",
     "their_role": "Point of contact",
-    "updated_at": "2021-02-04 19:10:56Z"
+    "updated_at": "2021-03-22 06:01:36Z"
   },
   "their_did": "WgWxqztrNooG92RXvxSTWv",
   "their_verkey": "H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV"
@@ -1743,7 +1743,7 @@ func main() {
   "accept": "auto",
   "alias": "Bob, providing quotes",
   "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "created_at": "2021-02-04 19:10:56Z",
+  "created_at": "2021-03-22 06:01:36Z",
   "error_msg": "No DIDDoc provided; cannot connect to public DID",
   "inbound_connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   "initiator": "self",
@@ -1756,7 +1756,7 @@ func main() {
   "their_did": "WgWxqztrNooG92RXvxSTWv",
   "their_label": "Bob",
   "their_role": "Point of contact",
-  "updated_at": "2021-02-04 19:10:56Z"
+  "updated_at": "2021-03-22 06:01:36Z"
 }
 ```
 
@@ -1937,7 +1937,7 @@ func main() {
   "accept": "auto",
   "alias": "Bob, providing quotes",
   "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "created_at": "2021-02-04 19:10:56Z",
+  "created_at": "2021-03-22 06:01:36Z",
   "error_msg": "No DIDDoc provided; cannot connect to public DID",
   "inbound_connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   "initiator": "self",
@@ -1950,7 +1950,7 @@ func main() {
   "their_did": "WgWxqztrNooG92RXvxSTWv",
   "their_label": "Bob",
   "their_role": "Point of contact",
-  "updated_at": "2021-02-04 19:10:56Z"
+  "updated_at": "2021-03-22 06:01:36Z"
 }
 ```
 
@@ -2130,7 +2130,7 @@ func main() {
   "accept": "auto",
   "alias": "Bob, providing quotes",
   "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "created_at": "2021-02-04 19:10:56Z",
+  "created_at": "2021-03-22 06:01:36Z",
   "error_msg": "No DIDDoc provided; cannot connect to public DID",
   "inbound_connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   "initiator": "self",
@@ -2143,7 +2143,7 @@ func main() {
   "their_did": "WgWxqztrNooG92RXvxSTWv",
   "their_label": "Bob",
   "their_role": "Point of contact",
-  "updated_at": "2021-02-04 19:10:56Z"
+  "updated_at": "2021-03-22 06:01:36Z"
 }
 ```
 
@@ -2317,7 +2317,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 ApiKeyHeader
 </aside>
 
-<h1 id="introduction-to-aries-cloudagent-apis-credential-definition">credential-definition</h1>
+<h1 id="agent1-credential-definition">credential-definition</h1>
 
 Credential definition operations
 
@@ -2687,18 +2687,43 @@ func main() {
 > 200 Response
 
 ```json
-{
-  "credential_definition_ids": [
-    "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag"
-  ]
-}
+[
+  {
+    "cred_def_id": "9DkTAmKAVVQ47RcKDTzevG:3:CL:14:default",
+    "epoch": "1614099845",
+    "issuer_did": "9DkTAmKAVVQ47RcKDTzevG",
+    "schema_attributes": [
+      "abc"
+    ],
+    "schema_id": "9DkTAmKAVVQ47RcKDTzevG:2:Covid19 Test Result:1.0",
+    "schema_issuer_did": "9DkTAmKAVVQ47RcKDTzevG",
+    "schema_name": "prefs",
+    "schema_version": "1.0"
+  }
+]
 ```
 
 <h3 id="get__credential-definitions_created-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|none|[CredentialDefinitionsCreatedResults](#schemacredentialdefinitionscreatedresults)|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|none|Inline|
+
+<h3 id="get__credential-definitions_created-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|*anonymous*|[[CredentialDefinitionDetail](#schemacredentialdefinitiondetail)]|false|none|none|
+|» cred_def_id|string|false|none|Credential definition identifier|
+|» epoch|string|false|none|UTC timestamp|
+|» issuer_did|string|false|none|Issuer DID|
+|» schema_attributes|[string]|false|none|none|
+|» schema_id|string|false|none|Schema identifier within credential definition identifier|
+|» schema_issuer_did|string|false|none|Schema issuer DID|
+|» schema_name|string|true|none|Schema name|
+|» schema_version|string|true|none|Schema version|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
@@ -2888,7 +2913,165 @@ To perform this operation, you must be authenticated by means of one of the foll
 ApiKeyHeader
 </aside>
 
-<h1 id="introduction-to-aries-cloudagent-apis-credentials">credentials</h1>
+## delete__credential-definitions_{cred_def_id}
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X DELETE https://cloudagent.igrant.io/v1/{orgId}/admin/credential-definitions/{cred_def_id} \
+  -H 'Authorization: API_KEY'
+
+```
+
+```http
+DELETE https://cloudagent.igrant.io/v1/{orgId}/admin/credential-definitions/{cred_def_id} HTTP/1.1
+Host: cloudagent.igrant.io
+
+```
+
+```javascript
+
+const headers = {
+  'Authorization':'API_KEY'
+};
+
+fetch('https://cloudagent.igrant.io/v1/{orgId}/admin/credential-definitions/{cred_def_id}',
+{
+  method: 'DELETE',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Authorization' => 'API_KEY'
+}
+
+result = RestClient.delete 'https://cloudagent.igrant.io/v1/{orgId}/admin/credential-definitions/{cred_def_id}',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Authorization': 'API_KEY'
+}
+
+r = requests.delete('https://cloudagent.igrant.io/v1/{orgId}/admin/credential-definitions/{cred_def_id}', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Authorization' => 'API_KEY',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('DELETE','https://cloudagent.igrant.io/v1/{orgId}/admin/credential-definitions/{cred_def_id}', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://cloudagent.igrant.io/v1/{orgId}/admin/credential-definitions/{cred_def_id}");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("DELETE");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Authorization": []string{"API_KEY"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("DELETE", "https://cloudagent.igrant.io/v1/{orgId}/admin/credential-definitions/{cred_def_id}", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`DELETE /credential-definitions/{cred_def_id}`
+
+*Deletes a credential definition that is agent originated*
+
+<h3 id="delete__credential-definitions_{cred_def_id}-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|cred_def_id|path|string|true|Credential definition identifier|
+
+<h3 id="delete__credential-definitions_{cred_def_id}-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+ApiKeyHeader
+</aside>
+
+<h1 id="agent1-credentials">credentials</h1>
 
 Holder credential management
 
@@ -3776,24 +3959,24 @@ To perform this operation, you must be authenticated by means of one of the foll
 ApiKeyHeader
 </aside>
 
-<h1 id="introduction-to-aries-cloudagent-apis-igrantio_operator">igrantio_operator</h1>
+<h1 id="agent1-igrantio_operator">igrantio_operator</h1>
 
 iGrant.io operator management
 
-## get__igrantio-operator_operator-configuration
+## get__igrantio-operator_connections_{conn_id}_org-multiple-connections
 
 > Code samples
 
 ```shell
 # You can also use wget
-curl -X GET https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/operator-configuration \
+curl -X GET https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/org-multiple-connections \
   -H 'Accept: application/json' \
   -H 'Authorization: API_KEY'
 
 ```
 
 ```http
-GET https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/operator-configuration HTTP/1.1
+GET https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/org-multiple-connections HTTP/1.1
 Host: cloudagent.igrant.io
 Accept: application/json
 
@@ -3806,7 +3989,7 @@ const headers = {
   'Authorization':'API_KEY'
 };
 
-fetch('https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/operator-configuration',
+fetch('https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/org-multiple-connections',
 {
   method: 'GET',
 
@@ -3829,647 +4012,6 @@ headers = {
   'Authorization' => 'API_KEY'
 }
 
-result = RestClient.get 'https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/operator-configuration',
-  params: {
-  }, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Accept': 'application/json',
-  'Authorization': 'API_KEY'
-}
-
-r = requests.get('https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/operator-configuration', headers = headers)
-
-print(r.json())
-
-```
-
-```php
-<?php
-
-require 'vendor/autoload.php';
-
-$headers = array(
-    'Accept' => 'application/json',
-    'Authorization' => 'API_KEY',
-);
-
-$client = new \GuzzleHttp\Client();
-
-// Define array of request body.
-$request_body = array();
-
-try {
-    $response = $client->request('GET','https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/operator-configuration', array(
-        'headers' => $headers,
-        'json' => $request_body,
-       )
-    );
-    print_r($response->getBody()->getContents());
- }
- catch (\GuzzleHttp\Exception\BadResponseException $e) {
-    // handle exception or api errors.
-    print_r($e->getMessage());
- }
-
- // ...
-
-```
-
-```java
-URL obj = new URL("https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/operator-configuration");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("GET");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Accept": []string{"application/json"},
-        "Authorization": []string{"API_KEY"},
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("GET", "https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/operator-configuration", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`GET /igrantio-operator/operator-configuration`
-
-*Fetch iGrant.io operator configuration*
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "api_key": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI1ZjUyNGZhYmM2NzAwMTAwMDEwMGY5ZTUiLCJleHAiOjE2MzAzMzQ1Nzl9.mE0WH81Y40xImEcEVwhHa5KA8uaxPF4SwrZPKW-SiYc",
-  "org_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-}
-```
-
-<h3 id="get__igrantio-operator_operator-configuration-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|none|[OperatorConfigurationResult](#schemaoperatorconfigurationresult)|
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-ApiKeyHeader
-</aside>
-
-## post__igrantio-operator_connections_{conn_id}_list-data-certificate-types
-
-> Code samples
-
-```shell
-# You can also use wget
-curl -X POST https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/list-data-certificate-types \
-  -H 'Authorization: API_KEY'
-
-```
-
-```http
-POST https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/list-data-certificate-types HTTP/1.1
-Host: cloudagent.igrant.io
-
-```
-
-```javascript
-
-const headers = {
-  'Authorization':'API_KEY'
-};
-
-fetch('https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/list-data-certificate-types',
-{
-  method: 'POST',
-
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Authorization' => 'API_KEY'
-}
-
-result = RestClient.post 'https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/list-data-certificate-types',
-  params: {
-  }, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Authorization': 'API_KEY'
-}
-
-r = requests.post('https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/list-data-certificate-types', headers = headers)
-
-print(r.json())
-
-```
-
-```php
-<?php
-
-require 'vendor/autoload.php';
-
-$headers = array(
-    'Authorization' => 'API_KEY',
-);
-
-$client = new \GuzzleHttp\Client();
-
-// Define array of request body.
-$request_body = array();
-
-try {
-    $response = $client->request('POST','https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/list-data-certificate-types', array(
-        'headers' => $headers,
-        'json' => $request_body,
-       )
-    );
-    print_r($response->getBody()->getContents());
- }
- catch (\GuzzleHttp\Exception\BadResponseException $e) {
-    // handle exception or api errors.
-    print_r($e->getMessage());
- }
-
- // ...
-
-```
-
-```java
-URL obj = new URL("https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/list-data-certificate-types");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("POST");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Authorization": []string{"API_KEY"},
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("POST", "https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/list-data-certificate-types", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`POST /igrantio-operator/connections/{conn_id}/list-data-certificate-types`
-
-*Sending message for listing available data certificate types that can be issued*
-
-<h3 id="post__igrantio-operator_connections_{conn_id}_list-data-certificate-types-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|conn_id|path|string|true|Connection identifier|
-
-<h3 id="post__igrantio-operator_connections_{conn_id}_list-data-certificate-types-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-ApiKeyHeader
-</aside>
-
-## post__igrantio-operator_connections_{conn_id}_organization-info
-
-> Code samples
-
-```shell
-# You can also use wget
-curl -X POST https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/organization-info \
-  -H 'Authorization: API_KEY'
-
-```
-
-```http
-POST https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/organization-info HTTP/1.1
-Host: cloudagent.igrant.io
-
-```
-
-```javascript
-
-const headers = {
-  'Authorization':'API_KEY'
-};
-
-fetch('https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/organization-info',
-{
-  method: 'POST',
-
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Authorization' => 'API_KEY'
-}
-
-result = RestClient.post 'https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/organization-info',
-  params: {
-  }, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Authorization': 'API_KEY'
-}
-
-r = requests.post('https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/organization-info', headers = headers)
-
-print(r.json())
-
-```
-
-```php
-<?php
-
-require 'vendor/autoload.php';
-
-$headers = array(
-    'Authorization' => 'API_KEY',
-);
-
-$client = new \GuzzleHttp\Client();
-
-// Define array of request body.
-$request_body = array();
-
-try {
-    $response = $client->request('POST','https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/organization-info', array(
-        'headers' => $headers,
-        'json' => $request_body,
-       )
-    );
-    print_r($response->getBody()->getContents());
- }
- catch (\GuzzleHttp\Exception\BadResponseException $e) {
-    // handle exception or api errors.
-    print_r($e->getMessage());
- }
-
- // ...
-
-```
-
-```java
-URL obj = new URL("https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/organization-info");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("POST");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Authorization": []string{"API_KEY"},
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("POST", "https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/organization-info", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`POST /igrantio-operator/connections/{conn_id}/organization-info`
-
-*Sending message for fetching organization info*
-
-<h3 id="post__igrantio-operator_connections_{conn_id}_organization-info-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|conn_id|path|string|true|Connection identifier|
-
-<h3 id="post__igrantio-operator_connections_{conn_id}_organization-info-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-ApiKeyHeader
-</aside>
-
-## head__igrantio-operator_connections_{conn_id}_org-multiple-connections
-
-> Code samples
-
-```shell
-# You can also use wget
-curl -X HEAD https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/org-multiple-connections \
-  -H 'Authorization: API_KEY'
-
-```
-
-```http
-HEAD https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/org-multiple-connections HTTP/1.1
-Host: cloudagent.igrant.io
-
-```
-
-```javascript
-
-const headers = {
-  'Authorization':'API_KEY'
-};
-
-fetch('https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/org-multiple-connections',
-{
-  method: 'HEAD',
-
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Authorization' => 'API_KEY'
-}
-
-result = RestClient.head 'https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/org-multiple-connections',
-  params: {
-  }, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Authorization': 'API_KEY'
-}
-
-r = requests.head('https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/org-multiple-connections', headers = headers)
-
-print(r.json())
-
-```
-
-```php
-<?php
-
-require 'vendor/autoload.php';
-
-$headers = array(
-    'Authorization' => 'API_KEY',
-);
-
-$client = new \GuzzleHttp\Client();
-
-// Define array of request body.
-$request_body = array();
-
-try {
-    $response = $client->request('HEAD','https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/org-multiple-connections', array(
-        'headers' => $headers,
-        'json' => $request_body,
-       )
-    );
-    print_r($response->getBody()->getContents());
- }
- catch (\GuzzleHttp\Exception\BadResponseException $e) {
-    // handle exception or api errors.
-    print_r($e->getMessage());
- }
-
- // ...
-
-```
-
-```java
-URL obj = new URL("https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/org-multiple-connections");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("HEAD");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Authorization": []string{"API_KEY"},
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("HEAD", "https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/org-multiple-connections", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`HEAD /igrantio-operator/connections/{conn_id}/org-multiple-connections`
-
-*Fetch multi connections record for a connection ID if available*
-
-<h3 id="head__igrantio-operator_connections_{conn_id}_org-multiple-connections-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|conn_id|path|string|true|Connection identifier|
-
-<h3 id="head__igrantio-operator_connections_{conn_id}_org-multiple-connections-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-ApiKeyHeader
-</aside>
-
-## get__igrantio-operator_connections_{conn_id}_org-multiple-connections
-
-> Code samples
-
-```shell
-# You can also use wget
-curl -X GET https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/org-multiple-connections \
-  -H 'Authorization: API_KEY'
-
-```
-
-```http
-GET https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/org-multiple-connections HTTP/1.1
-Host: cloudagent.igrant.io
-
-```
-
-```javascript
-
-const headers = {
-  'Authorization':'API_KEY'
-};
-
-fetch('https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/org-multiple-connections',
-{
-  method: 'GET',
-
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Authorization' => 'API_KEY'
-}
-
 result = RestClient.get 'https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/org-multiple-connections',
   params: {
   }, headers: headers
@@ -4481,6 +4023,7 @@ p JSON.parse(result)
 ```python
 import requests
 headers = {
+  'Accept': 'application/json',
   'Authorization': 'API_KEY'
 }
 
@@ -4496,6 +4039,7 @@ print(r.json())
 require 'vendor/autoload.php';
 
 $headers = array(
+    'Accept' => 'application/json',
     'Authorization' => 'API_KEY',
 );
 
@@ -4549,6 +4093,7 @@ import (
 func main() {
 
     headers := map[string][]string{
+        "Accept": []string{"application/json"},
         "Authorization": []string{"API_KEY"},
     }
 
@@ -4573,172 +4118,24 @@ func main() {
 |---|---|---|---|---|
 |conn_id|path|string|true|Connection identifier|
 
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "connection_status": "available/notavailable",
+  "existing_connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "my_did": "WgWxqztrNooG92RXvxSTWv"
+}
+```
+
 <h3 id="get__igrantio-operator_connections_{conn_id}_org-multiple-connections-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-ApiKeyHeader
-</aside>
-
-## post__igrantio-operator_connections_{conn_id}_org-multiple-connections
-
-> Code samples
-
-```shell
-# You can also use wget
-curl -X POST https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/org-multiple-connections?their_did=string \
-  -H 'Authorization: API_KEY'
-
-```
-
-```http
-POST https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/org-multiple-connections?their_did=string HTTP/1.1
-Host: cloudagent.igrant.io
-
-```
-
-```javascript
-
-const headers = {
-  'Authorization':'API_KEY'
-};
-
-fetch('https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/org-multiple-connections?their_did=string',
-{
-  method: 'POST',
-
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Authorization' => 'API_KEY'
-}
-
-result = RestClient.post 'https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/org-multiple-connections',
-  params: {
-  'their_did' => 'string'
-}, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Authorization': 'API_KEY'
-}
-
-r = requests.post('https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/org-multiple-connections', params={
-  'their_did': 'string'
-}, headers = headers)
-
-print(r.json())
-
-```
-
-```php
-<?php
-
-require 'vendor/autoload.php';
-
-$headers = array(
-    'Authorization' => 'API_KEY',
-);
-
-$client = new \GuzzleHttp\Client();
-
-// Define array of request body.
-$request_body = array();
-
-try {
-    $response = $client->request('POST','https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/org-multiple-connections', array(
-        'headers' => $headers,
-        'json' => $request_body,
-       )
-    );
-    print_r($response->getBody()->getContents());
- }
- catch (\GuzzleHttp\Exception\BadResponseException $e) {
-    // handle exception or api errors.
-    print_r($e->getMessage());
- }
-
- // ...
-
-```
-
-```java
-URL obj = new URL("https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/org-multiple-connections?their_did=string");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("POST");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Authorization": []string{"API_KEY"},
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("POST", "https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connections/{conn_id}/org-multiple-connections", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`POST /igrantio-operator/connections/{conn_id}/org-multiple-connections`
-
-*Sending message to inform existing connection*
-
-<h3 id="post__igrantio-operator_connections_{conn_id}_org-multiple-connections-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|conn_id|path|string|true|Connection identifier|
-|their_did|query|string|true|Existing pairwise Their DID|
-
-<h3 id="post__igrantio-operator_connections_{conn_id}_org-multiple-connections-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|none|[FetchMultiConnectionsInfoResult](#schemafetchmulticonnectionsinforesult)|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
@@ -4752,6 +4149,7 @@ ApiKeyHeader
 ```shell
 # You can also use wget
 curl -X POST https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connection/qr-link/{conn_id} \
+  -H 'Accept: application/json' \
   -H 'Authorization: API_KEY'
 
 ```
@@ -4759,12 +4157,14 @@ curl -X POST https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/con
 ```http
 POST https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/connection/qr-link/{conn_id} HTTP/1.1
 Host: cloudagent.igrant.io
+Accept: application/json
 
 ```
 
 ```javascript
 
 const headers = {
+  'Accept':'application/json',
   'Authorization':'API_KEY'
 };
 
@@ -4787,6 +4187,7 @@ require 'rest-client'
 require 'json'
 
 headers = {
+  'Accept' => 'application/json',
   'Authorization' => 'API_KEY'
 }
 
@@ -4801,6 +4202,7 @@ p JSON.parse(result)
 ```python
 import requests
 headers = {
+  'Accept': 'application/json',
   'Authorization': 'API_KEY'
 }
 
@@ -4816,6 +4218,7 @@ print(r.json())
 require 'vendor/autoload.php';
 
 $headers = array(
+    'Accept' => 'application/json',
     'Authorization' => 'API_KEY',
 );
 
@@ -4869,6 +4272,7 @@ import (
 func main() {
 
     headers := map[string][]string{
+        "Accept": []string{"application/json"},
         "Authorization": []string{"API_KEY"},
     }
 
@@ -4893,10 +4297,21 @@ func main() {
 |---|---|---|---|---|
 |conn_id|path|string|true|Connection identifier|
 
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "invitation_url": "http://localhost:5010?c_i=eyJAdHlwZSI6ICJkaWQ6c292OkJ6Q2JzTlloTXJqSGlxWkRUVUFTSGc7c3BlYy9jb25uZWN0aW9ucy8xLjAvaW52aXRhdGlvbiIsICJAaWQiOiAiY2IyY2ZiM2ItMDM1NS00NjZmLTg5YWQtNmRiNGM5MDY5Y2ZkIiwgInJlY2lwaWVudEtleXMiOiBbIkViUkJDNWZ5WVI2OXFrdlFyZ3JTUVdGVms1bkJEVkRpS3RZdUhmamFBMUM2Il0sICJzZXJ2aWNlRW5kcG9pbnQiOiAiaHR0cDovL2xvY2FsaG9zdDo1MDEwIiwgImxhYmVsIjogIlRlc3QgQ2VudGVyIiwgImltYWdlX3VybCI6ICJodHRwczovL2RlbW8tYXBpLmlncmFudC5pby92MS9vcmdhbml6YXRpb25zLzVmNTIzOGRkYzY3MDAxMDAwMTAwZjlkOS9pbWFnZS82MDIzYTYyNzQ2YmM3ZjAwMDE0ZWQ2NjMvd2ViIn0="
+}
+```
+
 <h3 id="post__igrantio-operator_connection_qr-link_{conn_id}-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|none|[ResolveQRShortLinkDataResult](#schemaresolveqrshortlinkdataresult)|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
@@ -4911,6 +4326,7 @@ ApiKeyHeader
 # You can also use wget
 curl -X POST https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange \
   -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
   -H 'Authorization: API_KEY'
 
 ```
@@ -4919,6 +4335,7 @@ curl -X POST https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/dat
 POST https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange HTTP/1.1
 Host: cloudagent.igrant.io
 Content-Type: application/json
+Accept: application/json
 
 ```
 
@@ -4926,8 +4343,8 @@ Content-Type: application/json
 const inputBody = '{
   "name": "Proof request",
   "non_revoked": {
-    "from": 1612465856,
-    "to": 1612465856
+    "from": 1616392896,
+    "to": 1616392896
   },
   "nonce": "1234567890",
   "requested_attributes": {
@@ -4937,8 +4354,8 @@ const inputBody = '{
         "age"
       ],
       "non_revoked": {
-        "from": 1612465856,
-        "to": 1612465856
+        "from": 1616392896,
+        "to": 1616392896
       },
       "restrictions": [
         {
@@ -4953,8 +4370,8 @@ const inputBody = '{
         "age"
       ],
       "non_revoked": {
-        "from": 1612465856,
-        "to": 1612465856
+        "from": 1616392896,
+        "to": 1616392896
       },
       "restrictions": [
         {
@@ -4968,8 +4385,8 @@ const inputBody = '{
     "property1": {
       "name": "index",
       "non_revoked": {
-        "from": 1612465856,
-        "to": 1612465856
+        "from": 1616392896,
+        "to": 1616392896
       },
       "p_type": ">=",
       "p_value": 0,
@@ -4987,8 +4404,8 @@ const inputBody = '{
     "property2": {
       "name": "index",
       "non_revoked": {
-        "from": 1612465856,
-        "to": 1612465856
+        "from": 1616392896,
+        "to": 1616392896
       },
       "p_type": ">=",
       "p_value": 0,
@@ -5008,6 +4425,7 @@ const inputBody = '{
 }';
 const headers = {
   'Content-Type':'application/json',
+  'Accept':'application/json',
   'Authorization':'API_KEY'
 };
 
@@ -5031,6 +4449,7 @@ require 'json'
 
 headers = {
   'Content-Type' => 'application/json',
+  'Accept' => 'application/json',
   'Authorization' => 'API_KEY'
 }
 
@@ -5046,6 +4465,7 @@ p JSON.parse(result)
 import requests
 headers = {
   'Content-Type': 'application/json',
+  'Accept': 'application/json',
   'Authorization': 'API_KEY'
 }
 
@@ -5062,6 +4482,7 @@ require 'vendor/autoload.php';
 
 $headers = array(
     'Content-Type' => 'application/json',
+    'Accept' => 'application/json',
     'Authorization' => 'API_KEY',
 );
 
@@ -5116,6 +4537,7 @@ func main() {
 
     headers := map[string][]string{
         "Content-Type": []string{"application/json"},
+        "Accept": []string{"application/json"},
         "Authorization": []string{"API_KEY"},
     }
 
@@ -5140,8 +4562,8 @@ func main() {
 {
   "name": "Proof request",
   "non_revoked": {
-    "from": 1612465856,
-    "to": 1612465856
+    "from": 1616392896,
+    "to": 1616392896
   },
   "nonce": "1234567890",
   "requested_attributes": {
@@ -5151,8 +4573,8 @@ func main() {
         "age"
       ],
       "non_revoked": {
-        "from": 1612465856,
-        "to": 1612465856
+        "from": 1616392896,
+        "to": 1616392896
       },
       "restrictions": [
         {
@@ -5167,8 +4589,8 @@ func main() {
         "age"
       ],
       "non_revoked": {
-        "from": 1612465856,
-        "to": 1612465856
+        "from": 1616392896,
+        "to": 1616392896
       },
       "restrictions": [
         {
@@ -5182,8 +4604,8 @@ func main() {
     "property1": {
       "name": "index",
       "non_revoked": {
-        "from": 1612465856,
-        "to": 1612465856
+        "from": 1616392896,
+        "to": 1616392896
       },
       "p_type": ">=",
       "p_value": 0,
@@ -5201,8 +4623,8 @@ func main() {
     "property2": {
       "name": "index",
       "non_revoked": {
-        "from": 1612465856,
-        "to": 1612465856
+        "from": 1616392896,
+        "to": 1616392896
       },
       "p_type": ">=",
       "p_value": 0,
@@ -5228,162 +4650,104 @@ func main() {
 |---|---|---|---|---|
 |body|body|[IndyProofRequest](#schemaindyproofrequest)|false|none|
 
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "auto_data_ex_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "presentation_request": {
+    "name": "Proof request",
+    "non_revoked": {
+      "from": 1616392896,
+      "to": 1616392896
+    },
+    "nonce": "1234567890",
+    "requested_attributes": {
+      "property1": {
+        "name": "favouriteDrink",
+        "names": [
+          "age"
+        ],
+        "non_revoked": {
+          "from": 1616392896,
+          "to": 1616392896
+        },
+        "restrictions": [
+          {
+            "property1": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag",
+            "property2": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag"
+          }
+        ]
+      },
+      "property2": {
+        "name": "favouriteDrink",
+        "names": [
+          "age"
+        ],
+        "non_revoked": {
+          "from": 1616392896,
+          "to": 1616392896
+        },
+        "restrictions": [
+          {
+            "property1": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag",
+            "property2": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag"
+          }
+        ]
+      }
+    },
+    "requested_predicates": {
+      "property1": {
+        "name": "index",
+        "non_revoked": {
+          "from": 1616392896,
+          "to": 1616392896
+        },
+        "p_type": ">=",
+        "p_value": 0,
+        "restrictions": [
+          {
+            "cred_def_id": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag",
+            "issuer_did": "WgWxqztrNooG92RXvxSTWv",
+            "schema_id": "WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0",
+            "schema_issuer_did": "WgWxqztrNooG92RXvxSTWv",
+            "schema_name": "transcript",
+            "schema_version": "1.0"
+          }
+        ]
+      },
+      "property2": {
+        "name": "index",
+        "non_revoked": {
+          "from": 1616392896,
+          "to": 1616392896
+        },
+        "p_type": ">=",
+        "p_value": 0,
+        "restrictions": [
+          {
+            "cred_def_id": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag",
+            "issuer_did": "WgWxqztrNooG92RXvxSTWv",
+            "schema_id": "WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0",
+            "schema_issuer_did": "WgWxqztrNooG92RXvxSTWv",
+            "schema_name": "transcript",
+            "schema_version": "1.0"
+          }
+        ]
+      }
+    },
+    "version": "1.0"
+  }
+}
+```
+
 <h3 id="post__igrantio-operator_data-exchange-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-ApiKeyHeader
-</aside>
-
-## head__igrantio-operator_data-exchange
-
-> Code samples
-
-```shell
-# You can also use wget
-curl -X HEAD https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange \
-  -H 'Authorization: API_KEY'
-
-```
-
-```http
-HEAD https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange HTTP/1.1
-Host: cloudagent.igrant.io
-
-```
-
-```javascript
-
-const headers = {
-  'Authorization':'API_KEY'
-};
-
-fetch('https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange',
-{
-  method: 'HEAD',
-
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Authorization' => 'API_KEY'
-}
-
-result = RestClient.head 'https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange',
-  params: {
-  }, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Authorization': 'API_KEY'
-}
-
-r = requests.head('https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange', headers = headers)
-
-print(r.json())
-
-```
-
-```php
-<?php
-
-require 'vendor/autoload.php';
-
-$headers = array(
-    'Authorization' => 'API_KEY',
-);
-
-$client = new \GuzzleHttp\Client();
-
-// Define array of request body.
-$request_body = array();
-
-try {
-    $response = $client->request('HEAD','https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange', array(
-        'headers' => $headers,
-        'json' => $request_body,
-       )
-    );
-    print_r($response->getBody()->getContents());
- }
- catch (\GuzzleHttp\Exception\BadResponseException $e) {
-    // handle exception or api errors.
-    print_r($e->getMessage());
- }
-
- // ...
-
-```
-
-```java
-URL obj = new URL("https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("HEAD");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Authorization": []string{"API_KEY"},
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("HEAD", "https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`HEAD /igrantio-operator/data-exchange`
-
-*List automated data exchange records*
-
-<h3 id="head__igrantio-operator_data-exchange-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|none|[AutomatedDataExchangeDetailRecordResult](#schemaautomateddataexchangedetailrecordresult)|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
@@ -5397,6 +4761,7 @@ ApiKeyHeader
 ```shell
 # You can also use wget
 curl -X GET https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange \
+  -H 'Accept: application/json' \
   -H 'Authorization: API_KEY'
 
 ```
@@ -5404,12 +4769,14 @@ curl -X GET https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data
 ```http
 GET https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange HTTP/1.1
 Host: cloudagent.igrant.io
+Accept: application/json
 
 ```
 
 ```javascript
 
 const headers = {
+  'Accept':'application/json',
   'Authorization':'API_KEY'
 };
 
@@ -5432,6 +4799,7 @@ require 'rest-client'
 require 'json'
 
 headers = {
+  'Accept' => 'application/json',
   'Authorization' => 'API_KEY'
 }
 
@@ -5446,6 +4814,7 @@ p JSON.parse(result)
 ```python
 import requests
 headers = {
+  'Accept': 'application/json',
   'Authorization': 'API_KEY'
 }
 
@@ -5461,6 +4830,7 @@ print(r.json())
 require 'vendor/autoload.php';
 
 $headers = array(
+    'Accept' => 'application/json',
     'Authorization' => 'API_KEY',
 );
 
@@ -5514,6 +4884,7 @@ import (
 func main() {
 
     headers := map[string][]string{
+        "Accept": []string{"application/json"},
         "Authorization": []string{"API_KEY"},
     }
 
@@ -5532,168 +4903,151 @@ func main() {
 
 *List automated data exchange records*
 
+> Example responses
+
+> 200 Response
+
+```json
+[
+  {
+    "auto_data_ex_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "presentation_request": {
+      "name": "Proof request",
+      "non_revoked": {
+        "from": 1616392896,
+        "to": 1616392896
+      },
+      "nonce": "1234567890",
+      "requested_attributes": {
+        "property1": {
+          "name": "favouriteDrink",
+          "names": [
+            "age"
+          ],
+          "non_revoked": {
+            "from": 1616392896,
+            "to": 1616392896
+          },
+          "restrictions": [
+            {
+              "property1": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag",
+              "property2": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag"
+            }
+          ]
+        },
+        "property2": {
+          "name": "favouriteDrink",
+          "names": [
+            "age"
+          ],
+          "non_revoked": {
+            "from": 1616392896,
+            "to": 1616392896
+          },
+          "restrictions": [
+            {
+              "property1": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag",
+              "property2": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag"
+            }
+          ]
+        }
+      },
+      "requested_predicates": {
+        "property1": {
+          "name": "index",
+          "non_revoked": {
+            "from": 1616392896,
+            "to": 1616392896
+          },
+          "p_type": ">=",
+          "p_value": 0,
+          "restrictions": [
+            {
+              "cred_def_id": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag",
+              "issuer_did": "WgWxqztrNooG92RXvxSTWv",
+              "schema_id": "WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0",
+              "schema_issuer_did": "WgWxqztrNooG92RXvxSTWv",
+              "schema_name": "transcript",
+              "schema_version": "1.0"
+            }
+          ]
+        },
+        "property2": {
+          "name": "index",
+          "non_revoked": {
+            "from": 1616392896,
+            "to": 1616392896
+          },
+          "p_type": ">=",
+          "p_value": 0,
+          "restrictions": [
+            {
+              "cred_def_id": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag",
+              "issuer_did": "WgWxqztrNooG92RXvxSTWv",
+              "schema_id": "WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0",
+              "schema_issuer_did": "WgWxqztrNooG92RXvxSTWv",
+              "schema_name": "transcript",
+              "schema_version": "1.0"
+            }
+          ]
+        }
+      },
+      "version": "1.0"
+    }
+  }
+]
+```
+
 <h3 id="get__igrantio-operator_data-exchange-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|none|Inline|
 
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-ApiKeyHeader
-</aside>
+<h3 id="get__igrantio-operator_data-exchange-responseschema">Response Schema</h3>
 
-## head__igrantio-operator_data-exchange_{auto_data_ex_id}
+Status Code **200**
 
-> Code samples
-
-```shell
-# You can also use wget
-curl -X HEAD https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/{auto_data_ex_id} \
-  -H 'Authorization: API_KEY'
-
-```
-
-```http
-HEAD https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/{auto_data_ex_id} HTTP/1.1
-Host: cloudagent.igrant.io
-
-```
-
-```javascript
-
-const headers = {
-  'Authorization':'API_KEY'
-};
-
-fetch('https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/{auto_data_ex_id}',
-{
-  method: 'HEAD',
-
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Authorization' => 'API_KEY'
-}
-
-result = RestClient.head 'https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/{auto_data_ex_id}',
-  params: {
-  }, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Authorization': 'API_KEY'
-}
-
-r = requests.head('https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/{auto_data_ex_id}', headers = headers)
-
-print(r.json())
-
-```
-
-```php
-<?php
-
-require 'vendor/autoload.php';
-
-$headers = array(
-    'Authorization' => 'API_KEY',
-);
-
-$client = new \GuzzleHttp\Client();
-
-// Define array of request body.
-$request_body = array();
-
-try {
-    $response = $client->request('HEAD','https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/{auto_data_ex_id}', array(
-        'headers' => $headers,
-        'json' => $request_body,
-       )
-    );
-    print_r($response->getBody()->getContents());
- }
- catch (\GuzzleHttp\Exception\BadResponseException $e) {
-    // handle exception or api errors.
-    print_r($e->getMessage());
- }
-
- // ...
-
-```
-
-```java
-URL obj = new URL("https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/{auto_data_ex_id}");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("HEAD");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Authorization": []string{"API_KEY"},
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("HEAD", "https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/{auto_data_ex_id}", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`HEAD /igrantio-operator/data-exchange/{auto_data_ex_id}`
-
-*Get automated data exchange record*
-
-<h3 id="head__igrantio-operator_data-exchange_{auto_data_ex_id}-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
+|Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|auto_data_ex_id|path|string|true|Automated data exchange identifier|
+|*anonymous*|[[AutomatedDataExchangeDetailRecordResult](#schemaautomateddataexchangedetailrecordresult)]|false|none|none|
+|» auto_data_ex_id|string|true|none|Automated data exchange template ID|
+|» presentation_request|[IndyProofRequest](#schemaindyproofrequest)|false|none|none|
+|»» name|string|false|none|Proof request name|
+|»» non_revoked|[IndyProofReqNonRevoked](#schemaindyproofreqnonrevoked)|false|none|none|
+|»»» from|integer(int32)|false|none|Earliest epoch of interest for non-revocation proof|
+|»»» to|integer(int32)|false|none|Latest epoch of interest for non-revocation proof|
+|»» nonce|string|false|none|Nonce|
+|»» requested_attributes|object|true|none|Requested attribute specifications of proof request|
+|»»» **additionalProperties**|[IndyProofReqAttrSpec](#schemaindyproofreqattrspec)|false|none|none|
+|»»»» name|string|false|none|Attribute name|
+|»»»» names|[string]|false|none|Attribute name group|
+|»»»» non_revoked|[IndyProofReqNonRevoked](#schemaindyproofreqnonrevoked)|false|none|none|
+|»»»» restrictions|[object]|false|none|If present, credential must satisfy one of given restrictions: specify schema_id, schema_issuer_did, schema_name, schema_version, issuer_did, cred_def_id, and/or attr::::value where represents a credential attribute name|
+|»»»»» **additionalProperties**|string|false|none|none|
+|»» requested_predicates|object|true|none|Requested predicate specifications of proof request|
+|»»» **additionalProperties**|[IndyProofReqPredSpec](#schemaindyproofreqpredspec)|false|none|none|
+|»»»» name|string|true|none|Attribute name|
+|»»»» non_revoked|[IndyProofReqNonRevoked](#schemaindyproofreqnonrevoked)|false|none|none|
+|»»»» p_type|string|true|none|Predicate type ('<', '<=', '>=', or '>')|
+|»»»» p_value|integer(int32)|true|none|Threshold value|
+|»»»» restrictions|[[IndyProofReqPredSpecRestrictions](#schemaindyproofreqpredspecrestrictions)]|false|none|If present, credential must satisfy one of given restrictions|
+|»»»»» cred_def_id|string|false|none|Credential definition identifier|
+|»»»»» issuer_did|string|false|none|Credential issuer DID|
+|»»»»» schema_id|string|false|none|Schema identifier|
+|»»»»» schema_issuer_did|string|false|none|Schema issuer (origin) DID|
+|»»»»» schema_name|string|false|none|Schema name|
+|»»»»» schema_version|string|false|none|Schema version|
+|»» version|string|false|none|Proof request version|
 
-<h3 id="head__igrantio-operator_data-exchange_{auto_data_ex_id}-responses">Responses</h3>
+#### Enumerated Values
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
+|Property|Value|
+|---|---|
+|p_type|<|
+|p_type|<=|
+|p_type|>=|
+|p_type|>|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
@@ -5707,6 +5061,7 @@ ApiKeyHeader
 ```shell
 # You can also use wget
 curl -X GET https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/{auto_data_ex_id} \
+  -H 'Accept: application/json' \
   -H 'Authorization: API_KEY'
 
 ```
@@ -5714,12 +5069,14 @@ curl -X GET https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data
 ```http
 GET https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/{auto_data_ex_id} HTTP/1.1
 Host: cloudagent.igrant.io
+Accept: application/json
 
 ```
 
 ```javascript
 
 const headers = {
+  'Accept':'application/json',
   'Authorization':'API_KEY'
 };
 
@@ -5742,6 +5099,7 @@ require 'rest-client'
 require 'json'
 
 headers = {
+  'Accept' => 'application/json',
   'Authorization' => 'API_KEY'
 }
 
@@ -5756,6 +5114,7 @@ p JSON.parse(result)
 ```python
 import requests
 headers = {
+  'Accept': 'application/json',
   'Authorization': 'API_KEY'
 }
 
@@ -5771,6 +5130,7 @@ print(r.json())
 require 'vendor/autoload.php';
 
 $headers = array(
+    'Accept' => 'application/json',
     'Authorization' => 'API_KEY',
 );
 
@@ -5824,6 +5184,7 @@ import (
 func main() {
 
     headers := map[string][]string{
+        "Accept": []string{"application/json"},
         "Authorization": []string{"API_KEY"},
     }
 
@@ -5848,10 +5209,104 @@ func main() {
 |---|---|---|---|---|
 |auto_data_ex_id|path|string|true|Automated data exchange identifier|
 
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "auto_data_ex_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "presentation_request": {
+    "name": "Proof request",
+    "non_revoked": {
+      "from": 1616392896,
+      "to": 1616392896
+    },
+    "nonce": "1234567890",
+    "requested_attributes": {
+      "property1": {
+        "name": "favouriteDrink",
+        "names": [
+          "age"
+        ],
+        "non_revoked": {
+          "from": 1616392896,
+          "to": 1616392896
+        },
+        "restrictions": [
+          {
+            "property1": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag",
+            "property2": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag"
+          }
+        ]
+      },
+      "property2": {
+        "name": "favouriteDrink",
+        "names": [
+          "age"
+        ],
+        "non_revoked": {
+          "from": 1616392896,
+          "to": 1616392896
+        },
+        "restrictions": [
+          {
+            "property1": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag",
+            "property2": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag"
+          }
+        ]
+      }
+    },
+    "requested_predicates": {
+      "property1": {
+        "name": "index",
+        "non_revoked": {
+          "from": 1616392896,
+          "to": 1616392896
+        },
+        "p_type": ">=",
+        "p_value": 0,
+        "restrictions": [
+          {
+            "cred_def_id": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag",
+            "issuer_did": "WgWxqztrNooG92RXvxSTWv",
+            "schema_id": "WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0",
+            "schema_issuer_did": "WgWxqztrNooG92RXvxSTWv",
+            "schema_name": "transcript",
+            "schema_version": "1.0"
+          }
+        ]
+      },
+      "property2": {
+        "name": "index",
+        "non_revoked": {
+          "from": 1616392896,
+          "to": 1616392896
+        },
+        "p_type": ">=",
+        "p_value": 0,
+        "restrictions": [
+          {
+            "cred_def_id": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag",
+            "issuer_did": "WgWxqztrNooG92RXvxSTWv",
+            "schema_id": "WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0",
+            "schema_issuer_did": "WgWxqztrNooG92RXvxSTWv",
+            "schema_name": "transcript",
+            "schema_version": "1.0"
+          }
+        ]
+      }
+    },
+    "version": "1.0"
+  }
+}
+```
+
 <h3 id="get__igrantio-operator_data-exchange_{auto_data_ex_id}-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|none|[AutomatedDataExchangeDetailRecordResult](#schemaautomateddataexchangedetailrecordresult)|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
@@ -6010,6 +5465,9 @@ func main() {
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
+|204|[No Content](https://tools.ietf.org/html/rfc7231#section-6.3.5)|Deleted automated data exchange record|None|
+|404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|Automated data exchange record not found|None|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Failed to delete automated data exchange record|None|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
@@ -6168,6 +5626,9 @@ func main() {
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
+|204|[No Content](https://tools.ietf.org/html/rfc7231#section-6.3.5)|Deleted QR automated data exchange record|None|
+|404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|QR automated data exchange record not found|None|
+|500|[Internal Server Error](https://tools.ietf.org/html/rfc7231#section-6.6.1)|Failed to delete QR automated data exchange record|None|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
@@ -6181,6 +5642,7 @@ ApiKeyHeader
 ```shell
 # You can also use wget
 curl -X POST https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/qr/{auto_data_ex_id} \
+  -H 'Accept: application/json' \
   -H 'Authorization: API_KEY'
 
 ```
@@ -6188,12 +5650,14 @@ curl -X POST https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/dat
 ```http
 POST https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/qr/{auto_data_ex_id} HTTP/1.1
 Host: cloudagent.igrant.io
+Accept: application/json
 
 ```
 
 ```javascript
 
 const headers = {
+  'Accept':'application/json',
   'Authorization':'API_KEY'
 };
 
@@ -6216,6 +5680,7 @@ require 'rest-client'
 require 'json'
 
 headers = {
+  'Accept' => 'application/json',
   'Authorization' => 'API_KEY'
 }
 
@@ -6230,6 +5695,7 @@ p JSON.parse(result)
 ```python
 import requests
 headers = {
+  'Accept': 'application/json',
   'Authorization': 'API_KEY'
 }
 
@@ -6245,6 +5711,7 @@ print(r.json())
 require 'vendor/autoload.php';
 
 $headers = array(
+    'Accept' => 'application/json',
     'Authorization' => 'API_KEY',
 );
 
@@ -6298,6 +5765,7 @@ import (
 func main() {
 
     headers := map[string][]string{
+        "Accept": []string{"application/json"},
         "Authorization": []string{"API_KEY"},
     }
 
@@ -6322,168 +5790,25 @@ func main() {
 |---|---|---|---|---|
 |auto_data_ex_id|path|string|true|Automated data exchange identifier|
 
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "auto_data_ex_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "nonce": "303059722049128188026676",
+  "qr_data": "http://localhost:5010?qr_p=eyJpbnZpdGF0aW9uX3VybCI6ICJodHRwOi8vbG9jYWxob3N0OjUwMTA_Y19pPWV5SkFkSGx3WlNJNklDSmthV1E2YzI5Mk9rSjZRMkp6VGxsb1RYSnFTR2x4V2tSVVZVRlRTR2M3YzNCbFl5OWpiMjV1WldOMGFXOXVjeTh4TGpBdmFXNTJhWFJoZEdsdmJpSXNJQ0pBYVdRaU9pQWlOVGc1WWpoa09ERXRZekU0TVMwME1UY3pMV0V4T0RndE4yWTRObU16TTJRNE5XRmhJaXdnSW5KbFkybHdhV1Z1ZEV0bGVYTWlPaUJiSWpOT2QwVnJOMmt5V1hsSFJFWkRaRnBPUm1Oek9IaHBTREowU0dWSGQyWnJXVlpTV0hwSVdFNWhVREZTSWwwc0lDSnpaWEoyYVdObFJXNWtjRzlwYm5RaU9pQWlhSFIwY0RvdkwyeHZZMkZzYUc5emREbzFNREV3SWl3Z0lteGhZbVZzSWpvZ0lsUmxjM1FnUTJWdWRHVnlJaXdnSW1sdFlXZGxYM1Z5YkNJNklDSm9kSFJ3Y3pvdkwyUmxiVzh0WVhCcExtbG5jbUZ1ZEM1cGJ5OTJNUzl2Y21kaGJtbDZZWFJwYjI1ekx6Vm1OVEl6T0dSa1l6WTNNREF4TURBd01UQXdaamxrT1M5cGJXRm5aUzgyTURJellUWXlOelEyWW1NM1pqQXdNREUwWldRMk5qTXZkMlZpSW4wPSIsICJwcm9vZl9yZXF1ZXN0IjogeyJuYW1lIjogIkNPVklELTE5IHRlc3QgdmVyaWZpY2F0aW9uIiwgInZlcnNpb24iOiAiMS4wIiwgInJlcXVlc3RlZF9hdHRyaWJ1dGVzIjogeyJhZGRpdGlvbmFsUHJvcDEiOiB7Im5hbWUiOiAiVGVzdCBkYXRlIiwgInJlc3RyaWN0aW9ucyI6IFtdfSwgImFkZGl0aW9uYWxQcm9wMiI6IHsibmFtZSI6ICJQYXRpZW50IGFnZSIsICJyZXN0cmljdGlvbnMiOiBbXX0sICJhZGRpdGlvbmFsUHJvcDMiOiB7Im5hbWUiOiAiUGF0aWVudCBuYW1lIiwgInJlc3RyaWN0aW9ucyI6IFtdfX0sICJyZXF1ZXN0ZWRfcHJlZGljYXRlcyI6IHt9LCAibm9uY2UiOiAiMzAzMDU5NzIyMDQ5MTI4MTg4MDI2Njc2In19",
+  "qr_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+}
+```
+
 <h3 id="post__igrantio-operator_data-exchange_qr_{auto_data_ex_id}-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-ApiKeyHeader
-</aside>
-
-## head__igrantio-operator_data-exchange_qr_{auto_data_ex_id}_list
-
-> Code samples
-
-```shell
-# You can also use wget
-curl -X HEAD https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/qr/{auto_data_ex_id}/list \
-  -H 'Authorization: API_KEY'
-
-```
-
-```http
-HEAD https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/qr/{auto_data_ex_id}/list HTTP/1.1
-Host: cloudagent.igrant.io
-
-```
-
-```javascript
-
-const headers = {
-  'Authorization':'API_KEY'
-};
-
-fetch('https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/qr/{auto_data_ex_id}/list',
-{
-  method: 'HEAD',
-
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Authorization' => 'API_KEY'
-}
-
-result = RestClient.head 'https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/qr/{auto_data_ex_id}/list',
-  params: {
-  }, headers: headers
-
-p JSON.parse(result)
-
-```
-
-```python
-import requests
-headers = {
-  'Authorization': 'API_KEY'
-}
-
-r = requests.head('https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/qr/{auto_data_ex_id}/list', headers = headers)
-
-print(r.json())
-
-```
-
-```php
-<?php
-
-require 'vendor/autoload.php';
-
-$headers = array(
-    'Authorization' => 'API_KEY',
-);
-
-$client = new \GuzzleHttp\Client();
-
-// Define array of request body.
-$request_body = array();
-
-try {
-    $response = $client->request('HEAD','https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/qr/{auto_data_ex_id}/list', array(
-        'headers' => $headers,
-        'json' => $request_body,
-       )
-    );
-    print_r($response->getBody()->getContents());
- }
- catch (\GuzzleHttp\Exception\BadResponseException $e) {
-    // handle exception or api errors.
-    print_r($e->getMessage());
- }
-
- // ...
-
-```
-
-```java
-URL obj = new URL("https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/qr/{auto_data_ex_id}/list");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("HEAD");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Authorization": []string{"API_KEY"},
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("HEAD", "https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/qr/{auto_data_ex_id}/list", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`HEAD /igrantio-operator/data-exchange/qr/{auto_data_ex_id}/list`
-
-*List automated QR data exchange records*
-
-<h3 id="head__igrantio-operator_data-exchange_qr_{auto_data_ex_id}_list-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|auto_data_ex_id|path|string|true|Automated data exchange identifier|
-
-<h3 id="head__igrantio-operator_data-exchange_qr_{auto_data_ex_id}_list-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|none|[QRAutomatedDataExchangeRecordResult](#schemaqrautomateddataexchangerecordresult)|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
@@ -6497,6 +5822,7 @@ ApiKeyHeader
 ```shell
 # You can also use wget
 curl -X GET https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/qr/{auto_data_ex_id}/list \
+  -H 'Accept: application/json' \
   -H 'Authorization: API_KEY'
 
 ```
@@ -6504,12 +5830,14 @@ curl -X GET https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data
 ```http
 GET https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/qr/{auto_data_ex_id}/list HTTP/1.1
 Host: cloudagent.igrant.io
+Accept: application/json
 
 ```
 
 ```javascript
 
 const headers = {
+  'Accept':'application/json',
   'Authorization':'API_KEY'
 };
 
@@ -6532,6 +5860,7 @@ require 'rest-client'
 require 'json'
 
 headers = {
+  'Accept' => 'application/json',
   'Authorization' => 'API_KEY'
 }
 
@@ -6546,6 +5875,7 @@ p JSON.parse(result)
 ```python
 import requests
 headers = {
+  'Accept': 'application/json',
   'Authorization': 'API_KEY'
 }
 
@@ -6561,6 +5891,7 @@ print(r.json())
 require 'vendor/autoload.php';
 
 $headers = array(
+    'Accept' => 'application/json',
     'Authorization' => 'API_KEY',
 );
 
@@ -6614,6 +5945,7 @@ import (
 func main() {
 
     headers := map[string][]string{
+        "Accept": []string{"application/json"},
         "Authorization": []string{"API_KEY"},
     }
 
@@ -6638,42 +5970,75 @@ func main() {
 |---|---|---|---|---|
 |auto_data_ex_id|path|string|true|Automated data exchange identifier|
 
+> Example responses
+
+> 200 Response
+
+```json
+[
+  {
+    "auto_data_ex_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "nonce": "303059722049128188026676",
+    "qr_data": "http://localhost:5010?qr_p=eyJpbnZpdGF0aW9uX3VybCI6ICJodHRwOi8vbG9jYWxob3N0OjUwMTA_Y19pPWV5SkFkSGx3WlNJNklDSmthV1E2YzI5Mk9rSjZRMkp6VGxsb1RYSnFTR2x4V2tSVVZVRlRTR2M3YzNCbFl5OWpiMjV1WldOMGFXOXVjeTh4TGpBdmFXNTJhWFJoZEdsdmJpSXNJQ0pBYVdRaU9pQWlOVGc1WWpoa09ERXRZekU0TVMwME1UY3pMV0V4T0RndE4yWTRObU16TTJRNE5XRmhJaXdnSW5KbFkybHdhV1Z1ZEV0bGVYTWlPaUJiSWpOT2QwVnJOMmt5V1hsSFJFWkRaRnBPUm1Oek9IaHBTREowU0dWSGQyWnJXVlpTV0hwSVdFNWhVREZTSWwwc0lDSnpaWEoyYVdObFJXNWtjRzlwYm5RaU9pQWlhSFIwY0RvdkwyeHZZMkZzYUc5emREbzFNREV3SWl3Z0lteGhZbVZzSWpvZ0lsUmxjM1FnUTJWdWRHVnlJaXdnSW1sdFlXZGxYM1Z5YkNJNklDSm9kSFJ3Y3pvdkwyUmxiVzh0WVhCcExtbG5jbUZ1ZEM1cGJ5OTJNUzl2Y21kaGJtbDZZWFJwYjI1ekx6Vm1OVEl6T0dSa1l6WTNNREF4TURBd01UQXdaamxrT1M5cGJXRm5aUzgyTURJellUWXlOelEyWW1NM1pqQXdNREUwWldRMk5qTXZkMlZpSW4wPSIsICJwcm9vZl9yZXF1ZXN0IjogeyJuYW1lIjogIkNPVklELTE5IHRlc3QgdmVyaWZpY2F0aW9uIiwgInZlcnNpb24iOiAiMS4wIiwgInJlcXVlc3RlZF9hdHRyaWJ1dGVzIjogeyJhZGRpdGlvbmFsUHJvcDEiOiB7Im5hbWUiOiAiVGVzdCBkYXRlIiwgInJlc3RyaWN0aW9ucyI6IFtdfSwgImFkZGl0aW9uYWxQcm9wMiI6IHsibmFtZSI6ICJQYXRpZW50IGFnZSIsICJyZXN0cmljdGlvbnMiOiBbXX0sICJhZGRpdGlvbmFsUHJvcDMiOiB7Im5hbWUiOiAiUGF0aWVudCBuYW1lIiwgInJlc3RyaWN0aW9ucyI6IFtdfX0sICJyZXF1ZXN0ZWRfcHJlZGljYXRlcyI6IHt9LCAibm9uY2UiOiAiMzAzMDU5NzIyMDQ5MTI4MTg4MDI2Njc2In19",
+    "qr_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+  }
+]
+```
+
 <h3 id="get__igrantio-operator_data-exchange_qr_{auto_data_ex_id}_list-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|none|Inline|
+
+<h3 id="get__igrantio-operator_data-exchange_qr_{auto_data_ex_id}_list-responseschema">Response Schema</h3>
+
+Status Code **200**
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|*anonymous*|[[QRAutomatedDataExchangeRecordResult](#schemaqrautomateddataexchangerecordresult)]|false|none|none|
+|» auto_data_ex_id|string|true|none|Automated data exchange template ID|
+|» connection_id|string|true|none|Connection ID|
+|» nonce|string|true|none|Random nonce|
+|» qr_data|string|true|none|QR data (URL)|
+|» qr_id|string|true|none|QR ID|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
 ApiKeyHeader
 </aside>
 
-## head__igrantio-operator_data-exchange_qr-link_{qr_id}
+## post__igrantio-operator_data-exchange_qr-link_{qr_id}
 
 > Code samples
 
 ```shell
 # You can also use wget
-curl -X HEAD https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/qr-link/{qr_id} \
+curl -X POST https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/qr-link/{qr_id} \
+  -H 'Accept: application/json' \
   -H 'Authorization: API_KEY'
 
 ```
 
 ```http
-HEAD https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/qr-link/{qr_id} HTTP/1.1
+POST https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/qr-link/{qr_id} HTTP/1.1
 Host: cloudagent.igrant.io
+Accept: application/json
 
 ```
 
 ```javascript
 
 const headers = {
+  'Accept':'application/json',
   'Authorization':'API_KEY'
 };
 
 fetch('https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/qr-link/{qr_id}',
 {
-  method: 'HEAD',
+  method: 'POST',
 
   headers: headers
 })
@@ -6690,10 +6055,11 @@ require 'rest-client'
 require 'json'
 
 headers = {
+  'Accept' => 'application/json',
   'Authorization' => 'API_KEY'
 }
 
-result = RestClient.head 'https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/qr-link/{qr_id}',
+result = RestClient.post 'https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/qr-link/{qr_id}',
   params: {
   }, headers: headers
 
@@ -6704,10 +6070,11 @@ p JSON.parse(result)
 ```python
 import requests
 headers = {
+  'Accept': 'application/json',
   'Authorization': 'API_KEY'
 }
 
-r = requests.head('https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/qr-link/{qr_id}', headers = headers)
+r = requests.post('https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/qr-link/{qr_id}', headers = headers)
 
 print(r.json())
 
@@ -6719,6 +6086,7 @@ print(r.json())
 require 'vendor/autoload.php';
 
 $headers = array(
+    'Accept' => 'application/json',
     'Authorization' => 'API_KEY',
 );
 
@@ -6728,7 +6096,7 @@ $client = new \GuzzleHttp\Client();
 $request_body = array();
 
 try {
-    $response = $client->request('HEAD','https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/qr-link/{qr_id}', array(
+    $response = $client->request('POST','https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/qr-link/{qr_id}', array(
         'headers' => $headers,
         'json' => $request_body,
        )
@@ -6747,7 +6115,7 @@ try {
 ```java
 URL obj = new URL("https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/qr-link/{qr_id}");
 HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("HEAD");
+con.setRequestMethod("POST");
 int responseCode = con.getResponseCode();
 BufferedReader in = new BufferedReader(
     new InputStreamReader(con.getInputStream()));
@@ -6772,11 +6140,12 @@ import (
 func main() {
 
     headers := map[string][]string{
+        "Accept": []string{"application/json"},
         "Authorization": []string{"API_KEY"},
     }
 
     data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("HEAD", "https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/qr-link/{qr_id}", data)
+    req, err := http.NewRequest("POST", "https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/qr-link/{qr_id}", data)
     req.Header = headers
 
     client := &http.Client{}
@@ -6786,185 +6155,38 @@ func main() {
 
 ```
 
-`HEAD /igrantio-operator/data-exchange/qr-link/{qr_id}`
+`POST /igrantio-operator/data-exchange/qr-link/{qr_id}`
 
 *Resolve automated data exchange QR short link*
 
-<h3 id="head__igrantio-operator_data-exchange_qr-link_{qr_id}-parameters">Parameters</h3>
+<h3 id="post__igrantio-operator_data-exchange_qr-link_{qr_id}-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
 |qr_id|path|string|true|QR identifier|
 
-<h3 id="head__igrantio-operator_data-exchange_qr-link_{qr_id}-responses">Responses</h3>
+> Example responses
 
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
+> 200 Response
 
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-ApiKeyHeader
-</aside>
-
-## get__igrantio-operator_data-exchange_qr-link_{qr_id}
-
-> Code samples
-
-```shell
-# You can also use wget
-curl -X GET https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/qr-link/{qr_id} \
-  -H 'Authorization: API_KEY'
-
-```
-
-```http
-GET https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/qr-link/{qr_id} HTTP/1.1
-Host: cloudagent.igrant.io
-
-```
-
-```javascript
-
-const headers = {
-  'Authorization':'API_KEY'
-};
-
-fetch('https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/qr-link/{qr_id}',
+```json
 {
-  method: 'GET',
-
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```ruby
-require 'rest-client'
-require 'json'
-
-headers = {
-  'Authorization' => 'API_KEY'
+  "dataexchange_url": "http://localhost:5010?qr_p=eyJpbnZpdGF0aW9uX3VybCI6ICJodHRwOi8vbG9jYWxob3N0OjUwMTA_Y19pPWV5SkFkSGx3WlNJNklDSmthV1E2YzI5Mk9rSjZRMkp6VGxsb1RYSnFTR2x4V2tSVVZVRlRTR2M3YzNCbFl5OWpiMjV1WldOMGFXOXVjeTh4TGpBdmFXNTJhWFJoZEdsdmJpSXNJQ0pBYVdRaU9pQWlOVGc1WWpoa09ERXRZekU0TVMwME1UY3pMV0V4T0RndE4yWTRObU16TTJRNE5XRmhJaXdnSW5KbFkybHdhV1Z1ZEV0bGVYTWlPaUJiSWpOT2QwVnJOMmt5V1hsSFJFWkRaRnBPUm1Oek9IaHBTREowU0dWSGQyWnJXVlpTV0hwSVdFNWhVREZTSWwwc0lDSnpaWEoyYVdObFJXNWtjRzlwYm5RaU9pQWlhSFIwY0RvdkwyeHZZMkZzYUc5emREbzFNREV3SWl3Z0lteGhZbVZzSWpvZ0lsUmxjM1FnUTJWdWRHVnlJaXdnSW1sdFlXZGxYM1Z5YkNJNklDSm9kSFJ3Y3pvdkwyUmxiVzh0WVhCcExtbG5jbUZ1ZEM1cGJ5OTJNUzl2Y21kaGJtbDZZWFJwYjI1ekx6Vm1OVEl6T0dSa1l6WTNNREF4TURBd01UQXdaamxrT1M5cGJXRm5aUzgyTURJellUWXlOelEyWW1NM1pqQXdNREUwWldRMk5qTXZkMlZpSW4wPSIsICJwcm9vZl9yZXF1ZXN0IjogeyJuYW1lIjogIkNPVklELTE5IHRlc3QgdmVyaWZpY2F0aW9uIiwgInZlcnNpb24iOiAiMS4wIiwgInJlcXVlc3RlZF9hdHRyaWJ1dGVzIjogeyJhZGRpdGlvbmFsUHJvcDEiOiB7Im5hbWUiOiAiVGVzdCBkYXRlIiwgInJlc3RyaWN0aW9ucyI6IFtdfSwgImFkZGl0aW9uYWxQcm9wMiI6IHsibmFtZSI6ICJQYXRpZW50IGFnZSIsICJyZXN0cmljdGlvbnMiOiBbXX0sICJhZGRpdGlvbmFsUHJvcDMiOiB7Im5hbWUiOiAiUGF0aWVudCBuYW1lIiwgInJlc3RyaWN0aW9ucyI6IFtdfX0sICJyZXF1ZXN0ZWRfcHJlZGljYXRlcyI6IHt9LCAibm9uY2UiOiAiMzAzMDU5NzIyMDQ5MTI4MTg4MDI2Njc2In19"
 }
-
-result = RestClient.get 'https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/qr-link/{qr_id}',
-  params: {
-  }, headers: headers
-
-p JSON.parse(result)
-
 ```
 
-```python
-import requests
-headers = {
-  'Authorization': 'API_KEY'
-}
-
-r = requests.get('https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/qr-link/{qr_id}', headers = headers)
-
-print(r.json())
-
-```
-
-```php
-<?php
-
-require 'vendor/autoload.php';
-
-$headers = array(
-    'Authorization' => 'API_KEY',
-);
-
-$client = new \GuzzleHttp\Client();
-
-// Define array of request body.
-$request_body = array();
-
-try {
-    $response = $client->request('GET','https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/qr-link/{qr_id}', array(
-        'headers' => $headers,
-        'json' => $request_body,
-       )
-    );
-    print_r($response->getBody()->getContents());
- }
- catch (\GuzzleHttp\Exception\BadResponseException $e) {
-    // handle exception or api errors.
-    print_r($e->getMessage());
- }
-
- // ...
-
-```
-
-```java
-URL obj = new URL("https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/qr-link/{qr_id}");
-HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-con.setRequestMethod("GET");
-int responseCode = con.getResponseCode();
-BufferedReader in = new BufferedReader(
-    new InputStreamReader(con.getInputStream()));
-String inputLine;
-StringBuffer response = new StringBuffer();
-while ((inputLine = in.readLine()) != null) {
-    response.append(inputLine);
-}
-in.close();
-System.out.println(response.toString());
-
-```
-
-```go
-package main
-
-import (
-       "bytes"
-       "net/http"
-)
-
-func main() {
-
-    headers := map[string][]string{
-        "Authorization": []string{"API_KEY"},
-    }
-
-    data := bytes.NewBuffer([]byte{jsonReq})
-    req, err := http.NewRequest("GET", "https://cloudagent.igrant.io/v1/{orgId}/admin/igrantio-operator/data-exchange/qr-link/{qr_id}", data)
-    req.Header = headers
-
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    // ...
-}
-
-```
-
-`GET /igrantio-operator/data-exchange/qr-link/{qr_id}`
-
-*Resolve automated data exchange QR short link*
-
-<h3 id="get__igrantio-operator_data-exchange_qr-link_{qr_id}-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|qr_id|path|string|true|QR identifier|
-
-<h3 id="get__igrantio-operator_data-exchange_qr-link_{qr_id}-responses">Responses</h3>
+<h3 id="post__igrantio-operator_data-exchange_qr-link_{qr_id}-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|none|[ResolveQRAutomatedDataExchangeRecordResult](#schemaresolveqrautomateddataexchangerecordresult)|
 
 <aside class="warning">
 To perform this operation, you must be authenticated by means of one of the following methods:
 ApiKeyHeader
 </aside>
 
-<h1 id="introduction-to-aries-cloudagent-apis-issuer">issuer</h1>
+<h1 id="agent1-issue-credential">issue-credential</h1>
 
 Credential issue, revocation
 
@@ -7156,7 +6378,7 @@ func main() {
       "auto_offer": false,
       "auto_remove": false,
       "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "created_at": "2021-02-04 19:10:56Z",
+      "created_at": "2021-03-22 06:01:36Z",
       "credential": {},
       "credential_definition_id": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag",
       "credential_exchange_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -7177,7 +6399,7 @@ func main() {
       "state": "credential_acked",
       "thread_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
       "trace": true,
-      "updated_at": "2021-02-04 19:10:56Z"
+      "updated_at": "2021-03-22 06:01:36Z"
     }
   ]
 }
@@ -7359,7 +6581,7 @@ func main() {
   "auto_offer": false,
   "auto_remove": false,
   "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "created_at": "2021-02-04 19:10:56Z",
+  "created_at": "2021-03-22 06:01:36Z",
   "credential": {},
   "credential_definition_id": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag",
   "credential_exchange_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -7380,7 +6602,7 @@ func main() {
   "state": "credential_acked",
   "thread_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   "trace": true,
-  "updated_at": "2021-02-04 19:10:56Z"
+  "updated_at": "2021-03-22 06:01:36Z"
 }
 ```
 
@@ -7771,7 +6993,7 @@ func main() {
   "auto_offer": false,
   "auto_remove": false,
   "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "created_at": "2021-02-04 19:10:56Z",
+  "created_at": "2021-03-22 06:01:36Z",
   "credential": {},
   "credential_definition_id": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag",
   "credential_exchange_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -7792,7 +7014,7 @@ func main() {
   "state": "credential_acked",
   "thread_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   "trace": true,
-  "updated_at": "2021-02-04 19:10:56Z"
+  "updated_at": "2021-03-22 06:01:36Z"
 }
 ```
 
@@ -8027,7 +7249,7 @@ func main() {
   "auto_offer": false,
   "auto_remove": false,
   "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "created_at": "2021-02-04 19:10:56Z",
+  "created_at": "2021-03-22 06:01:36Z",
   "credential": {},
   "credential_definition_id": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag",
   "credential_exchange_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -8048,7 +7270,7 @@ func main() {
   "state": "credential_acked",
   "thread_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   "trace": true,
-  "updated_at": "2021-02-04 19:10:56Z"
+  "updated_at": "2021-03-22 06:01:36Z"
 }
 ```
 
@@ -8283,7 +7505,7 @@ func main() {
   "auto_offer": false,
   "auto_remove": false,
   "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "created_at": "2021-02-04 19:10:56Z",
+  "created_at": "2021-03-22 06:01:36Z",
   "credential": {},
   "credential_definition_id": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag",
   "credential_exchange_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -8304,7 +7526,7 @@ func main() {
   "state": "credential_acked",
   "thread_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   "trace": true,
-  "updated_at": "2021-02-04 19:10:56Z"
+  "updated_at": "2021-03-22 06:01:36Z"
 }
 ```
 
@@ -8531,7 +7753,7 @@ func main() {
   "auto_offer": false,
   "auto_remove": false,
   "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "created_at": "2021-02-04 19:10:56Z",
+  "created_at": "2021-03-22 06:01:36Z",
   "credential": {},
   "credential_definition_id": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag",
   "credential_exchange_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -8552,7 +7774,7 @@ func main() {
   "state": "credential_acked",
   "thread_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   "trace": true,
-  "updated_at": "2021-02-04 19:10:56Z"
+  "updated_at": "2021-03-22 06:01:36Z"
 }
 ```
 
@@ -8732,7 +7954,7 @@ func main() {
   "auto_offer": false,
   "auto_remove": false,
   "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "created_at": "2021-02-04 19:10:56Z",
+  "created_at": "2021-03-22 06:01:36Z",
   "credential": {},
   "credential_definition_id": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag",
   "credential_exchange_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -8753,7 +7975,7 @@ func main() {
   "state": "credential_acked",
   "thread_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   "trace": true,
-  "updated_at": "2021-02-04 19:10:56Z"
+  "updated_at": "2021-03-22 06:01:36Z"
 }
 ```
 
@@ -8933,7 +8155,7 @@ func main() {
   "auto_offer": false,
   "auto_remove": false,
   "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "created_at": "2021-02-04 19:10:56Z",
+  "created_at": "2021-03-22 06:01:36Z",
   "credential": {},
   "credential_definition_id": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag",
   "credential_exchange_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -8954,7 +8176,7 @@ func main() {
   "state": "credential_acked",
   "thread_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   "trace": true,
-  "updated_at": "2021-02-04 19:10:56Z"
+  "updated_at": "2021-03-22 06:01:36Z"
 }
 ```
 
@@ -9152,7 +8374,7 @@ func main() {
   "auto_offer": false,
   "auto_remove": false,
   "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "created_at": "2021-02-04 19:10:56Z",
+  "created_at": "2021-03-22 06:01:36Z",
   "credential": {},
   "credential_definition_id": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag",
   "credential_exchange_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -9173,7 +8395,7 @@ func main() {
   "state": "credential_acked",
   "thread_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   "trace": true,
-  "updated_at": "2021-02-04 19:10:56Z"
+  "updated_at": "2021-03-22 06:01:36Z"
 }
 ```
 
@@ -9371,7 +8593,7 @@ func main() {
   "auto_offer": false,
   "auto_remove": false,
   "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "created_at": "2021-02-04 19:10:56Z",
+  "created_at": "2021-03-22 06:01:36Z",
   "credential": {},
   "credential_definition_id": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag",
   "credential_exchange_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -9392,7 +8614,7 @@ func main() {
   "state": "credential_acked",
   "thread_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   "trace": true,
-  "updated_at": "2021-02-04 19:10:56Z"
+  "updated_at": "2021-03-22 06:01:36Z"
 }
 ```
 
@@ -9583,7 +8805,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 ApiKeyHeader
 </aside>
 
-<h1 id="introduction-to-aries-cloudagent-apis-ledger">ledger</h1>
+<h1 id="agent1-ledger">ledger</h1>
 
 Interaction with ledger
 
@@ -10776,9 +9998,9 @@ To perform this operation, you must be authenticated by means of one of the foll
 ApiKeyHeader
 </aside>
 
-<h1 id="introduction-to-aries-cloudagent-apis-verifier">verifier</h1>
+<h1 id="agent1-present-proof">present-proof</h1>
 
-Data exchange and verification
+Proof presentation
 
 <a href="https://github.com/hyperledger/aries-rfcs/tree/4fae574c03f9f1013db30bf2c0c676b1122f7149/features/0037-present-proof">Specification</a>
 
@@ -10935,7 +10157,9 @@ func main() {
 
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
+|auto_data_ex_id|query|string(uuid)|false|Data exchange template ID|
 |connection_id|query|string(uuid)|false|Connection identifier|
+|qr_id|query|string(uuid)|false|Data exchange QR ID|
 |role|query|string|false|Role assigned in presentation exchange|
 |state|query|string|false|Presentation exchange state|
 |thread_id|query|string(uuid)|false|Thread identifier|
@@ -10963,9 +10187,10 @@ func main() {
 {
   "results": [
     {
+      "auto_data_ex_id": "f0482319-72be-488f-acf2-f3e16581d698",
       "auto_present": false,
       "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "created_at": "2021-02-04 19:10:56Z",
+      "created_at": "2021-03-22 06:01:36Z",
       "error_msg": "Invalid structure",
       "initiator": "self",
       "presentation": {},
@@ -10973,11 +10198,12 @@ func main() {
       "presentation_proposal_dict": {},
       "presentation_request": {},
       "presentation_request_dict": {},
+      "qr_id": "f0482319-72be-488f-acf2-f3e16581d698",
       "role": "prover",
       "state": "verified",
       "thread_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
       "trace": true,
-      "updated_at": "2021-02-04 19:10:56Z",
+      "updated_at": "2021-03-22 06:01:36Z",
       "verified": "true"
     }
   ]
@@ -11156,9 +10382,10 @@ func main() {
 
 ```json
 {
+  "auto_data_ex_id": "f0482319-72be-488f-acf2-f3e16581d698",
   "auto_present": false,
   "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "created_at": "2021-02-04 19:10:56Z",
+  "created_at": "2021-03-22 06:01:36Z",
   "error_msg": "Invalid structure",
   "initiator": "self",
   "presentation": {},
@@ -11166,11 +10393,12 @@ func main() {
   "presentation_proposal_dict": {},
   "presentation_request": {},
   "presentation_request_dict": {},
+  "qr_id": "f0482319-72be-488f-acf2-f3e16581d698",
   "role": "prover",
   "state": "verified",
   "thread_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   "trace": true,
-  "updated_at": "2021-02-04 19:10:56Z",
+  "updated_at": "2021-03-22 06:01:36Z",
   "verified": "true"
 }
 ```
@@ -11730,9 +10958,10 @@ func main() {
 
 ```json
 {
+  "auto_data_ex_id": "f0482319-72be-488f-acf2-f3e16581d698",
   "auto_present": false,
   "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "created_at": "2021-02-04 19:10:56Z",
+  "created_at": "2021-03-22 06:01:36Z",
   "error_msg": "Invalid structure",
   "initiator": "self",
   "presentation": {},
@@ -11740,11 +10969,12 @@ func main() {
   "presentation_proposal_dict": {},
   "presentation_request": {},
   "presentation_request_dict": {},
+  "qr_id": "f0482319-72be-488f-acf2-f3e16581d698",
   "role": "prover",
   "state": "verified",
   "thread_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   "trace": true,
-  "updated_at": "2021-02-04 19:10:56Z",
+  "updated_at": "2021-03-22 06:01:36Z",
   "verified": "true"
 }
 ```
@@ -11787,8 +11017,8 @@ const inputBody = '{
   "proof_request": {
     "name": "Proof request",
     "non_revoked": {
-      "from": 1612465856,
-      "to": 1612465856
+      "from": 1616392896,
+      "to": 1616392896
     },
     "nonce": "1234567890",
     "requested_attributes": {
@@ -11798,8 +11028,8 @@ const inputBody = '{
           "age"
         ],
         "non_revoked": {
-          "from": 1612465856,
-          "to": 1612465856
+          "from": 1616392896,
+          "to": 1616392896
         },
         "restrictions": [
           {
@@ -11814,8 +11044,8 @@ const inputBody = '{
           "age"
         ],
         "non_revoked": {
-          "from": 1612465856,
-          "to": 1612465856
+          "from": 1616392896,
+          "to": 1616392896
         },
         "restrictions": [
           {
@@ -11829,8 +11059,8 @@ const inputBody = '{
       "property1": {
         "name": "index",
         "non_revoked": {
-          "from": 1612465856,
-          "to": 1612465856
+          "from": 1616392896,
+          "to": 1616392896
         },
         "p_type": ">=",
         "p_value": 0,
@@ -11848,8 +11078,8 @@ const inputBody = '{
       "property2": {
         "name": "index",
         "non_revoked": {
-          "from": 1612465856,
-          "to": 1612465856
+          "from": 1616392896,
+          "to": 1616392896
         },
         "p_type": ">=",
         "p_value": 0,
@@ -12001,7 +11231,8 @@ func main() {
 `POST /present-proof/create-request`
 
 *
-    Creates a presentation request not bound to any proposal or existing connection*
+    Creates a presentation request not bound to any proposal or existing connection
+    *
 
 > Body parameter
 
@@ -12011,8 +11242,8 @@ func main() {
   "proof_request": {
     "name": "Proof request",
     "non_revoked": {
-      "from": 1612465856,
-      "to": 1612465856
+      "from": 1616392896,
+      "to": 1616392896
     },
     "nonce": "1234567890",
     "requested_attributes": {
@@ -12022,8 +11253,8 @@ func main() {
           "age"
         ],
         "non_revoked": {
-          "from": 1612465856,
-          "to": 1612465856
+          "from": 1616392896,
+          "to": 1616392896
         },
         "restrictions": [
           {
@@ -12038,8 +11269,8 @@ func main() {
           "age"
         ],
         "non_revoked": {
-          "from": 1612465856,
-          "to": 1612465856
+          "from": 1616392896,
+          "to": 1616392896
         },
         "restrictions": [
           {
@@ -12053,8 +11284,8 @@ func main() {
       "property1": {
         "name": "index",
         "non_revoked": {
-          "from": 1612465856,
-          "to": 1612465856
+          "from": 1616392896,
+          "to": 1616392896
         },
         "p_type": ">=",
         "p_value": 0,
@@ -12072,8 +11303,8 @@ func main() {
       "property2": {
         "name": "index",
         "non_revoked": {
-          "from": 1612465856,
-          "to": 1612465856
+          "from": 1616392896,
+          "to": 1616392896
         },
         "p_type": ">=",
         "p_value": 0,
@@ -12107,9 +11338,10 @@ func main() {
 
 ```json
 {
+  "auto_data_ex_id": "f0482319-72be-488f-acf2-f3e16581d698",
   "auto_present": false,
   "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "created_at": "2021-02-04 19:10:56Z",
+  "created_at": "2021-03-22 06:01:36Z",
   "error_msg": "Invalid structure",
   "initiator": "self",
   "presentation": {},
@@ -12117,11 +11349,12 @@ func main() {
   "presentation_proposal_dict": {},
   "presentation_request": {},
   "presentation_request_dict": {},
+  "qr_id": "f0482319-72be-488f-acf2-f3e16581d698",
   "role": "prover",
   "state": "verified",
   "thread_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   "trace": true,
-  "updated_at": "2021-02-04 19:10:56Z",
+  "updated_at": "2021-03-22 06:01:36Z",
   "verified": "true"
 }
 ```
@@ -12165,8 +11398,8 @@ const inputBody = '{
   "proof_request": {
     "name": "Proof request",
     "non_revoked": {
-      "from": 1612465856,
-      "to": 1612465856
+      "from": 1616392896,
+      "to": 1616392896
     },
     "nonce": "1234567890",
     "requested_attributes": {
@@ -12176,8 +11409,8 @@ const inputBody = '{
           "age"
         ],
         "non_revoked": {
-          "from": 1612465856,
-          "to": 1612465856
+          "from": 1616392896,
+          "to": 1616392896
         },
         "restrictions": [
           {
@@ -12192,8 +11425,8 @@ const inputBody = '{
           "age"
         ],
         "non_revoked": {
-          "from": 1612465856,
-          "to": 1612465856
+          "from": 1616392896,
+          "to": 1616392896
         },
         "restrictions": [
           {
@@ -12207,8 +11440,8 @@ const inputBody = '{
       "property1": {
         "name": "index",
         "non_revoked": {
-          "from": 1612465856,
-          "to": 1612465856
+          "from": 1616392896,
+          "to": 1616392896
         },
         "p_type": ">=",
         "p_value": 0,
@@ -12226,8 +11459,8 @@ const inputBody = '{
       "property2": {
         "name": "index",
         "non_revoked": {
-          "from": 1612465856,
-          "to": 1612465856
+          "from": 1616392896,
+          "to": 1616392896
         },
         "p_type": ">=",
         "p_value": 0,
@@ -12389,8 +11622,8 @@ func main() {
   "proof_request": {
     "name": "Proof request",
     "non_revoked": {
-      "from": 1612465856,
-      "to": 1612465856
+      "from": 1616392896,
+      "to": 1616392896
     },
     "nonce": "1234567890",
     "requested_attributes": {
@@ -12400,8 +11633,8 @@ func main() {
           "age"
         ],
         "non_revoked": {
-          "from": 1612465856,
-          "to": 1612465856
+          "from": 1616392896,
+          "to": 1616392896
         },
         "restrictions": [
           {
@@ -12416,8 +11649,8 @@ func main() {
           "age"
         ],
         "non_revoked": {
-          "from": 1612465856,
-          "to": 1612465856
+          "from": 1616392896,
+          "to": 1616392896
         },
         "restrictions": [
           {
@@ -12431,8 +11664,8 @@ func main() {
       "property1": {
         "name": "index",
         "non_revoked": {
-          "from": 1612465856,
-          "to": 1612465856
+          "from": 1616392896,
+          "to": 1616392896
         },
         "p_type": ">=",
         "p_value": 0,
@@ -12450,8 +11683,8 @@ func main() {
       "property2": {
         "name": "index",
         "non_revoked": {
-          "from": 1612465856,
-          "to": 1612465856
+          "from": 1616392896,
+          "to": 1616392896
         },
         "p_type": ">=",
         "p_value": 0,
@@ -12485,9 +11718,10 @@ func main() {
 
 ```json
 {
+  "auto_data_ex_id": "f0482319-72be-488f-acf2-f3e16581d698",
   "auto_present": false,
   "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "created_at": "2021-02-04 19:10:56Z",
+  "created_at": "2021-03-22 06:01:36Z",
   "error_msg": "Invalid structure",
   "initiator": "self",
   "presentation": {},
@@ -12495,16 +11729,211 @@ func main() {
   "presentation_proposal_dict": {},
   "presentation_request": {},
   "presentation_request_dict": {},
+  "qr_id": "f0482319-72be-488f-acf2-f3e16581d698",
   "role": "prover",
   "state": "verified",
   "thread_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   "trace": true,
-  "updated_at": "2021-02-04 19:10:56Z",
+  "updated_at": "2021-03-22 06:01:36Z",
   "verified": "true"
 }
 ```
 
 <h3 id="post__present-proof_send-request-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|none|[V10PresentationExchange](#schemav10presentationexchange)|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+ApiKeyHeader
+</aside>
+
+## post__present-proof_data-exchange-template_{auto_data_ex_id}_connection_{conn_id}_send-request
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://cloudagent.igrant.io/v1/{orgId}/admin/present-proof/data-exchange-template/{auto_data_ex_id}/connection/{conn_id}/send-request \
+  -H 'Accept: application/json' \
+  -H 'Authorization: API_KEY'
+
+```
+
+```http
+POST https://cloudagent.igrant.io/v1/{orgId}/admin/present-proof/data-exchange-template/{auto_data_ex_id}/connection/{conn_id}/send-request HTTP/1.1
+Host: cloudagent.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'API_KEY'
+};
+
+fetch('https://cloudagent.igrant.io/v1/{orgId}/admin/present-proof/data-exchange-template/{auto_data_ex_id}/connection/{conn_id}/send-request',
+{
+  method: 'POST',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'API_KEY'
+}
+
+result = RestClient.post 'https://cloudagent.igrant.io/v1/{orgId}/admin/present-proof/data-exchange-template/{auto_data_ex_id}/connection/{conn_id}/send-request',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'API_KEY'
+}
+
+r = requests.post('https://cloudagent.igrant.io/v1/{orgId}/admin/present-proof/data-exchange-template/{auto_data_ex_id}/connection/{conn_id}/send-request', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'API_KEY',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://cloudagent.igrant.io/v1/{orgId}/admin/present-proof/data-exchange-template/{auto_data_ex_id}/connection/{conn_id}/send-request', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://cloudagent.igrant.io/v1/{orgId}/admin/present-proof/data-exchange-template/{auto_data_ex_id}/connection/{conn_id}/send-request");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"API_KEY"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://cloudagent.igrant.io/v1/{orgId}/admin/present-proof/data-exchange-template/{auto_data_ex_id}/connection/{conn_id}/send-request", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /present-proof/data-exchange-template/{auto_data_ex_id}/connection/{conn_id}/send-request`
+
+*Sends a free presentation request bound to data exchange template*
+
+<h3 id="post__present-proof_data-exchange-template_{auto_data_ex_id}_connection_{conn_id}_send-request-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|auto_data_ex_id|path|string|true|Automated dataexchange template ID|
+|conn_id|path|string|true|Connection identifier|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "auto_data_ex_id": "f0482319-72be-488f-acf2-f3e16581d698",
+  "auto_present": false,
+  "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "created_at": "2021-03-22 06:01:36Z",
+  "error_msg": "Invalid structure",
+  "initiator": "self",
+  "presentation": {},
+  "presentation_exchange_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "presentation_proposal_dict": {},
+  "presentation_request": {},
+  "presentation_request_dict": {},
+  "qr_id": "f0482319-72be-488f-acf2-f3e16581d698",
+  "role": "prover",
+  "state": "verified",
+  "thread_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "trace": true,
+  "updated_at": "2021-03-22 06:01:36Z",
+  "verified": "true"
+}
+```
+
+<h3 id="post__present-proof_data-exchange-template_{auto_data_ex_id}_connection_{conn_id}_send-request-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
@@ -12543,8 +11972,8 @@ const inputBody = '{
   "proof_request": {
     "name": "Proof request",
     "non_revoked": {
-      "from": 1612465856,
-      "to": 1612465856
+      "from": 1616392896,
+      "to": 1616392896
     },
     "nonce": "1234567890",
     "requested_attributes": {
@@ -12554,8 +11983,8 @@ const inputBody = '{
           "age"
         ],
         "non_revoked": {
-          "from": 1612465856,
-          "to": 1612465856
+          "from": 1616392896,
+          "to": 1616392896
         },
         "restrictions": [
           {
@@ -12570,8 +11999,8 @@ const inputBody = '{
           "age"
         ],
         "non_revoked": {
-          "from": 1612465856,
-          "to": 1612465856
+          "from": 1616392896,
+          "to": 1616392896
         },
         "restrictions": [
           {
@@ -12585,8 +12014,8 @@ const inputBody = '{
       "property1": {
         "name": "index",
         "non_revoked": {
-          "from": 1612465856,
-          "to": 1612465856
+          "from": 1616392896,
+          "to": 1616392896
         },
         "p_type": ">=",
         "p_value": 0,
@@ -12604,8 +12033,8 @@ const inputBody = '{
       "property2": {
         "name": "index",
         "non_revoked": {
-          "from": 1612465856,
-          "to": 1612465856
+          "from": 1616392896,
+          "to": 1616392896
         },
         "p_type": ">=",
         "p_value": 0,
@@ -12767,8 +12196,8 @@ func main() {
   "proof_request": {
     "name": "Proof request",
     "non_revoked": {
-      "from": 1612465856,
-      "to": 1612465856
+      "from": 1616392896,
+      "to": 1616392896
     },
     "nonce": "1234567890",
     "requested_attributes": {
@@ -12778,8 +12207,8 @@ func main() {
           "age"
         ],
         "non_revoked": {
-          "from": 1612465856,
-          "to": 1612465856
+          "from": 1616392896,
+          "to": 1616392896
         },
         "restrictions": [
           {
@@ -12794,8 +12223,8 @@ func main() {
           "age"
         ],
         "non_revoked": {
-          "from": 1612465856,
-          "to": 1612465856
+          "from": 1616392896,
+          "to": 1616392896
         },
         "restrictions": [
           {
@@ -12809,8 +12238,8 @@ func main() {
       "property1": {
         "name": "index",
         "non_revoked": {
-          "from": 1612465856,
-          "to": 1612465856
+          "from": 1616392896,
+          "to": 1616392896
         },
         "p_type": ">=",
         "p_value": 0,
@@ -12828,8 +12257,8 @@ func main() {
       "property2": {
         "name": "index",
         "non_revoked": {
-          "from": 1612465856,
-          "to": 1612465856
+          "from": 1616392896,
+          "to": 1616392896
         },
         "p_type": ">=",
         "p_value": 0,
@@ -12864,9 +12293,10 @@ func main() {
 
 ```json
 {
+  "auto_data_ex_id": "f0482319-72be-488f-acf2-f3e16581d698",
   "auto_present": false,
   "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "created_at": "2021-02-04 19:10:56Z",
+  "created_at": "2021-03-22 06:01:36Z",
   "error_msg": "Invalid structure",
   "initiator": "self",
   "presentation": {},
@@ -12874,11 +12304,12 @@ func main() {
   "presentation_proposal_dict": {},
   "presentation_request": {},
   "presentation_request_dict": {},
+  "qr_id": "f0482319-72be-488f-acf2-f3e16581d698",
   "role": "prover",
   "state": "verified",
   "thread_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   "trace": true,
-  "updated_at": "2021-02-04 19:10:56Z",
+  "updated_at": "2021-03-22 06:01:36Z",
   "verified": "true"
 }
 ```
@@ -12921,22 +12352,22 @@ const inputBody = '{
     "property1": {
       "cred_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
       "revealed": true,
-      "timestamp": 1612465856
+      "timestamp": 1616392896
     },
     "property2": {
       "cred_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
       "revealed": true,
-      "timestamp": 1612465856
+      "timestamp": 1616392896
     }
   },
   "requested_predicates": {
     "property1": {
       "cred_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "timestamp": 1612465856
+      "timestamp": 1616392896
     },
     "property2": {
       "cred_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "timestamp": 1612465856
+      "timestamp": 1616392896
     }
   },
   "self_attested_attributes": {
@@ -13086,22 +12517,22 @@ func main() {
     "property1": {
       "cred_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
       "revealed": true,
-      "timestamp": 1612465856
+      "timestamp": 1616392896
     },
     "property2": {
       "cred_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
       "revealed": true,
-      "timestamp": 1612465856
+      "timestamp": 1616392896
     }
   },
   "requested_predicates": {
     "property1": {
       "cred_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "timestamp": 1612465856
+      "timestamp": 1616392896
     },
     "property2": {
       "cred_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "timestamp": 1612465856
+      "timestamp": 1616392896
     }
   },
   "self_attested_attributes": {
@@ -13125,9 +12556,10 @@ func main() {
 
 ```json
 {
+  "auto_data_ex_id": "f0482319-72be-488f-acf2-f3e16581d698",
   "auto_present": false,
   "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "created_at": "2021-02-04 19:10:56Z",
+  "created_at": "2021-03-22 06:01:36Z",
   "error_msg": "Invalid structure",
   "initiator": "self",
   "presentation": {},
@@ -13135,11 +12567,12 @@ func main() {
   "presentation_proposal_dict": {},
   "presentation_request": {},
   "presentation_request_dict": {},
+  "qr_id": "f0482319-72be-488f-acf2-f3e16581d698",
   "role": "prover",
   "state": "verified",
   "thread_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   "trace": true,
-  "updated_at": "2021-02-04 19:10:56Z",
+  "updated_at": "2021-03-22 06:01:36Z",
   "verified": "true"
 }
 ```
@@ -13316,9 +12749,10 @@ func main() {
 
 ```json
 {
+  "auto_data_ex_id": "f0482319-72be-488f-acf2-f3e16581d698",
   "auto_present": false,
   "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "created_at": "2021-02-04 19:10:56Z",
+  "created_at": "2021-03-22 06:01:36Z",
   "error_msg": "Invalid structure",
   "initiator": "self",
   "presentation": {},
@@ -13326,11 +12760,12 @@ func main() {
   "presentation_proposal_dict": {},
   "presentation_request": {},
   "presentation_request_dict": {},
+  "qr_id": "f0482319-72be-488f-acf2-f3e16581d698",
   "role": "prover",
   "state": "verified",
   "thread_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   "trace": true,
-  "updated_at": "2021-02-04 19:10:56Z",
+  "updated_at": "2021-03-22 06:01:36Z",
   "verified": "true"
 }
 ```
@@ -13346,7 +12781,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 ApiKeyHeader
 </aside>
 
-<h1 id="introduction-to-aries-cloudagent-apis-revocation">revocation</h1>
+<h1 id="agent1-revocation">revocation</h1>
 
 Revocation registry management
 
@@ -16099,7 +15534,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 ApiKeyHeader
 </aside>
 
-<h1 id="introduction-to-aries-cloudagent-apis-schema">schema</h1>
+<h1 id="agent1-schema">schema</h1>
 
 Schema operations
 
@@ -16673,7 +16108,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 ApiKeyHeader
 </aside>
 
-<h1 id="introduction-to-aries-cloudagent-apis-server">server</h1>
+<h1 id="agent1-server">server</h1>
 
 Feature discovery
 
@@ -17858,7 +17293,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 ApiKeyHeader
 </aside>
 
-<h1 id="introduction-to-aries-cloudagent-apis-trustping">trustping</h1>
+<h1 id="agent1-trustping">trustping</h1>
 
 Trust-ping over connection
 
@@ -18058,7 +17493,7 @@ To perform this operation, you must be authenticated by means of one of the foll
 ApiKeyHeader
 </aside>
 
-<h1 id="introduction-to-aries-cloudagent-apis-wallet">wallet</h1>
+<h1 id="agent1-wallet">wallet</h1>
 
 DID and tag policy management
 
@@ -19431,6 +18866,110 @@ ApiKeyHeader
 
 *None*
 
+<h2 id="tocS_AutomatedDataExchangeDetailRecordResult">AutomatedDataExchangeDetailRecordResult</h2>
+<!-- backwards compatibility -->
+<a id="schemaautomateddataexchangedetailrecordresult"></a>
+<a id="schema_AutomatedDataExchangeDetailRecordResult"></a>
+<a id="tocSautomateddataexchangedetailrecordresult"></a>
+<a id="tocsautomateddataexchangedetailrecordresult"></a>
+
+```json
+{
+  "auto_data_ex_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "presentation_request": {
+    "name": "Proof request",
+    "non_revoked": {
+      "from": 1616392896,
+      "to": 1616392896
+    },
+    "nonce": "1234567890",
+    "requested_attributes": {
+      "property1": {
+        "name": "favouriteDrink",
+        "names": [
+          "age"
+        ],
+        "non_revoked": {
+          "from": 1616392896,
+          "to": 1616392896
+        },
+        "restrictions": [
+          {
+            "property1": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag",
+            "property2": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag"
+          }
+        ]
+      },
+      "property2": {
+        "name": "favouriteDrink",
+        "names": [
+          "age"
+        ],
+        "non_revoked": {
+          "from": 1616392896,
+          "to": 1616392896
+        },
+        "restrictions": [
+          {
+            "property1": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag",
+            "property2": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag"
+          }
+        ]
+      }
+    },
+    "requested_predicates": {
+      "property1": {
+        "name": "index",
+        "non_revoked": {
+          "from": 1616392896,
+          "to": 1616392896
+        },
+        "p_type": ">=",
+        "p_value": 0,
+        "restrictions": [
+          {
+            "cred_def_id": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag",
+            "issuer_did": "WgWxqztrNooG92RXvxSTWv",
+            "schema_id": "WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0",
+            "schema_issuer_did": "WgWxqztrNooG92RXvxSTWv",
+            "schema_name": "transcript",
+            "schema_version": "1.0"
+          }
+        ]
+      },
+      "property2": {
+        "name": "index",
+        "non_revoked": {
+          "from": 1616392896,
+          "to": 1616392896
+        },
+        "p_type": ">=",
+        "p_value": 0,
+        "restrictions": [
+          {
+            "cred_def_id": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag",
+            "issuer_did": "WgWxqztrNooG92RXvxSTWv",
+            "schema_id": "WgWxqztrNooG92RXvxSTWv:2:schema_name:1.0",
+            "schema_issuer_did": "WgWxqztrNooG92RXvxSTWv",
+            "schema_name": "transcript",
+            "schema_version": "1.0"
+          }
+        ]
+      }
+    },
+    "version": "1.0"
+  }
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|auto_data_ex_id|string|true|none|Automated data exchange template ID|
+|presentation_request|[IndyProofRequest](#schemaindyproofrequest)|false|none|none|
+
 <h2 id="tocS_ClearPendingRevocationsRequest">ClearPendingRevocationsRequest</h2>
 <!-- backwards compatibility -->
 <a id="schemaclearpendingrevocationsrequest"></a>
@@ -19511,7 +19050,7 @@ ApiKeyHeader
       "accept": "auto",
       "alias": "Bob, providing quotes",
       "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "created_at": "2021-02-04 19:10:56Z",
+      "created_at": "2021-03-22 06:01:36Z",
       "error_msg": "No DIDDoc provided; cannot connect to public DID",
       "inbound_connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
       "initiator": "self",
@@ -19524,7 +19063,7 @@ ApiKeyHeader
       "their_did": "WgWxqztrNooG92RXvxSTWv",
       "their_label": "Bob",
       "their_role": "Point of contact",
-      "updated_at": "2021-02-04 19:10:56Z"
+      "updated_at": "2021-03-22 06:01:36Z"
     }
   ]
 }
@@ -19549,7 +19088,7 @@ ApiKeyHeader
   "accept": "auto",
   "alias": "Bob, providing quotes",
   "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "created_at": "2021-02-04 19:10:56Z",
+  "created_at": "2021-03-22 06:01:36Z",
   "error_msg": "No DIDDoc provided; cannot connect to public DID",
   "inbound_connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   "initiator": "self",
@@ -19562,7 +19101,7 @@ ApiKeyHeader
   "their_did": "WgWxqztrNooG92RXvxSTWv",
   "their_label": "Bob",
   "their_role": "Point of contact",
-  "updated_at": "2021-02-04 19:10:56Z"
+  "updated_at": "2021-03-22 06:01:36Z"
 }
 
 ```
@@ -19654,7 +19193,7 @@ ApiKeyHeader
     "accept": "auto",
     "alias": "Bob, providing quotes",
     "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    "created_at": "2021-02-04 19:10:56Z",
+    "created_at": "2021-03-22 06:01:36Z",
     "error_msg": "No DIDDoc provided; cannot connect to public DID",
     "inbound_connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     "initiator": "self",
@@ -19667,7 +19206,7 @@ ApiKeyHeader
     "their_did": "WgWxqztrNooG92RXvxSTWv",
     "their_label": "Bob",
     "their_role": "Point of contact",
-    "updated_at": "2021-02-04 19:10:56Z"
+    "updated_at": "2021-03-22 06:01:36Z"
   },
   "their_did": "WgWxqztrNooG92RXvxSTWv",
   "their_verkey": "H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV"
@@ -19842,6 +19381,42 @@ ApiKeyHeader
 |value|object|false|none|Credential definition primary and revocation values|
 |ver|string|false|none|Node protocol version|
 
+<h2 id="tocS_CredentialDefinitionDetail">CredentialDefinitionDetail</h2>
+<!-- backwards compatibility -->
+<a id="schemacredentialdefinitiondetail"></a>
+<a id="schema_CredentialDefinitionDetail"></a>
+<a id="tocScredentialdefinitiondetail"></a>
+<a id="tocscredentialdefinitiondetail"></a>
+
+```json
+{
+  "cred_def_id": "9DkTAmKAVVQ47RcKDTzevG:3:CL:14:default",
+  "epoch": "1614099845",
+  "issuer_did": "9DkTAmKAVVQ47RcKDTzevG",
+  "schema_attributes": [
+    "abc"
+  ],
+  "schema_id": "9DkTAmKAVVQ47RcKDTzevG:2:Covid19 Test Result:1.0",
+  "schema_issuer_did": "9DkTAmKAVVQ47RcKDTzevG",
+  "schema_name": "prefs",
+  "schema_version": "1.0"
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|cred_def_id|string|false|none|Credential definition identifier|
+|epoch|string|false|none|UTC timestamp|
+|issuer_did|string|false|none|Issuer DID|
+|schema_attributes|[string]|false|none|none|
+|schema_id|string|false|none|Schema identifier within credential definition identifier|
+|schema_issuer_did|string|false|none|Schema issuer DID|
+|schema_name|string|true|none|Schema name|
+|schema_version|string|true|none|Schema version|
+
 <h2 id="tocS_CredentialDefinitionGetResults">CredentialDefinitionGetResults</h2>
 <!-- backwards compatibility -->
 <a id="schemacredentialdefinitiongetresults"></a>
@@ -19914,28 +19489,6 @@ ApiKeyHeader
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
 |credential_definition_id|string|false|none|Credential definition identifier|
-
-<h2 id="tocS_CredentialDefinitionsCreatedResults">CredentialDefinitionsCreatedResults</h2>
-<!-- backwards compatibility -->
-<a id="schemacredentialdefinitionscreatedresults"></a>
-<a id="schema_CredentialDefinitionsCreatedResults"></a>
-<a id="tocScredentialdefinitionscreatedresults"></a>
-<a id="tocscredentialdefinitionscreatedresults"></a>
-
-```json
-{
-  "credential_definition_ids": [
-    "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag"
-  ]
-}
-
-```
-
-### Properties
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|credential_definition_ids|[string]|false|none|none|
 
 <h2 id="tocS_CredentialPreview">CredentialPreview</h2>
 <!-- backwards compatibility -->
@@ -20101,6 +19654,32 @@ ApiKeyHeader
 |---|---|---|---|---|
 |result|[DID](#schemadid)|false|none|none|
 
+<h2 id="tocS_FetchMultiConnectionsInfoResult">FetchMultiConnectionsInfoResult</h2>
+<!-- backwards compatibility -->
+<a id="schemafetchmulticonnectionsinforesult"></a>
+<a id="schema_FetchMultiConnectionsInfoResult"></a>
+<a id="tocSfetchmulticonnectionsinforesult"></a>
+<a id="tocsfetchmulticonnectionsinforesult"></a>
+
+```json
+{
+  "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "connection_status": "available/notavailable",
+  "existing_connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "my_did": "WgWxqztrNooG92RXvxSTWv"
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|connection_id|string|false|none|New connection ID|
+|connection_status|string|false|none|Existing connection status|
+|existing_connection_id|string|true|none|Existing connection ID|
+|my_did|string|true|none|My DID|
+
 <h2 id="tocS_IndyProofReqAttrSpec">IndyProofReqAttrSpec</h2>
 <!-- backwards compatibility -->
 <a id="schemaindyproofreqattrspec"></a>
@@ -20115,8 +19694,8 @@ ApiKeyHeader
     "age"
   ],
   "non_revoked": {
-    "from": 1612465856,
-    "to": 1612465856
+    "from": 1616392896,
+    "to": 1616392896
   },
   "restrictions": [
     {
@@ -20135,7 +19714,7 @@ ApiKeyHeader
 |name|string|false|none|Attribute name|
 |names|[string]|false|none|Attribute name group|
 |non_revoked|[IndyProofReqNonRevoked](#schemaindyproofreqnonrevoked)|false|none|none|
-|restrictions|[object]|false|none|If present, credential must satisfy one of given restrictions: specify schema_id, schema_issuer_did, schema_name, schema_version, issuer_did, cred_def_id, and/or attr::<attribute-name>::value where <attribute-name> represents a credential attribute name|
+|restrictions|[object]|false|none|If present, credential must satisfy one of given restrictions: specify schema_id, schema_issuer_did, schema_name, schema_version, issuer_did, cred_def_id, and/or attr::::value where represents a credential attribute name|
 |» **additionalProperties**|string|false|none|none|
 
 <h2 id="tocS_IndyProofReqNonRevoked">IndyProofReqNonRevoked</h2>
@@ -20147,8 +19726,8 @@ ApiKeyHeader
 
 ```json
 {
-  "from": 1612465856,
-  "to": 1612465856
+  "from": 1616392896,
+  "to": 1616392896
 }
 
 ```
@@ -20171,8 +19750,8 @@ ApiKeyHeader
 {
   "name": "index",
   "non_revoked": {
-    "from": 1612465856,
-    "to": 1612465856
+    "from": 1616392896,
+    "to": 1616392896
   },
   "p_type": ">=",
   "p_value": 0,
@@ -20250,8 +19829,8 @@ ApiKeyHeader
 {
   "name": "Proof request",
   "non_revoked": {
-    "from": 1612465856,
-    "to": 1612465856
+    "from": 1616392896,
+    "to": 1616392896
   },
   "nonce": "1234567890",
   "requested_attributes": {
@@ -20261,8 +19840,8 @@ ApiKeyHeader
         "age"
       ],
       "non_revoked": {
-        "from": 1612465856,
-        "to": 1612465856
+        "from": 1616392896,
+        "to": 1616392896
       },
       "restrictions": [
         {
@@ -20277,8 +19856,8 @@ ApiKeyHeader
         "age"
       ],
       "non_revoked": {
-        "from": 1612465856,
-        "to": 1612465856
+        "from": 1616392896,
+        "to": 1616392896
       },
       "restrictions": [
         {
@@ -20292,8 +19871,8 @@ ApiKeyHeader
     "property1": {
       "name": "index",
       "non_revoked": {
-        "from": 1612465856,
-        "to": 1612465856
+        "from": 1616392896,
+        "to": 1616392896
       },
       "p_type": ">=",
       "p_value": 0,
@@ -20311,8 +19890,8 @@ ApiKeyHeader
     "property2": {
       "name": "index",
       "non_revoked": {
-        "from": 1612465856,
-        "to": 1612465856
+        "from": 1616392896,
+        "to": 1616392896
       },
       "p_type": ">=",
       "p_value": 0,
@@ -20357,7 +19936,7 @@ ApiKeyHeader
 {
   "cred_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   "revealed": true,
-  "timestamp": 1612465856
+  "timestamp": 1616392896
 }
 
 ```
@@ -20380,7 +19959,7 @@ ApiKeyHeader
 ```json
 {
   "cred_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "timestamp": 1612465856
+  "timestamp": 1616392896
 }
 
 ```
@@ -20428,28 +20007,6 @@ ApiKeyHeader
 |connection_id|string|false|none|Connection identifier|
 |invitation|[ConnectionInvitation](#schemaconnectioninvitation)|false|none|none|
 |invitation_url|string|false|none|Invitation URL|
-
-<h2 id="tocS_OperatorConfigurationResult">OperatorConfigurationResult</h2>
-<!-- backwards compatibility -->
-<a id="schemaoperatorconfigurationresult"></a>
-<a id="schema_OperatorConfigurationResult"></a>
-<a id="tocSoperatorconfigurationresult"></a>
-<a id="tocsoperatorconfigurationresult"></a>
-
-```json
-{
-  "api_key": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI1ZjUyNGZhYmM2NzAwMTAwMDEwMGY5ZTUiLCJleHAiOjE2MzAzMzQ1Nzl9.mE0WH81Y40xImEcEVwhHa5KA8uaxPF4SwrZPKW-SiYc",
-  "org_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
-}
-
-```
-
-### Properties
-
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|api_key|string|false|none|iGrant.io operator API key|
-|org_id|string|true|none|Organization ID|
 
 <h2 id="tocS_PingRequest">PingRequest</h2>
 <!-- backwards compatibility -->
@@ -20621,6 +20178,34 @@ ApiKeyHeader
 |rrid2crid|object|false|none|Credential revocation ids by revocation registry id|
 |» **additionalProperties**|[string]|false|none|none|
 
+<h2 id="tocS_QRAutomatedDataExchangeRecordResult">QRAutomatedDataExchangeRecordResult</h2>
+<!-- backwards compatibility -->
+<a id="schemaqrautomateddataexchangerecordresult"></a>
+<a id="schema_QRAutomatedDataExchangeRecordResult"></a>
+<a id="tocSqrautomateddataexchangerecordresult"></a>
+<a id="tocsqrautomateddataexchangerecordresult"></a>
+
+```json
+{
+  "auto_data_ex_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "nonce": "303059722049128188026676",
+  "qr_data": "http://localhost:5010?qr_p=eyJpbnZpdGF0aW9uX3VybCI6ICJodHRwOi8vbG9jYWxob3N0OjUwMTA_Y19pPWV5SkFkSGx3WlNJNklDSmthV1E2YzI5Mk9rSjZRMkp6VGxsb1RYSnFTR2x4V2tSVVZVRlRTR2M3YzNCbFl5OWpiMjV1WldOMGFXOXVjeTh4TGpBdmFXNTJhWFJoZEdsdmJpSXNJQ0pBYVdRaU9pQWlOVGc1WWpoa09ERXRZekU0TVMwME1UY3pMV0V4T0RndE4yWTRObU16TTJRNE5XRmhJaXdnSW5KbFkybHdhV1Z1ZEV0bGVYTWlPaUJiSWpOT2QwVnJOMmt5V1hsSFJFWkRaRnBPUm1Oek9IaHBTREowU0dWSGQyWnJXVlpTV0hwSVdFNWhVREZTSWwwc0lDSnpaWEoyYVdObFJXNWtjRzlwYm5RaU9pQWlhSFIwY0RvdkwyeHZZMkZzYUc5emREbzFNREV3SWl3Z0lteGhZbVZzSWpvZ0lsUmxjM1FnUTJWdWRHVnlJaXdnSW1sdFlXZGxYM1Z5YkNJNklDSm9kSFJ3Y3pvdkwyUmxiVzh0WVhCcExtbG5jbUZ1ZEM1cGJ5OTJNUzl2Y21kaGJtbDZZWFJwYjI1ekx6Vm1OVEl6T0dSa1l6WTNNREF4TURBd01UQXdaamxrT1M5cGJXRm5aUzgyTURJellUWXlOelEyWW1NM1pqQXdNREUwWldRMk5qTXZkMlZpSW4wPSIsICJwcm9vZl9yZXF1ZXN0IjogeyJuYW1lIjogIkNPVklELTE5IHRlc3QgdmVyaWZpY2F0aW9uIiwgInZlcnNpb24iOiAiMS4wIiwgInJlcXVlc3RlZF9hdHRyaWJ1dGVzIjogeyJhZGRpdGlvbmFsUHJvcDEiOiB7Im5hbWUiOiAiVGVzdCBkYXRlIiwgInJlc3RyaWN0aW9ucyI6IFtdfSwgImFkZGl0aW9uYWxQcm9wMiI6IHsibmFtZSI6ICJQYXRpZW50IGFnZSIsICJyZXN0cmljdGlvbnMiOiBbXX0sICJhZGRpdGlvbmFsUHJvcDMiOiB7Im5hbWUiOiAiUGF0aWVudCBuYW1lIiwgInJlc3RyaWN0aW9ucyI6IFtdfX0sICJyZXF1ZXN0ZWRfcHJlZGljYXRlcyI6IHt9LCAibm9uY2UiOiAiMzAzMDU5NzIyMDQ5MTI4MTg4MDI2Njc2In19",
+  "qr_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|auto_data_ex_id|string|true|none|Automated data exchange template ID|
+|connection_id|string|true|none|Connection ID|
+|nonce|string|true|none|Random nonce|
+|qr_data|string|true|none|QR data (URL)|
+|qr_id|string|true|none|QR ID|
+
 <h2 id="tocS_QueryResult">QueryResult</h2>
 <!-- backwards compatibility -->
 <a id="schemaqueryresult"></a>
@@ -20682,6 +20267,46 @@ ApiKeyHeader
 |recipientKeys|[string]|false|none|List of recipient keys|
 |routingKeys|[string]|false|none|List of routing keys|
 |serviceEndpoint|string|false|none|Service endpoint at which to reach this agent|
+
+<h2 id="tocS_ResolveQRAutomatedDataExchangeRecordResult">ResolveQRAutomatedDataExchangeRecordResult</h2>
+<!-- backwards compatibility -->
+<a id="schemaresolveqrautomateddataexchangerecordresult"></a>
+<a id="schema_ResolveQRAutomatedDataExchangeRecordResult"></a>
+<a id="tocSresolveqrautomateddataexchangerecordresult"></a>
+<a id="tocsresolveqrautomateddataexchangerecordresult"></a>
+
+```json
+{
+  "dataexchange_url": "http://localhost:5010?qr_p=eyJpbnZpdGF0aW9uX3VybCI6ICJodHRwOi8vbG9jYWxob3N0OjUwMTA_Y19pPWV5SkFkSGx3WlNJNklDSmthV1E2YzI5Mk9rSjZRMkp6VGxsb1RYSnFTR2x4V2tSVVZVRlRTR2M3YzNCbFl5OWpiMjV1WldOMGFXOXVjeTh4TGpBdmFXNTJhWFJoZEdsdmJpSXNJQ0pBYVdRaU9pQWlOVGc1WWpoa09ERXRZekU0TVMwME1UY3pMV0V4T0RndE4yWTRObU16TTJRNE5XRmhJaXdnSW5KbFkybHdhV1Z1ZEV0bGVYTWlPaUJiSWpOT2QwVnJOMmt5V1hsSFJFWkRaRnBPUm1Oek9IaHBTREowU0dWSGQyWnJXVlpTV0hwSVdFNWhVREZTSWwwc0lDSnpaWEoyYVdObFJXNWtjRzlwYm5RaU9pQWlhSFIwY0RvdkwyeHZZMkZzYUc5emREbzFNREV3SWl3Z0lteGhZbVZzSWpvZ0lsUmxjM1FnUTJWdWRHVnlJaXdnSW1sdFlXZGxYM1Z5YkNJNklDSm9kSFJ3Y3pvdkwyUmxiVzh0WVhCcExtbG5jbUZ1ZEM1cGJ5OTJNUzl2Y21kaGJtbDZZWFJwYjI1ekx6Vm1OVEl6T0dSa1l6WTNNREF4TURBd01UQXdaamxrT1M5cGJXRm5aUzgyTURJellUWXlOelEyWW1NM1pqQXdNREUwWldRMk5qTXZkMlZpSW4wPSIsICJwcm9vZl9yZXF1ZXN0IjogeyJuYW1lIjogIkNPVklELTE5IHRlc3QgdmVyaWZpY2F0aW9uIiwgInZlcnNpb24iOiAiMS4wIiwgInJlcXVlc3RlZF9hdHRyaWJ1dGVzIjogeyJhZGRpdGlvbmFsUHJvcDEiOiB7Im5hbWUiOiAiVGVzdCBkYXRlIiwgInJlc3RyaWN0aW9ucyI6IFtdfSwgImFkZGl0aW9uYWxQcm9wMiI6IHsibmFtZSI6ICJQYXRpZW50IGFnZSIsICJyZXN0cmljdGlvbnMiOiBbXX0sICJhZGRpdGlvbmFsUHJvcDMiOiB7Im5hbWUiOiAiUGF0aWVudCBuYW1lIiwgInJlc3RyaWN0aW9ucyI6IFtdfX0sICJyZXF1ZXN0ZWRfcHJlZGljYXRlcyI6IHt9LCAibm9uY2UiOiAiMzAzMDU5NzIyMDQ5MTI4MTg4MDI2Njc2In19"
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|dataexchange_url|string|true|none|Data exchange (URL)|
+
+<h2 id="tocS_ResolveQRShortLinkDataResult">ResolveQRShortLinkDataResult</h2>
+<!-- backwards compatibility -->
+<a id="schemaresolveqrshortlinkdataresult"></a>
+<a id="schema_ResolveQRShortLinkDataResult"></a>
+<a id="tocSresolveqrshortlinkdataresult"></a>
+<a id="tocsresolveqrshortlinkdataresult"></a>
+
+```json
+{
+  "invitation_url": "http://localhost:5010?c_i=eyJAdHlwZSI6ICJkaWQ6c292OkJ6Q2JzTlloTXJqSGlxWkRUVUFTSGc7c3BlYy9jb25uZWN0aW9ucy8xLjAvaW52aXRhdGlvbiIsICJAaWQiOiAiY2IyY2ZiM2ItMDM1NS00NjZmLTg5YWQtNmRiNGM5MDY5Y2ZkIiwgInJlY2lwaWVudEtleXMiOiBbIkViUkJDNWZ5WVI2OXFrdlFyZ3JTUVdGVms1bkJEVkRpS3RZdUhmamFBMUM2Il0sICJzZXJ2aWNlRW5kcG9pbnQiOiAiaHR0cDovL2xvY2FsaG9zdDo1MDEwIiwgImxhYmVsIjogIlRlc3QgQ2VudGVyIiwgImltYWdlX3VybCI6ICJodHRwczovL2RlbW8tYXBpLmlncmFudC5pby92MS9vcmdhbml6YXRpb25zLzVmNTIzOGRkYzY3MDAxMDAwMTAwZjlkOS9pbWFnZS82MDIzYTYyNzQ2YmM3ZjAwMDE0ZWQ2NjMvd2ViIn0="
+}
+
+```
+
+### Properties
+
+|Name|Type|Required|Restrictions|Description|
+|---|---|---|---|---|
+|invitation_url|string|true|none|Invitation URL|
 
 <h2 id="tocS_RevRegCreateRequest">RevRegCreateRequest</h2>
 <!-- backwards compatibility -->
@@ -21169,7 +20794,7 @@ ApiKeyHeader
   "auto_offer": false,
   "auto_remove": false,
   "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "created_at": "2021-02-04 19:10:56Z",
+  "created_at": "2021-03-22 06:01:36Z",
   "credential": {},
   "credential_definition_id": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag",
   "credential_exchange_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -21190,7 +20815,7 @@ ApiKeyHeader
   "state": "credential_acked",
   "thread_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   "trace": true,
-  "updated_at": "2021-02-04 19:10:56Z"
+  "updated_at": "2021-03-22 06:01:36Z"
 }
 
 ```
@@ -21250,7 +20875,7 @@ ApiKeyHeader
       "auto_offer": false,
       "auto_remove": false,
       "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "created_at": "2021-02-04 19:10:56Z",
+      "created_at": "2021-03-22 06:01:36Z",
       "credential": {},
       "credential_definition_id": "WgWxqztrNooG92RXvxSTWv:3:CL:20:tag",
       "credential_exchange_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -21271,7 +20896,7 @@ ApiKeyHeader
       "state": "credential_acked",
       "thread_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
       "trace": true,
-      "updated_at": "2021-02-04 19:10:56Z"
+      "updated_at": "2021-03-22 06:01:36Z"
     }
   ]
 }
@@ -21496,8 +21121,8 @@ ApiKeyHeader
   "proof_request": {
     "name": "Proof request",
     "non_revoked": {
-      "from": 1612465856,
-      "to": 1612465856
+      "from": 1616392896,
+      "to": 1616392896
     },
     "nonce": "1234567890",
     "requested_attributes": {
@@ -21507,8 +21132,8 @@ ApiKeyHeader
           "age"
         ],
         "non_revoked": {
-          "from": 1612465856,
-          "to": 1612465856
+          "from": 1616392896,
+          "to": 1616392896
         },
         "restrictions": [
           {
@@ -21523,8 +21148,8 @@ ApiKeyHeader
           "age"
         ],
         "non_revoked": {
-          "from": 1612465856,
-          "to": 1612465856
+          "from": 1616392896,
+          "to": 1616392896
         },
         "restrictions": [
           {
@@ -21538,8 +21163,8 @@ ApiKeyHeader
       "property1": {
         "name": "index",
         "non_revoked": {
-          "from": 1612465856,
-          "to": 1612465856
+          "from": 1616392896,
+          "to": 1616392896
         },
         "p_type": ">=",
         "p_value": 0,
@@ -21557,8 +21182,8 @@ ApiKeyHeader
       "property2": {
         "name": "index",
         "non_revoked": {
-          "from": 1612465856,
-          "to": 1612465856
+          "from": 1616392896,
+          "to": 1616392896
         },
         "p_type": ">=",
         "p_value": 0,
@@ -21598,9 +21223,10 @@ ApiKeyHeader
 
 ```json
 {
+  "auto_data_ex_id": "f0482319-72be-488f-acf2-f3e16581d698",
   "auto_present": false,
   "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "created_at": "2021-02-04 19:10:56Z",
+  "created_at": "2021-03-22 06:01:36Z",
   "error_msg": "Invalid structure",
   "initiator": "self",
   "presentation": {},
@@ -21608,11 +21234,12 @@ ApiKeyHeader
   "presentation_proposal_dict": {},
   "presentation_request": {},
   "presentation_request_dict": {},
+  "qr_id": "f0482319-72be-488f-acf2-f3e16581d698",
   "role": "prover",
   "state": "verified",
   "thread_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   "trace": true,
-  "updated_at": "2021-02-04 19:10:56Z",
+  "updated_at": "2021-03-22 06:01:36Z",
   "verified": "true"
 }
 
@@ -21622,6 +21249,7 @@ ApiKeyHeader
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
+|auto_data_ex_id|string¦null|false|none|Automated dataexchange template ID|
 |auto_present|boolean|false|none|Prover choice to auto-present proof as verifier requests|
 |connection_id|string|false|none|Connection identifier|
 |created_at|string|false|none|Time of record creation|
@@ -21632,6 +21260,7 @@ ApiKeyHeader
 |presentation_proposal_dict|object|false|none|Serialized presentation proposal message|
 |presentation_request|object|false|none|(Indy) presentation request (also known as proof request)|
 |presentation_request_dict|object|false|none|Serialized presentation request message|
+|qr_id|string¦null|false|none|Automated dataexchange QR ID|
 |role|string|false|none|Present-proof exchange role: prover or verifier|
 |state|string|false|none|Present-proof exchange state|
 |thread_id|string|false|none|Thread identifier|
@@ -21661,9 +21290,10 @@ ApiKeyHeader
 {
   "results": [
     {
+      "auto_data_ex_id": "f0482319-72be-488f-acf2-f3e16581d698",
       "auto_present": false,
       "connection_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "created_at": "2021-02-04 19:10:56Z",
+      "created_at": "2021-03-22 06:01:36Z",
       "error_msg": "Invalid structure",
       "initiator": "self",
       "presentation": {},
@@ -21671,11 +21301,12 @@ ApiKeyHeader
       "presentation_proposal_dict": {},
       "presentation_request": {},
       "presentation_request_dict": {},
+      "qr_id": "f0482319-72be-488f-acf2-f3e16581d698",
       "role": "prover",
       "state": "verified",
       "thread_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
       "trace": true,
-      "updated_at": "2021-02-04 19:10:56Z",
+      "updated_at": "2021-03-22 06:01:36Z",
       "verified": "true"
     }
   ]
@@ -21749,22 +21380,22 @@ ApiKeyHeader
     "property1": {
       "cred_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
       "revealed": true,
-      "timestamp": 1612465856
+      "timestamp": 1616392896
     },
     "property2": {
       "cred_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
       "revealed": true,
-      "timestamp": 1612465856
+      "timestamp": 1616392896
     }
   },
   "requested_predicates": {
     "property1": {
       "cred_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "timestamp": 1612465856
+      "timestamp": 1616392896
     },
     "property2": {
       "cred_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "timestamp": 1612465856
+      "timestamp": 1616392896
     }
   },
   "self_attested_attributes": {
@@ -21802,8 +21433,8 @@ ApiKeyHeader
   "proof_request": {
     "name": "Proof request",
     "non_revoked": {
-      "from": 1612465856,
-      "to": 1612465856
+      "from": 1616392896,
+      "to": 1616392896
     },
     "nonce": "1234567890",
     "requested_attributes": {
@@ -21813,8 +21444,8 @@ ApiKeyHeader
           "age"
         ],
         "non_revoked": {
-          "from": 1612465856,
-          "to": 1612465856
+          "from": 1616392896,
+          "to": 1616392896
         },
         "restrictions": [
           {
@@ -21829,8 +21460,8 @@ ApiKeyHeader
           "age"
         ],
         "non_revoked": {
-          "from": 1612465856,
-          "to": 1612465856
+          "from": 1616392896,
+          "to": 1616392896
         },
         "restrictions": [
           {
@@ -21844,8 +21475,8 @@ ApiKeyHeader
       "property1": {
         "name": "index",
         "non_revoked": {
-          "from": 1612465856,
-          "to": 1612465856
+          "from": 1616392896,
+          "to": 1616392896
         },
         "p_type": ">=",
         "p_value": 0,
@@ -21863,8 +21494,8 @@ ApiKeyHeader
       "property2": {
         "name": "index",
         "non_revoked": {
-          "from": 1612465856,
-          "to": 1612465856
+          "from": 1616392896,
+          "to": 1616392896
         },
         "p_type": ">=",
         "p_value": 0,
