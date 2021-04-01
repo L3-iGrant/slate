@@ -1,5 +1,5 @@
 ---
-title: Introduction to iGrant.io APIs v2.1.4
+title: Introduction to iGrant.io APIs v2.1.5
 language_tabs:
   - shell: Shell
   - http: HTTP
@@ -19,7 +19,7 @@ headingLevel: 2
 
 <!-- Generator: Widdershins v4.0.1 -->
 
-<h1 id="introduction-to-igrant-io-apis">Introduction to iGrant.io APIs v2.1.4</h1>
+<h1 id="introduction-to-igrant-io-apis">Introduction to iGrant.io APIs v2.1.5</h1>
 
 > Scroll down for code samples, example requests and responses. Select a language for code samples from the tabs above or the mobile navigation menu.
 
@@ -4901,6 +4901,212 @@ bearerAuth
 <h1 id="introduction-to-igrant-io-apis-service-management-user-">Service management (User)</h1>
 
 iGrant.io enables a multi-operator environment via a distributed service registry. The service management functions are at two levels: one at the individual level and the other at the organisational level. This section lists all service management functions towards individual users. This includes functions like registrations, user profile management, subscription to a specific organisatione etc.
+
+## Add anonymous user
+
+<a id="opIdAdd anonymous user"></a>
+
+> Code samples
+
+```shell
+# You can also use wget
+curl -X POST https://api.igrant.io/v1/organizations/{organizationID}/users/anonymous \
+  -H 'Accept: application/json' \
+  -H 'Authorization: Bearer {access-token}'
+
+```
+
+```http
+POST https://api.igrant.io/v1/organizations/{organizationID}/users/anonymous HTTP/1.1
+Host: api.igrant.io
+Accept: application/json
+
+```
+
+```javascript
+
+const headers = {
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('https://api.igrant.io/v1/organizations/{organizationID}/users/anonymous',
+{
+  method: 'POST',
+
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```ruby
+require 'rest-client'
+require 'json'
+
+headers = {
+  'Accept' => 'application/json',
+  'Authorization' => 'Bearer {access-token}'
+}
+
+result = RestClient.post 'https://api.igrant.io/v1/organizations/{organizationID}/users/anonymous',
+  params: {
+  }, headers: headers
+
+p JSON.parse(result)
+
+```
+
+```python
+import requests
+headers = {
+  'Accept': 'application/json',
+  'Authorization': 'Bearer {access-token}'
+}
+
+r = requests.post('https://api.igrant.io/v1/organizations/{organizationID}/users/anonymous', headers = headers)
+
+print(r.json())
+
+```
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+$headers = array(
+    'Accept' => 'application/json',
+    'Authorization' => 'Bearer {access-token}',
+);
+
+$client = new \GuzzleHttp\Client();
+
+// Define array of request body.
+$request_body = array();
+
+try {
+    $response = $client->request('POST','https://api.igrant.io/v1/organizations/{organizationID}/users/anonymous', array(
+        'headers' => $headers,
+        'json' => $request_body,
+       )
+    );
+    print_r($response->getBody()->getContents());
+ }
+ catch (\GuzzleHttp\Exception\BadResponseException $e) {
+    // handle exception or api errors.
+    print_r($e->getMessage());
+ }
+
+ // ...
+
+```
+
+```java
+URL obj = new URL("https://api.igrant.io/v1/organizations/{organizationID}/users/anonymous");
+HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+con.setRequestMethod("POST");
+int responseCode = con.getResponseCode();
+BufferedReader in = new BufferedReader(
+    new InputStreamReader(con.getInputStream()));
+String inputLine;
+StringBuffer response = new StringBuffer();
+while ((inputLine = in.readLine()) != null) {
+    response.append(inputLine);
+}
+in.close();
+System.out.println(response.toString());
+
+```
+
+```go
+package main
+
+import (
+       "bytes"
+       "net/http"
+)
+
+func main() {
+
+    headers := map[string][]string{
+        "Accept": []string{"application/json"},
+        "Authorization": []string{"Bearer {access-token}"},
+    }
+
+    data := bytes.NewBuffer([]byte{jsonReq})
+    req, err := http.NewRequest("POST", "https://api.igrant.io/v1/organizations/{organizationID}/users/anonymous", data)
+    req.Header = headers
+
+    client := &http.Client{}
+    resp, err := client.Do(req)
+    // ...
+}
+
+```
+
+`POST /organizations/{organizationID}/users/anonymous`
+
+Add anonymous user
+
+<h3 id="add-anonymous-user-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|organizationID|path|string|true|Organisation ID|
+
+> Example responses
+
+> 201 Response
+
+```json
+{
+  "ID": "5daf22cea531351111afc7c8",
+  "Name": "George Floyd",
+  "IamID": "9d8c4h69-9fb2-4115-a4c3-53bddb8f2d7f",
+  "Email": "dmart@yopmail.com",
+  "Phone": "+46 7252 98991",
+  "ImageID": "5f1458a5chaa930001e78f12",
+  "ImageURL": "https:/<server-url>/image/5f1458a5chaa930001e78f12",
+  "LastVisit": "2020-07-22T18:04:02Z",
+  "Client": {
+    "Token": "fEkxEwh4T2mr-B4yQoZ9TT:APA91bHibhwLXkc2l6LxWxHW5TrKBoLrXGCHDO6A9pXQ0ShvDYPfxXm57D8tIsR-fwybjs-_OFXCgCbBQpYVON2svUiooWgJBFETXg_jUGy0B9etUHFnyuCbXPihyoCuJc2Gn6s9XkN_",
+    "Type": 2
+  },
+  "Orgs": [
+    {
+      "OrgID": "5dae2a9fa1215e00012103e4",
+      "Name": "Nordea Bank AB",
+      "Location": "Stockholm, Sweden",
+      "Type": "Banking and Finance",
+      "TypeID": "5d95a566a67c8800012f27d1",
+      "EulaAccepted": false
+    }
+  ],
+  "APIKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyaWQiOiI1ZGFmMjJjZWE1MzEzNTAwMDFhZmM3YzgiLCJleHAiOjE2MDQwNjMwNjV9.Irk0XgXfVhIdlgBNz6ggEXlvoIPtzUzJv4-x0VKYBGE",
+  "Roles": [
+    {
+      "RoleID": 1,
+      "OrgID": "5daf22d0a531350001afc7c9"
+    }
+  ]
+}
+```
+
+<h3 id="add-anonymous-user-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|201|[Created](https://tools.ietf.org/html/rfc7231#section-6.3.2)|Returns user|[User](#schemauser)|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+bearerAuth
+</aside>
 
 ## Reset user password
 
