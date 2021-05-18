@@ -40,6 +40,7 @@ Base URLs:
 <h1 id="introduction-to-igrant-io-apis-identity-management">Identity management</h1>
 
 Identity management handles authentication and authorisation of individuals and organisation admins (further split to owners, admins, developers and dpo roles). It also supports federated identity management with OpenID Connect and SAML.
+
 It uses HTTP Authentication and scheme: bearer
 
 ## Login as user
